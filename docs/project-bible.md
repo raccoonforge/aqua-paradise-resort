@@ -1,4 +1,3 @@
-
 # Aqua Paradise Island Resort
 
 ## О проекте
