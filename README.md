@@ -1,2 +1,38 @@
-# aqua-paradise-resort
-A realistic fictional island waterpark resort — web development, product design and QA portfolio project.
+# Aqua Paradise Island Resort
+
+A realistic fictional island resort — web development, product design and manual QA portfolio project.
+
+## Локальный запуск
+
+Требуется Node.js 22.12+ (или поддерживаемая Vite 8 более новая версия) и npm.
+
+```bash
+npm ci
+npm run dev
+```
+
+Открыть локальный адрес, который выведет Vite.
+
+```bash
+npm run build
+npm run preview
+```
+
+Сборка находится в `dist/`. Публикация выполняется отдельно.
+
+## Текущий этап
+
+Адаптивная главная: Header / Hero, знакомство с островом, обзор девяти зон с фильтрами и раскрывающимися описаниями, четыре основных аттракциона, краткая информация об отеле. Навигация работает внутри страницы.
+
+Калькулятор билетов, планировщик, карта и отдельные страницы относятся к следующим этапам. Информационные блоки билетов и планировщика обозначают статус функций. Реальных продаж и бронирований нет. Water Slide Intro Experience не реализован.
+
+## Структура
+
+- `src/components/` — компоненты интерфейса.
+- `src/data/island.ts` — демонстрационные данные зон и основных аттракционов.
+- `src/assets/` — исходные изображения и логотипы проекта.
+- `docs/website-requirements.md` — приоритетный источник функциональных требований и характеристик объектов.
+- `docs/project-bible.md` — концепция вымышленного курорта.
+- `docs/qa/` — результаты проверок и чек-листы.
+
+Tailwind CSS v4 подключён через PostCSS; адаптивные стили и оформление компонентов находятся в `src/index.css`.

@@ -1,47 +1,47 @@
-import heroWaterpark from '../assets/hero-waterpark.png'
+import heroWaterpark from "../assets/hero-waterpark.png";
 
 function Hero() {
   return (
-<main
-  className="relative flex min-h-screen items-center bg-cover bg-center px-6 py-20 sm:px-12 lg:px-20"
-  style={{ backgroundImage: `url(${heroWaterpark})` }}
->
-<div className="absolute inset-0 bg-gradient-to-b from-slate-950/65 via-slate-950/50 to-slate-950/35 md:bg-gradient-to-r md:from-slate-950/85 md:via-slate-950/45 md:to-transparent"></div>
-<section className="relative z-10 w-full max-w-2xl text-left">    
-    <p className="mb-4 text-lg font-semibold text-cyan-200">
-          🌴 Welcome to Paradise
+    <section className="hero" aria-labelledby="hero-title">
+      <img
+        className="hero-image"
+        src={heroWaterpark}
+        alt="Бирюзовый бассейн, тропические водопады и яркие водные горки островного курорта"
+        fetchPriority="high"
+        width="1672"
+        height="941"
+      />
+      <div className="hero-shade" />
+      <div className="container hero-content">
+        <p className="eyebrow light">
+          <span className="small-line" />
+          Tropical luxury · Island adventure
         </p>
-
-        <h1 className="mb-6 text-4xl font-bold leading-tight text-white sm:text-5xl md:text-7xl">
-          Aqua Paradise
-          <span className="block text-cyan-200">
-            Island Resort
-          </span>
+        <h1 id="hero-title">
+          Целый остров.
+          <br />
+          Бесконечное <em>лето.</em>
         </h1>
-
-        <p className="mb-8 text-lg text-white md:text-xl">
-          Откройте для себя тропический остров,
-          захватывающие водные аттракционы
-          и незабываемые приключения!
+        <p className="hero-description">
+          Aqua Paradise Island Resort — место, где яркие приключения встречаются
+          с искусством отдыхать.
         </p>
-
-<div className="flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap sm:items-center">          
-    <a
-            href="#attractions"
-            className="rounded-full bg-cyan-700 px-8 py-4 font-semibold text-white transition hover:bg-cyan-800"
-          >
-            Исследовать остров
+        <div className="hero-actions">
+          <a href="#zones" className="button button-sand">
+            Исследовать остров <span aria-hidden="true">↗</span>
           </a>
-
-          <a
-            href="#tickets"
-className="rounded-full border-2 border-white/80 px-8 py-4 font-semibold text-white transition hover:bg-white/20"          >
-            Выбрать билет
+          <a href="#tickets" className="hero-secondary">
+            Выбрать билет <span aria-hidden="true">→</span>
           </a>
         </div>
-      </section>
-    </main>
-  )
+      </div>
+      <div className="container hero-bottom">
+        <span>Приключение в вашем ритме</span>
+        <a href="#island">
+          Познакомиться с островом <span aria-hidden="true">↓</span>
+        </a>
+      </div>
+    </section>
+  );
 }
-
-export default Hero
+export default Hero;

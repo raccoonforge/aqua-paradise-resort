@@ -1,94 +1,103 @@
+import { useEffect, useRef, useState } from "react";
+import logo from "../assets/aqua-paradise-logo.png";
 
-import { useState } from 'react'
-import aquaParadiseIcon from '../assets/aqua-paradise-icon.png'
+const links = [
+  ["#island", "Об острове"],
+  ["#zones", "Зоны острова"],
+  ["#attractions", "Аттракционы"],
+  ["#planner", "Планировщик"],
+];
 
 function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const toggle = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && isMenuOpen) {
+        setIsMenuOpen(false);
+        toggle.current?.focus();
+      }
+    };
+    const desktop = window.matchMedia("(min-width: 1024px)");
+    const closeOnDesktop = () => {
+      if (desktop.matches) setIsMenuOpen(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    desktop.addEventListener("change", closeOnDesktop);
+    return () => {
+      window.removeEventListener("keydown", closeOnEscape);
+      desktop.removeEventListener("change", closeOnDesktop);
+    };
+  }, [isMenuOpen]);
 
   return (
-<header className="absolute inset-x-0 top-0 z-20 border-b border-white/30 bg-white/40 px-6 py-4 shadow-sm backdrop-blur-xl">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between gap-3">
+    <header className="site-header">
+      <div className="container header-row">
         <a
-  href="/"
-  className="flex shrink-0 items-center gap-2 text-lg font-bold text-cyan-700 sm:text-xl"
->
-  <img
-    src={aquaParadiseIcon}
-    alt=""
-    className="h-12 w-12 scale-125 object-contain sm:h-14 sm:w-14"
-  />
-  <span>Aqua Paradise</span>
-</a>
-
-        <div className="hidden items-center gap-8 md:flex">
-          <a href="#attractions" className="hover:text-cyan-700">
-            Аттракционы
-          </a>
-
-          <a href="#zones" className="hover:text-cyan-700">
-            Зоны острова
-          </a>
-
-          <a href="#planner" className="hover:text-cyan-700">
-            Планировщик
-          </a>
-        </div>
-
-        <div className="flex items-center gap-2">
+          href="#home"
+          className="brand"
+          aria-label="Aqua Paradise Island Resort — начало страницы"
+          onClick={() => setIsMenuOpen(false)}
+        >
+          <img
+            src={logo}
+            alt="Aqua Paradise Island Resort"
+            width="2172"
+            height="724"
+          />
+        </a>
+        <nav className="desktop-nav" aria-label="Основная навигация">
+          {links.map(([href, text]) => (
+            <a key={href} href={href}>
+              {text}
+            </a>
+          ))}
+        </nav>
+        <div className="header-actions">
           <a
             href="#tickets"
-            className="rounded-full bg-cyan-700 px-4 py-3 font-semibold text-white hover:bg-cyan-800 sm:px-5"
+            className="button button-primary header-ticket"
+            onClick={() => setIsMenuOpen(false)}
           >
-            Билеты
+            Билеты <span aria-hidden="true">↗</span>
           </a>
-
           <button
+            ref={toggle}
+            className="menu-toggle"
             type="button"
-            aria-label={isMenuOpen ? 'Закрыть меню' : 'Открыть меню'}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-navigation"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="rounded-lg p-2 text-2xl text-cyan-800 hover:bg-cyan-50 md:hidden"
+            aria-label={isMenuOpen ? "Закрыть меню" : "Открыть меню"}
+            onClick={() => setIsMenuOpen((open) => !open)}
           >
-            {isMenuOpen ? '✕' : '☰'}
+            <span
+              className={isMenuOpen ? "menu-icon is-open" : "menu-icon"}
+              aria-hidden="true"
+            >
+              <span />
+              <span />
+            </span>
           </button>
         </div>
+      </div>
+      <nav
+        id="mobile-navigation"
+        className="mobile-nav container"
+        aria-label="Мобильная навигация"
+        hidden={!isMenuOpen}
+      >
+        {links.map(([href, text], index) => (
+          <a key={href} href={href} onClick={() => setIsMenuOpen(false)}>
+            <span className="nav-number" aria-hidden="true">
+              0{index + 1}
+            </span>
+            {text}
+            <span aria-hidden="true">↗</span>
+          </a>
+        ))}
+        <p>Ваше путешествие начинается здесь.</p>
       </nav>
-
-      {isMenuOpen && (
-  <div
-    id="mobile-navigation"
-    className="absolute inset-x-0 top-full z-30 border-t border-white/30 bg-white/95 p-6 shadow-xl md:hidden"
-  >
-    <nav className="flex flex-col gap-5">
-      <a
-        href="#attractions"
-        onClick={() => setIsMenuOpen(false)}
-        className="text-base font-medium text-slate-800 hover:text-cyan-700"
-      >
-        Аттракционы
-      </a>
-
-      <a
-        href="#zones"
-        onClick={() => setIsMenuOpen(false)}
-        className="text-base font-medium text-slate-800 hover:text-cyan-700"
-      >
-        Зоны острова
-      </a>
-
-      <a
-        href="#planner"
-        onClick={() => setIsMenuOpen(false)}
-        className="text-base font-medium text-slate-800 hover:text-cyan-700"
-      >
-        Планировщик
-      </a>
-    </nav>
-  </div>
-)}
     </header>
-  )
+  );
 }
-
-export default Header
+export default Header;
