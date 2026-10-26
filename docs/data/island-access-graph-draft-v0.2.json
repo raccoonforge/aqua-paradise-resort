@@ -1,0 +1,344 @@
+{
+  "schema": "aqua-paradise/draft-access-graph/0.2",
+  "status": "candidate public/private access separation; NOT engineered walkable corridors",
+  "coordinateSystem": {
+    "type": "local-planar-cartesian",
+    "x": "east",
+    "y": "north",
+    "origin": "approximate island center",
+    "notGeoreferenced": true
+  },
+  "nodes": [
+    {
+      "id": "gateway",
+      "point": [
+        0,
+        -1450
+      ]
+    },
+    {
+      "id": "boulevard",
+      "point": [
+        -45,
+        -1160
+      ]
+    },
+    {
+      "id": "market",
+      "point": [
+        -60,
+        -880
+      ]
+    },
+    {
+      "id": "edenSouth",
+      "point": [
+        -45,
+        -570
+      ]
+    },
+    {
+      "id": "edenNorth",
+      "point": [
+        -40,
+        20
+      ]
+    },
+    {
+      "id": "spa",
+      "point": [
+        -600,
+        -540
+      ]
+    },
+    {
+      "id": "atlantis",
+      "point": [
+        -690,
+        185
+      ]
+    },
+    {
+      "id": "peak",
+      "point": [
+        0,
+        765
+      ]
+    },
+    {
+      "id": "ocean",
+      "point": [
+        585,
+        980
+      ]
+    },
+    {
+      "id": "pirates",
+      "point": [
+        660,
+        215
+      ]
+    },
+    {
+      "id": "little",
+      "point": [
+        585,
+        -540
+      ]
+    },
+    {
+      "id": "marketEast",
+      "point": [
+        250,
+        -850
+      ]
+    },
+    {
+      "id": "marketWest",
+      "point": [
+        -310,
+        -850
+      ]
+    },
+    {
+      "id": "westHub",
+      "point": [
+        -495,
+        -160
+      ]
+    },
+    {
+      "id": "eastHub",
+      "point": [
+        470,
+        -150
+      ]
+    },
+    {
+      "id": "northHub",
+      "point": [
+        0,
+        450
+      ]
+    },
+    {
+      "id": "hotelEntranceOutside",
+      "point": [
+        -628.052,
+        501.377
+      ],
+      "role": "public approach near western hotel boundary (5m outside provisional polygon)"
+    },
+    {
+      "id": "hotelControlledGate",
+      "point": [
+        -627.091,
+        506.284
+      ],
+      "role": "controlled perimeter access, conceptual boundary intersection"
+    },
+    {
+      "id": "hotel",
+      "point": [
+        -550,
+        900
+      ],
+      "role": "private hotel grounds; guests/staff only"
+    }
+  ],
+  "pedestrianEdges": [
+    {
+      "from": "gateway",
+      "to": "boulevard",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "boulevard",
+      "to": "market",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "market",
+      "to": "edenSouth",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "edenSouth",
+      "to": "edenNorth",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "edenNorth",
+      "to": "northHub",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "market",
+      "to": "marketWest",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "marketWest",
+      "to": "spa",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "spa",
+      "to": "westHub",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "westHub",
+      "to": "atlantis",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "atlantis",
+      "to": "northHub",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "northHub",
+      "to": "peak",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "peak",
+      "to": "ocean",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "northHub",
+      "to": "pirates",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "edenNorth",
+      "to": "eastHub",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "eastHub",
+      "to": "pirates",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "pirates",
+      "to": "ocean",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "eastHub",
+      "to": "little",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "little",
+      "to": "marketEast",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "marketEast",
+      "to": "gateway",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "edenSouth",
+      "to": "westHub",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "edenSouth",
+      "to": "eastHub",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "atlantis",
+      "to": "hotelEntranceOutside",
+      "status": "public candidate approach; pending corridor feasibility"
+    },
+    {
+      "from": "hotelEntranceOutside",
+      "to": "hotelControlledGate",
+      "status": "controlled threshold; permission required"
+    },
+    {
+      "from": "hotelControlledGate",
+      "to": "hotel",
+      "status": "private guest/staff route, excluded from public pathfinder"
+    }
+  ],
+  "paradiseLoop": {
+    "stopNodeIds": [
+      "gateway",
+      "spa",
+      "atlantis",
+      "hotelEntranceOutside",
+      "peak",
+      "ocean",
+      "pirates",
+      "little",
+      "marketEast"
+    ],
+    "closedOrder": [
+      "gateway",
+      "spa",
+      "atlantis",
+      "hotelEntranceOutside",
+      "peak",
+      "ocean",
+      "pirates",
+      "little",
+      "marketEast",
+      "gateway"
+    ],
+    "twoDirections": true,
+    "status": "candidate stop topology only; guest hotel stop outside private perimeter; vehicle road alignment not verified"
+  },
+  "areaModel": {
+    "sharedInfrastructureTargetHa": 52,
+    "natureBuffersTargetHa": 70,
+    "allocatedCorridorPolygons": false
+  },
+  "warnings": [
+    "Hotel gate based on mathematical experiment v0.2 polygon, not a surveyed property line.",
+    "Removed peak→hotel direct public edge: pedestrians can instead connect via northHub and Atlantis, pending feasible corridors.",
+    "Do not treat this as an engineered ring road or as validated travel-time data.",
+    "Public routing must exclude all edges crossing the controlled gateway."
+  ],
+  "accessRules": {
+    "publicAllowedNodes": [
+      "gateway",
+      "boulevard",
+      "market",
+      "edenSouth",
+      "edenNorth",
+      "spa",
+      "atlantis",
+      "peak",
+      "ocean",
+      "pirates",
+      "little",
+      "marketEast",
+      "marketWest",
+      "westHub",
+      "eastHub",
+      "northHub",
+      "hotelEntranceOutside"
+    ],
+    "controlledGateway": "hotelControlledGate",
+    "restrictedNodes": [
+      "hotel"
+    ],
+    "excludeEdgesFromPublicRouting": [
+      [
+        "hotelEntranceOutside",
+        "hotelControlledGate"
+      ],
+      [
+        "hotelControlledGate",
+        "hotel"
+      ]
+    ]
+  }
+}
