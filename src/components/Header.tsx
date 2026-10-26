@@ -1,8 +1,11 @@
 
 import { useState } from 'react'
 import aquaParadiseIcon from '../assets/aqua-paradise-icon.png'
+import aquaParadiseLogo from '../assets/aqua-paradise-logo.png'
 
 function Header() {
+  const onMap = window.location.pathname.replace(/\/$/, '') === '/map'
+  const homeAnchor = (anchor: string) => onMap ? '/' + anchor : anchor
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
@@ -14,6 +17,7 @@ function Header() {
 >
   <img
     src={aquaParadiseIcon}
+    onError={e => { e.currentTarget.onerror = null; e.currentTarget.src = aquaParadiseLogo }}
     alt=""
     className="h-12 w-12 scale-125 object-contain sm:h-14 sm:w-14"
   />
@@ -21,24 +25,24 @@ function Header() {
 </a>
 
         <div className="hidden items-center gap-8 md:flex">
-          <a href="#attractions" className="hover:text-cyan-700">
+          <a href={homeAnchor('#attractions')} className="hover:text-cyan-700">
             Аттракционы
           </a>
 
-          <a href="#zones" className="hover:text-cyan-700">
+          <a href={homeAnchor('#zones')} className="hover:text-cyan-700">
             Зоны острова
           </a>
 
           <a href="/map" className="hover:text-cyan-700">Карта острова</a>
 
-          <a href="#planner" className="hover:text-cyan-700">
+          <a href={homeAnchor('#planner')} className="hover:text-cyan-700">
             Планировщик
           </a>
         </div>
 
         <div className="flex items-center gap-2">
           <a
-            href="#tickets"
+            href={homeAnchor('#tickets')}
             className="rounded-full bg-cyan-700 px-4 py-3 font-semibold text-white hover:bg-cyan-800 sm:px-5"
           >
             Билеты
@@ -64,7 +68,7 @@ function Header() {
   >
     <nav className="flex flex-col gap-5">
       <a
-        href="#attractions"
+        href={homeAnchor('#attractions')}
         onClick={() => setIsMenuOpen(false)}
         className="text-base font-medium text-slate-800 hover:text-cyan-700"
       >
@@ -72,7 +76,7 @@ function Header() {
       </a>
 
       <a
-        href="#zones"
+        href={homeAnchor('#zones')}
         onClick={() => setIsMenuOpen(false)}
         className="text-base font-medium text-slate-800 hover:text-cyan-700"
       >
@@ -82,7 +86,7 @@ function Header() {
       <a href="/map" onClick={() => setIsMenuOpen(false)} className="text-base font-medium text-slate-800 hover:text-cyan-700">Карта острова</a>
 
       <a
-        href="#planner"
+        href={homeAnchor('#planner')}
         onClick={() => setIsMenuOpen(false)}
         className="text-base font-medium text-slate-800 hover:text-cyan-700"
       >
@@ -96,3 +100,4 @@ function Header() {
 }
 
 export default Header
+

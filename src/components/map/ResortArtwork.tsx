@@ -1,0 +1,31 @@
+import { useId } from 'react'
+
+export type SceneKind = 'gateway' | 'market' | 'gardens' | 'family' | 'spa' | 'pirates' | 'atlantis' | 'slides' | 'beach' | 'hotel'
+
+function Palm({x,y,s=1}:{x:number;y:number;s?:number}) {
+  return <g transform={`translate(${x} ${y}) scale(${s})`}><ellipse cy="4" rx="16" ry="5" fill="#163f37" opacity=".16"/><path d="M0 0Q-5-17 2-37" stroke="#95734b" strokeWidth="4" fill="none"/><path d="M2-37Q-22-51-25-28Q-10-40 2-37M2-37Q-8-63 9-57L2-37M2-37Q25-57 29-35Q14-43 2-37M2-37Q27-34 20-20Q12-33 2-37M2-37Q-13-41-17-18Q-4-35 2-37" fill="#246c49"/><path d="M2-37Q8-49 20-46M2-37Q-8-46-17-37" stroke="#64a46b" fill="none" strokeWidth="2"/></g>
+}
+function Building({x,y,w=50,h=25,color='#f5e9cb',roof='#b87958'}:{x:number;y:number;w?:number;h?:number;color?:string;roof?:string}) {
+ return <g transform={`translate(${x} ${y})`}><path d={`M0 0l${w} 8 19-13-${w}-8Z`} fill="#143f39" opacity=".12" transform="translate(7 8)"/><path d={`M0 0v-${h}l${w} 8v${h}Z`} fill={color}/><path d={`M${w} 8l19-13v-${h}l-19 13Z`} fill="#a8b7a4"/><path d={`M0-${h}l19-13 ${w} 8-19 13Z`} fill={roof}/>{Array.from({length:Math.floor(w/12)},(_,i)=><path key={i} d={`M${7+i*12} ${-h+10+i*1.9}v${Math.max(6,h-13)}`} stroke="#397177" strokeWidth="5"/>)}</g>
+}
+function Pool({x,y,rx=42,ry=21}:{x:number;y:number;rx?:number;ry?:number}) {
+ return <g><ellipse cx={x} cy={y+3} rx={rx+5} ry={ry+5} fill="#98a991" opacity=".35"/><ellipse cx={x} cy={y} rx={rx+4} ry={ry+4} fill="#fff1d2"/><ellipse cx={x} cy={y} rx={rx} ry={ry} fill="#36b7c6"/><ellipse cx={x-3} cy={y-3} rx={rx-5} ry={ry-5} fill="#79d8d7"/><path d={`M${x-rx*.6} ${y}q15-6 30 0t25 0`} stroke="#d6fcf1" strokeWidth="1.5" fill="none"/></g>
+}
+
+/** Architectural miniatures only: no individual ride coordinates or footprints are asserted. */
+export function ResortScene({kind}:{kind:SceneKind}) {
+ const id=useId().replace(/:/g,'')
+ return <g className="resort-scene" aria-hidden="true">
+  <defs><linearGradient id={id} x2="0" y2="1"><stop stopColor="#8cbd83"/><stop offset="1" stopColor="#4d805d"/></linearGradient></defs>
+  {kind==='slides'&&<><path d="M-115 25-55-82 0-110 72-53 108 36Z" fill={`url(#${id})`}/><path d="m0-110 9 78 99 68-36-89Z" fill="#436e5c"/><Pool x={8} y={42} rx={73} ry={24}/><Building x={-31} y={-25} w={32} h={79} roof="#dfbe83"/>{['#e39153','#e3c85b','#55b9bd'].map((color,i)=><g key={color}><path d={`M${-23+i*10} -91C${-130+i*14} -85,${-110+i*8} -10,${-28+i*13} 33`} stroke="#8d9c80" strokeWidth="10" fill="none" transform="translate(2 4)"/><path d={`M${-23+i*10} -91C${-130+i*14} -85,${-110+i*8} -10,${-28+i*13} 33`} stroke={color} strokeWidth="8" fill="none"/><path d={`M${-23+i*10} -93C${-130+i*14} -87,${-110+i*8} -12,${-28+i*13} 31`} stroke="#fff" opacity=".4" strokeWidth="2" fill="none"/></g>)}<path d="M13-76C100-90 94-40 48-42S34 4 63 24" stroke="#d5a06c" strokeWidth="9" fill="none"/></>}
+  {kind==='hotel'&&<><Pool x={-12} y={32} rx={74} ry={22}/><Building x={-76} y={-17} w={86} h={44} roof="#e0d1aa"/><Building x={-20} y={-32} w={72} h={57} roof="#eaddbe"/><Building x={48} y={5} w={36} h={28}/>{[-78,-40,0,40].map((x,i)=><Building key={x} x={x} y={68+i%2*9} w={21} h={16} roof="#ab7956"/>)}<Palm x={-92} y={15}/><Palm x={88} y={34}/></>}
+  {kind==='atlantis'&&<><Pool x={0} y={20} rx={91} ry={43}/><path d="M-82 1-28-69 53-51 84 20 27 9-17-25-48 11Z" fill="#8caaa1"/><path d="m-28-69 11 44 44 34 57 11-31-71Z" fill="#618e8a"/><path d="M-56-26-10-53 43-40-3-13Z" fill="#e2dcc1"/>{[-40,-16,8,32].map((x,i)=><g key={x}><path d={`M${x} ${-18+i*3}v-29`} stroke="#dbddc7" strokeWidth="7"/><path d={`M${x-5} ${-47+i*3}h13`} stroke="#f1e7cb" strokeWidth="5"/></g>)}<path d="M-64 39Q-26-7 15 34" stroke="#c9f4e7" strokeWidth="12" fill="none" opacity=".7"/><Palm x={-92} y={15}/></>}
+  {kind==='pirates'&&<><Pool x={0} y={22} rx={92} ry={43}/><path d="M-70 7Q-43 68 39 42L70 10 2 26Z" fill="#815237"/><path d="M-70 7 2 26 70 10 1 6Z" fill="#bc9160"/><path d="M-10 25v-96M35 22v-71" stroke="#674d36" strokeWidth="4"/><path d="M-12-66Q-57-37-14-19Z" fill="#f4e7c4"/><path d="M-7-64Q30-43-7-20Z" fill="#fff4d3"/><path d="M37-48Q66-28 37-12Z" fill="#ecdec0"/><path d="M-10-72v-13l27 5-27 6" fill="#263e3b"/><Building x={-82} y={-25} w={27} h={26} roof="#8e7660"/><Palm x={84} y={43}/></>}
+  {kind==='gardens'&&<><ellipse rx="93" ry="51" fill="#6da275"/><path d="M-79 17Q-64-49 7-28T74 14Q48 50-21 32T-79 17" fill="none" stroke="#d3d3a1" strokeWidth="8"/><Pool x={1} y={8} rx={37} ry={19}/>{[-67,-36,30,65].map((x,i)=><Palm key={x} x={x} y={i%2?-15:35} s={1.1}/>)}<Building x={-11} y={-28} w={23} h={18} roof="#719878"/></>}
+  {kind==='family'&&<><Pool x={0} y={20} rx={89} ry={44}/><Building x={-21} y={0} w={27} h={36} roof="#df9a65"/><path d="M-17-30Q-93-35-55 24M5-25Q87-11 41 43" stroke="#f1b960" strokeWidth="9" fill="none"/><path d="M-52 4v-35m0 0q-18 0-20 14m20-14q18 0 20 14" stroke="#d6f9ed" strokeWidth="3" fill="none"/><Palm x={79} y={11}/><Palm x={-84} y={35}/></>}
+  {kind==='spa'&&<><Pool x={-36} y={23} rx={43} ry={27}/><Pool x={42} y={48} rx={30} ry={18}/><Building x={-36} y={-20} w={66} h={23} roof="#8f9b72"/><Building x={42} y={0} w={25} h={18} roof="#8f9b72"/><Palm x={-85} y={12}/><Palm x={80} y={52}/></>}
+  {kind==='market'&&<>{[-68,-26,16,58].map((x,i)=><g key={x}><Building x={x} y={i%2?19:-6} w={28} h={19} roof={i%2?'#bd8b58':'#d69770'}/><path d={`M${x} ${i%2?9:-16}l28 4`} stroke="#f6e5b3" strokeWidth="7"/></g>)}<Palm x={-78} y={45}/><Palm x={78} y={-14}/></>}
+  {kind==='gateway'&&<><path d="M-17 67 13 72 40-51 10-56Z" fill="#dfd1ab"/>{[-54,42].map(x=>[5,43,77].map(y=><Palm key={`${x}${y}`} x={x} y={y} s={.75}/>))}<Pool x={3} y={-18} rx={27} ry={15}/><path d="M-34 62v-38Q0 2 35 28v45" fill="none" stroke="#eadbb4" strokeWidth="10"/><path d="M-38 23Q1-3 39 31" stroke="#b68e59" strokeWidth="6" fill="none"/></>}
+  {kind==='beach'&&<><path d="M-75-39Q-22 57 87 44L109 77Q-50 97-101-25Z" fill="#f7e4af"/><path d="M-75-39Q-22 57 87 44" stroke="#fff9dc" strokeWidth="5" fill="none"/>{[-51,-15,25,63].map((x,i)=><g key={x} transform={`translate(${x} ${7+i*9})`}><path d="M0 6v-15" stroke="#ab8d60" strokeWidth="2"/><ellipse cy="-10" rx="12" ry="7" fill={i%2?'#ecb378':'#fbefd0'}/><path d="M-10 10l15 3" stroke="#f9f5dc" strokeWidth="5"/></g>)}<Palm x={-70} y={-12}/><Palm x={66} y={18}/></>}
+ </g>
+}
