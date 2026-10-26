@@ -51,14 +51,13 @@ export default function IslandMap() {
             <svg viewBox={`0 0 ${SW} ${SH}`} role="img" aria-label="Цветная план-схема тематических зон острова" className="h-full w-full select-none" preserveAspectRatio="xMidYMid meet">
               <g transform={`translate(${pan.x} ${pan.y}) translate(${SW/2} ${SH/2}) scale(${scale}) translate(${-SW/2} ${-SH/2})`}>
                 <g stroke="#f2f9ef" strokeWidth=".28">{region}</g>
-                {island.pins.map((p)=>{const i=indexById.get(p.id);if(i===undefined)return null;const d=details[i],v=visible.has(i),active=i===selected;return <g key={p.id} transform={`translate(${sx(p.point[0])} ${sy(p.point[1])})`} opacity={v?1:.25}>
+                {island.pins.map((p)=>{const i=indexById.get(p.id);if(i===undefined)return null;const d=details[i],v=visible.has(i),active=i===selected;return <g key={p.id} transform={`translate(${sx(p.point[0])} ${sy(p.point[1])})`} opacity={v?1:.25} role="button" tabIndex={0} aria-label={`Выбрать зону ${d.name}`} onClick={()=>{if(v) choose(i)}} onKeyDown={e=>{if(v&&(e.key==='Enter'||e.key===' ')){e.preventDefault();choose(i)}}} style={{cursor:'pointer'}}>
                   <circle r={active?26:21} fill={active?'#083c45':'#fff'} stroke="#fff" strokeWidth="3" opacity=".96"/>
                   <text y="7" textAnchor="middle" fontSize="23" pointerEvents="none">{d.icon}</text>
                   <text y="40" textAnchor="middle" fontSize="12" fontWeight="800" paintOrder="stroke" stroke="#fff" strokeWidth="3" fill="#073f45" pointerEvents="none">{d.name}</text>
                 </g>})}
               </g>
             </svg>
-            {island.pins.map((p)=>{const i=indexById.get(p.id);if(i===undefined||!visible.has(i))return null;return null})}
             <div className="absolute bottom-5 right-4 flex flex-col gap-2"><button onClick={()=>zoom(1.2)} className="h-11 w-11 rounded-xl bg-white text-2xl font-semibold shadow-md" aria-label="Приблизить карту">+</button><button onClick={()=>zoom(1/1.2)} className="h-11 w-11 rounded-xl bg-white text-2xl font-semibold shadow-md" aria-label="Отдалить карту">−</button><button onClick={()=>{setPan({x:0,y:0});setScale(1)}} className="h-11 w-11 rounded-xl bg-white text-sm font-bold shadow-md" aria-label="Сбросить масштаб и позицию">⟲</button></div>
             <p className="absolute bottom-3 left-4 max-w-[65%] rounded-lg bg-white/80 px-3 py-2 text-[11px] text-slate-600">Перетаскивайте карту • Ctrl + колесо для масштаба</p>
           </div>
