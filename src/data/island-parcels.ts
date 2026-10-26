@@ -79,7 +79,7 @@ function cells(weights: readonly number[]): Point[][] {
  */
 export function createProvisionalParcels(
   iterations = 1400,
-  gain = 0.8,
+  gain = 0.06,
 ): readonly Parcel[] {
   const weights = anchors.map(() => 0)
   let polygons: Point[][] = []
