@@ -29,6 +29,8 @@ function Header() {
             Зоны острова
           </a>
 
+          <a href="/map" className="hover:text-cyan-700">Карта острова</a>
+
           <a href="#planner" className="hover:text-cyan-700">
             Планировщик
           </a>
@@ -76,6 +78,8 @@ function Header() {
       >
         Зоны острова
       </a>
+
+      <a href="/map" onClick={() => setIsMenuOpen(false)} className="text-base font-medium text-slate-800 hover:text-cyan-700">Карта острова</a>
 
       <a
         href="#planner"
