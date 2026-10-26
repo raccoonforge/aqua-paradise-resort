@@ -64,3 +64,10 @@ The preliminary Voronoi/power cell generator is an exploratory mathematical part
 4. Redesign reserve/transport parcels as distributed rights-of-way and planted buffers.
 5. Draw real connecting road/path **polylines**, check their crossings, permissions, connectivity and accessibility alternatives.
 6. Only then connect graph edges to physical lengths and documented walk/shuttle assumptions and integrate `/map` and `/planner`.
+
+
+## Current map source — amendment (27 Oct 2026)
+
+This document chronicles earlier code experiments (v0.1–v0.3), **not the current /map illustration source**. The newer [land-use v0.4](./data/island-map-landuse-v0.4.json) has area-matched 20 m raster districts that are individually connected, along with [district markers](./data/island-map-markers-v0.4.json). See [readiness handoff](./aqua-paradise-map-readiness-v0.4.md).
+
+It does not supply engineered transit alignments or proven pedestrian walking corridors. Old TypeScript geography/parcels/transport modules must be reconciled or superseded before importing map geometry; do not merge runtime results with v0.4 without normalization. Do not publish estimated times or accessible-route guarantees based on the drafts.
