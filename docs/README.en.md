@@ -28,3 +28,8 @@ Historical models (v0.1/v0.2/v0.3, draft access graphs) should not be imported d
 - Website localization, if needed, should use `ru` / `en` text dictionaries with one shared logic layer.
 - Treat existing design/transport modules as legacy experiments until reconciliation and import audit.
 - Reorganizing and archiving old files, reconciling spec conflicts, and checking imports remain follow-up tasks.
+
+
+## Repository audit update
+
+The [canonical registry](./source-of-truth.md) distinguishes active and historic sources. The [Master Blueprint](./aqua-paradise-master-blueprint.md) has been amended for map v0.4. No old files were renamed or deleted pending a full dependency/links audit.
