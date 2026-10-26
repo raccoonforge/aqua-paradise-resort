@@ -42,3 +42,25 @@ It clips an iterative **weighted Voronoi / power diagram** to the island coastli
 **Important:** The two placeholder polygons for 52 ha of shared island infrastructure and 70 ha of nature buffers are **pure mathematical stand-ins**, not proposed actual service-road or conservation corridor shapes. In reality these areas will be distributed across the island. Resulting zone polygons also may not enclose their provisional label anchors or honor physical environmental setbacks and cannot yet serve as approved construction/site boundaries. Provisional stop anchors and ocean routes have not been snapped to paths. Do not claim route distances, travel times or ecological feasibility from these cells.
 
 Follow-up: verify shapes visually and topologically, then manually curate realistic multi-polygons for shared roads and buffer corridors, independently validate the entire allocation, and only then create pedestrian and shuttle path graphs. The generator is **not yet rendered on the website**.
+
+
+## Conceptual circulation graph v0.3 (2026-10-27)
+
+Code module: [src/data/island-transport.ts](../src/data/island-transport.ts).
+
+This model represents the agreed Paradise Loop **nine-stop bidirectional ring**, walkable links between district anchors, and access links from stops to their associated public-facing districts. It provides `conceptualRoute(origin, destination, modes)` and `isConceptuallyReachable`, plus `validateConceptualTransportGraph()` for checking disconnected nodes and invalid edges.
+
+**Interpretation:** a returned route is the fewest-hop sequence of conceptual links. It is **not the shortest, fastest, safest, wheelchair-accessible or necessarily feasible physical route**. Do not use the straight line between stop coordinates as a walking track or driving alignment. Do not display ETAs from this graph. A connection to the hotel is to **public reception only**, not a private villa shortcut. Eden Gardens remains the central *pedestrian* hub, without a shuttle stop through its protected interior.
+
+### Geometry review: outstanding blocker
+
+The preliminary Voronoi/power cell generator is an exploratory mathematical partition. **Visual/technical geometry approval is NOT yet complete**. In particular, the hand-authored coastline contains concave bays, and the current single-ring Sutherland–Hodgman clipping implementation is not guaranteed to represent split/disconnected intersections as valid polygons; self-crossing or off-shore parcel pieces must be checked and the generator replaced with a robust polygon/multipolygon clipping method if necessary. The island's 52 ha shared infrastructure and 70 ha ecological buffers also require **multiple geographically distributed parcels/corridors**, not two artificial compact tiles. Do not treat the current per-zone geometry as final or render it as a surveyed, coherent masterplan.
+
+### Practical acceptance gates before website map integration
+
+1. Verify coastline validity and area with a robust geometry library.
+2. Validate every polygon and multipolygon for **within-island**, no intersection-overlap, 600-ha total and assigned hectares (± suitable numerical tolerance).
+3. Enforce each district's approved general position, coherent shoreline access, separation of hotel bay/Ocean Bay, and a traversable central Eden Gardens.
+4. Redesign reserve/transport parcels as distributed rights-of-way and planted buffers.
+5. Draw real connecting road/path **polylines**, check their crossings, permissions, connectivity and accessibility alternatives.
+6. Only then connect graph edges to physical lengths and documented walk/shuttle assumptions and integrate `/map` and `/planner`.
