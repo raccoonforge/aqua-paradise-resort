@@ -1,7 +1,7 @@
 # Atlantis Realm — Internal Site Plan v1.0
 
 **Status:** conceptual layout accepted 2026-10-27; land allocation approved as a working layout, but not scaled or engineered.
-**Island masterplan:** [aqua-paradise-island-masterplan.md](./aqua-paradise-island-masterplan.md). **Functional authority:** [website-requirements.md](./website-requirements.md), §7.7.5.
+**Island masterplan:** [aqua-paradise-island-masterplan.md](./aqua-paradise-island-masterplan.md). **Functional authority:** [website-requirements.md](../master/website-requirements.md), §7.7.5.
 
 ## Concept
 The **60-ha** Atlantis Realm district is one immersive lost underwater city, not four unrelated slide stations. Architectural identity: antique temple ruins, decorative canals, bridges, columns, shaded galleries and scenic water features. The shared public **central ruined-city square** ties attractions together and supports orientation.

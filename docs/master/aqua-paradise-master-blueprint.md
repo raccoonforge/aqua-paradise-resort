@@ -10,14 +10,14 @@
 ## 1. Источники и приоритет
 
 **Утверждённые спецификации страниц:**
-1. [Homepage](./aqua-paradise-homepage-blueprint.md)
-2. [Zones](./aqua-paradise-zones-blueprint.md)
-3. [Attractions](./aqua-paradise-attractions-blueprint.md)
-4. [Map](./aqua-paradise-map-blueprint.md)
-5. [Hotel](./aqua-paradise-hotel-blueprint.md)
-6. [Visit](./aqua-paradise-visit-blueprint.md)
-7. [Tickets](./aqua-paradise-tickets-blueprint.md)
-8. [Planner](./aqua-paradise-planner-blueprint.md)
+1. [Homepage](../pages/homepage.md)
+2. [Zones](../pages/zones.md)
+3. [Attractions](../pages/attractions.md)
+4. [Map](../pages/map.md)
+5. [Hotel](../pages/hotel.md)
+6. [Visit](../pages/visit.md)
+7. [Tickets](../pages/tickets.md)
+8. [Planner](../pages/planner.md)
 
 **Существующие предметные источники:** [Website Requirements](./website-requirements.md) — тарифы, демонстрационные цены, ограничения, аттракционы, расписания и функциональные критерии; [Project Bible](./project-bible.md) — мир острова, логистика, гостиница, инфраструктура.
 
@@ -181,29 +181,29 @@
 
 **Площадь суши острова 6 км² = 600 га:** девять тематических зон — 426 га, гостиница — 52 га, общая инфраструктура — 52 га, природные резервы — 70 га. **Ocean Bay и отель имеют по 52 га суши каждый и разные бухты.** Морская вода не учитывается в земельном бюджете. Отель находится на удалённом северо-западном побережье; Ocean Bay — в северо-восточной защищённой бухте; Adrenaline Peak — северный холм; Eden Gardens — центральный пешеходный узел; Paradise Boulevard и Market — входная южная ось. Paradise Loop — двустороннее кольцо с девятью **предварительными** остановками; точные пути и времена TBD.
 
-**Географический источник:** [Island Masterplan](./aqua-paradise-island-masterplan.md).
+**Географический источник:** [Island Masterplan](../island/aqua-paradise-island-masterplan.md).
 
 **Отдельные утверждённые концепции районов:**
-- [Adrenaline Peak](./aqua-paradise-adrenaline-peak-site-plan.md) — 65 га.
-- [Atlantis Realm](./aqua-paradise-atlantis-realm-site-plan.md) — 60 га.
-- [Pirate's Cove](./aqua-paradise-pirates-cove-site-plan.md) — 52 га.
-- [Little Paradise](./aqua-paradise-little-paradise-site-plan.md) — 42 га.
-- [Serenity Spa](./aqua-paradise-serenity-spa-site-plan.md) — 35 га.
-- [Eden Gardens](./aqua-paradise-eden-gardens-site-plan.md) — 60 га.
-- [Paradise Market](./aqua-paradise-paradise-market-site-plan.md) — 25 га.
-- [Paradise Boulevard](./aqua-paradise-paradise-boulevard-site-plan.md) — 35 га.
-- [Ocean Bay](./aqua-paradise-ocean-bay-site-plan.md) — 52 га суши плюс отдельная акватория.
-- [Paradise Grand Hotel & Villas](./aqua-paradise-grand-hotel-site-plan.md) — 52 га.
+- [Adrenaline Peak](../island/aqua-paradise-adrenaline-peak-site-plan.md) — 65 га.
+- [Atlantis Realm](../island/aqua-paradise-atlantis-realm-site-plan.md) — 60 га.
+- [Pirate's Cove](../island/aqua-paradise-pirates-cove-site-plan.md) — 52 га.
+- [Little Paradise](../island/aqua-paradise-little-paradise-site-plan.md) — 42 га.
+- [Serenity Spa](../island/aqua-paradise-serenity-spa-site-plan.md) — 35 га.
+- [Eden Gardens](../island/aqua-paradise-eden-gardens-site-plan.md) — 60 га.
+- [Paradise Market](../island/aqua-paradise-paradise-market-site-plan.md) — 25 га.
+- [Paradise Boulevard](../island/aqua-paradise-paradise-boulevard-site-plan.md) — 35 га.
+- [Ocean Bay](../island/aqua-paradise-ocean-bay-site-plan.md) — 52 га суши плюс отдельная акватория.
+- [Paradise Grand Hotel & Villas](../island/aqua-paradise-grand-hotel-site-plan.md) — 52 га.
 
 Площади и относительная ориентация концептуально утверждены, **не** получены измерением иллюстраций. Следующий этап: масштабная система координат острова, правдоподобные полигоны площадей, точки остановок, геометрия пешеходных и технических путей, граф маршрутизации для `/map` и `/planner`.
 
 
 ## 10. Актуализация источников для `/map` (27.10.2026)
 
-**Изменение после раздела 9:** экспериментальная сеточная модель [land-use v0.4](./data/island-map-landuse-v0.4.json) теперь является единственным источником иллюстративной геометрии для **визуальной** реализации `/map`. [Метки v0.4](./data/island-map-markers-v0.4.json) используются для размещения названных районов. [Обзор готовности](./aqua-paradise-map-readiness-v0.4.md) определяет разрешённые возможности.
+**Изменение после раздела 9:** экспериментальная сеточная модель [land-use v0.4](../data/island-map-landuse-v0.4.json) теперь является единственным источником иллюстративной геометрии для **визуальной** реализации `/map`. [Метки v0.4](../data/island-map-markers-v0.4.json) используются для размещения названных районов. [Обзор готовности](../aqua-paradise-map-readiness-v0.4.md) определяет разрешённые возможности.
 
 Измерена приблизительная площадь 600,04 га по сетке 20×20 м; девять зон и гостиница связны по общему ребру ячейки. Это **не** готовые инженерные дороги или геодезические полигоны. Старые Voronoi-парцеллы и кодовые прототипы `src/data/island-geography.ts`, `island-parcels.ts`, `island-transport.ts` **не согласованы автоматически** с v0.4 и не должны подключаться одновременно как отдельный источник координат. Трассы Paradise Loop, гарантированная доступность, километраж и ETA остаются **не готовыми**.
 
 Правило маршрутов сохраняется: `/zones?zone=<slug>` и `/attractions?ride=<slug>`; старые примеры `/zones/:slug` и `/attractions/:slug` считать историческими. Прежде чем обновлять runtime, сверить конкретные имена slug и связи. Тексты сайта — русские, английская локализация при необходимости через словари, без второго набора геометрии.
 
-Актуальный навигатор документов: [docs/README.md](./README.md); реестр ответственности: [source-of-truth.md](./source-of-truth.md).
+Актуальный навигатор документов: [docs/README.md](../README.md); реестр ответственности: [source-of-truth.md](../source-of-truth.md).

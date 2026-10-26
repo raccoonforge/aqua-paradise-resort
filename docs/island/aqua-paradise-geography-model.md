@@ -1,7 +1,7 @@
 # Aqua Paradise — Geography Data Model v0.1
 
 **Created:** 2026-10-27
-**Code:** [src/data/island-geography.ts](../src/data/island-geography.ts)
+**Code:** [src/data/island-geography.ts](../../src/data/island-geography.ts)
 **Authority:** [Island Masterplan](./aqua-paradise-island-masterplan.md) and ten approved district site plans.
 
 ## What is implemented
@@ -35,7 +35,7 @@ The present model is a **first useful code artifact**, not a finished geographic
 
 ## Parcel generator v0.2 (2026-10-27)
 
-New module: [src/data/island-parcels.ts](../src/data/island-parcels.ts).
+New module: [src/data/island-parcels.ts](../../src/data/island-parcels.ts).
 
 It clips an iterative **weighted Voronoi / power diagram** to the island coastline. Ten district footprints plus two provisional placeholder parcels together account for the full 600 ha. Each area is optimized toward its approved hectare target. The generator exposes `validateParcelAreas` (default ±0.05 ha) rather than silently declaring an unverified fit. Convergence was checked independently with a Python implementation using the same coastal outline, seeds and update rule; with gain 0.06 the solver reached the validator's hectare tolerance.
 
@@ -46,7 +46,7 @@ Follow-up: verify shapes visually and topologically, then manually curate realis
 
 ## Conceptual circulation graph v0.3 (2026-10-27)
 
-Code module: [src/data/island-transport.ts](../src/data/island-transport.ts).
+Code module: [src/data/island-transport.ts](../../src/data/island-transport.ts).
 
 This model represents the agreed Paradise Loop **nine-stop bidirectional ring**, walkable links between district anchors, and access links from stops to their associated public-facing districts. It provides `conceptualRoute(origin, destination, modes)` and `isConceptuallyReachable`, plus `validateConceptualTransportGraph()` for checking disconnected nodes and invalid edges.
 
@@ -68,6 +68,6 @@ The preliminary Voronoi/power cell generator is an exploratory mathematical part
 
 ## Current map source — amendment (27 Oct 2026)
 
-This document chronicles earlier code experiments (v0.1–v0.3), **not the current /map illustration source**. The newer [land-use v0.4](./data/island-map-landuse-v0.4.json) has area-matched 20 m raster districts that are individually connected, along with [district markers](./data/island-map-markers-v0.4.json). See [readiness handoff](./aqua-paradise-map-readiness-v0.4.md).
+This document chronicles earlier code experiments (v0.1–v0.3), **not the current /map illustration source**. The newer [land-use v0.4](../data/island-map-landuse-v0.4.json) has area-matched 20 m raster districts that are individually connected, along with [district markers](../data/island-map-markers-v0.4.json). See [readiness handoff](../aqua-paradise-map-readiness-v0.4.md).
 
 It does not supply engineered transit alignments or proven pedestrian walking corridors. Old TypeScript geography/parcels/transport modules must be reconciled or superseded before importing map geometry; do not merge runtime results with v0.4 without normalization. Do not publish estimated times or accessible-route guarantees based on the drafts.

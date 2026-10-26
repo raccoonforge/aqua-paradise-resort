@@ -8,9 +8,9 @@ This is a navigation index, **not** a replacement specification. Keep the latest
 
 | Purpose | Source | Status |
 |---|---|---|
-| Site-wide design and pages | [Master Blueprint](./aqua-paradise-master-blueprint.md) | Consolidated overview; later revisions may not be reflected |
-| Business rules, tickets, ride restrictions | [Website Requirements](./website-requirements.md) | Detailed source |
-| Map UX | [Map Blueprint](./aqua-paradise-map-blueprint.md) | Approved experience concept |
+| Site-wide design and pages | [Master Blueprint](./master/aqua-paradise-master-blueprint.md) | Consolidated overview; later revisions may not be reflected |
+| Business rules, tickets, ride restrictions | [Website Requirements](./master/website-requirements.md) | Detailed source |
+| Map UX | [Map Blueprint](./pages/map.md) | Approved experience concept |
 | Conceptual map geometry | [Land-use v0.4 JSON](./data/island-map-landuse-v0.4.json), [SVG preview](./data/island-map-landuse-v0.4.svg) | Contiguous 20 m raster, **not surveyed geography** |
 | District pin coordinates | [Map Markers v0.4](./data/island-map-markers-v0.4.json) | Visual map markers |
 | Scope and limitations | [Map Readiness](./aqua-paradise-map-readiness-v0.4.md) | Visual map ready to implement; road routing **not** validated |
@@ -32,4 +32,4 @@ Historical models (v0.1/v0.2/v0.3, draft access graphs) should not be imported d
 
 ## Repository audit update
 
-The [canonical registry](./source-of-truth.md) distinguishes active and historic sources. The [Master Blueprint](./aqua-paradise-master-blueprint.md) has been amended for map v0.4. No old files were renamed or deleted pending a full dependency/links audit.
+The [canonical registry](./source-of-truth.md) distinguishes active and historic sources. The [Master Blueprint](./master/aqua-paradise-master-blueprint.md) has been amended for map v0.4. No old files were renamed or deleted pending a full dependency/links audit.
