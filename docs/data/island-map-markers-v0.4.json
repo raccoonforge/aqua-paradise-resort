@@ -1,0 +1,120 @@
+{
+  "schema": "aqua-paradise/map-markers/0.4",
+  "status": "Map MVP district-level markers verified against canonical v0.4 land-use cells",
+  "coordinateSystem": {
+    "type": "local-planar-cartesian",
+    "x": "east",
+    "y": "north",
+    "origin": "approximate island center",
+    "notGeoreferenced": true
+  },
+  "sourceLanduse": "docs/data/island-map-landuse-v0.4.json",
+  "pins": [
+    {
+      "id": "paradise-boulevard",
+      "point": [
+        -50,
+        -1170
+      ],
+      "kind": "district",
+      "href": "/zones?zone=paradise-boulevard",
+      "markerPlacement": "inside matching 20m-classified district cell"
+    },
+    {
+      "id": "paradise-market",
+      "point": [
+        -70,
+        -890
+      ],
+      "kind": "district",
+      "href": "/zones?zone=paradise-market",
+      "markerPlacement": "inside matching 20m-classified district cell"
+    },
+    {
+      "id": "eden-gardens",
+      "point": [
+        -90,
+        -270
+      ],
+      "kind": "district",
+      "href": "/zones?zone=eden-gardens",
+      "markerPlacement": "inside matching 20m-classified district cell"
+    },
+    {
+      "id": "little-paradise",
+      "point": [
+        590,
+        -550
+      ],
+      "kind": "district",
+      "href": "/zones?zone=little-paradise",
+      "markerPlacement": "inside matching 20m-classified district cell"
+    },
+    {
+      "id": "serenity-spa",
+      "point": [
+        -610,
+        -570
+      ],
+      "kind": "district",
+      "href": "/zones?zone=serenity-spa",
+      "markerPlacement": "inside matching 20m-classified district cell"
+    },
+    {
+      "id": "pirates-cove",
+      "point": [
+        650,
+        210
+      ],
+      "kind": "district",
+      "href": "/zones?zone=pirates-cove",
+      "markerPlacement": "inside matching 20m-classified district cell"
+    },
+    {
+      "id": "atlantis-realm",
+      "point": [
+        -690,
+        190
+      ],
+      "kind": "district",
+      "href": "/zones?zone=atlantis-realm",
+      "markerPlacement": "inside matching 20m-classified district cell"
+    },
+    {
+      "id": "adrenaline-peak",
+      "point": [
+        -10,
+        770
+      ],
+      "kind": "district",
+      "href": "/zones?zone=adrenaline-peak",
+      "markerPlacement": "inside matching 20m-classified district cell"
+    },
+    {
+      "id": "ocean-bay-onshore",
+      "point": [
+        590,
+        970
+      ],
+      "kind": "district",
+      "href": "/zones?zone=ocean-bay",
+      "markerPlacement": "inside matching 20m-classified district cell"
+    },
+    {
+      "id": "grand-hotel-villas",
+      "point": [
+        -550,
+        890
+      ],
+      "kind": "hotel",
+      "href": "/hotel",
+      "markerPlacement": "inside matching 20m-classified district cell"
+    }
+  ],
+  "notes": [
+    "All 10 marker coordinates are generated from classified cells and not copied from historic anchors.",
+    "The hotel location pin is for visual discovery; no public walking route to this internal private pin is authorized.",
+    "A placeholder map can display these pins before ride/service objects and network navigation become available.",
+    "The zone names and links must be cross-checked with site routing slug conventions before release."
+  ]
+}
