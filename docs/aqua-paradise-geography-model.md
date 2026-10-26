@@ -31,3 +31,14 @@
 6. Only when graph geometries and assumptions are documented, connect a route engine to the website. Do not use direct anchor Euclidean distances as real walking/driving travel times.
 
 The present model is a **first useful code artifact**, not a finished geographic engineering plan.
+
+
+## Parcel generator v0.2 (2026-10-27)
+
+New module: [src/data/island-parcels.ts](../src/data/island-parcels.ts).
+
+It clips an iterative **weighted Voronoi / power diagram** to the island coastline. Ten district footprints plus two provisional placeholder parcels together account for the full 600 ha. Each area is optimized toward its approved hectare target. The generator exposes `validateParcelAreas` (default ±0.05 ha) rather than silently declaring an unverified fit. Convergence was checked independently with a Python implementation using the same coastal outline, seeds and update rule; with gain 0.06 the solver reached the validator's hectare tolerance.
+
+**Important:** The two placeholder polygons for 52 ha of shared island infrastructure and 70 ha of nature buffers are **pure mathematical stand-ins**, not proposed actual service-road or conservation corridor shapes. In reality these areas will be distributed across the island. Resulting zone polygons also may not enclose their provisional label anchors or honor physical environmental setbacks and cannot yet serve as approved construction/site boundaries. Provisional stop anchors and ocean routes have not been snapped to paths. Do not claim route distances, travel times or ecological feasibility from these cells.
+
+Follow-up: verify shapes visually and topologically, then manually curate realistic multi-polygons for shared roads and buffer corridors, independently validate the entire allocation, and only then create pedestrian and shuttle path graphs. The generator is **not yet rendered on the website**.
