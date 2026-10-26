@@ -1,0 +1,287 @@
+{
+  "schema": "aqua-paradise/draft-access-graph/0.1",
+  "status": "PRELIMINARY — connectivity sketch only, not accessible surveyed paths, no travel time or real distances",
+  "coordinateSystem": {
+    "type": "local-planar-cartesian",
+    "x": "east",
+    "y": "north",
+    "origin": "approximate island center",
+    "notGeoreferenced": true
+  },
+  "nodes": [
+    {
+      "id": "gateway",
+      "point": [
+        0,
+        -1450
+      ]
+    },
+    {
+      "id": "boulevard",
+      "point": [
+        -45,
+        -1160
+      ]
+    },
+    {
+      "id": "market",
+      "point": [
+        -60,
+        -880
+      ]
+    },
+    {
+      "id": "edenSouth",
+      "point": [
+        -45,
+        -570
+      ]
+    },
+    {
+      "id": "edenNorth",
+      "point": [
+        -40,
+        20
+      ]
+    },
+    {
+      "id": "spa",
+      "point": [
+        -600,
+        -540
+      ]
+    },
+    {
+      "id": "atlantis",
+      "point": [
+        -690,
+        185
+      ]
+    },
+    {
+      "id": "hotel",
+      "point": [
+        -550,
+        900
+      ]
+    },
+    {
+      "id": "peak",
+      "point": [
+        0,
+        765
+      ]
+    },
+    {
+      "id": "ocean",
+      "point": [
+        585,
+        980
+      ]
+    },
+    {
+      "id": "pirates",
+      "point": [
+        660,
+        215
+      ]
+    },
+    {
+      "id": "little",
+      "point": [
+        585,
+        -540
+      ]
+    },
+    {
+      "id": "marketEast",
+      "point": [
+        250,
+        -850
+      ]
+    },
+    {
+      "id": "marketWest",
+      "point": [
+        -310,
+        -850
+      ]
+    },
+    {
+      "id": "westHub",
+      "point": [
+        -495,
+        -160
+      ]
+    },
+    {
+      "id": "eastHub",
+      "point": [
+        470,
+        -150
+      ]
+    },
+    {
+      "id": "northHub",
+      "point": [
+        0,
+        450
+      ]
+    }
+  ],
+  "pedestrianEdges": [
+    {
+      "from": "gateway",
+      "to": "boulevard",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "boulevard",
+      "to": "market",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "market",
+      "to": "edenSouth",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "edenSouth",
+      "to": "edenNorth",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "edenNorth",
+      "to": "northHub",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "market",
+      "to": "marketWest",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "marketWest",
+      "to": "spa",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "spa",
+      "to": "westHub",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "westHub",
+      "to": "atlantis",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "atlantis",
+      "to": "northHub",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "northHub",
+      "to": "peak",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "peak",
+      "to": "hotel",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "peak",
+      "to": "ocean",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "northHub",
+      "to": "pirates",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "edenNorth",
+      "to": "eastHub",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "eastHub",
+      "to": "pirates",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "pirates",
+      "to": "ocean",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "eastHub",
+      "to": "little",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "little",
+      "to": "marketEast",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "marketEast",
+      "to": "gateway",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "edenSouth",
+      "to": "westHub",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "edenSouth",
+      "to": "eastHub",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    },
+    {
+      "from": "atlantis",
+      "to": "hotel",
+      "status": "candidate straight-line connectivity; physical corridor unvalidated"
+    }
+  ],
+  "paradiseLoop": {
+    "stopNodeIds": [
+      "gateway",
+      "spa",
+      "atlantis",
+      "hotel",
+      "peak",
+      "ocean",
+      "pirates",
+      "little",
+      "marketEast"
+    ],
+    "closedOrder": [
+      "gateway",
+      "spa",
+      "atlantis",
+      "hotel",
+      "peak",
+      "ocean",
+      "pirates",
+      "little",
+      "marketEast",
+      "gateway"
+    ],
+    "twoDirections": true,
+    "status": "candidate topology; actual vehicle alignments not drawn"
+  },
+  "areaModel": {
+    "sharedInfrastructureTargetHa": 52,
+    "natureBuffersTargetHa": 70,
+    "allocatedCorridorPolygons": false
+  },
+  "warnings": [
+    "All provisional nodes lie inside concept coastline; edges have NOT been checked for intersections, feasible slopes, safety, or private hotel access.",
+    "Candidate ring ordering is from approved conceptual working direction, but direct lines are NOT drivable roads.",
+    "Nature buffers must become distributed multipolygons; current 12-area mathematical partition remains nonproduction.",
+    "Do not draw routes or calculate ETA from this dataset until corridor geometry is engineered."
+  ]
+}
