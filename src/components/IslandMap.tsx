@@ -21,6 +21,20 @@ const sx = (x:number) => (x + 1300) * .24 + 48
 const sy = (y:number) => (1560-y) * .24 + 40
 const indexById = new Map(island.classes.map((c,i)=>[c.id,i]))
 const pth = (id:string) => id === 'grand-hotel-villas' ? '/hotel' : '/zones?zone='+id.replace('-onshore','')
+
+// Decorative symbols follow map district points; they are illustrative, not surveyed ride locations.
+const natureMarks = Array.from({length:165},(_,i)=>{
+  const angle=i*2.399963, radius=Math.sqrt((i+.5)/165)
+  return {x:360+Math.cos(angle)*radius*250,y:417+Math.sin(angle)*radius*350,large:i%9===0}
+})
+const regionOrnaments = [
+ {x:0,y:765,emoji:'🎢',size:49},{x:-690,y:185,emoji:'🏛️',size:49},
+ {x:660,y:215,emoji:'🏴‍☠️',size:48},{x:585,y:-540,emoji:'🛝',size:48},
+ {x:585,y:980,emoji:'🏖️',size:52},{x:-550,y:900,emoji:'🏰',size:49},
+ {x:-600,y:-540,emoji:'🌺',size:43},{x:-90,y:-260,emoji:'🌳',size:43},
+ {x:-60,y:-880,emoji:'🍹',size:41},{x:-45,y:-1160,emoji:'🎡',size:44},
+]
+
 export default function IslandMap() {
   const [selected,setSelected] = useState<number|null>(2)
   const [search,setSearch] = useState('')
@@ -28,7 +42,7 @@ export default function IslandMap() {
   const [scale,setScale] = useState(1)
   const [pan,setPan] = useState({x:0,y:0})
   const drag = useRef<{x:number;y:number;px:number;py:number;active:boolean}|null>(null)
-  const region = useMemo(()=>island.runs.map(([x,y,t,n],i)=><rect key={i} x={sx(x)} y={sy(y)-4.8} width={n*4.8+.12} height={4.92} fill={palette[t]}/>),[])
+  const region = useMemo(()=>island.runs.map(([x,y,t,n],i)=><rect key={i} x={sx(x)} y={sy(y)-4.8} width={n*4.8+.12} height={4.92} fill={palette[t]} opacity=".86"/>),[])
   const matches = useMemo(()=>details.map((d,i)=>({d,i})).filter(({d})=>(category==='all'||d.category===category)&&[d.name,d.caption,d.description].join(' ').toLocaleLowerCase('ru').includes(search.toLocaleLowerCase('ru').trim())),[category,search])
   const visible = new Set(matches.map(x=>x.i))
   const picked = selected===null?null:details[selected]
@@ -50,7 +64,16 @@ export default function IslandMap() {
           <div className="relative h-[530px] touch-none overflow-hidden sm:h-[650px]" onPointerDown={down} onPointerMove={move} onPointerUp={end} onPointerCancel={end} onWheel={wheel} style={{cursor:'grab'}}>
             <svg viewBox={`0 0 ${SW} ${SH}`} role="img" aria-label="Цветная план-схема тематических зон острова" className="h-full w-full select-none" preserveAspectRatio="xMidYMid meet">
               <g transform={`translate(${pan.x} ${pan.y}) translate(${SW/2} ${SH/2}) scale(${scale}) translate(${-SW/2} ${-SH/2})`}>
-                <g stroke="#f2f9ef" strokeWidth=".28">{region}</g>
+                <defs>
+                  <radialGradient id="seaGlow"><stop offset="0" stopColor="#defcf4"/><stop offset="1" stopColor="#51bacb"/></radialGradient>
+                  <filter id="islandShadow" x="-30%" y="-30%" width="160%" height="180%"><feGaussianBlur stdDeviation="10"/></filter>
+                  <pattern id="wave" width="54" height="44" patternUnits="userSpaceOnUse"><path d="M5 22q12 -9 24 0m7 12q8 -5 15 0" stroke="#fff" strokeWidth="1.4" fill="none" opacity=".23"/></pattern>
+                </defs>
+                <ellipse cx="350" cy="436" rx="272" ry="372" fill="#0e788f" opacity=".24" filter="url(#islandShadow)"/>
+                <path d="M360 50 C515 48 610 134 634 247 C671 410 608 542 545 646 C489 745 420 793 359 796 C290 787 201 736 151 630 C100 525 83 367 105 247 C133 119 231 56 360 50Z" fill="#e7dba6" stroke="#fff7d7" strokeWidth="7" opacity=".96"/>
+                <g stroke="#f2f9ef" strokeWidth=".12">{region}</g>
+                <g opacity=".2" pointerEvents="none">{natureMarks.map((mark,i)=><circle key={i} cx={mark.x} cy={mark.y} r={mark.large?5:2.5} fill={i%3===0?'#185b38':'#eff5cb'}/>)}</g>
+                <g opacity=".84" pointerEvents="none">{regionOrnaments.map((mark,i)=><text key={i} x={sx(mark.x)+(i%2===0?37:-37)} y={sy(mark.y)+(i%3===0?-28:45)} fontSize={mark.size} textAnchor="middle">{mark.emoji}</text>)}</g>
                 {island.pins.map((p)=>{const i=indexById.get(p.id);if(i===undefined)return null;const d=details[i],v=visible.has(i),active=i===selected;return <g key={p.id} transform={`translate(${sx(p.point[0])} ${sy(p.point[1])})`} opacity={v?1:.25} role="button" tabIndex={0} aria-label={`Выбрать зону ${d.name}`} onClick={()=>{if(v) choose(i)}} onKeyDown={e=>{if(v&&(e.key==='Enter'||e.key===' ')){e.preventDefault();choose(i)}}} style={{cursor:'pointer'}}>
                   <circle r={active?26:21} fill={active?'#083c45':'#fff'} stroke="#fff" strokeWidth="3" opacity=".96"/>
                   <text y="7" textAnchor="middle" fontSize="23" pointerEvents="none">{d.icon}</text>
@@ -59,6 +82,7 @@ export default function IslandMap() {
               </g>
             </svg>
             <div className="absolute bottom-5 right-4 flex flex-col gap-2"><button onClick={()=>zoom(1.2)} className="h-11 w-11 rounded-xl bg-white text-2xl font-semibold shadow-md" aria-label="Приблизить карту">+</button><button onClick={()=>zoom(1/1.2)} className="h-11 w-11 rounded-xl bg-white text-2xl font-semibold shadow-md" aria-label="Отдалить карту">−</button><button onClick={()=>{setPan({x:0,y:0});setScale(1)}} className="h-11 w-11 rounded-xl bg-white text-sm font-bold shadow-md" aria-label="Сбросить масштаб и позицию">⟲</button></div>
+            <div aria-hidden="true" className="absolute left-5 top-5 rounded-2xl bg-white/85 p-3 text-center text-cyan-900 shadow-sm"><span className="block text-lg">🧭</span><span className="text-[10px] font-black tracking-widest">N</span></div>
             <p className="absolute bottom-3 left-4 max-w-[65%] rounded-lg bg-white/80 px-3 py-2 text-[11px] text-slate-600">Перетаскивайте карту • Ctrl + колесо для масштаба</p>
           </div>
         </section>
