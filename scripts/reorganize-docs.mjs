@@ -18,14 +18,14 @@ const moves=new Map();
 for(const page of pages)moves.set(`docs/aqua-paradise-${page}-blueprint.md`,`docs/pages/${page}.md`);
 for(const file of ['project-bible.md','website-requirements.md','aqua-paradise-master-blueprint.md'])moves.set('docs/'+file,'docs/master/'+file);
 for(const file of readdirSync(docs).filter(n=>n.endsWith('-site-plan.md')||n==='aqua-paradise-island-masterplan.md'||n==='aqua-paradise-geography-model.md'))moves.set('docs/'+file,'docs/island/'+file);
-for(const file of readdirSync(path.join(docs,'data')).filter(n=>/v0\\.[123]\\.(json|svg)$/.test(n)))moves.set('docs/data/'+file,'docs/archive/data/'+file);
+for(const file of readdirSync(path.join(docs,'data')).filter(n=>/v0\.[123]\.(json|svg)$/.test(n)))moves.set('docs/data/'+file,'docs/archive/data/'+file);
 const missing=[...moves.keys()].filter(p=>!existsSync(path.join(root,p)));
 if(missing.length)throw new Error('Missing expected files: '+missing.join(', '));
-const entries=git('ls-files','-z').split('\\0').filter(Boolean);
+const entries=git('ls-files','-z').split('\0').filter(Boolean);
 const transform=(text,oldFile,newFile)=>{
   // Markdown relative links: resolve against OLD location, then relativize to NEW location.
-  return text.replace(/(\\]\\()([^)]*)(\\))/g,(_,open,target,close)=>{
-    if(/^(?:[a-z]+:|#|\\/\\/|mailto:)/i.test(target))return open+target+close;
+  return text.replace(/(\]\()([^)]*)(\))/g,(_,open,target,close)=>{
+    if(/^(?:[a-z]+:|#|\/\/|mailto:)/i.test(target))return open+target+close;
     let [part,frag='']=target.split('#');if(!part)return open+target+close;
     const oldDest=path.posix.normalize(path.posix.join(path.posix.dirname(oldFile),part));
     const newDest=moves.get(oldDest)||oldDest;
@@ -33,7 +33,7 @@ const transform=(text,oldFile,newFile)=>{
     return open+rel+(frag?'#'+frag:'')+close;
   });
 };
-const textual=entries.filter(p=>/\\.(md|mdx)$/.test(p));
+const textual=entries.filter(p=>/\.(md|mdx)$/.test(p));
 const changes=new Map();
 for(const file of textual){
  const src=readFileSync(path.join(root,file),'utf8'),dest=moves.get(file)||file,next=transform(src,file,dest);
