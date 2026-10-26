@@ -30,3 +30,14 @@
 5. Publish a manifest mapping old file paths to new locations; only then declare physical cleanup done.
 
 **Caution:** A cleaner directory tree must not take priority over a buildable, traceable portfolio project. This log does not claim that file relocation, import validation or local build checks have been done.
+
+
+## Post-migration verification — 2026-10-27
+
+Migration commit: `0005ce92ba4b45af4bf1b217c81d8089027ccc82`.
+
+- Compared all **30 moved files** against their original paths at commit `0d68c23b746cb819dcf67d11266f8a43cac4f197`, before the migration.
+- **26** files match byte-for-byte, including all seven historical geometry files. **4** files differ only in Markdown link destinations, verified line-by-line: Master Blueprint (21 substitutions), Project Bible (1), Atlantis Realm site plan (1), Geography Model (4). No original specification passages were removed.
+- Root and documentation index Markdown link destinations inspected; the principal links point to their relocated files. The plain-text path registry `docs/source-of-truth.md` was corrected after migration in commit `a8584e2`.
+- User-run checks in their local Git checkout: `npm run build` PASS; `node scripts/validate-island-map-v0.4.mjs` PASS (15,001 grid cells); staged Git diff recognized renames.
+- These checks do **not** amount to a comprehensive runtime/import scan or proof that every code-fenced or plain-text path across the entire repository is up to date. Future /map implementation must still harmonize the older geography/transport TS prototypes with canonical v0.4 data.
