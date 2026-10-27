@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useState } from 'react';
 
 // Заглушки для страниц (пока просто текст)
 const HomePage = () => (
@@ -44,6 +45,65 @@ const HomePage = () => (
     </div>
   </div>
 );
+const AboutResort = () => {
+  const photos = [
+    { title: "Ocean Bay", text: "Там, где начинается рай", color: "bg-cyan-100", rotate: "-rotate-3" },
+    { title: "Adrenaline Peak", text: "Почувствуй силу приключений", color: "bg-orange-100", rotate: "rotate-2" },
+    { title: "Eden Gardens", text: "Найди гармонию с природой", color: "bg-green-100", rotate: "-rotate-1" },
+    { title: "Paradise Grand Hotel", text: "Искусство безупречного отдыха", color: "bg-amber-50", rotate: "rotate-3" }
+  ];
+
+  return (
+    <section id="about" className="py-24 bg-[#f8f9fa] overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="text-center mb-16">
+          <span className="text-teal-700 tracking-widest text-sm font-semibold uppercase mb-2 block">ABOUT THE RESORT</span>
+          <h2 className="text-4xl md:text-5xl font-serif text-gray-900">Один остров. Девять миров впечатлений.</h2>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          {/* Левая часть - полароиды */}
+          <div className="grid grid-cols-2 gap-6 p-4">
+            {photos.map((photo, index) => (
+              <div 
+                key={index} 
+                className={`bg-white p-3 pb-8 rounded-sm shadow-xl transform transition-transform hover:scale-105 hover:rotate-0 cursor-pointer ${photo.rotate}`}
+              >
+                <div className={`w-full aspect-square ${photo.color} rounded-sm mb-4 flex items-center justify-center text-gray-500 text-sm`}>
+                  [Фото]
+                </div>
+                <h3 className="font-serif text-lg text-gray-900 text-center">{photo.title}</h3>
+                <p className="text-xs text-gray-500 text-center mt-1">{photo.text}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Правая часть - текст */}
+          <div className="space-y-6">
+            <h3 className="text-2xl font-serif text-gray-800">Aqua Paradise — это место, где мечты об идеальном отдыхе становятся реальностью.</h3>
+            <p className="text-gray-600 leading-relaxed text-lg">
+              Крупный тропический курорт, где захватывающие приключения гармонично сочетаются с белоснежным пляжем, нетронутой природой и премиальным комфортом.
+            </p>
+            <ul className="space-y-4 mt-8">
+              <li className="flex items-center gap-4">
+                <span className="text-3xl font-serif text-teal-600">9</span>
+                <span className="text-gray-700 font-medium">тематических зон</span>
+              </li>
+              <li className="flex items-center gap-4">
+                <span className="text-3xl font-serif text-teal-600">09:00–22:00</span>
+                <span className="text-gray-700 font-medium">ежедневные часы работы</span>
+              </li>
+              <li className="flex items-center gap-4">
+                <span className="text-3xl font-serif text-teal-600">6 км²</span>
+                <span className="text-gray-700 font-medium">площадь суши острова</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
 const ZonesPage = () => <div className="p-8 text-center"><h1 className="text-4xl text-teal-800">Девять миров (в разработке)</h1></div>;
 const AttractionsPage = () => <div className="p-8 text-center"><h1 className="text-4xl text-teal-800">Аттракционы (в разработке)</h1></div>;
 const MapPage = () => <div className="p-8 text-center"><h1 className="text-4xl text-teal-800">Карта острова (в разработке)</h1></div>;
