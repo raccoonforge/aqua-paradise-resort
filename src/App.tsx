@@ -2,58 +2,75 @@ import { useState } from 'react';
 
 // Блок "О курорте"
 const AboutResort = () => {
+  // Состояние: сколько карточек мы уже смахнули (от 0 до 4)
+  const [revealedCount, setRevealedCount] = useState(0);
+
   const photos = [
-    { title: "Ocean Bay", text: "Там, где начинается рай", color: "bg-cyan-100", rotate: "-rotate-3" },
-    { title: "Adrenaline Peak", text: "Почувствуй силу приключений", color: "bg-orange-100", rotate: "rotate-2" },
-    { title: "Eden Gardens", text: "Найди гармонию с природой", color: "bg-green-100", rotate: "-rotate-1" },
-    { title: "Paradise Grand Hotel", text: "Искусство безупречного отдыха", color: "bg-amber-50", rotate: "rotate-3" }
+    { title: "Ocean Bay", text: "Там, где начинается рай", color: "bg-cyan-100", pos: "-translate-x-32 -translate-y-16 -rotate-12" },
+    { title: "Adrenaline Peak", text: "Почувствуй силу приключений", color: "bg-orange-100", pos: "translate-x-32 -translate-y-8 rotate-12" },
+    { title: "Eden Gardens", text: "Найди гармонию с природой", color: "bg-green-100", pos: "-translate-x-24 translate-y-24 -rotate-6" },
+    { title: "Paradise Grand Hotel", text: "Искусство безупречного отдыха", color: "bg-amber-50", pos: "translate-x-24 translate-y-16 rotate-6" }
   ];
 
+  const handleSwipe = () => {
+    if (revealedCount < 4) {
+      setRevealedCount(prev => prev + 1);
+    }
+  };
+
   return (
-    <section id="about" className="py-24 bg-[#f8f9fa] overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="text-center mb-16">
-          <span className="text-teal-700 tracking-widest text-sm font-semibold uppercase mb-2 block">ABOUT THE RESORT</span>
-          <h2 className="text-4xl md:text-5xl font-serif text-gray-900">Один остров. Девять миров впечатлений.</h2>
-        </div>
+    <section id="about" className="py-24 bg-[#f8f9fa] overflow-hidden min-h-[700px] flex items-center">
+      <div className="max-w-7xl mx-auto px-4 w-full relative">
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div className="grid grid-cols-2 gap-6 p-4">
-            {photos.map((photo, index) => (
+        {/* Фоновый текст, который открывается */}
+        <div className={`transition-opacity duration-1000 delay-300 max-w-2xl mx-auto text-center space-y-6 ${revealedCount === 4 ? 'opacity-100' : 'opacity-0'}`}>
+          <span className="text-teal-700 tracking-widest text-sm font-semibold uppercase block">ABOUT THE RESORT</span>
+          <h2 className="text-4xl md:text-5xl font-serif text-gray-900">Один остров. Девять миров впечатлений.</h2>
+          <p className="text-gray-600 leading-relaxed text-lg">
+            Aqua Paradise — это место, где мечты об идеальном отдыхе становятся реальностью. Крупный тропический курорт, где захватывающие приключения гармонично сочетаются с белоснежным пляжем и премиальным комфортом.
+          </p>
+          <div className="flex justify-center gap-8 pt-6">
+             <div className="text-center"><span className="block text-3xl font-serif text-teal-600">9</span><span className="text-sm text-gray-500">зон</span></div>
+             <div className="text-center"><span className="block text-3xl font-serif text-teal-600">6 км²</span><span className="text-sm text-gray-500">площадь</span></div>
+             <div className="text-center"><span className="block text-3xl font-serif text-teal-600">09–22</span><span className="text-sm text-gray-500">часы</span></div>
+          </div>
+        </div>
+
+        {/* Стопка полароидов */}
+        <div 
+          className={`absolute inset-0 flex items-center justify-center cursor-pointer transition-opacity duration-500 ${revealedCount === 4 ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+          onClick={handleSwipe}
+        >
+          {photos.map((photo, index) => {
+            // Карточка видна, если ее еще не смахнули
+            const isRevealed = index < revealedCount;
+            
+            // Вычисляем z-index: верхняя карточка (индекс 0) имеет самый высокий z-index
+            const zIndex = photos.length - index;
+
+            return (
               <div 
                 key={index} 
-                className={`bg-white p-3 pb-8 rounded-sm shadow-xl transform transition-transform hover:scale-105 hover:rotate-0 cursor-pointer ${photo.rotate}`}
+                className={`absolute bg-white p-3 pb-8 rounded-sm shadow-2xl transition-all duration-700 ease-out origin-center
+                  ${isRevealed ? photo.pos + ' opacity-0 scale-90' : 'translate-y-0 rotate-0 scale-100 opacity-100'}
+                `}
+                style={{ zIndex }}
               >
-                <div className={`w-full aspect-square ${photo.color} rounded-sm mb-4 flex items-center justify-center text-gray-500 text-sm`}>
+                <div className={`w-64 h-64 sm:w-72 sm:h-72 ${photo.color} rounded-sm mb-4 flex items-center justify-center text-gray-400 text-sm`}>
                   [Фото]
                 </div>
                 <h3 className="font-serif text-lg text-gray-900 text-center">{photo.title}</h3>
                 <p className="text-xs text-gray-500 text-center mt-1">{photo.text}</p>
               </div>
-            ))}
-          </div>
-
-          <div className="space-y-6">
-            <h3 className="text-2xl font-serif text-gray-800">Aqua Paradise — это место, где мечты об идеальном отдыхе становятся реальностью.</h3>
-            <p className="text-gray-600 leading-relaxed text-lg">
-              Крупный тропический курорт, где захватывающие приключения гармонично сочетаются с белоснежным пляжем, нетронутой природой и премиальным комфортом.
-            </p>
-            <ul className="space-y-4 mt-8">
-              <li className="flex items-center gap-4">
-                <span className="text-3xl font-serif text-teal-600">9</span>
-                <span className="text-gray-700 font-medium">тематических зон</span>
-              </li>
-              <li className="flex items-center gap-4">
-                <span className="text-3xl font-serif text-teal-600">09:00–22:00</span>
-                <span className="text-gray-700 font-medium">ежедневные часы работы</span>
-              </li>
-              <li className="flex items-center gap-4">
-                <span className="text-3xl font-serif text-teal-600">6 км²</span>
-                <span className="text-gray-700 font-medium">площадь суши острова</span>
-              </li>
-            </ul>
-          </div>
+            );
+          })}
         </div>
+
+        {/* Подсказка */}
+        <div className={`absolute bottom-10 left-0 right-0 text-center transition-opacity duration-300 ${revealedCount === 4 ? 'opacity-0' : 'opacity-100'}`}>
+           <p className="text-teal-600 font-medium animate-pulse">Нажмите на карточку, чтобы смахнуть её</p>
+        </div>
+
       </div>
     </section>
   );
