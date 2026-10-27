@@ -222,7 +222,7 @@ export default function ZonesPage({ initialZone }: { initialZone?: string }) {
                       <div key={key}>
                         <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3 capitalize">{key === 'rest' ? 'Отдых' : key === 'food' ? 'Питание' : key === 'service' ? 'Сервис' : 'Безопасность'}</h3>
                         <ul className="space-y-2">
-                          {items.map(item => (
+                         {(items as string[]).map((item: string) => (
                             <li key={item} className="flex items-center gap-2 text-gray-700">
                               <span className="w-1.5 h-1.5 rounded-full bg-teal-400"></span> {item}
                             </li>
