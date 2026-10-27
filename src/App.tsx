@@ -1,3 +1,4 @@
+import ZonesPage from './ZonesPage';
 import { useState } from 'react';
 
 // Блок "О курорте"
