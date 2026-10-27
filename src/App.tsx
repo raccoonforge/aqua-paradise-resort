@@ -1,3 +1,5 @@
+import HotelPage from './HotelPage';
+import VisitPage from './VisitPage';
 import TicketsPage from './TicketsPage';
 import AttractionsPage from './AttractionsPage';
 import ZonesPage from './ZonesPage';
