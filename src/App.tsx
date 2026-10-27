@@ -1,3 +1,4 @@
+import PlannerPage from './PlannerPage';
 import MapPage from './MapPage';
 import HotelPage from './HotelPage';
 import VisitPage from './VisitPage';
@@ -331,9 +332,6 @@ const PlannerTeaser = () => {
     </section>
   );
 };
-
-// Заглушки для других страниц
-const PlannerPage = () => <div className="p-8 text-center min-h-[60vh]"><h1 className="text-4xl text-teal-800">Планировщик (в разработке)</h1></div>;
 
 function App() {
   const [currentPath, setCurrentPath] = useState(window.location.hash || '#/');
