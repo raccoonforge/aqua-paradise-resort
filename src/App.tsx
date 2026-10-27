@@ -76,6 +76,69 @@ const AboutResort = () => {
   );
 };
 
+const NineWorlds = () => {
+  const zones = [
+    { id: 'ocean-bay', name: 'Ocean Bay', desc: 'Сердце курорта. Белоснежный песок, лазурная лагуна и безмятежность.', color: 'from-cyan-400/40 to-blue-900/80' },
+    { id: 'adrenaline-peak', name: 'Adrenaline Peak', desc: 'Вызов для смельчаков. Самые высокие и быстрые водные горки острова.', color: 'from-orange-500/40 to-red-900/80' },
+    { id: 'eden-gardens', name: 'Eden Gardens', desc: 'Тропический рай. Редкие растения, водопады и невероятная тишина.', color: 'from-green-500/40 to-emerald-900/80' },
+    { id: 'atlantis-realm', name: 'Atlantis Realm', desc: 'Затерянный город. Погружение в мифы и подводные приключения.', color: 'from-blue-600/40 to-indigo-900/80' },
+    { id: 'pirates-cove', name: "Pirate's Cove", desc: 'Остров сокровищ. Приключения для всей семьи в декорациях пиратских историй.', color: 'from-amber-600/40 to-stone-900/80' },
+    { id: 'serenity-spa', name: 'Serenity Spa', desc: 'Место силы. Премиальные спа-процедуры и абсолютный релакс.', color: 'from-purple-400/40 to-slate-900/80' },
+    { id: 'little-paradise', name: 'Little Paradise', desc: 'Мир для самых маленьких. Безопасные горки и любимые герои.', color: 'from-pink-400/40 to-rose-900/80' },
+    { id: 'paradise-market', name: 'Paradise Market', desc: 'Вкус острова. Рестораны, кафе и колоритные местные товары.', color: 'from-yellow-500/40 to-orange-900/80' },
+    { id: 'paradise-boulevard', name: 'Paradise Boulevard', desc: 'Центральная артерия. Главные площади, шоу и вечерние прогулки.', color: 'from-teal-400/40 to-teal-900/80' },
+  ];
+
+  const [activeZone, setActiveZone] = useState(0);
+
+  return (
+    <section className="relative h-[80vh] min-h-[600px] flex flex-col justify-between overflow-hidden">
+      {/* Динамический фон */}
+      <div className={`absolute inset-0 bg-gradient-to-t ${zones[activeZone].color} transition-colors duration-1000 ease-in-out`}></div>
+      
+      {/* Контент зоны (слева) */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 w-full pt-20 flex-grow flex flex-col justify-center">
+        <div className="max-w-xl text-white">
+          <span className="tracking-widest text-sm font-semibold uppercase mb-4 block opacity-80">EXPLORE THE ISLAND</span>
+          <h2 className="text-5xl md:text-7xl font-serif mb-6 drop-shadow-lg transition-all duration-500">
+            {zones[activeZone].name}
+          </h2>
+          <p className="text-lg md:text-xl text-gray-100 mb-8 font-light drop-shadow-md transition-all duration-500">
+            {zones[activeZone].desc}
+          </p>
+          <button 
+            onClick={() => window.location.hash = `#/zones?zone=${zones[activeZone].id}`}
+            className="bg-white text-gray-900 px-8 py-3 rounded-full font-medium hover:bg-gray-100 transition shadow-lg"
+          >
+            Подробнее о зоне
+          </button>
+        </div>
+      </div>
+
+      {/* Лента миниатюр (снизу) */}
+      <div className="relative z-10 w-full bg-black/20 backdrop-blur-md border-t border-white/10">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex overflow-x-auto gap-4 pb-2 scrollbar-hide">
+            {zones.map((zone, index) => (
+              <button
+                key={zone.id}
+                onClick={() => setActiveZone(index)}
+                className={`flex-shrink-0 px-6 py-3 rounded-full text-sm font-medium transition-all ${
+                  activeZone === index 
+                    ? 'bg-white text-gray-900 shadow-lg scale-105' 
+                    : 'bg-white/10 text-white hover:bg-white/20'
+                }`}
+              >
+                {zone.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 // Главная страница (Hero + About)
 const HomePage = () => (
   <>
@@ -119,8 +182,11 @@ const HomePage = () => (
       </div>
     </div>
 
-    {/* Вот здесь мы выводим блок "О курорте" */}
+        {/* Вот здесь мы выводим блок "О курорте" */}
     <AboutResort />
+
+    {/* Новый блок "Девять миров" */}
+    <NineWorlds />
   </>
 );
 
