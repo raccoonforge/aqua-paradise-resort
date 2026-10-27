@@ -188,8 +188,11 @@ const HomePage = () => (
         {/* Блок "Девять миров" */}
     <NineWorlds />
 
-    {/* Блок "Аттракционы" */}
+        {/* Блок "Аттракционы" */}
     <AttractionsCarousel />
+
+    {/* Блок "Планировщик" */}
+    <PlannerTeaser />
   </>
 );
 
@@ -271,6 +274,52 @@ const AttractionsCarousel = () => {
       <div className="text-center mt-8">
         <button onClick={() => window.location.hash = '#/attractions'} className="text-teal-600 font-medium hover:text-teal-800 underline underline-offset-4">
           Смотреть все аттракционы
+        </button>
+      </div>
+    </section>
+  );
+};
+
+const PlannerTeaser = () => {
+  const [selected, setSelected] = useState<string[]>([]);
+
+  const toggleInterest = (interest: string) => {
+    setSelected(prev => 
+      prev.includes(interest) ? prev.filter(i => i !== interest) : [...prev, interest]
+    );
+  };
+
+  const interests = ["Адреналин", "Семейный отдых", "Релакс", "Исследования"];
+
+  return (
+    <section className="py-24 bg-teal-900 text-white relative overflow-hidden">
+      <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+      <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
+        <span className="tracking-widest text-teal-300 text-sm font-semibold uppercase mb-2 block">PLAN YOUR DAY</span>
+        <h2 className="text-4xl md:text-5xl font-serif mb-6">Собери свой идеальный день.</h2>
+        <p className="text-teal-100 mb-10 text-lg">Выберите то, что вам по душе, и мы покажем, каким может быть ваш отдых.</p>
+        
+        <div className="flex flex-wrap justify-center gap-4 mb-10">
+          {interests.map(interest => (
+            <button
+              key={interest}
+              onClick={() => toggleInterest(interest)}
+              className={`px-6 py-3 rounded-full border-2 transition-all font-medium ${
+                selected.includes(interest) 
+                  ? 'bg-teal-400 border-teal-400 text-teal-900' 
+                  : 'border-teal-700 hover:border-teal-500 text-teal-100'
+              }`}
+            >
+              {interest}
+            </button>
+          ))}
+        </div>
+
+        <button 
+          onClick={() => window.location.hash = '#/planner'}
+          className="bg-white text-teal-900 px-8 py-3 rounded-full text-lg font-medium hover:bg-gray-100 transition shadow-lg"
+        >
+          Открыть полный планировщик
         </button>
       </div>
     </section>
