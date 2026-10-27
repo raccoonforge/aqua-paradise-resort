@@ -41,7 +41,7 @@ const zonesData = [
     desc: 'Мир для самых маленьких. Безопасные горки и любимые герои.',
     features: ['Безопасные горки', 'Детские площадки', 'Анимация'],
     likes: 'Семьям с детьми',
-    attractions: ['Детский аквапарк', 'Комната матери и ребенка', 'Шоу для детей'],
+    attractions: ['Tiny Tides', 'Rainbow Reef', 'Splash Explorers'],
     infrastructure: { food: ['Детское меню'], service: ['Прокат колясок'], safety: ['Везде сопровождающие'] },
     rules: ['Дети до 12 лет только со взрослыми', 'Рост не выше 120 см для горок']
   },
@@ -52,7 +52,7 @@ const zonesData = [
     desc: 'Место силы. Премиальные спа-процедуры и абсолютный релакс.',
     features: ['Спа-процедуры', 'Термальные бассейны', 'Массаж'],
     likes: 'Тем, кто ищет покой и восстановление',
-    attractions: ['Термальный комплекс', 'Массажные кабинеты', 'Чайная церемония'],
+    attractions: ['Lotus Thermal Pools', 'Bamboo Harmony', 'Mist Sanctuary', 'Whispering Falls', 'Zen Garden'],
     infrastructure: { rest: ['Лаунж-зоны', 'Тишина'], service: ['Полотенца', 'Халаты'] },
     rules: ['Тишина', 'Детям до 14 лет вход ограничен']
   },
@@ -63,7 +63,7 @@ const zonesData = [
     desc: 'Остров сокровищ. Приключения для всей семьи в декорациях пиратских историй.',
     features: ['Пиратские квесты', 'Семейные горки', 'Шоу'],
     likes: 'Семьям с детьми и любителям приключений',
-    attractions: ['Пиратский корабль', 'Квест "Сокровища"', 'Пещеры'],
+    attractions: ['Stormbreaker', "Blackbeard's Run", "Smuggler's Passage", 'Cannonball Clash'],
     infrastructure: { food: ['Таверна'], service: ['Прокат костюмов'] },
     rules: ['Соблюдать правила квестов', 'Не заплывать за буйки']
   },
@@ -74,7 +74,7 @@ const zonesData = [
     desc: 'Затерянный город. Погружение в мифы и подводные приключения.',
     features: ['Подводные руины', 'Храмы', 'Водные маршруты'],
     likes: 'Любителям мистики и водных приключений',
-    attractions: ["Poseidon's Descent", 'Храм Атлантиды', 'Аквариум'],
+    attractions: ["Poseidon's Descent", 'Tidal Kingdom', 'Crystal Passage', 'Moonlit Ruins'],
     infrastructure: { rest: ['Смотровые площадки'], food: ['Подводное кафе'] },
     rules: ['Запрещено нырять в необорудованных местах', 'Соблюдать возрастные ограничения']
   },
@@ -85,7 +85,7 @@ const zonesData = [
     desc: 'Вызов для смельчаков. Самые высокие и быстрые водные горки острова.',
     features: ['Экстремальные горки', 'Высокая скорость', 'Свободное падение'],
     likes: 'Экстремалам и любителям адреналина',
-    attractions: ['Skyfall', 'Stormbreaker', 'Серпантин'],
+    attractions: ['Skyfall', 'Velocity Racers', 'Cyclone Vortex', 'Thunder Rush', "Eagle's Lookout"],
     infrastructure: { service: ['Камеры хранения', 'Душевые'], safety: ['Медпункт'] },
     rules: ['Строго соблюдать ограничения по росту и весу', 'Беременным нельзя']
   },
@@ -96,7 +96,7 @@ const zonesData = [
     desc: 'Сердце курорта. Белоснежный песок, лазурная лагуна и безмятежность.',
     features: ['Белоснежный пляж', 'Лагуна', 'Водные виды спорта'],
     likes: 'Всем, кто хочет расслабиться у воды',
-    attractions: ['Пляж', 'Прокат SUP', 'Морские прогулки'],
+    attractions: ['Ocean Rush', 'Blue Horizon', 'Tidal Drop', 'Aqua Challenge', 'Coral Discovery', 'Ocean Explorer'],
     infrastructure: { rest: ['Лежаки', 'Зонты'], food: ['Пляжный бар'], safety: ['Спасатели'] },
     rules: ['Купаться только в разрешенных зонах', 'Не оставлять детей без присмотра']
   }
