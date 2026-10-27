@@ -176,11 +176,11 @@ const HomePage = () => (
             Исследовать остров
           </button>
           <button 
-            onClick={() => window.location.hash = '#/planner'}
-            className="bg-white/80 backdrop-blur text-teal-900 border border-teal-600/30 px-8 py-3 rounded-full text-lg font-medium hover:bg-white transition shadow-lg"
-          >
-            Спланировать отдых
-          </button>
+  onClick={() => window.location.hash = '#/planner'}
+  className="bg-white/80 backdrop-blur text-teal-900 border border-teal-600/30 px-8 py-3 rounded-full text-lg font-medium hover:bg-white transition shadow-lg"
+>
+  Спланировать отдых
+</button>
         </div>
         
         <div className="mt-20 text-sm tracking-[0.15em] text-teal-900/60 font-medium">
@@ -373,6 +373,7 @@ function App() {
             <button onClick={() => navigate('#/map')} className="hover:text-teal-600">Карта</button>
             <button onClick={() => navigate('#/hotel')} className="hover:text-teal-600">Отель</button>
             <button onClick={() => navigate('#/visit')} className="hover:text-teal-600">Посещение</button>
+            <button onClick={() => navigate('#/planner')} className="hover:text-teal-600">Планировщик</button>
             <button onClick={() => navigate('#/tickets')} className="bg-teal-600 text-white px-4 py-2 rounded-full hover:bg-teal-700 transition">Билеты</button>
           </nav>
         </div>
