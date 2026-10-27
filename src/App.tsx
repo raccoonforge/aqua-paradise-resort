@@ -1,3 +1,4 @@
+import TicketsPage from './TicketsPage';
 import AttractionsPage from './AttractionsPage';
 import ZonesPage from './ZonesPage';
 import { useState } from 'react';
@@ -332,7 +333,6 @@ const PlannerTeaser = () => {
 const MapPage = () => <div className="p-8 text-center min-h-[60vh]"><h1 className="text-4xl text-teal-800">Карта острова (в разработке)</h1></div>;
 const HotelPage = () => <div className="p-8 text-center min-h-[60vh]"><h1 className="text-4xl text-teal-800">Отель (в разработке)</h1></div>;
 const VisitPage = () => <div className="p-8 text-center min-h-[60vh]"><h1 className="text-4xl text-teal-800">Посещение (в разработке)</h1></div>;
-const TicketsPage = () => <div className="p-8 text-center min-h-[60vh]"><h1 className="text-4xl text-teal-800">Билеты (в разработке)</h1></div>;
 const PlannerPage = () => <div className="p-8 text-center min-h-[60vh]"><h1 className="text-4xl text-teal-800">Планировщик (в разработке)</h1></div>;
 
 function App() {
