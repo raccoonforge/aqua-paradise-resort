@@ -1,3 +1,4 @@
+import AttractionsPage from './AttractionsPage';
 import ZonesPage from './ZonesPage';
 import { useState } from 'react';
 
@@ -328,7 +329,6 @@ const PlannerTeaser = () => {
 };
 
 // Заглушки для других страниц
-const AttractionsPage = () => <div className="p-8 text-center min-h-[60vh]"><h1 className="text-4xl text-teal-800">Аттракционы (в разработке)</h1></div>;
 const MapPage = () => <div className="p-8 text-center min-h-[60vh]"><h1 className="text-4xl text-teal-800">Карта острова (в разработке)</h1></div>;
 const HotelPage = () => <div className="p-8 text-center min-h-[60vh]"><h1 className="text-4xl text-teal-800">Отель (в разработке)</h1></div>;
 const VisitPage = () => <div className="p-8 text-center min-h-[60vh]"><h1 className="text-4xl text-teal-800">Посещение (в разработке)</h1></div>;
@@ -349,7 +349,9 @@ function App() {
   // Достаем параметр zone из хэша, если он есть
   const urlParams = new URLSearchParams(currentPath.split('?')[1]);
   return <ZonesPage initialZone={urlParams.get('zone') || undefined} />;
-      case '#/attractions': return <AttractionsPage />;
+      case '#/attractions': 
+  const attrParams = new URLSearchParams(currentPath.split('?')[1]);
+  return <AttractionsPage initialRide={attrParams.get('ride') || undefined} />;
       case '#/map': return <MapPage />;
       case '#/hotel': return <HotelPage />;
       case '#/visit': return <VisitPage />;
