@@ -333,8 +333,6 @@ const PlannerTeaser = () => {
 
 // Заглушки для других страниц
 const MapPage = () => <div className="p-8 text-center min-h-[60vh]"><h1 className="text-4xl text-teal-800">Карта острова (в разработке)</h1></div>;
-const HotelPage = () => <div className="p-8 text-center min-h-[60vh]"><h1 className="text-4xl text-teal-800">Отель (в разработке)</h1></div>;
-const VisitPage = () => <div className="p-8 text-center min-h-[60vh]"><h1 className="text-4xl text-teal-800">Посещение (в разработке)</h1></div>;
 const PlannerPage = () => <div className="p-8 text-center min-h-[60vh]"><h1 className="text-4xl text-teal-800">Планировщик (в разработке)</h1></div>;
 
 function App() {
