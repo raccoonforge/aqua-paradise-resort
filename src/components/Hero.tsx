@@ -1,47 +1,81 @@
-import heroWaterpark from '../assets/hero-waterpark.png'
+import { useState } from "react";
 
-function Hero() {
-  return (
-<main
-  className="relative flex min-h-screen items-center bg-cover bg-center px-6 py-20 sm:px-12 lg:px-20"
-  style={{ backgroundImage: `url(${heroWaterpark})` }}
->
-<div className="absolute inset-0 bg-gradient-to-b from-slate-950/65 via-slate-950/50 to-slate-950/35 md:bg-gradient-to-r md:from-slate-950/85 md:via-slate-950/45 md:to-transparent"></div>
-<section className="relative z-10 w-full max-w-2xl text-left">    
-    <p className="mb-4 text-lg font-semibold text-cyan-200">
-          🌴 Welcome to Paradise
-        </p>
-
-        <h1 className="mb-6 text-4xl font-bold leading-tight text-white sm:text-5xl md:text-7xl">
-          Aqua Paradise
-          <span className="block text-cyan-200">
-            Island Resort
-          </span>
-        </h1>
-
-        <p className="mb-8 text-lg text-white md:text-xl">
-          Откройте для себя тропический остров,
-          захватывающие водные аттракционы
-          и незабываемые приключения!
-        </p>
-
-<div className="flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap sm:items-center">          
-    <a
-            href="#attractions"
-            className="rounded-full bg-cyan-700 px-8 py-4 font-semibold text-white transition hover:bg-cyan-800"
-          >
-            Исследовать остров
-          </a>
-
-          <a
-            href="#tickets"
-className="rounded-full border-2 border-white/80 px-8 py-4 font-semibold text-white transition hover:bg-white/20"          >
-            Выбрать билет
-          </a>
-        </div>
-      </section>
-    </main>
-  )
+function shouldPlayIntro(video?: string) {
+  try {
+    return (
+      Boolean(video) &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches &&
+      !(navigator as Navigator & { connection?: { saveData?: boolean } })
+        .connection?.saveData &&
+      !sessionStorage.getItem("aqua-intro-seen")
+    );
+  } catch {
+    return false;
+  }
 }
 
-export default Hero
+/** Supply an approved video ending at the poster's viewpoint; static content always stays accessible. */
+export default function Hero({ introVideo }: { introVideo?: string }) {
+  const [play, setPlay] = useState(() => shouldPlayIntro(introVideo));
+  const finish = () => {
+    setPlay(false);
+    try {
+      sessionStorage.setItem("aqua-intro-seen", "1");
+    } catch {
+      /* Static Hero remains usable if storage is blocked. */
+    }
+  };
+  return (
+    <section className="home-hero" aria-labelledby="hero-heading">
+      <img
+        className="hero-landscape"
+        src="/media/ocean-hero.webp"
+        alt="Пляж Ocean Bay, морская лагуна и тропический курорт"
+        fetchPriority="high"
+      />
+      {play && introVideo && (
+        <>
+          <video
+            className="hero-video"
+            src={introVideo}
+            autoPlay
+            muted
+            playsInline
+            onEnded={finish}
+            onError={finish}
+          />
+          <button className="skip-intro" onClick={finish}>
+            Пропустить интро ↓
+          </button>
+        </>
+      )}
+      <div className="hero-shade" />
+      <div className="hero-copy">
+        <p className="eyebrow">WELCOME TO AQUA PARADISE</p>
+        <h1 id="hero-heading">
+          Ты ещё не видел <br />
+          <em>рай таким.</em>
+        </h1>
+        <p className="hero-description">
+          Девять уникальных миров. Один тропический остров. От безмятежных лагун
+          до захватывающих приключений — здесь каждый найдёт свой рай.
+        </p>
+        <div className="hero-actions">
+          <a className="resort-button gold" href="#about">
+            Исследовать остров <span aria-hidden="true">↓</span>
+          </a>
+          <a className="resort-button outline" href="/planner">
+            Спланировать отдых <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+      <div className="hero-bottom">
+        <span>OCEAN BAY · AQUA PARADISE</span>
+        <a href="#about" aria-label="Перейти к знакомству с курортом">
+          Листайте к открытиям <span aria-hidden="true">↓</span>
+        </a>
+        <span>09:00 — 22:00</span>
+      </div>
+    </section>
+  );
+}

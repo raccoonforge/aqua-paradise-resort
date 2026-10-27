@@ -1,0 +1,324 @@
+.resort-header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 30;
+  color: #fff;
+  transition:
+    background 0.35s,
+    color 0.35s,
+    box-shadow 0.35s;
+  background: linear-gradient(#092d3b66, transparent);
+  font-family: Arial, sans-serif;
+}
+.header-inner {
+  height: 100px;
+  max-width: 1480px;
+  margin: auto;
+  padding: 0 4%;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  transition: height 0.3s;
+}
+.resort-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+  flex-shrink: 0;
+}
+.resort-brand img {
+  width: 57px;
+  height: 57px;
+  object-fit: contain;
+}
+.resort-brand > span {
+  font:
+    24px Georgia,
+    serif;
+}
+.resort-brand small {
+  display: block;
+  font:
+    8px Arial,
+    sans-serif;
+  letter-spacing: 0.3em;
+  margin-top: 6px;
+}
+.desktop-nav {
+  display: flex;
+  gap: 27px;
+  align-items: center;
+  margin-left: auto;
+  font-size: 12px;
+}
+.desktop-nav > a,
+.nav-group > button {
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.nav-group {
+  position: relative;
+}
+.nav-group > button {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 14px 0;
+  font: inherit;
+}
+.nav-group > button span {
+  margin-left: 5px;
+}
+.ticket-button {
+  background: #dcc18a;
+  color: #153e3e;
+  padding: 14px 24px;
+  border-radius: 3px;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  gap: 22px;
+  align-items: center;
+}
+.ticket-button:hover {
+  background: #f0d6a2;
+}
+.nav-dropdown {
+  position: absolute;
+  top: 100%;
+  left: -25px;
+  min-width: 285px;
+  background: #fffdf5;
+  color: #183d3e;
+  box-shadow: 0 15px 40px #07292e33;
+  border: 1px solid #dddccc;
+  padding: 10px;
+  border-radius: 8px;
+}
+.nav-dropdown a {
+  display: flex;
+  gap: 14px;
+  padding: 14px;
+  text-decoration: none;
+  color: inherit;
+  font-size: 13px;
+  border-radius: 4px;
+}
+.nav-dropdown a > span:first-child {
+  font-size: 22px;
+  color: #9b7d48;
+}
+.nav-dropdown small {
+  display: block;
+  font-size: 10px;
+  color: #687d78;
+  margin-top: 6px;
+}
+.nav-dropdown a:hover {
+  background: #efeee4;
+}
+.is-glass {
+  background: #fffdf3ed;
+  color: #214640;
+  box-shadow: 0 4px 24px #123e3710;
+  backdrop-filter: blur(18px);
+}
+.is-glass .header-inner {
+  height: 76px;
+}
+.menu-trigger {
+  display: none;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-size: 24px;
+  min-width: 44px;
+  min-height: 44px;
+}
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 20px;
+  background: #fff;
+  color: #164037;
+  padding: 15px;
+}
+.skip-link:focus {
+  top: 10px;
+}
+.resort-header :focus-visible {
+  outline: 3px solid #c79b54;
+  outline-offset: 5px;
+}
+.mobile-drawer {
+  position: fixed;
+  inset: 0 0 0 auto;
+  width: min(88vw, 400px);
+  height: 100dvh;
+  max-height: none;
+  max-width: none;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: #f8f5eb;
+  color: #214640;
+  overflow: visible;
+}
+.mobile-drawer::backdrop {
+  background: #062d39a6;
+  backdrop-filter: blur(4px);
+}
+.drawer-content {
+  height: 100%;
+  overflow: auto;
+  padding: 75px 28px 30px;
+  animation: drawer-in 0.35s ease-out;
+}
+.drawer-close {
+  position: absolute;
+  right: 20px;
+  top: 16px;
+  font-size: 34px;
+  background: none;
+  border: 0;
+  color: #214640;
+  min-width: 44px;
+  min-height: 44px;
+}
+.drawer-content nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 35px 0;
+}
+.drawer-content nav > a,
+.drawer-content .nav-group > button {
+  padding: 14px 0;
+  text-decoration: none;
+  color: inherit;
+  font-size: 17px;
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+.drawer-content nav > * {
+  animation: nav-in 0.4s both;
+}
+.drawer-content nav > :nth-child(2) {
+  animation-delay: 0.05s;
+}
+.drawer-content nav > :nth-child(3) {
+  animation-delay: 0.1s;
+}
+.drawer-content nav > :nth-child(4) {
+  animation-delay: 0.15s;
+}
+.drawer-content nav > :nth-child(5) {
+  animation-delay: 0.2s;
+}
+.drawer-content nav > :nth-child(6) {
+  animation-delay: 0.25s;
+}
+.drawer-content .nav-dropdown {
+  position: static;
+  min-width: 0;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+  border: 0;
+}
+.drawer-content nav > .ticket-button {
+  padding: 16px 22px;
+}
+.drawer-content > p {
+  font:
+    italic 19px Georgia,
+    serif;
+  color: #7c8e7f;
+}
+@keyframes drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes nav-in {
+  from {
+    opacity: 0;
+    transform: translateX(15px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (max-width: 1100px) {
+  .desktop-nav {
+    gap: 16px;
+    font-size: 11px;
+  }
+  .header-inner {
+    gap: 20px;
+  }
+  .resort-brand > span {
+    font-size: 21px;
+  }
+}
+@media (max-width: 900px) {
+  .desktop-nav {
+    display: none;
+  }
+  .header-inner {
+    height: 85px;
+    padding: 0 5%;
+    gap: 15px;
+  }
+  .header-inner > .ticket-button {
+    margin-left: auto;
+    padding: 12px 16px;
+    gap: 10px;
+  }
+  .menu-trigger {
+    display: block;
+  }
+  .resort-brand img {
+    height: 44px;
+    width: 44px;
+  }
+  .resort-brand > span {
+    font-size: 19px;
+  }
+  .resort-brand small {
+    font-size: 7px;
+  }
+  .is-glass .header-inner {
+    height: 70px;
+  }
+}
+@media (max-width: 370px) {
+  .header-inner {
+    gap: 7px;
+  }
+  .header-inner > .ticket-button {
+    padding: 12px;
+  }
+  .resort-brand > span {
+    font-size: 17px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .resort-header,
+  .header-inner {
+    transition: none;
+  }
+  .drawer-content,
+  .drawer-content nav > * {
+    animation: none;
+  }
+}

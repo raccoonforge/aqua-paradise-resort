@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node scripts/validate-island-map-v0.4.mjs && node scripts/test-map-geometry.mjs && node scripts/validate-map-page.mjs && node scripts/validate-premium-map-contract.mjs",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
@@ -17,6 +19,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.64.1",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^24.19.2",
     "@types/react": "^19.3.0",
