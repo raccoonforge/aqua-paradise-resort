@@ -190,6 +190,90 @@ const HomePage = () => (
   </>
 );
 
+const AttractionsCarousel = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  
+  const rides = [
+    { name: "Skyfall", zone: "Adrenaline Peak", intensity: "Экстрим", desc: "Свободное падение с высоты 40 метров.", age: "16+", height: "150 см", color: "bg-blue-200" },
+    { name: "Poseidon's Descent", zone: "Atlantis Realm", intensity: "Высокая", desc: "Крутые виражи в недрах подводного города.", age: "14+", height: "140 см", color: "bg-teal-200" },
+    { name: "Stormbreaker", zone: "Adrenaline Peak", intensity: "Средняя", desc: "Семейная горка с неожиданными поворотами.", age: "6+", height: "110 см", color: "bg-indigo-200" },
+    { name: "Crystal Passage", zone: "Eden Gardens", intensity: "Спокойная", desc: "Плавное путешествие среди кристальных пещер.", age: "4+", height: "100 см", color: "bg-emerald-200" },
+  ];
+
+  const nextSlide = () => setActiveIndex((prev) => (prev + 1) % rides.length);
+  const prevSlide = () => setActiveIndex((prev) => (prev - 1 + rides.length) % rides.length);
+
+  return (
+    <section className="py-24 bg-white overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 text-center mb-12">
+        <h2 className="text-4xl md:text-5xl font-serif text-gray-900 mb-4">Выберите своё приключение</h2>
+        <p className="text-gray-600">От захватывающих дух спусков до спокойных прогулок по воде.</p>
+      </div>
+
+      <div className="relative max-w-5xl mx-auto flex items-center justify-center h-[400px]">
+        {/* Левая стрелка */}
+        <button onClick={prevSlide} className="absolute left-4 z-20 bg-white/80 p-3 rounded-full shadow-lg hover:bg-white text-gray-800 transition">
+          ←
+        </button>
+
+        {/* Карточки */}
+        <div className="relative w-full h-full flex items-center justify-center perspective-1000">
+          {rides.map((ride, index) => {
+            // Вычисляем позицию карточки относительно активной
+            let offset = index - activeIndex;
+            if (offset < -1) offset += rides.length;
+            if (offset > 1) offset -= rides.length;
+
+            // Показываем только 3 карточки: центральную и две по бокам
+            if (Math.abs(offset) > 1) return null;
+
+            const isActive = offset === 0;
+            
+            return (
+              <div 
+                key={index}
+                className={`absolute w-[300px] md:w-[400px] bg-white rounded-xl shadow-2xl overflow-hidden transition-all duration-500 ease-in-out
+                  ${isActive ? 'z-10 scale-100 opacity-100' : 'scale-90 opacity-50 blur-[1px]'}
+                `}
+                style={{
+                  transform: `translateX(${offset * 60}%) scale(${isActive ? 1 : 0.85})`,
+                  zIndex: isActive ? 10 : 5
+                }}
+              >
+                <div className={`h-48 md:h-64 ${ride.color} flex items-center justify-center text-gray-500`}>
+                  [Фото: {ride.name}]
+                </div>
+                <div className="p-6 text-left relative bg-white">
+                  <span className="text-xs font-bold text-teal-600 tracking-wider uppercase mb-2 block">{ride.zone}</span>
+                  <h3 className="text-2xl font-serif text-gray-900 mb-2">{ride.name}</h3>
+                  <p className="text-gray-600 text-sm mb-4">{ride.desc}</p>
+                  
+                  <div className="flex gap-4 text-xs font-medium text-gray-500 bg-gray-50 p-3 rounded-lg">
+                    <span className="flex items-center gap-1">🔥 {ride.intensity}</span>
+                    <span className="flex items-center gap-1">👤 {ride.age}</span>
+                    <span className="flex items-center gap-1">📏 {ride.height}</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Правая стрелка */}
+        <button onClick={nextSlide} className="absolute right-4 z-20 bg-white/80 p-3 rounded-full shadow-lg hover:bg-white text-gray-800 transition">
+          →
+        </button>
+      </div>
+      
+      <div className="text-center mt-8">
+        <button onClick={() => window.location.hash = '#/attractions'} className="text-teal-600 font-medium hover:text-teal-800 underline underline-offset-4">
+          Смотреть все аттракционы
+        </button>
+      </div>
+    </section>
+  );
+};
+
 // Заглушки для других страниц
 const ZonesPage = () => <div className="p-8 text-center min-h-[60vh]"><h1 className="text-4xl text-teal-800">Девять миров (в разработке)</h1></div>;
 const AttractionsPage = () => <div className="p-8 text-center min-h-[60vh]"><h1 className="text-4xl text-teal-800">Аттракционы (в разработке)</h1></div>;
