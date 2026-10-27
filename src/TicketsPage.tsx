@@ -1,3 +1,4 @@
+import { useState, useMemo, useEffect } from 'react';
 import { useState, useMemo } from 'react';
 
 // Базовые цены (раздел 6.4)
@@ -96,6 +97,10 @@ export default function TicketsPage() {
   }, [hasCabana, hasPriority, ticketType, guests, totalGuests]);
 
   const totalCost = Math.round((ticketsCost + extrasCost) * 100) / 100;
+
+  // Состояние для электронного билета
+const [showTicket, setShowTicket] = useState(false);
+const [orderNumber, setOrderNumber] = useState('');
 
   // Вспомогательная функция для изменения количества гостей
   const updateGuest = (type: keyof typeof guests, delta: number) => {
@@ -249,12 +254,17 @@ export default function TicketsPage() {
               </div>
 
               <button 
-                onClick={() => alert('Это демонстрационный сайт. Реальная покупка не выполняется.')}
-                disabled={totalGuests === 0 || !visitDate}
-                className="w-full bg-teal-600 text-white py-4 rounded-xl font-medium hover:bg-teal-700 transition disabled:opacity-50 disabled:cursor-not-allowed mb-4"
-              >
-                Оформить билеты
-              </button>
+  onClick={() => {
+    // Генерируем случайный номер заказа
+    const randomNum = Math.floor(100000 + Math.random() * 900000);
+    setOrderNumber(`APR-${randomNum}`);
+    setShowTicket(true);
+  }}
+  disabled={totalGuests === 0 || !visitDate}
+  className="w-full bg-teal-600 text-white py-4 rounded-xl font-medium hover:bg-teal-700 transition disabled:opacity-50 disabled:cursor-not-allowed mb-4"
+>
+  Оформить билеты
+</button>
               
               <p className="text-xs text-center text-gray-400">
                 Демонстрационный расчёт. Реальные платежи не проводятся.
@@ -264,6 +274,70 @@ export default function TicketsPage() {
 
         </div>
       </div>
+            {/* Модальное окно с электронным билетом */}
+      {showTicket && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl relative">
+            <button 
+              onClick={() => setShowTicket(false)}
+              className="absolute top-4 right-4 z-10 bg-gray-100 p-2 rounded-full hover:bg-gray-200 transition text-gray-600"
+            >
+              ✕
+            </button>
+            
+            {/* Шапка билета */}
+            <div className="bg-teal-800 p-6 text-white text-center">
+              <h2 className="text-2xl font-serif mb-1">Aqua Paradise</h2>
+              <p className="text-teal-200 text-sm">Электронный демонстрационный билет</p>
+            </div>
+            
+            {/* Тело билета */}
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-6 border-b border-dashed border-gray-200 pb-4">
+                <div>
+                  <span className="block text-xs text-gray-500 uppercase">Номер заказа</span>
+                  <span className="font-bold text-gray-900 text-lg">{orderNumber}</span>
+                </div>
+                <div className="text-right">
+                  <span className="block text-xs text-gray-500 uppercase">Дата</span>
+                  <span className="font-bold text-gray-900">{visitDate}</span>
+                </div>
+              </div>
+
+              <div className="space-y-2 text-sm text-gray-700 mb-6">
+                <div className="flex justify-between">
+                  <span>Тариф:</span>
+                  <span className="font-medium">
+                    {ticketType === 'day' ? 'Day Pass' : ticketType === 'premium' ? 'Premium Pass' : 'Evening Pass'}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Гостей:</span>
+                  <span className="font-medium">{totalGuests} чел.</span>
+                </div>
+                <div className="flex justify-between text-lg font-bold text-teal-700 pt-2 border-t border-gray-100">
+                  <span>Оплачено:</span>
+                  <span>${totalCost.toFixed(2)}</span>
+                </div>
+              </div>
+
+              {/* QR-код (заглушка) */}
+              <div className="flex flex-col items-center justify-center bg-gray-50 p-4 rounded-xl border border-gray-100">
+                <div className="w-32 h-32 bg-white border-2 border-gray-300 flex items-center justify-center mb-2">
+                  <span className="text-xs text-gray-400 text-center px-2">[QR-код]<br/>(демо)</span>
+                </div>
+                <p className="text-xs text-center text-gray-500">
+                  Отсканируйте для входа<br/>(демонстрация)
+                </p>
+              </div>
+
+              <p className="text-[10px] text-center text-gray-400 mt-6">
+                Это демонстрационный проект. Курорт, цены и услуги вымышлены. Реальные бронирования и платежи не осуществляются.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
