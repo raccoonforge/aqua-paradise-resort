@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 
 // Данные о зонах (координаты X, Y для расстановки на карте)
 const zonesData = [
