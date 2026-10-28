@@ -39,15 +39,48 @@ const INTENSITIES = ['Все', 'Спокойная', 'Семейная', 'Сре
 const ZONES = ['Все', 'Adrenaline Peak', 'Atlantis Realm', 'Eden Gardens', "Pirate's Cove", 'Paradise Boulevard', 'Ocean Bay', 'Serenity Spa', 'Little Paradise', 'Paradise Market'];
 
 export default function AttractionsPage({ initialRide }: { initialRide?: string }) {
-  const [search, setSearch] = useState('');
-  const [zoneFilter, setZoneFilter] = useState('Все');
-  const [intensityFilter, setIntensityFilter] = useState('Все');
+    // Инициализируем состояния из URL при первом рендере
+  const getInitialParams = () => {
+    const hash = window.location.hash;
+    const queryString = hash.split('?')[1] || '';
+    const params = new URLSearchParams(queryString);
+    return {
+      search: params.get('search') || '',
+      zone: params.get('zone') || 'Все',
+      intensity: params.get('intensity') || 'Все',
+      ride: params.get('ride') || initialRide || null,
+    };
+  };
+
+  const initialParams = getInitialParams();
+
+  const [search, setSearch] = useState(initialParams.search);
+  const [zoneFilter, setZoneFilter] = useState(initialParams.zone);
+  const [intensityFilter, setIntensityFilter] = useState(initialParams.intensity);
   const [visibleCount, setVisibleCount] = useState(12);
   
   // Состояние для модального окна
-  const [selectedRideId, setSelectedRideId] = useState<string | null>(initialRide || null);
+    const [selectedRideId, setSelectedRideId] = useState<string | null>(initialParams.ride);
 
-    // Синхронизация с URL при открытии/закрытии модалки (APR-BUG-004)
+  // Обновление URL при изменении фильтров или выбранной карточки (URL-009)
+  useEffect(() => {
+    const params = new URLSearchParams();
+    
+    if (selectedRideId) params.set('ride', selectedRideId);
+    if (search) params.set('search', search);
+    if (zoneFilter !== 'Все') params.set('zone', zoneFilter);
+    if (intensityFilter !== 'Все') params.set('intensity', intensityFilter);
+
+    const newQuery = params.toString();
+    const newHash = `#/attractions${newQuery ? `?${newQuery}` : ''}`;
+    
+    // Проверяем, чтобы не вызывать зацикливание
+    if (window.location.hash !== newHash) {
+      window.location.hash = newHash;
+    }
+  }, [search, zoneFilter, intensityFilter, selectedRideId]);
+
+  // Синхронизация с URL при навигации браузера (Назад/Вперед)
     useEffect(() => {
       const handleHashChange = () => {
       const hash = window.location.hash;
@@ -55,10 +88,10 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
       
       if (basePath === '#/attractions') {
         const params = new URLSearchParams(queryString);
-        const rideParam = params.get('ride');
-        setSelectedRideId(rideParam || null);
-      } else {
-        setSelectedRideId(null);
+        setSelectedRideId(params.get('ride') || null);
+        setSearch(params.get('search') || '');
+        setZoneFilter(params.get('zone') || 'Все');
+        setIntensityFilter(params.get('intensity') || 'Все');
       }
     };
 
@@ -73,7 +106,6 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && selectedRideId) {
         setSelectedRideId(null);
-        window.location.hash = '#/attractions';
       }
           };
     document.addEventListener('keydown', handleKeyDown);
@@ -82,12 +114,10 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
 
   const handleOpenRide = (rideId: string) => {
     setSelectedRideId(rideId);
-    window.location.hash = `#/attractions?ride=${rideId}`;
   };
 
   const handleCloseRide = () => {
     setSelectedRideId(null);
-    window.location.hash = '#/attractions';
   };
   
   // Фильтрация
