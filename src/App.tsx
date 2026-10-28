@@ -289,6 +289,15 @@ function App() {
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isMobileMenuOpen]);
+
+  // Обработка изменения хэша (APR-BUG-003)
+  useEffect(() => {
+    const handleHashChange = () => {
+      setCurrentPath(window.location.hash || '#/');
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
   
   const renderPage = () => {
     switch (currentPath) {
@@ -329,7 +338,7 @@ function App() {
 
           {/* Кнопка мобильного меню (Бургер) */}
           <button 
-                        ref={menuButtonRef}
+            ref={menuButtonRef}
             className="md:hidden p-2 text-gray-600 hover:text-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-500 rounded"
 
             onClick={() => setIsMobileMenuOpen(true)}
@@ -357,7 +366,7 @@ function App() {
               <span className="font-bold text-teal-900">Меню</span>
               <button 
                 onClick={() => setIsMobileMenuOpen(false)}
-                                className="p-2 text-gray-500 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-500 rounded"
+                className="p-2 text-gray-500 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-500 rounded"
 
                 aria-label="Закрыть меню"
               >
