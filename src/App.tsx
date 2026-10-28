@@ -9,7 +9,6 @@ import { useState } from 'react';
 
 // Блок "О курорте"
 const AboutResort = () => {
-  // Состояние: сколько карточек мы уже смахнули (от 0 до 4)
   const [revealedCount, setRevealedCount] = useState(0);
 
   const photos = [
@@ -28,8 +27,6 @@ const AboutResort = () => {
   return (
     <section id="about" className="py-24 bg-[#f8f9fa] overflow-hidden min-h-[700px] flex items-center">
       <div className="max-w-7xl mx-auto px-4 w-full relative">
-        
-        {/* Фоновый текст, который открывается */}
         <div className={`transition-opacity duration-1000 delay-300 max-w-2xl mx-auto text-center space-y-6 ${revealedCount === 4 ? 'opacity-100' : 'opacity-0'}`}>
           <span className="text-teal-700 tracking-widest text-sm font-semibold uppercase block">ABOUT THE RESORT</span>
           <h2 className="text-4xl md:text-5xl font-serif text-gray-900">Один остров. Девять миров впечатлений.</h2>
@@ -43,18 +40,13 @@ const AboutResort = () => {
           </div>
         </div>
 
-        {/* Стопка полароидов */}
         <div 
           className={`absolute inset-0 flex items-center justify-center cursor-pointer transition-opacity duration-500 ${revealedCount === 4 ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
           onClick={handleSwipe}
         >
           {photos.map((photo, index) => {
-            // Карточка видна, если ее еще не смахнули
             const isRevealed = index < revealedCount;
-            
-            // Вычисляем z-index: верхняя карточка (индекс 0) имеет самый высокий z-index
             const zIndex = photos.length - index;
-
             return (
               <div 
                 key={index} 
@@ -63,9 +55,7 @@ const AboutResort = () => {
                 `}
                 style={{ zIndex }}
               >
-                <div className={`w-64 h-64 sm:w-72 sm:h-72 ${photo.color} rounded-sm mb-4 flex items-center justify-center text-gray-400 text-sm`}>
-                  [Фото]
-                </div>
+                <div className={`w-64 h-64 sm:w-72 sm:h-72 ${photo.color} rounded-sm mb-4 flex items-center justify-center text-gray-400 text-sm`}>[Фото]</div>
                 <h3 className="font-serif text-lg text-gray-900 text-center">{photo.title}</h3>
                 <p className="text-xs text-gray-500 text-center mt-1">{photo.text}</p>
               </div>
@@ -73,11 +63,9 @@ const AboutResort = () => {
           })}
         </div>
 
-        {/* Подсказка */}
         <div className={`absolute bottom-10 left-0 right-0 text-center transition-opacity duration-300 ${revealedCount === 4 ? 'opacity-0' : 'opacity-100'}`}>
            <p className="text-teal-600 font-medium animate-pulse">Нажмите на карточку, чтобы смахнуть её</p>
         </div>
-
       </div>
     </section>
   );
@@ -100,19 +88,12 @@ const NineWorlds = () => {
 
   return (
     <section className="relative h-[80vh] min-h-[600px] flex flex-col justify-between overflow-hidden">
-      {/* Динамический фон */}
       <div className={`absolute inset-0 bg-gradient-to-t ${zones[activeZone].color} transition-colors duration-1000 ease-in-out`}></div>
-      
-      {/* Контент зоны (слева) */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 w-full pt-20 flex-grow flex flex-col justify-center">
         <div className="max-w-xl text-white">
           <span className="tracking-widest text-sm font-semibold uppercase mb-4 block opacity-80">EXPLORE THE ISLAND</span>
-          <h2 className="text-5xl md:text-7xl font-serif mb-6 drop-shadow-lg transition-all duration-500">
-            {zones[activeZone].name}
-          </h2>
-          <p className="text-lg md:text-xl text-gray-100 mb-8 font-light drop-shadow-md transition-all duration-500">
-            {zones[activeZone].desc}
-          </p>
+          <h2 className="text-5xl md:text-7xl font-serif mb-6 drop-shadow-lg transition-all duration-500">{zones[activeZone].name}</h2>
+          <p className="text-lg md:text-xl text-gray-100 mb-8 font-light drop-shadow-md transition-all duration-500">{zones[activeZone].desc}</p>
           <button 
             onClick={() => window.location.hash = `#/zones?zone=${zones[activeZone].id}`}
             className="bg-white text-gray-900 px-8 py-3 rounded-full font-medium hover:bg-gray-100 transition shadow-lg"
@@ -121,8 +102,6 @@ const NineWorlds = () => {
           </button>
         </div>
       </div>
-
-      {/* Лента миниатюр (снизу) */}
       <div className="relative z-10 w-full bg-black/20 backdrop-blur-md border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex overflow-x-auto gap-4 pb-2 scrollbar-hide">
@@ -131,9 +110,7 @@ const NineWorlds = () => {
                 key={zone.id}
                 onClick={() => setActiveZone(index)}
                 className={`flex-shrink-0 px-6 py-3 rounded-full text-sm font-medium transition-all ${
-                  activeZone === index 
-                    ? 'bg-white text-gray-900 shadow-lg scale-105' 
-                    : 'bg-white/10 text-white hover:bg-white/20'
+                  activeZone === index ? 'bg-white text-gray-900 shadow-lg scale-105' : 'bg-white/10 text-white hover:bg-white/20'
                 }`}
               >
                 {zone.name}
@@ -146,25 +123,18 @@ const NineWorlds = () => {
   );
 };
 
-// Главная страница (Hero + About)
 const HomePage = () => (
   <>
     <div className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-teal-500/20 via-cyan-600/40 to-[#f8f9fa] z-0"></div>
-      
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto flex flex-col items-center">
-        <span className="text-teal-800 tracking-[0.2em] font-semibold text-sm mb-6 uppercase">
-          WELCOME TO AQUA PARADISE
-        </span>
-        
+        <span className="text-teal-800 tracking-[0.2em] font-semibold text-sm mb-6 uppercase">WELCOME TO AQUA PARADISE</span>
         <h1 className="text-5xl md:text-7xl font-serif text-gray-900 mb-6 leading-tight">
           Ты ещё не видел <br className="hidden md:block"/> рай таким.
         </h1>
-        
         <p className="text-lg md:text-xl text-gray-700 mb-10 max-w-2xl font-light">
           Девять уникальных миров. Один тропический остров. От безмятежных лагун до захватывающих приключений — здесь каждый найдёт свой рай.
         </p>
-        
         <div className="flex flex-col sm:flex-row gap-4">
           <button 
             onClick={() => {
@@ -176,36 +146,24 @@ const HomePage = () => (
             Исследовать остров
           </button>
           <button 
-  onClick={() => window.location.hash = '#/planner'}
-  className="bg-white/80 backdrop-blur text-teal-900 border border-teal-600/30 px-8 py-3 rounded-full text-lg font-medium hover:bg-white transition shadow-lg"
->
-  Спланировать отдых
-</button>
+            onClick={() => window.location.hash = '#/planner'}
+            className="bg-white/80 backdrop-blur text-teal-900 border border-teal-600/30 px-8 py-3 rounded-full text-lg font-medium hover:bg-white transition shadow-lg"
+          >
+            Спланировать отдых
+          </button>
         </div>
-        
-        <div className="mt-20 text-sm tracking-[0.15em] text-teal-900/60 font-medium">
-          OCEAN BAY · AQUA PARADISE
-        </div>
+        <div className="mt-20 text-sm tracking-[0.15em] text-teal-900/60 font-medium">OCEAN BAY · AQUA PARADISE</div>
       </div>
     </div>
-
-        {/* Вот здесь мы выводим блок "О курорте" */}
     <AboutResort />
-
-        {/* Блок "Девять миров" */}
     <NineWorlds />
-
-        {/* Блок "Аттракционы" */}
     <AttractionsCarousel />
-
-    {/* Блок "Планировщик" */}
     <PlannerTeaser />
   </>
 );
 
 const AttractionsCarousel = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  
   const rides = [
     { name: "Skyfall", zone: "Adrenaline Peak", intensity: "Экстрим", desc: "Свободное падение с высоты 40 метров.", age: "16+", height: "150 см", color: "bg-blue-200" },
     { name: "Poseidon's Descent", zone: "Atlantis Realm", intensity: "Высокая", desc: "Крутые виражи в недрах подводного города.", age: "14+", height: "140 см", color: "bg-teal-200" },
@@ -222,45 +180,28 @@ const AttractionsCarousel = () => {
         <h2 className="text-4xl md:text-5xl font-serif text-gray-900 mb-4">Выберите своё приключение</h2>
         <p className="text-gray-600">От захватывающих дух спусков до спокойных прогулок по воде.</p>
       </div>
-
       <div className="relative max-w-5xl mx-auto flex items-center justify-center h-[400px]">
-        {/* Левая стрелка */}
-        <button onClick={prevSlide} className="absolute left-4 z-20 bg-white/80 p-3 rounded-full shadow-lg hover:bg-white text-gray-800 transition">
-          ←
-        </button>
-
-        {/* Карточки */}
+        <button onClick={prevSlide} className="absolute left-4 z-20 bg-white/80 p-3 rounded-full shadow-lg hover:bg-white text-gray-800 transition">←</button>
         <div className="relative w-full h-full flex items-center justify-center perspective-1000">
           {rides.map((ride, index) => {
-            // Вычисляем позицию карточки относительно активной
             let offset = index - activeIndex;
             if (offset < -1) offset += rides.length;
             if (offset > 1) offset -= rides.length;
-
-            // Показываем только 3 карточки: центральную и две по бокам
             if (Math.abs(offset) > 1) return null;
-
             const isActive = offset === 0;
-            
             return (
               <div 
                 key={index}
                 className={`absolute w-[300px] md:w-[400px] bg-white rounded-xl shadow-2xl overflow-hidden transition-all duration-500 ease-in-out
                   ${isActive ? 'z-10 scale-100 opacity-100' : 'scale-90 opacity-50 blur-[1px]'}
                 `}
-                style={{
-                  transform: `translateX(${offset * 60}%) scale(${isActive ? 1 : 0.85})`,
-                  zIndex: isActive ? 10 : 5
-                }}
+                style={{ transform: `translateX(${offset * 60}%) scale(${isActive ? 1 : 0.85})`, zIndex: isActive ? 10 : 5 }}
               >
-                <div className={`h-48 md:h-64 ${ride.color} flex items-center justify-center text-gray-500`}>
-                  [Фото: {ride.name}]
-                </div>
+                <div className={`h-48 md:h-64 ${ride.color} flex items-center justify-center text-gray-500`}>[Фото: {ride.name}]</div>
                 <div className="p-6 text-left relative bg-white">
                   <span className="text-xs font-bold text-teal-600 tracking-wider uppercase mb-2 block">{ride.zone}</span>
                   <h3 className="text-2xl font-serif text-gray-900 mb-2">{ride.name}</h3>
                   <p className="text-gray-600 text-sm mb-4">{ride.desc}</p>
-                  
                   <div className="flex gap-4 text-xs font-medium text-gray-500 bg-gray-50 p-3 rounded-lg">
                     <span className="flex items-center gap-1">🔥 {ride.intensity}</span>
                     <span className="flex items-center gap-1">👤 {ride.age}</span>
@@ -271,13 +212,8 @@ const AttractionsCarousel = () => {
             );
           })}
         </div>
-
-        {/* Правая стрелка */}
-        <button onClick={nextSlide} className="absolute right-4 z-20 bg-white/80 p-3 rounded-full shadow-lg hover:bg-white text-gray-800 transition">
-          →
-        </button>
+        <button onClick={nextSlide} className="absolute right-4 z-20 bg-white/80 p-3 rounded-full shadow-lg hover:bg-white text-gray-800 transition">→</button>
       </div>
-      
       <div className="text-center mt-8">
         <button onClick={() => window.location.hash = '#/attractions'} className="text-teal-600 font-medium hover:text-teal-800 underline underline-offset-4">
           Смотреть все аттракционы
@@ -289,13 +225,9 @@ const AttractionsCarousel = () => {
 
 const PlannerTeaser = () => {
   const [selected, setSelected] = useState<string[]>([]);
-
   const toggleInterest = (interest: string) => {
-    setSelected(prev => 
-      prev.includes(interest) ? prev.filter(i => i !== interest) : [...prev, interest]
-    );
+    setSelected(prev => prev.includes(interest) ? prev.filter(i => i !== interest) : [...prev, interest]);
   };
-
   const interests = ["Адреналин", "Семейный отдых", "Релакс", "Исследования"];
 
   return (
@@ -305,23 +237,19 @@ const PlannerTeaser = () => {
         <span className="tracking-widest text-teal-300 text-sm font-semibold uppercase mb-2 block">PLAN YOUR DAY</span>
         <h2 className="text-4xl md:text-5xl font-serif mb-6">Собери свой идеальный день.</h2>
         <p className="text-teal-100 mb-10 text-lg">Выберите то, что вам по душе, и мы покажем, каким может быть ваш отдых.</p>
-        
         <div className="flex flex-wrap justify-center gap-4 mb-10">
           {interests.map(interest => (
             <button
               key={interest}
               onClick={() => toggleInterest(interest)}
               className={`px-6 py-3 rounded-full border-2 transition-all font-medium ${
-                selected.includes(interest) 
-                  ? 'bg-teal-400 border-teal-400 text-teal-900' 
-                  : 'border-teal-700 hover:border-teal-500 text-teal-100'
+                selected.includes(interest) ? 'bg-teal-400 border-teal-400 text-teal-900' : 'border-teal-700 hover:border-teal-500 text-teal-100'
               }`}
             >
               {interest}
             </button>
           ))}
         </div>
-
         <button 
           onClick={() => window.location.hash = '#/planner'}
           className="bg-white text-teal-900 px-8 py-3 rounded-full text-lg font-medium hover:bg-gray-100 transition shadow-lg"
@@ -335,21 +263,22 @@ const PlannerTeaser = () => {
 
 function App() {
   const [currentPath, setCurrentPath] = useState(window.location.hash || '#/');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navigate = (path: string) => {
     window.location.hash = path;
     setCurrentPath(path);
+    setIsMobileMenuOpen(false); // Закрываем меню при переходе
   };
 
   const renderPage = () => {
     switch (currentPath) {
       case '#/zones': 
-  // Достаем параметр zone из хэша, если он есть
-  const urlParams = new URLSearchParams(currentPath.split('?')[1]);
-  return <ZonesPage initialZone={urlParams.get('zone') || undefined} />;
+        const urlParams = new URLSearchParams(currentPath.split('?')[1]);
+        return <ZonesPage initialZone={urlParams.get('zone') || undefined} />;
       case '#/attractions': 
-  const attrParams = new URLSearchParams(currentPath.split('?')[1]);
-  return <AttractionsPage initialRide={attrParams.get('ride') || undefined} />;
+        const attrParams = new URLSearchParams(currentPath.split('?')[1]);
+        return <AttractionsPage initialRide={attrParams.get('ride') || undefined} />;
       case '#/map': return <MapPage />;
       case '#/hotel': return <HotelPage />;
       case '#/visit': return <VisitPage />;
@@ -366,6 +295,8 @@ function App() {
           <div className="text-xl font-bold text-teal-900 cursor-pointer" onClick={() => navigate('#/')}>
             🌴 Aqua Paradise
           </div>
+          
+          {/* Десктопная навигация */}
           <nav className="hidden md:flex gap-6 text-sm font-medium text-gray-600">
             <button onClick={() => navigate('#/')} className="hover:text-teal-600">Главная</button>
             <button onClick={() => navigate('#/zones')} className="hover:text-teal-600">Зоны</button>
@@ -376,8 +307,72 @@ function App() {
             <button onClick={() => navigate('#/planner')} className="hover:text-teal-600">Планировщик</button>
             <button onClick={() => navigate('#/tickets')} className="bg-teal-600 text-white px-4 py-2 rounded-full hover:bg-teal-700 transition">Билеты</button>
           </nav>
+
+          {/* Кнопка мобильного меню (Бургер) */}
+          <button 
+            className="md:hidden p-2 text-gray-600 hover:text-teal-600 focus:outline-none"
+            onClick={() => setIsMobileMenuOpen(true)}
+            aria-label="Открыть меню"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
         </div>
       </header>
+
+      {/* Мобильное меню (выезжающая панель) */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-[60] md:hidden">
+          {/* Затемняющий фон */}
+          <div 
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={() => setIsMobileMenuOpen(false)}
+          ></div>
+          
+          {/* Сама панель */}
+          <div className="absolute top-0 right-0 w-[80%] max-w-sm h-full bg-white shadow-2xl flex flex-col animate-slide-in">
+            <div className="p-4 border-b border-gray-100 flex justify-between items-center">
+              <span className="font-bold text-teal-900">Меню</span>
+              <button 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="p-2 text-gray-500 hover:text-gray-800"
+                aria-label="Закрыть меню"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <div className="flex-grow overflow-y-auto p-4 flex flex-col gap-2">
+              {[
+                { path: '#/', label: 'Главная' },
+                { path: '#/zones', label: 'Зоны' },
+                { path: '#/attractions', label: 'Аттракционы' },
+                { path: '#/map', label: 'Карта' },
+                { path: '#/hotel', label: 'Отель' },
+                { path: '#/visit', label: 'Посещение' },
+                { path: '#/planner', label: 'Планировщик' },
+              ].map((item) => (
+                <button 
+                  key={item.path}
+                  onClick={() => navigate(item.path)}
+                  className="text-left py-3 px-4 rounded-xl hover:bg-teal-50 hover:text-teal-700 font-medium text-gray-800 transition"
+                >
+                  {item.label}
+                </button>
+              ))}
+              <div className="mt-4 pt-4 border-t border-gray-100">
+                <button 
+                  onClick={() => navigate('#/tickets')}
+                  className="w-full bg-teal-600 text-white py-3 rounded-xl font-medium hover:bg-teal-700 transition shadow-md"
+                >
+                  Купить билеты
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <main className="flex-grow">
         {renderPage()}
