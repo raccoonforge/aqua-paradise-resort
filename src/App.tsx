@@ -5,7 +5,7 @@ import VisitPage from './VisitPage';
 import TicketsPage from './TicketsPage';
 import AttractionsPage from './AttractionsPage';
 import ZonesPage from './ZonesPage';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 // Блок "О курорте"
 const AboutResort = () => {
@@ -265,12 +265,31 @@ function App() {
   const [currentPath, setCurrentPath] = useState(window.location.hash || '#/');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  // Реф для кнопки открытия мобильного меню
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  
   const navigate = (path: string) => {
     window.location.hash = path;
     setCurrentPath(path);
     setIsMobileMenuOpen(false); // Закрываем меню при переходе
   };
 
+  // Обработка нажатия Escape для закрытия мобильного меню
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+        // Возвращаем фокус на кнопку открытия меню
+        if (menuButtonRef.current) {
+          menuButtonRef.current.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isMobileMenuOpen]);
+  
   const renderPage = () => {
     switch (currentPath) {
       case '#/zones': 
@@ -310,7 +329,9 @@ function App() {
 
           {/* Кнопка мобильного меню (Бургер) */}
           <button 
-            className="md:hidden p-2 text-gray-600 hover:text-teal-600 focus:outline-none"
+                        ref={menuButtonRef}
+            className="md:hidden p-2 text-gray-600 hover:text-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-500 rounded"
+
             onClick={() => setIsMobileMenuOpen(true)}
             aria-label="Открыть меню"
           >
@@ -336,7 +357,8 @@ function App() {
               <span className="font-bold text-teal-900">Меню</span>
               <button 
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="p-2 text-gray-500 hover:text-gray-800"
+                                className="p-2 text-gray-500 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-500 rounded"
+
                 aria-label="Закрыть меню"
               >
                 ✕
