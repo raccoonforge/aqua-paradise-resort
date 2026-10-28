@@ -48,6 +48,11 @@ export default function TicketsPage() {
   }, [visitDate]);
 
   const totalGuests = Object.values(guests).reduce((a, b) => a + b, 0);
+  // Senior (60+) также является совершеннолетним сопровождающим.
+  const hasAdultCompanion = guests.adult + guests.senior > 0;
+  const hasMinors = guests.infant + guests.child + guests.teen > 0;
+  const missingCompanion = hasMinors && !hasAdultCompanion;
+  const canCheckout = Boolean(visitDate) && totalGuests > 0 && totalGuests <= 10 && !missingCompanion;
 
   // Расчет стоимости билетов
   const ticketsCost = useMemo(() => {
@@ -252,14 +257,21 @@ const [orderNumber, setOrderNumber] = useState('');
                 </div>
               </div>
 
+              {missingCompanion && (
+                <p role="alert" className="mb-3 text-sm text-red-700">
+                  Для оформления билетов несовершеннолетним необходим хотя бы один сопровождающий от 18 лет.
+                </p>
+              )}
               <button 
   onClick={() => {
+    // Повторяем проверку при оформлении, независимо от порядка изменения состава группы.
+    if (!canCheckout) return;
     // Генерируем случайный номер заказа
     const randomNum = Math.floor(100000 + Math.random() * 900000);
     setOrderNumber(`APR-${randomNum}`);
     setShowTicket(true);
   }}
-  disabled={totalGuests === 0 || !visitDate}
+  disabled={!canCheckout}
   className="w-full bg-teal-600 text-white py-4 rounded-xl font-medium hover:bg-teal-700 transition disabled:opacity-50 disabled:cursor-not-allowed mb-4"
 >
   Оформить билеты
