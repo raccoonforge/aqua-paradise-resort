@@ -4,17 +4,25 @@ const ALL_INTERESTS = ['Адреналин', 'Семейный отдых', 'Р�
 
 // База знаний для генерации (упрощенная)
 const ATTRACTIONS_DB = [
-  { id: 'skyfall', name: 'Skyfall', zone: 'Adrenaline Peak', interests: ['Адреналин'], time: '10:00' },
-  { id: 'poseidon', name: "Poseidon's Descent", zone: 'Atlantis Realm', interests: ['Адреналин', 'Исследования'], time: '12:00' },
-  { id: 'tidal', name: 'Tidal Kingdom', zone: 'Atlantis Realm', interests: ['Семейный отдых', 'Исследования'], time: '14:00' },
-  { id: 'crystal', name: 'Crystal Passage', zone: 'Atlantis Realm', interests: ['Исследования', 'Семейный отдых'], time: '15:30' },
-  { id: 'storm', name: 'Stormbreaker', zone: "Pirate's Cove", interests: ['Семейный отдых'], time: '11:00' },
-  { id: 'lotus', name: 'Lotus Thermal Pools', zone: 'Serenity Spa', interests: ['Релакс'], time: '16:00' },
-  { id: 'zen', name: 'Zen Garden', zone: 'Serenity Spa', interests: ['Релакс'], time: '18:00' },
-  { id: 'butterfly', name: 'Butterfly Haven', zone: 'Eden Gardens', interests: ['Исследования', 'Релакс'], time: '13:00' },
-  { id: 'ocean-rush', name: 'Ocean Rush', zone: 'Ocean Bay', interests: ['Адреналин'], time: '11:30' },
-  { id: 'beach', name: 'Paradise Beach', zone: 'Ocean Bay', interests: ['Релакс', 'Семейный отдых'], time: '14:30' },
+  { id: 'skyfall', name: 'Skyfall', zone: 'Adrenaline Peak', interests: ['Адреналин'], duration: 60 },
+  { id: 'poseidon', name: "Poseidon's Descent", zone: 'Atlantis Realm', interests: ['Адреналин', 'Исследования'], duration: 45 },
+  { id: 'tidal', name: 'Tidal Kingdom', zone: 'Atlantis Realm', interests: ['Семейный отдых', 'Исследования'], duration: 90 },
+  { id: 'crystal', name: 'Crystal Passage', zone: 'Atlantis Realm', interests: ['Исследования', 'Семейный отдых'], duration: 45 },
+  { id: 'storm', name: 'Stormbreaker', zone: "Pirate's Cove", interests: ['Семейный отдых'], duration: 60 },
+  { id: 'lotus', name: 'Lotus Thermal Pools', zone: 'Serenity Spa', interests: ['Релакс'], duration: 90 },
+  { id: 'zen', name: 'Zen Garden', zone: 'Serenity Spa', interests: ['Релакс'], duration: 45 },
+  { id: 'butterfly', name: 'Butterfly Haven', zone: 'Eden Gardens', interests: ['Исследования', 'Релакс'], duration: 45 },
+  { id: 'ocean-rush', name: 'Ocean Rush', zone: 'Ocean Bay', interests: ['Адреналин'], duration: 60 },
+  { id: 'beach', name: 'Paradise Beach', zone: 'Ocean Bay', interests: ['Релакс', 'Семейный отдых'], duration: 120 },
 ];
+
+// Вспомогательная функция для форматирования времени
+const formatTime = (minutesFromStart: number, startHour: number) => {
+  const totalMinutes = startHour * 60 + minutesFromStart;
+  const h = Math.floor(totalMinutes / 60);
+  const m = totalMinutes % 60;
+  return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
+};
 
 export default function PlannerPage() {
   const [date, setDate] = useState('');
@@ -36,56 +44,89 @@ export default function PlannerPage() {
     );
   };
 
+  // Пересчет времени (APR-BUG-005)
+  const recalculateTimes = (currentPlan: any[]) => {
+    // Определяем стартовое время в зависимости от тарифа
+    const startHour = ticketType === 'evening' ? 17 : 10;
+    let currentMinutes = 0;
+
+    return currentPlan.map(period => {
+      return {
+        ...period,
+        items: period.items.map((item: any) => {
+          // Время начала текущего объекта
+          const startTime = formatTime(currentMinutes, startHour);
+          
+          // Добавляем время на сам аттракцион
+          currentMinutes += item.duration;
+          
+          // Добавляем время на переход (например, 15 минут)
+          const transition = 15;
+          currentMinutes += transition;
+
+          return {
+            ...item,
+            startTime,
+            endTime: formatTime(currentMinutes - transition, startHour) // Конец без учета перехода
+          };
+        })
+      };
+    });
+  };
+
   const generatePlan = () => {
     if (!date || selectedInterests.length === 0) {
       alert('Пожалуйста, выберите дату и хотя бы один интерес.');
       return;
     }
 
-    // Фильтруем аттракционы по интересам
     let filtered = ATTRACTIONS_DB.filter(a => 
       a.interests.some(i => selectedInterests.includes(i))
     );
 
-    // Если Evening Pass — оставляем только то, что работает после 17:00 (упрощенно)
     if (ticketType === 'evening') {
-      filtered = filtered.filter(a => parseInt(a.time) >= 17);
+      filtered = filtered.filter(a => a.duration <= 60);
     }
 
-    // Сортируем по времени
-    filtered.sort((a, b) => a.time.localeCompare(b.time));
+    const morning = filtered.slice(0, 2);
+    const afternoon = filtered.slice(2, 4);
+    const evening = filtered.slice(4);
 
-    // Распределяем по блокам
-    const morning = filtered.filter(a => parseInt(a.time) < 12);
-    const afternoon = filtered.filter(a => parseInt(a.time) >= 12 && parseInt(a.time) < 17);
-    const evening = filtered.filter(a => parseInt(a.time) >= 17);
-
-    setPlan([
+    const newPlan = [
       { period: 'morning', title: 'Утро', items: morning },
       { period: 'afternoon', title: 'День', items: afternoon },
       { period: 'evening', title: 'Вечер', items: evening },
-    ].filter(p => p.items.length > 0));
+    ].filter(p => p.items.length > 0);
 
+    // Пересчитываем время для нового плана
+    setPlan(recalculateTimes(newPlan));
     setIsGenerated(true);
   };
 
   // Функции редактирования
   const moveItem = (periodIndex: number, itemIndex: number, direction: 'up' | 'down') => {
     const newPlan = [...plan];
-    const items = newPlan[periodIndex].items;
+    const items = [...newPlan[periodIndex].items];
     const newIndex = direction === 'up' ? itemIndex - 1 : itemIndex + 1;
     
     if (newIndex >= 0 && newIndex < items.length) {
-      [items[itemIndex], items[newIndex]] = [items[newIndex], items[itemIndex]];
-      setPlan(newPlan);
+      // Меняем местами
+      const temp = items[itemIndex];
+      items[itemIndex] = items[newIndex];
+      items[newIndex] = temp;
+      
+      newPlan[periodIndex].items = items;
+      // Пересчитываем время после перестановки
+      setPlan(recalculateTimes(newPlan));
     }
   };
 
   const removeItem = (periodIndex: number, itemIndex: number) => {
     const newPlan = [...plan];
     newPlan[periodIndex].items.splice(itemIndex, 1);
-    // Удаляем пустые блоки
-    setPlan(newPlan.filter(p => p.items.length > 0));
+    const filteredPlan = newPlan.filter(p => p.items.length > 0);
+    // Пересчитываем время после удаления
+    setPlan(recalculateTimes(filteredPlan));
   };
 
   return (
@@ -98,7 +139,7 @@ export default function PlannerPage() {
           <p className="text-gray-600 max-w-2xl mx-auto">Составьте персональный маршрут, который подходит именно вам.</p>
         </div>
 
-        {/* ПАНЕЛЬ НАСТРОЕК (Всегда доступна, но сворачивается) */}
+        {/* ПАНЕЛЬ НАСТРОЕК */}
         <div className={`bg-white rounded-3xl shadow-sm border border-gray-100 transition-all duration-500 overflow-hidden ${isGenerated ? 'max-h-20 opacity-50 hover:opacity-100 mb-6' : 'p-8 mb-8'}`}>
           {isGenerated ? (
             <div className="p-4 flex justify-between items-center">
@@ -185,7 +226,6 @@ export default function PlannerPage() {
             </div>
 
             <div className="space-y-8 relative">
-              {/* Вертикальная линия */}
               <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gray-200 z-0 hidden md:block"></div>
 
               {plan.map((period, pIndex) => (
@@ -207,11 +247,11 @@ export default function PlannerPage() {
                             <div className="w-12 h-12 bg-gray-100 rounded-lg flex-shrink-0 flex items-center justify-center text-gray-400 text-xs">[Ф]</div>
                             <div>
                               <h4 className="font-serif text-lg text-gray-900">{item.name}</h4>
-                              <p className="text-xs text-gray-500">{item.zone} • {item.time}</p>
+                              {/* Отображаем пересчитанное время */}
+                              <p className="text-xs text-gray-500">{item.zone} • {item.startTime} – {item.endTime}</p>
                             </div>
                           </div>
                           
-                          {/* Кнопки управления (появляются при наведении) */}
                           <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                             <button onClick={() => moveItem(pIndex, iIndex, 'up')} disabled={iIndex === 0} className="p-2 text-gray-400 hover:text-teal-600 disabled:opacity-30" title="Раньше">↑</button>
                             <button onClick={() => moveItem(pIndex, iIndex, 'down')} disabled={iIndex === period.items.length - 1} className="p-2 text-gray-400 hover:text-teal-600 disabled:opacity-30" title="Позже">↓</button>
@@ -219,11 +259,10 @@ export default function PlannerPage() {
                           </div>
                         </div>
                         
-                        {/* Переход к следующему */}
                         {iIndex < period.items.length - 1 && (
                           <div className="flex items-center gap-2 ml-6 my-2 text-xs text-gray-400">
                             <span>↓</span>
-                            <span>Переход: {transport === 'walk' ? 'пешком ~10 мин' : 'Paradise Loop ~5 мин'}</span>
+                            <span>Переход: {transport === 'walk' ? 'пешком ~15 мин' : 'Paradise Loop ~15 мин'}</span>
                           </div>
                         )}
                       </div>
