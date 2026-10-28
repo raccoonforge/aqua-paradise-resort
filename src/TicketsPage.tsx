@@ -49,6 +49,11 @@ export default function TicketsPage() {
 
   const totalGuests = Object.values(guests).reduce((a, b) => a + b, 0);
 
+  // ВАЛИДАЦИЯ: Проверка наличия сопровождающего для несовершеннолетних (APR-BUG-001)
+  const minorsCount = guests.child + guests.teen + guests.infant;
+  const adultsCount = guests.adult + guests.senior;
+  const isAdultRequired = minorsCount > 0 && adultsCount === 0;
+
   // Расчет стоимости билетов
   const ticketsCost = useMemo(() => {
     let total = 0;
@@ -98,8 +103,8 @@ export default function TicketsPage() {
   const totalCost = Math.round((ticketsCost + extrasCost) * 100) / 100;
 
   // Состояние для электронного билета
-const [showTicket, setShowTicket] = useState(false);
-const [orderNumber, setOrderNumber] = useState('');
+  const [showTicket, setShowTicket] = useState(false);
+  const [orderNumber, setOrderNumber] = useState('');
 
   // Вспомогательная функция для изменения количества гостей
   const updateGuest = (type: keyof typeof guests, delta: number) => {
@@ -108,8 +113,8 @@ const [orderNumber, setOrderNumber] = useState('');
       if (newCount < 0) return prev;
       if (totalGuests >= 10 && delta > 0) return prev; // Максимум 10 человек
       
-      // Если пытаемся добавить ребенка, а нет взрослого — блокируем
-      if (delta > 0 && (type === 'child' || type === 'teen') && prev.adult === 0 && prev.senior === 0) {
+      // Блокируем добавление ребенка, если нет взрослых
+      if (delta > 0 && (type === 'child' || type === 'teen' || type === 'infant') && prev.adult === 0 && prev.senior === 0) {
         alert('Для посещения несовершеннолетних необходим хотя бы один взрослый (18+)');
         return prev;
       }
@@ -252,18 +257,25 @@ const [orderNumber, setOrderNumber] = useState('');
                 </div>
               </div>
 
+              {/* Сообщение об ошибке для APR-BUG-001 */}
+              {isAdultRequired && (
+                <div className="bg-red-50 text-red-700 p-3 rounded-lg text-sm mb-4 border border-red-200">
+                  Для посещения курорта гостям младше 18 лет необходим сопровождающий от 18 лет.
+                </div>
+              )}
+
               <button 
-  onClick={() => {
-    // Генерируем случайный номер заказа
-    const randomNum = Math.floor(100000 + Math.random() * 900000);
-    setOrderNumber(`APR-${randomNum}`);
-    setShowTicket(true);
-  }}
-  disabled={totalGuests === 0 || !visitDate}
-  className="w-full bg-teal-600 text-white py-4 rounded-xl font-medium hover:bg-teal-700 transition disabled:opacity-50 disabled:cursor-not-allowed mb-4"
->
-  Оформить билеты
-</button>
+                onClick={() => {
+                  // Генерируем случайный номер заказа
+                  const randomNum = Math.floor(100000 + Math.random() * 900000);
+                  setOrderNumber(`APR-${randomNum}`);
+                  setShowTicket(true);
+                }}
+                disabled={totalGuests === 0 || !visitDate || isAdultRequired}
+                className="w-full bg-teal-600 text-white py-4 rounded-xl font-medium hover:bg-teal-700 transition disabled:opacity-50 disabled:cursor-not-allowed mb-4"
+              >
+                Оформить билеты
+              </button>
               
               <p className="text-xs text-center text-gray-400">
                 Демонстрационный расчёт. Реальные платежи не проводятся.
@@ -273,7 +285,8 @@ const [orderNumber, setOrderNumber] = useState('');
 
         </div>
       </div>
-            {/* Модальное окно с электронным билетом */}
+      
+      {/* Модальное окно с электронным билетом */}
       {showTicket && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
           <div className="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl relative">
