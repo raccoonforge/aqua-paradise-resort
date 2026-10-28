@@ -44,30 +44,39 @@ export default function PlannerPage() {
     );
   };
 
-  // Пересчет времени (APR-BUG-005)
+  // Пересчет времени с проверкой границ (PLAN-R07, PLAN-R08)
   const recalculateTimes = (currentPlan: any[]) => {
-    // Определяем стартовое время в зависимости от тарифа
     const startHour = ticketType === 'evening' ? 17 : 10;
+    const endHour = 22; // Курорт закрывается в 22:00
     let currentMinutes = 0;
 
     return currentPlan.map(period => {
       return {
         ...period,
         items: period.items.map((item: any) => {
-          // Время начала текущего объекта
           const startTime = formatTime(currentMinutes, startHour);
           
-          // Добавляем время на сам аттракцион
+          // Проверяем, не выходим ли за пределы
+          const absoluteStartMinutes = startHour * 60 + currentMinutes;
+          const absoluteEndMinutes = absoluteStartMinutes + item.duration;
+          const limitMinutes = endHour * 60;
+
+          const isOverLimit = absoluteEndMinutes > limitMinutes;
+          const limitMessage = isOverLimit 
+            ? `Выход за пределы (${formatTime(absoluteEndMinutes - startHour * 60, startHour)} > ${endHour}:00)`
+            : null;
+
           currentMinutes += item.duration;
           
-          // Добавляем время на переход (например, 15 минут)
           const transition = 15;
           currentMinutes += transition;
 
           return {
             ...item,
             startTime,
-            endTime: formatTime(currentMinutes - transition, startHour) // Конец без учета перехода
+            endTime: formatTime(currentMinutes - transition, startHour),
+            isOverLimit,
+            limitMessage
           };
         })
       };
@@ -98,25 +107,21 @@ export default function PlannerPage() {
       { period: 'evening', title: 'Вечер', items: evening },
     ].filter(p => p.items.length > 0);
 
-    // Пересчитываем время для нового плана
     setPlan(recalculateTimes(newPlan));
     setIsGenerated(true);
   };
 
-  // Функции редактирования
   const moveItem = (periodIndex: number, itemIndex: number, direction: 'up' | 'down') => {
     const newPlan = [...plan];
     const items = [...newPlan[periodIndex].items];
     const newIndex = direction === 'up' ? itemIndex - 1 : itemIndex + 1;
     
     if (newIndex >= 0 && newIndex < items.length) {
-      // Меняем местами
       const temp = items[itemIndex];
       items[itemIndex] = items[newIndex];
       items[newIndex] = temp;
       
       newPlan[periodIndex].items = items;
-      // Пересчитываем время после перестановки
       setPlan(recalculateTimes(newPlan));
     }
   };
@@ -125,9 +130,11 @@ export default function PlannerPage() {
     const newPlan = [...plan];
     newPlan[periodIndex].items.splice(itemIndex, 1);
     const filteredPlan = newPlan.filter(p => p.items.length > 0);
-    // Пересчитываем время после удаления
     setPlan(recalculateTimes(filteredPlan));
   };
+
+  // Проверка, есть ли конфликты во всем плане
+  const hasConflicts = plan.some(p => p.items.some((i: any) => i.isOverLimit));
 
   return (
     <div className="bg-[#f8f9fa] min-h-screen py-12">
@@ -174,7 +181,6 @@ export default function PlannerPage() {
                 </div>
               </div>
 
-              {/* Расширенные настройки */}
               <div className="mb-6 border-t border-gray-100 pt-4">
                 <button onClick={() => setShowAdvanced(!showAdvanced)} className="text-sm text-teal-600 font-medium hover:underline flex items-center gap-2">
                   {showAdvanced ? 'Скрыть дополнительные настройки' : 'Дополнительные настройки (темп, транспорт)'}
@@ -211,7 +217,7 @@ export default function PlannerPage() {
           )}
         </div>
 
-        {/* РЕЗУЛЬТАТ (МАРШРУТ) */}
+        {/* РЕЗУЛЬТАТ */}
         {isGenerated && (
           <div className="animate-fade-in">
             <div className="bg-teal-900 text-white p-6 rounded-3xl mb-8 flex justify-between items-center shadow-lg">
@@ -224,6 +230,17 @@ export default function PlannerPage() {
                 <button onClick={() => alert('Ссылка будет доступна в финальной версии')} className="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg text-sm transition">Ссылка</button>
               </div>
             </div>
+
+            {/* Предупреждение о конфликте */}
+            {hasConflicts && (
+              <div className="bg-red-50 border border-red-200 text-red-800 p-4 rounded-xl mb-6 flex items-start gap-3">
+                <span className="text-xl">⚠️</span>
+                <div>
+                  <p className="font-bold">Внимание: маршрут выходит за допустимое время.</p>
+                  <p className="text-sm">Пожалуйста, удалите или перенесите активности, чтобы уложиться в часы работы курорта (до 22:00).</p>
+                </div>
+              </div>
+            )}
 
             <div className="space-y-8 relative">
               <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gray-200 z-0 hidden md:block"></div>
@@ -242,20 +259,24 @@ export default function PlannerPage() {
                   <div className="space-y-4 md:ml-16">
                     {period.items.map((item: any, iIndex: number) => (
                       <div key={item.id}>
-                        <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between group hover:shadow-md transition">
-                          <div className="flex gap-4 items-center">
-                            <div className="w-12 h-12 bg-gray-100 rounded-lg flex-shrink-0 flex items-center justify-center text-gray-400 text-xs">[Ф]</div>
-                            <div>
-                              <h4 className="font-serif text-lg text-gray-900">{item.name}</h4>
-                              {/* Отображаем пересчитанное время */}
-                              <p className="text-xs text-gray-500">{item.zone} • {item.startTime} – {item.endTime}</p>
+                        <div className={`bg-white p-4 rounded-2xl shadow-sm border transition group hover:shadow-md ${item.isOverLimit ? 'border-red-300' : 'border-gray-100'}`}>
+                          <div className="flex items-center justify-between">
+                            <div className="flex gap-4 items-center">
+                              <div className="w-12 h-12 bg-gray-100 rounded-lg flex-shrink-0 flex items-center justify-center text-gray-400 text-xs">[Ф]</div>
+                              <div>
+                                <h4 className="font-serif text-lg text-gray-900">{item.name}</h4>
+                                <p className="text-xs text-gray-500">{item.zone} • {item.startTime} – {item.endTime}</p>
+                                {item.isOverLimit && (
+                                  <p className="text-xs text-red-500 font-medium mt-1">{item.limitMessage}</p>
+                                )}
+                              </div>
                             </div>
-                          </div>
-                          
-                          <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button onClick={() => moveItem(pIndex, iIndex, 'up')} disabled={iIndex === 0} className="p-2 text-gray-400 hover:text-teal-600 disabled:opacity-30" title="Раньше">↑</button>
-                            <button onClick={() => moveItem(pIndex, iIndex, 'down')} disabled={iIndex === period.items.length - 1} className="p-2 text-gray-400 hover:text-teal-600 disabled:opacity-30" title="Позже">↓</button>
-                            <button onClick={() => removeItem(pIndex, iIndex)} className="p-2 text-gray-400 hover:text-red-500" title="Удалить">✕</button>
+                            
+                            <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <button onClick={() => moveItem(pIndex, iIndex, 'up')} disabled={iIndex === 0} className="p-2 text-gray-400 hover:text-teal-600 disabled:opacity-30" title="Раньше">↑</button>
+                              <button onClick={() => moveItem(pIndex, iIndex, 'down')} disabled={iIndex === period.items.length - 1} className="p-2 text-gray-400 hover:text-teal-600 disabled:opacity-30" title="Позже">↓</button>
+                              <button onClick={() => removeItem(pIndex, iIndex)} className="p-2 text-gray-400 hover:text-red-500" title="Удалить">✕</button>
+                            </div>
                           </div>
                         </div>
                         
