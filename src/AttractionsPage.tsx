@@ -47,15 +47,49 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
   // Состояние для модального окна
   const [selectedRideId, setSelectedRideId] = useState<string | null>(initialRide || null);
 
-  // Синхронизация с URL при открытии/закрытии модалки
+    // Синхронизация с URL при открытии/закрытии модалки (APR-BUG-004)
+    useEffect(() => {
+      const handleHashChange = () => {
+      const hash = window.location.hash;
+      const [basePath, queryString] = hash.split('?');
+      
+      if (basePath === '#/attractions') {
+        const params = new URLSearchParams(queryString);
+        const rideParam = params.get('ride');
+        setSelectedRideId(rideParam || null);
+      } else {
+        setSelectedRideId(null);
+      }
+    };
+
+    // Слушаем изменения хэша (кнопки Назад/Вперед)
+    window.addEventListener('hashchange', handleHashChange);
+    
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  // Обработка Escape для закрытия модалки (APR-BUG-019)
   useEffect(() => {
-    if (selectedRideId) {
-      window.location.hash = `#/attractions?ride=${selectedRideId}`;
-    } else {
-      window.location.hash = `#/attractions`;
-    }
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && selectedRideId) {
+        setSelectedRideId(null);
+        window.location.hash = '#/attractions';
+      }
+          };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, [selectedRideId]);
 
+  const handleOpenRide = (rideId: string) => {
+    setSelectedRideId(rideId);
+    window.location.hash = `#/attractions?ride=${rideId}`;
+  };
+
+  const handleCloseRide = () => {
+    setSelectedRideId(null);
+    window.location.hash = '#/attractions';
+  };
+  
   // Фильтрация
   const filteredAttractions = useMemo(() => {
     return allAttractions.filter(attr => {
@@ -126,7 +160,7 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
             {displayedAttractions.map((ride) => (
               <div 
                 key={ride.id} 
-                onClick={() => setSelectedRideId(ride.id)}
+                onClick={() => handleOpenRide(ride.id)}
                 className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all cursor-pointer border border-gray-100 group"
               >
                 <div className="h-48 bg-gradient-to-br from-teal-100 to-cyan-200 flex items-center justify-center text-teal-800/50 font-serif text-lg group-hover:scale-105 transition-transform">
@@ -164,10 +198,16 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
 
       {/* Модальное окно */}
       {activeRide && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-          <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl relative">
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+          onClick={handleCloseRide}
+        >
+          <div 
+            className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl relative"
+            onClick={(e) => e.stopPropagation()} // Останавливаем всплытие, чтобы клик по контенту не закрывал
+          >
             <button 
-              onClick={() => setSelectedRideId(null)}
+              onClick={handleCloseRide}
               className="absolute top-4 right-4 z-10 bg-white/80 p-2 rounded-full hover:bg-gray-100 transition"
             >
               ✕
