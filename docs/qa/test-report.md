@@ -19,7 +19,7 @@ Homepage, navigation, zones, attractions, map, hotel, visit, tickets, planner, r
 | CL-08 | Tickets | 57 | 47 | 10 | 0 |
 | CL-09 | Planner | 52 | 28 | 17 | 7 |
 | CL-10 | Responsive & accessibility | 50 | 32 | 10 | 8 |
-| CL-11 | Documentation | 50 | 28 | 22 | 0 |
+| CL-11 | Documentation | 50 | 27 | 22 | 1 |
 | **TOTAL** | | **466** | **321** | **116** | **29** |
 
 **Calculation:** 321/466 = 68.9% Passed, 116/466 = 24.9% Failed, 29/466 = 6.2% Blocked. Executed-but-unpassed checks should not be described as production readiness. The observed QA result is **not ready for release against the documented scope**. This is a demo prototype, not a live commercial booking service.
