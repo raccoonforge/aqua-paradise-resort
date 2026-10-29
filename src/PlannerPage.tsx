@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
-import html2canvas from 'html2canvas';
+import { toPng } from 'html-to-image';
 
 const ALL_INTERESTS = ['Адреналин', 'Семейный отдых', 'Релакс', 'Исследования'];
 
@@ -148,7 +148,7 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
     const stateParam = params.get('state');
     if (!stateParam) return;
     try {
-      const decoded = JSON.parse(atob(stateParam));
+      const decoded = JSON.parse(base64DecodeUnicode(stateParam));
       if (decoded.date) setDate(decoded.date);
       if (decoded.ticketType) setTicketType(decoded.ticketType);
       if (Array.isArray(decoded.interests)) setSelectedInterests(decoded.interests);
@@ -170,7 +170,24 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Сериализация плана в URL
+  // Безопасное base64-кодирование Unicode-строки
+  const base64EncodeUnicode = (str: string): string => {
+    const bytes = new TextEncoder().encode(str);
+    let binary = '';
+    bytes.forEach(b => { binary += String.fromCharCode(b); });
+    return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  };
+
+  const base64DecodeUnicode = (str: string): string => {
+    // Восстанавливаем стандартный base64
+    const b64 = str.replace(/-/g, '+').replace(/_/g, '/');
+    const pad = b64.length % 4 === 0 ? '' : '='.repeat(4 - (b64.length % 4));
+    const binary = atob(b64 + pad);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    return new TextDecoder().decode(bytes);
+  };
+
   const buildShareLink = (): string => {
     const planIds = plan.flatMap(p => p.items.map(i => i.id));
     const state = {
@@ -181,19 +198,43 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
       pace,
       planIds,
     };
-    const encoded = btoa(JSON.stringify(state));
+    const encoded = base64EncodeUnicode(JSON.stringify(state));
     return `${window.location.origin}${window.location.pathname}#/planner?state=${encoded}`;
+  };
+
+  const copyToClipboard = async (text: string): Promise<boolean> => {
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+    } catch {
+      // fallthrough
+    }
+    // Fallback
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      return ok;
+    } catch {
+      return false;
+    }
   };
 
   const handleShareLink = async () => {
     const link = buildShareLink();
-    try {
-      await navigator.clipboard.writeText(link);
+    const ok = await copyToClipboard(link);
+    if (ok) {
       setLinkCopied(true);
       setTimeout(() => setLinkCopied(false), 2500);
-    } catch {
-      // Fallback — показать в alert
-      window.prompt('Скопируйте ссылку:', link);
+    } else {
+      window.prompt('Скопируйте ссылку вручную:', link);
     }
   };
 
@@ -201,16 +242,24 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
     if (!printRef.current) return;
     setImageGenerating(true);
     try {
-      const canvas = await html2canvas(printRef.current, {
+      const dataUrl = await toPng(printRef.current, {
         backgroundColor: '#f8f9fa',
-        scale: 2,
-        logging: false,
+        pixelRatio: 2,
+        cacheBust: true,
+        // Пропускаем элементы, которые нельзя рендерить
+        filter: (node) => {
+          if (node instanceof HTMLElement) {
+            if (node.classList.contains('print:hidden')) return false;
+          }
+          return true;
+        },
       });
       const link = document.createElement('a');
       link.download = `aqua-paradise-${date || 'route'}.png`;
-      link.href = canvas.toDataURL('image/png');
+      link.href = dataUrl;
       link.click();
-    } catch {
+    } catch (err) {
+      console.error(err);
       alert('Не удалось создать изображение. Попробуйте PDF.');
     } finally {
       setImageGenerating(false);
@@ -427,7 +476,7 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
   const dayEnd = 22;
 
   return (
-    <div className="bg-[#f8f9fa] min-h-screen py-12">
+    <div className="bg-[#f8f9fa] min-h-screen py-12 print:py-0 print:min-h-0">
       <div className="max-w-5xl mx-auto px-4">
 
         <div className="text-center mb-10">
@@ -438,7 +487,7 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
 
         <div className={`bg-white rounded-3xl shadow-sm border border-gray-100 transition-all duration-500 overflow-hidden ${isGenerated ? 'max-h-20 opacity-50 hover:opacity-100 mb-6' : 'p-8 mb-8'}`}>
           {isGenerated ? (
-            <div className="p-4 flex justify-between items-center">
+            <div className="p-4 flex justify-between items-center print:hidden">
               <span className="text-gray-500 text-sm">Параметры скрыты для удобства просмотра</span>
               <button onClick={() => setIsGenerated(false)} className="text-teal-600 font-medium text-sm hover:underline">Изменить параметры</button>
             </div>
