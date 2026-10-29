@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
+import { useFocusTrap } from './hooks/useFocusTrap';
 
 // Базовые цены (раздел 6.4)
 const BASE_PRICES = {
@@ -105,6 +106,17 @@ export default function TicketsPage() {
   // Состояние для электронного билета
   const [showTicket, setShowTicket] = useState(false);
   const [orderNumber, setOrderNumber] = useState('');
+  const ticketModalRef = useFocusTrap<HTMLDivElement>(showTicket);
+
+    useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && showTicket) {
+        setShowTicket(false);
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [showTicket]);
 
   // Вспомогательная функция для изменения количества гостей
   const updateGuest = (type: keyof typeof guests, delta: number) => {
@@ -288,22 +300,32 @@ export default function TicketsPage() {
       
       {/* Модальное окно с электронным билетом */}
       {showTicket && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl relative">
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+          onClick={() => setShowTicket(false)}
+        >
+          <div 
+            ref={ticketModalRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="ticket-modal-title"
+            tabIndex={-1}
+            className="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl relative outline-none"
+            onClick={(e) => e.stopPropagation()}
+          >
             <button 
               onClick={() => setShowTicket(false)}
-              className="absolute top-4 right-4 z-10 bg-gray-100 p-2 rounded-full hover:bg-gray-200 transition text-gray-600"
+              aria-label="Закрыть электронный билет"
+              className="absolute top-4 right-4 z-10 bg-gray-100 p-2 rounded-full hover:bg-gray-200 transition text-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
             >
               ✕
             </button>
             
-            {/* Шапка билета */}
             <div className="bg-teal-800 p-6 text-white text-center">
-              <h2 className="text-2xl font-serif mb-1">Aqua Paradise</h2>
+              <h2 id="ticket-modal-title" className="text-2xl font-serif mb-1">Aqua Paradise</h2>
               <p className="text-teal-200 text-sm">Электронный демонстрационный билет</p>
             </div>
             
-            {/* Тело билета */}
             <div className="p-6">
               <div className="flex justify-between items-center mb-6 border-b border-dashed border-gray-200 pb-4">
                 <div>
@@ -333,7 +355,6 @@ export default function TicketsPage() {
                 </div>
               </div>
 
-              {/* QR-код (заглушка) */}
               <div className="flex flex-col items-center justify-center bg-gray-50 p-4 rounded-xl border border-gray-100">
                 <div className="w-32 h-32 bg-white border-2 border-gray-300 flex items-center justify-center mb-2">
                   <span className="text-xs text-gray-400 text-center px-2">[QR-код]<br/>(демо)</span>
