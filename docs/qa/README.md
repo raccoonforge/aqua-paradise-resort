@@ -1,13 +1,21 @@
-# Aqua Paradise — QA documentation
+# QA — Aqua Paradise
 
-**First manual run:** 2026-10-28. **Environment:** published GitHub Pages prototype (React/Vite/TypeScript); user-reported browser checks: Chrome/Яндекс Браузер, Firefox, Edge; responsive emulation 320/375/768/1440 CSS px. Exact app commit SHA, OS/build and screenshots are not recorded; do not infer them.
+Оглавление папки `docs/qa/`.
 
-**Run summary:** 466 checks across 11 checklists; after agreed review rounds **321 Passed / 116 Failed / 29 Blocked**. These are check outcomes, not a number of unique bugs. Data were recorded from the tester's manual observations, not independently reproduced via automation. See [test report](test-report.md).
+| Файл | Назначение |
+|---|---|
+| `test-report.md` | Итоговый отчёт первого прогона (2026-10-28): 466 проверок, 321/116/29. **Историческое, не переписывается.** |
+| `defect-register.md` | Реестр подтверждённых дефектов. Обновлён после Package 1–8. |
+| `bug-reports.md` | Детальные баг-репорты первого прогона. **Историческое.** |
+| `test-cases.md` | Тест-кейсы. Расширены после Package 1–8. |
+| `review-log.md` | Лог согласований и решений. |
+| `regression-plan.md` | План второго прогона. |
+| `quick-categories-decision.md` | Решение по категориям «Экстрим и высокие» (если ещё не выделен отдельно — детали в `defect-register.md`). |
 
-Documents:
-- [defect register](defect-register.md) — candidate issues with linked checks and preliminary priorities
-- [bug reports](bug-reports.md) — reproduction and expected/actual outcomes; unknown evidence explicitly marked
-- [test cases](test-cases.md) — reusable manual regression scenarios
-- [review log](review-log.md) — agreed changes and unresolved requirements
+## Связанные документы вне папки
+- `docs/master/website-requirements.md` — функциональные требования.
+- `docs/master/aqua-paradise-master-blueprint.md` — мастер-план.
+- `docs/source-of-truth.md` — приоритет источников.
 
-**Important scope note:** the source-of-truth registry (`docs/source-of-truth.md`) declares `docs/master/website-requirements.md` authoritative for functional rules and `docs/pages/*.md` for page-specific UX. These occasionally conflict (e.g., participant DOB input vs. age-category counters); a discrepancy must be clarified before turning every difference into a bug. This document package changes no application code.
+## Принцип
+Не смешивать историческое (первый прогон) и текущее (после правок). Все правки — в `main`, но подтверждение — только после второго прогона.
