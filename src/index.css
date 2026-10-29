@@ -46,33 +46,27 @@ body {
 }
 
 @media print {
-  /* Скрываем всё, кроме print-контента */
-  header,
-  footer,
-  nav,
-  [data-map-container],
-  .print\:hidden {
-    display: none !important;
-  }
-
   body {
     background: white !important;
   }
-
-  /* Убираем тени и скругляшки на печати */
-  * {
+  /* Скрываем всё, что не printRef */
+  body * {
+    visibility: hidden;
+  }
+  .print-ref,
+  .print-ref * {
+    visibility: visible;
+  }
+  .print-ref {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: white !important;
+    padding: 20px;
+  }
+  /* Убираем тени */
+  .print-ref * {
     box-shadow: none !important;
-    text-shadow: none !important;
-    border-radius: 0 !important;
-  }
-
-  /* Один столбец */
-  .grid {
-    display: block !important;
-  }
-
-  /* Скрываем декоративные элементы (стрелки, переходы) */
-  .print\:hidden {
-    display: none !important;
   }
 }
