@@ -44,3 +44,35 @@ body {
     touch-action: none;
   }
 }
+
+@media print {
+  /* Скрываем всё, кроме print-контента */
+  header,
+  footer,
+  nav,
+  [data-map-container],
+  .print\:hidden {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+  }
+
+  /* Убираем тени и скругляшки на печати */
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
+  /* Один столбец */
+  .grid {
+    display: block !important;
+  }
+
+  /* Скрываем декоративные элементы (стрелки, переходы) */
+  .print\:hidden {
+    display: none !important;
+  }
+}
