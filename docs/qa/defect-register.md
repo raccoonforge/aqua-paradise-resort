@@ -49,3 +49,26 @@ Source: 11 manually reported QA checklists, revisions agreed 2026-10-28. Priorit
 
 ## Triage
 Do not create 34 separate GitHub Issues automatically. This is a *candidate register* for human review, to avoid duplicate issue noise. Priority and boundaries should be confirmed during reproduction. Do not claim all 116 failed checks are represented as one-to-one defects. Missing detailed evidence does not prove absence of additional bugs.
+
+## Quick category decision — «Экстрим и высокие»
+
+**Дата:** 2026-10-30
+**Связанный дефект:** APR-BUG-026 (фильтры аттракционов)
+**Связанная спецификация:** `docs/pages/attractions.md` §3
+
+### Контекст
+В `attractions.md` §3 сказано: «Быстрые категории (например, "Все", "Спокойные", "Семейные", "Экстрим"); окончательное соответствие категориям исходных данных проверяется перед реализацией».
+
+Этот пункт оставлен открытым. QA-тестирование выявило неоднозначность: фильтр «Экстрим» показывал объекты с `intensity: 'Высокая'`, что не было явно утверждено.
+
+### Решение
+1. Быстрая категория переименована в **«Экстрим и высокие»**.
+2. Категория включает объекты, у которых `intensity` равна `'Экстрим'` **или** `'Высокая'` — оба значения явно присутствуют в `src/data/attractions.ts`.
+3. Запрещено определять «экстрим» по названию, фотографии или предполагаемым характеристикам.
+4. Категории объектов в исходных данных **не изменяются**.
+5. В `Needs Clarification` — необходимость утвердить, что `'Высокая'` относится к экстрим-категории (см. ниже).
+
+### Needs Clarification
+- **NC-EXTREME:** Необходимо подтвердить, что `intensity: 'Высокая'` в `src/data/attractions.ts` действительно относится к экстрим-категории для целей быстрых фильтров (а не является просто техническим уровнем).
+  **Источник:** `docs/pages/attractions.md` §3, открытый пункт.
+  **До подтверждения:** решение принято, UI показывает подпись «Экстрим и высокие».
