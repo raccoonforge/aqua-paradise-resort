@@ -290,6 +290,13 @@ function App() {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isMobileMenuOpen]);
 
+  // Отключаем авто-восстановление скролла браузером (стандартное API SPA)
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+  }, []);
+
   useEffect(() => {
     const handleHashChange = () => {
       setCurrentPath(window.location.hash || '#/');
@@ -297,10 +304,13 @@ function App() {
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
-  // Скролл вверх при смене страницы (basePath), но не при смене query (?zone=, ?ride=)
+
+  // Скролл вверх при смене страницы (basePath), но не при смене query (?zone=, ?tab=, ?ride=)
+  const basePath = currentPath.split('?')[0];
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
-  }, [currentPath.split('?')[0]]);
+    window.scrollTo(0, 0);
+  }, [basePath]);
+  
   const renderPage = () => {
     const [basePath, queryString] = currentPath.split('?');
     
