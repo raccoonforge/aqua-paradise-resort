@@ -317,7 +317,10 @@ function App() {
     switch (basePath) {
       case '#/zones': 
         const urlParams = new URLSearchParams(queryString);
-        return <ZonesPage initialZone={urlParams.get('zone') || undefined} />;
+        return <ZonesPage 
+          initialZone={urlParams.get('zone') || undefined} 
+          initialTab={(urlParams.get('tab') as 'overview' | 'attractions' | 'infrastructure' | 'rules') || undefined}
+        />;
       case '#/attractions': 
         const attrParams = new URLSearchParams(queryString);
         return <AttractionsPage initialRide={attrParams.get('ride') || undefined} />;
