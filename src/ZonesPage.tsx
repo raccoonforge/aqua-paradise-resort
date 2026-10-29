@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { ATTRACTIONS, ATTRACTION_IDS_BY_ZONE } from './data/attractions';
 
+type Tab = 'overview' | 'attractions' | 'infrastructure' | 'rules';
+
 const zonesData = [
   {
     id: 'paradise-boulevard',
@@ -94,17 +96,37 @@ const zonesData = [
   }
 ];
 
-export default function ZonesPage({ initialZone }: { initialZone?: string }) {
+export default function ZonesPage({ initialZone, initialTab }: { initialZone?: string; initialTab?: Tab }) {
   const [activeZoneId, setActiveZoneId] = useState(initialZone || 'ocean-bay');
-  const [activeTab, setActiveTab] = useState<'overview' | 'attractions' | 'infrastructure' | 'rules'>('overview');
+  const [activeTab, setActiveTab] = useState<Tab>(initialTab || 'overview');
 
+  // Синхронизация URL при смене зоны или вкладки.
+  // tab=overview не пишем, чтобы не удлинять URL без необходимости.
   useEffect(() => {
-    window.location.hash = `#/zones?zone=${activeZoneId}`;
-  }, [activeZoneId]);
+    const params = new URLSearchParams();
+    params.set('zone', activeZoneId);
+    if (activeTab !== 'overview') params.set('tab', activeTab);
+    window.location.hash = `#/zones?${params.toString()}`;
+  }, [activeZoneId, activeTab]);
+
+  // Слушатель hashchange — если пользователь вернулся по «Назад» на другой ?zone или ?tab
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      const [base, qs] = hash.split('?');
+      if (base !== '#/zones') return;
+      const params = new URLSearchParams(qs || '');
+      const zone = params.get('zone');
+      const tab = params.get('tab') as Tab | null;
+      if (zone) setActiveZoneId(zone);
+      setActiveTab(tab && ['overview','attractions','infrastructure','rules'].includes(tab) ? tab : 'overview');
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   const activeZone = zonesData.find(z => z.id === activeZoneId) || zonesData[8];
 
-  // Используем единый справочник для получения списка аттракционов зоны
   const attractionIds = ATTRACTION_IDS_BY_ZONE[activeZone.name] ?? [];
   const zoneAttractions = attractionIds
     .map(id => ATTRACTIONS.find(a => a.id === id))
@@ -160,7 +182,7 @@ export default function ZonesPage({ initialZone }: { initialZone?: string }) {
                 ].map(tab => (
                   <button
                     key={tab.id}
-                    onClick={() => setActiveTab(tab.id as any)}
+                    onClick={() => setActiveTab(tab.id as Tab)}
                     aria-label={`Показать вкладку ${tab.label}`}
                     aria-selected={activeTab === tab.id}
                     className={`flex-1 py-4 text-sm font-medium transition-colors ${
