@@ -6,6 +6,7 @@ import TicketsPage from './TicketsPage';
 import AttractionsPage from './AttractionsPage';
 import ZonesPage from './ZonesPage';
 import { useState, useEffect, useRef } from 'react';
+import { ZONE_SLUGS } from './data/attractions';
 
 // Блок "О курорте"
 const AboutResort = () => {
@@ -73,15 +74,15 @@ const AboutResort = () => {
 
 const NineWorlds = () => {
   const zones = [
-    { id: 'ocean-bay', name: 'Ocean Bay', desc: 'Сердце курорта. Белоснежный песок, лазурная лагуна и безмятежность.', color: 'from-cyan-400/40 to-blue-900/80' },
-    { id: 'adrenaline-peak', name: 'Adrenaline Peak', desc: 'Вызов для смельчаков. Самые высокие и быстрые водные горки острова.', color: 'from-orange-500/40 to-red-900/80' },
-    { id: 'eden-gardens', name: 'Eden Gardens', desc: 'Тропический рай. Редкие растения, водопады и невероятная тишина.', color: 'from-green-500/40 to-emerald-900/80' },
-    { id: 'atlantis-realm', name: 'Atlantis Realm', desc: 'Затерянный город. Погружение в мифы и подводные приключения.', color: 'from-blue-600/40 to-indigo-900/80' },
-    { id: 'pirates-cove', name: "Pirate's Cove", desc: 'Остров сокровищ. Приключения для всей семьи в декорациях пиратских историй.', color: 'from-amber-600/40 to-stone-900/80' },
-    { id: 'serenity-spa', name: 'Serenity Spa', desc: 'Место силы. Премиальные спа-процедуры и абсолютный релакс.', color: 'from-purple-400/40 to-slate-900/80' },
-    { id: 'little-paradise', name: 'Little Paradise', desc: 'Мир для самых маленьких. Безопасные горки и любимые герои.', color: 'from-pink-400/40 to-rose-900/80' },
-    { id: 'paradise-market', name: 'Paradise Market', desc: 'Вкус острова. Рестораны, кафе и колоритные местные товары.', color: 'from-yellow-500/40 to-orange-900/80' },
-    { id: 'paradise-boulevard', name: 'Paradise Boulevard', desc: 'Центральная артерия. Главные площади, шоу и вечерние прогулки.', color: 'from-teal-400/40 to-teal-900/80' },
+    { name: 'Ocean Bay', desc: 'Сердце курорта. Белоснежный песок, лазурная лагуна и безмятежность.', color: 'from-cyan-400/40 to-blue-900/80' },
+    { name: 'Adrenaline Peak', desc: 'Вызов для смельчаков. Самые высокие и быстрые водные горки острова.', color: 'from-orange-500/40 to-red-900/80' },
+    { name: 'Eden Gardens', desc: 'Тропический рай. Редкие растения, водопады и невероятная тишина.', color: 'from-green-500/40 to-emerald-900/80' },
+    { name: 'Atlantis Realm', desc: 'Затерянный город. Погружение в мифы и подводные приключения.', color: 'from-blue-600/40 to-indigo-900/80' },
+    { name: "Pirate's Cove", desc: 'Остров сокровищ. Приключения для всей семьи в декорациях пиратских историй.', color: 'from-amber-600/40 to-stone-900/80' },
+    { name: 'Serenity Spa', desc: 'Место силы. Премиальные спа-процедуры и абсолютный релакс.', color: 'from-purple-400/40 to-slate-900/80' },
+    { name: 'Little Paradise', desc: 'Мир для самых маленьких. Безопасные горки и любимые герои.', color: 'from-pink-400/40 to-rose-900/80' },
+    { name: 'Paradise Market', desc: 'Вкус острова. Рестораны, кафе и колоритные местные товары.', color: 'from-yellow-500/40 to-orange-900/80' },
+    { name: 'Paradise Boulevard', desc: 'Центральная артерия. Главные площади, шоу и вечерние прогулки.', color: 'from-teal-400/40 to-teal-900/80' },
   ];
 
   const [activeZone, setActiveZone] = useState(0);
@@ -95,7 +96,10 @@ const NineWorlds = () => {
           <h2 className="text-5xl md:text-7xl font-serif mb-6 drop-shadow-lg transition-all duration-500">{zones[activeZone].name}</h2>
           <p className="text-lg md:text-xl text-gray-100 mb-8 font-light drop-shadow-md transition-all duration-500">{zones[activeZone].desc}</p>
           <button 
-            onClick={() => window.location.hash = `#/zones?zone=${zones[activeZone].id}`}
+            onClick={() => {
+              const slug = ZONE_SLUGS[zones[activeZone].name];
+              if (slug) window.location.hash = `#/zones?zone=${slug}`;
+            }}
             className="bg-white text-gray-900 px-8 py-3 rounded-full font-medium hover:bg-gray-100 transition shadow-lg"
           >
             Подробнее о зоне
@@ -107,8 +111,9 @@ const NineWorlds = () => {
           <div className="flex overflow-x-auto gap-4 pb-2 scrollbar-hide">
             {zones.map((zone, index) => (
               <button
-                key={zone.id}
+                key={zone.name}
                 onClick={() => setActiveZone(index)}
+                aria-label={`Показать зону ${zone.name}`}
                 className={`flex-shrink-0 px-6 py-3 rounded-full text-sm font-medium transition-all ${
                   activeZone === index ? 'bg-white text-gray-900 shadow-lg scale-105' : 'bg-white/10 text-white hover:bg-white/20'
                 }`}
@@ -167,8 +172,8 @@ const AttractionsCarousel = () => {
   const rides = [
     { name: "Skyfall", zone: "Adrenaline Peak", intensity: "Экстрим", desc: "Свободное падение с высоты 40 метров.", age: "16+", height: "150 см", color: "bg-blue-200" },
     { name: "Poseidon's Descent", zone: "Atlantis Realm", intensity: "Высокая", desc: "Крутые виражи в недрах подводного города.", age: "14+", height: "140 см", color: "bg-teal-200" },
-    { name: "Stormbreaker", zone: "Adrenaline Peak", intensity: "Средняя", desc: "Семейная горка с неожиданными поворотами.", age: "6+", height: "110 см", color: "bg-indigo-200" },
-    { name: "Crystal Passage", zone: "Eden Gardens", intensity: "Спокойная", desc: "Плавное путешествие среди кристальных пещер.", age: "4+", height: "100 см", color: "bg-emerald-200" },
+    { name: "Stormbreaker", zone: "Pirate's Cove", intensity: "Средняя", desc: "Семейная горка с неожиданными поворотами.", age: "6+", height: "110 см", color: "bg-indigo-200" },
+    { name: "Crystal Passage", zone: "Atlantis Realm", intensity: "Спокойная", desc: "Плавное путешествие среди кристальных пещер.", age: "4+", height: "100 см", color: "bg-emerald-200" },
   ];
 
   const nextSlide = () => setActiveIndex((prev) => (prev + 1) % rides.length);
@@ -181,7 +186,7 @@ const AttractionsCarousel = () => {
         <p className="text-gray-600">От захватывающих дух спусков до спокойных прогулок по воде.</p>
       </div>
       <div className="relative max-w-5xl mx-auto flex items-center justify-center h-[400px]">
-        <button onClick={prevSlide} className="absolute left-4 z-20 bg-white/80 p-3 rounded-full shadow-lg hover:bg-white text-gray-800 transition">←</button>
+        <button onClick={prevSlide} aria-label="Предыдущий аттракцион" className="absolute left-4 z-20 bg-white/80 p-3 rounded-full shadow-lg hover:bg-white text-gray-800 transition">←</button>
         <div className="relative w-full h-full flex items-center justify-center perspective-1000">
           {rides.map((ride, index) => {
             let offset = index - activeIndex;
@@ -212,7 +217,7 @@ const AttractionsCarousel = () => {
             );
           })}
         </div>
-        <button onClick={nextSlide} className="absolute right-4 z-20 bg-white/80 p-3 rounded-full shadow-lg hover:bg-white text-gray-800 transition">→</button>
+        <button onClick={nextSlide} aria-label="Следующий аттракцион" className="absolute right-4 z-20 bg-white/80 p-3 rounded-full shadow-lg hover:bg-white text-gray-800 transition">→</button>
       </div>
       <div className="text-center mt-8">
         <button onClick={() => window.location.hash = '#/attractions'} className="text-teal-600 font-medium hover:text-teal-800 underline underline-offset-4">
@@ -264,33 +269,27 @@ const PlannerTeaser = () => {
 function App() {
   const [currentPath, setCurrentPath] = useState(window.location.hash || '#/');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  // Реф для кнопки открытия мобильного меню
   const menuButtonRef = useRef<HTMLButtonElement>(null);
-  
+
   const navigate = (path: string) => {
     window.location.hash = path;
     setCurrentPath(path);
-    setIsMobileMenuOpen(false); // Закрываем меню при переходе
+    setIsMobileMenuOpen(false);
   };
 
-  // Обработка нажатия Escape для закрытия мобильного меню
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isMobileMenuOpen) {
         setIsMobileMenuOpen(false);
-        // Возвращаем фокус на кнопку открытия меню
         if (menuButtonRef.current) {
           menuButtonRef.current.focus();
         }
       }
     };
-
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isMobileMenuOpen]);
 
-  // Обработка изменения хэша (APR-BUG-003)
   useEffect(() => {
     const handleHashChange = () => {
       setCurrentPath(window.location.hash || '#/');
@@ -298,9 +297,8 @@ function App() {
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
-  
+
   const renderPage = () => {
-        // Разделяем базовый путь и параметры
     const [basePath, queryString] = currentPath.split('?');
     
     switch (basePath) {
@@ -327,7 +325,6 @@ function App() {
             🌴 Aqua Paradise
           </div>
           
-          {/* Десктопная навигация */}
           <nav className="hidden md:flex gap-6 text-sm font-medium text-gray-600">
             <button onClick={() => navigate('#/')} className="hover:text-teal-600">Главная</button>
             <button onClick={() => navigate('#/zones')} className="hover:text-teal-600">Зоны</button>
@@ -339,38 +336,32 @@ function App() {
             <button onClick={() => navigate('#/tickets')} className="bg-teal-600 text-white px-4 py-2 rounded-full hover:bg-teal-700 transition">Билеты</button>
           </nav>
 
-          {/* Кнопка мобильного меню (Бургер) */}
           <button 
             ref={menuButtonRef}
             className="md:hidden p-2 text-gray-600 hover:text-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-500 rounded"
-
             onClick={() => setIsMobileMenuOpen(true)}
             aria-label="Открыть меню"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
         </div>
       </header>
 
-      {/* Мобильное меню (выезжающая панель) */}
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-[60] md:hidden">
-          {/* Затемняющий фон */}
           <div 
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={() => setIsMobileMenuOpen(false)}
           ></div>
           
-          {/* Сама панель */}
           <div className="absolute top-0 right-0 w-[80%] max-w-sm h-full bg-white shadow-2xl flex flex-col animate-slide-in">
             <div className="p-4 border-b border-gray-100 flex justify-between items-center">
               <span className="font-bold text-teal-900">Меню</span>
               <button 
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="p-2 text-gray-500 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-500 rounded"
-
                 aria-label="Закрыть меню"
               >
                 ✕
@@ -413,12 +404,36 @@ function App() {
       </main>
 
       <footer className="bg-[#0a192f] text-white py-12 mt-auto">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-serif mb-4">Aqua Paradise</h2>
-          <p className="text-teal-200 mb-8">Девять миров. Один остров. Тысячи впечатлений.</p>
-          <p className="text-sm text-gray-400">
-            Демонстрационный проект. Курорт, цены и услуги вымышлены. Реальные бронирования и платежи не осуществляются.
-          </p>
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            <div>
+              <h2 className="text-2xl font-serif mb-2">Aqua Paradise</h2>
+              <p className="text-teal-200 text-sm">Девять миров. Один остров. Тысячи впечатлений.</p>
+            </div>
+            <div>
+              <h3 className="text-sm font-bold uppercase tracking-wider text-teal-400 mb-3">Исследовать</h3>
+              <ul className="space-y-2 text-sm text-gray-300">
+                <li><button onClick={() => navigate('#/')} className="hover:text-white">О курорте</button></li>
+                <li><button onClick={() => navigate('#/zones')} className="hover:text-white">Девять миров</button></li>
+                <li><button onClick={() => navigate('#/attractions')} className="hover:text-white">Аттракционы</button></li>
+                <li><button onClick={() => navigate('#/map')} className="hover:text-white">Карта острова</button></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-sm font-bold uppercase tracking-wider text-teal-400 mb-3">Спланировать</h3>
+              <ul className="space-y-2 text-sm text-gray-300">
+                <li><button onClick={() => navigate('#/tickets')} className="hover:text-white">Билеты</button></li>
+                <li><button onClick={() => navigate('#/planner')} className="hover:text-white">Планировщик</button></li>
+                <li><button onClick={() => navigate('#/hotel')} className="hover:text-white">Отель</button></li>
+                <li><button onClick={() => navigate('#/visit')} className="hover:text-white">Посещение</button></li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-gray-800 pt-6 text-center">
+            <p className="text-sm text-gray-400">
+              Демонстрационный проект. Курорт, цены и услуги вымышлены. Реальные бронирования и платежи не осуществляются.
+            </p>
+          </div>
         </div>
       </footer>
     </div>
