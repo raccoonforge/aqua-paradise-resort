@@ -5,8 +5,11 @@ import VisitPage from './VisitPage';
 import TicketsPage from './TicketsPage';
 import AttractionsPage from './AttractionsPage';
 import ZonesPage from './ZonesPage';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { ZONE_SLUGS, ATTRACTIONS } from './data/attractions';
+
+// TODO: Cinematic Intro — отложено (Visual Pending: нужны видео/3D-ассеты).
+// В Master Blueprint §4.1 описан спуск по горке; без медиа делаем только Hero.
 
 // Блок "О курорте"
 const AboutResort = () => {
@@ -20,15 +23,13 @@ const AboutResort = () => {
   ];
 
   const handleSwipe = () => {
-    if (revealedCount < 4) {
-      setRevealedCount(prev => prev + 1);
-    }
+    if (revealedCount < 4) setRevealedCount(prev => prev + 1);
   };
 
   return (
     <section id="about" className="py-24 bg-[#f8f9fa] overflow-hidden min-h-[700px] flex items-center">
-      <div className="max-w-7xl mx-auto px-4 w-full relative">
-        <div className={`transition-opacity duration-1000 delay-300 max-w-2xl mx-auto text-center space-y-6 ${revealedCount === 4 ? 'opacity-100' : 'opacity-0'}`}>
+      <div className="max-w-5xl mx-auto px-4 w-full relative">
+        <div className={`transition-opacity duration-1000 delay-300 max-w-3xl mx-auto text-center space-y-6 ${revealedCount === 4 ? 'opacity-100' : 'opacity-0'}`}>
           <span className="text-teal-700 tracking-widest text-sm font-semibold uppercase block">ABOUT THE RESORT</span>
           <h2 className="text-4xl md:text-5xl font-serif text-gray-900">Один остров. Девять миров впечатлений.</h2>
           <p className="text-gray-600 leading-relaxed text-lg">
@@ -41,7 +42,7 @@ const AboutResort = () => {
           </div>
         </div>
 
-        <div 
+        <div
           className={`absolute inset-0 flex items-center justify-center cursor-pointer transition-opacity duration-500 ${revealedCount === 4 ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
           onClick={handleSwipe}
         >
@@ -49,8 +50,8 @@ const AboutResort = () => {
             const isRevealed = index < revealedCount;
             const zIndex = photos.length - index;
             return (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className={`absolute bg-white p-3 pb-8 rounded-sm shadow-2xl transition-all duration-700 ease-out origin-center
                   ${isRevealed ? photo.pos + ' opacity-0 scale-90' : 'translate-y-0 rotate-0 scale-100 opacity-100'}
                 `}
@@ -90,12 +91,12 @@ const NineWorlds = () => {
   return (
     <section className="relative h-[80vh] min-h-[600px] flex flex-col justify-between overflow-hidden">
       <div className={`absolute inset-0 bg-gradient-to-t ${zones[activeZone].color} transition-colors duration-1000 ease-in-out`}></div>
-      <div className="relative z-10 max-w-7xl mx-auto px-4 w-full pt-20 flex-grow flex flex-col justify-center">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 w-full pt-20 flex-grow flex flex-col justify-center">
         <div className="max-w-xl text-white">
           <span className="tracking-widest text-sm font-semibold uppercase mb-4 block opacity-80">EXPLORE THE ISLAND</span>
           <h2 className="text-5xl md:text-7xl font-serif mb-6 drop-shadow-lg transition-all duration-500">{zones[activeZone].name}</h2>
           <p className="text-lg md:text-xl text-gray-100 mb-8 font-light drop-shadow-md transition-all duration-500">{zones[activeZone].desc}</p>
-          <button 
+          <button
             onClick={() => {
               const slug = ZONE_SLUGS[zones[activeZone].name];
               if (slug) window.location.hash = `#/zones?zone=${slug}`;
@@ -107,7 +108,7 @@ const NineWorlds = () => {
         </div>
       </div>
       <div className="relative z-10 w-full bg-black/20 backdrop-blur-md border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-4 py-4">
+        <div className="max-w-6xl mx-auto px-4 py-4">
           <div className="flex overflow-x-auto gap-4 pb-2 scrollbar-hide">
             {zones.map((zone, index) => (
               <button
@@ -141,7 +142,7 @@ const HomePage = () => (
           Девять уникальных миров. Один тропический остров. От безмятежных лагун до захватывающих приключений — здесь каждый найдёт свой рай.
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
-          <button 
+          <button
             onClick={() => {
               const el = document.getElementById('about');
               if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -150,7 +151,7 @@ const HomePage = () => (
           >
             Исследовать остров
           </button>
-          <button 
+          <button
             onClick={() => window.location.hash = '#/planner'}
             className="bg-white/80 backdrop-blur text-teal-900 border border-teal-600/30 px-8 py-3 rounded-full text-lg font-medium hover:bg-white transition shadow-lg"
           >
@@ -169,9 +170,6 @@ const HomePage = () => (
 
 const AttractionsCarousel = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  // Берём 4 объекта из единого справочника — без локальных копий.
-  // Раньше Stormbreaker в этом массиве был приписан к Adrenaline Peak —
-  // исправлено (он в Pirate's Cove, см. ATTRACTIONS).
   const rides = ['skyfall', 'poseidons-descent', 'stormbreaker', 'crystal-passage']
     .map(id => ATTRACTIONS.find(a => a.id === id))
     .filter((a): a is NonNullable<typeof a> => Boolean(a));
@@ -181,12 +179,12 @@ const AttractionsCarousel = () => {
 
   return (
     <section className="py-24 bg-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 text-center mb-12">
+      <div className="max-w-5xl mx-auto px-4 text-center mb-12">
         <h2 className="text-4xl md:text-5xl font-serif text-gray-900 mb-4">Выберите своё приключение</h2>
         <p className="text-gray-600">От захватывающих дух спусков до спокойных прогулок по воде.</p>
       </div>
-      <div className="relative max-w-5xl mx-auto flex items-center justify-center h-[400px]">
-        <button onClick={prevSlide} aria-label="Предыдущий аттракцион" className="absolute left-4 z-20 bg-white/80 p-3 rounded-full shadow-lg hover:bg-white text-gray-800 transition">←</button>
+      <div className="relative max-w-4xl mx-auto flex items-center justify-center h-[400px]">
+        <button onClick={prevSlide} aria-label="Предыдущий аттракцион" className="absolute left-4 z-20 bg-white/80 p-3 rounded-full shadow-lg hover:bg-white text-gray-800 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500">←</button>
         <div className="relative w-full h-full flex items-center justify-center perspective-1000">
           {rides.map((ride, index) => {
             let offset = index - activeIndex;
@@ -194,15 +192,16 @@ const AttractionsCarousel = () => {
             if (offset > 1) offset -= rides.length;
             if (Math.abs(offset) > 1) return null;
             const isActive = offset === 0;
+            const cardColor = ['bg-blue-200', 'bg-teal-200', 'bg-indigo-200', 'bg-emerald-200'][index % 4];
             return (
-              <div 
+              <div
                 key={index}
-                className={`absolute w-[300px] md:w-[400px] bg-white rounded-xl shadow-2xl overflow-hidden transition-all duration-500 ease-in-out
+                className={`absolute w-[300px] md:w-[380px] bg-white rounded-xl shadow-2xl overflow-hidden transition-all duration-500 ease-in-out
                   ${isActive ? 'z-10 scale-100 opacity-100' : 'scale-90 opacity-50 blur-[1px]'}
                 `}
                 style={{ transform: `translateX(${offset * 60}%) scale(${isActive ? 1 : 0.85})`, zIndex: isActive ? 10 : 5 }}
               >
-                <div className={`h-48 md:h-64 ${['bg-blue-200', 'bg-teal-200', 'bg-indigo-200', 'bg-emerald-200'][index % 4]} flex items-center justify-center text-gray-500`}>[Фото: {ride.name}]</div>
+                <div className={`h-48 md:h-56 ${cardColor} flex items-center justify-center text-gray-500`}>[Фото: {ride.name}]</div>
                 <div className="p-6 text-left relative bg-white">
                   <span className="text-xs font-bold text-teal-600 tracking-wider uppercase mb-2 block">{ride.zone}</span>
                   <h3 className="text-2xl font-serif text-gray-900 mb-2">{ride.name}</h3>
@@ -217,7 +216,7 @@ const AttractionsCarousel = () => {
             );
           })}
         </div>
-        <button onClick={nextSlide} aria-label="Следующий аттракцион" className="absolute right-4 z-20 bg-white/80 p-3 rounded-full shadow-lg hover:bg-white text-gray-800 transition">→</button>
+        <button onClick={nextSlide} aria-label="Следующий аттракцион" className="absolute right-4 z-20 bg-white/80 p-3 rounded-full shadow-lg hover:bg-white text-gray-800 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500">→</button>
       </div>
       <div className="text-center mt-8">
         <button onClick={() => window.location.hash = '#/attractions'} className="text-teal-600 font-medium hover:text-teal-800 underline underline-offset-4">
@@ -228,12 +227,59 @@ const AttractionsCarousel = () => {
   );
 };
 
+// Мини-планировщик: реальная рекомендация на основе интересов
 const PlannerTeaser = () => {
   const [selected, setSelected] = useState<string[]>([]);
+  const interests = ["Адреналин", "Семейный отдых", "Релакс", "Исследования"];
+
+  // Маппинг интересов → категории интенсивности
+  const interestToIntensity: Record<string, string[]> = {
+    'Адреналин': ['Экстрим', 'Высокая'],
+    'Семейный отдых': ['Семейная', 'Спокойная'],
+    'Релакс': ['Спокойная'],
+    'Исследования': ['Спокойная', 'Средняя'],
+  };
+
   const toggleInterest = (interest: string) => {
     setSelected(prev => prev.includes(interest) ? prev.filter(i => i !== interest) : [...prev, interest]);
   };
-  const interests = ["Адреналин", "Семейный отдых", "Релакс", "Исследования"];
+
+  // 3 рекомендации: утро / день / вечер
+  const recommendation = useMemo(() => {
+    if (selected.length === 0) return null;
+
+    // Собираем объекты, соответствующие хотя бы одному выбранному интересу
+    const matchedIntensities = Array.from(new Set(
+      selected.flatMap(interest => interestToIntensity[interest] || [])
+    ));
+
+    const matched = ATTRACTIONS.filter(attr => matchedIntensities.includes(attr.intensity));
+
+    if (matched.length === 0) return null;
+
+    // Утро: первый из matched
+    const morning = matched[0];
+    // День: второй (или первый, если только один)
+    const afternoon = matched[1] || matched[0];
+    // Вечер: приоритет спокойным / семейным
+    const evening = matched.find(a => a.intensity === 'Спокойная' || a.intensity === 'Семейная') || matched[matched.length - 1];
+
+    // Убираем дубли, если matched.length < 3
+    const unique = [morning, afternoon, evening].filter((item, idx, arr) =>
+      idx === 0 || item.id !== arr[idx - 1].id
+    );
+
+    return unique;
+  }, [selected]);
+
+  const handleOpenPlanner = () => {
+    if (selected.length === 0) {
+      window.location.hash = '#/planner';
+    } else {
+      const interestsParam = encodeURIComponent(selected.join(','));
+      window.location.hash = `#/planner?interests=${interestsParam}`;
+    }
+  };
 
   return (
     <section className="py-24 bg-teal-900 text-white relative overflow-hidden">
@@ -242,12 +288,14 @@ const PlannerTeaser = () => {
         <span className="tracking-widest text-teal-300 text-sm font-semibold uppercase mb-2 block">PLAN YOUR DAY</span>
         <h2 className="text-4xl md:text-5xl font-serif mb-6">Собери свой идеальный день.</h2>
         <p className="text-teal-100 mb-10 text-lg">Выберите то, что вам по душе, и мы покажем, каким может быть ваш отдых.</p>
+
         <div className="flex flex-wrap justify-center gap-4 mb-10">
           {interests.map(interest => (
             <button
               key={interest}
               onClick={() => toggleInterest(interest)}
-              className={`px-6 py-3 rounded-full border-2 transition-all font-medium ${
+              aria-pressed={selected.includes(interest)}
+              className={`px-6 py-3 rounded-full border-2 transition-all font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-300 ${
                 selected.includes(interest) ? 'bg-teal-400 border-teal-400 text-teal-900' : 'border-teal-700 hover:border-teal-500 text-teal-100'
               }`}
             >
@@ -255,11 +303,42 @@ const PlannerTeaser = () => {
             </button>
           ))}
         </div>
-        <button 
-          onClick={() => window.location.hash = '#/planner'}
-          className="bg-white text-teal-900 px-8 py-3 rounded-full text-lg font-medium hover:bg-gray-100 transition shadow-lg"
+
+        {/* Пример дня — 3 карточки */}
+        {recommendation && recommendation.length > 0 && (
+          <div className="mb-10 animate-fade-in">
+            <p className="text-sm text-teal-200 mb-4 uppercase tracking-wider">Пример дня</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
+              {['Утро', 'День', 'Вечер'].map((period, idx) => {
+                const item = recommendation[idx];
+                if (!item) return null;
+                return (
+                  <div key={period} className="bg-white/10 backdrop-blur rounded-xl p-4 border border-white/10">
+                    <span className="text-xs text-teal-300 font-bold uppercase tracking-wider">{period}</span>
+                    <h3 className="font-serif text-xl text-white mt-1 mb-1">{item.name}</h3>
+                    <p className="text-xs text-teal-200 mb-2">{item.zone}</p>
+                    <p className="text-sm text-gray-200 line-clamp-2">{item.desc}</p>
+                  </div>
+                );
+              })}
+            </div>
+            <p className="text-xs text-teal-300 mt-3">
+              Это пример для вдохновения, а не гарантированное расписание. Полный план — в планировщике.
+            </p>
+          </div>
+        )}
+
+        {selected.length > 0 && !recommendation && (
+          <p className="text-amber-200 text-sm mb-6">
+            По выбранным интересам пока нет рекомендаций. Попробуйте другие или откройте полный планировщик.
+          </p>
+        )}
+
+        <button
+          onClick={handleOpenPlanner}
+          className="bg-white text-teal-900 px-8 py-3 rounded-full text-lg font-medium hover:bg-gray-100 transition shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
         >
-          Открыть полный планировщик
+          {selected.length > 0 ? 'Открыть полный планировщик с этими интересами' : 'Открыть полный планировщик'}
         </button>
       </div>
     </section>
@@ -278,24 +357,21 @@ function App() {
   };
 
   useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+  }, []);
+
+  useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isMobileMenuOpen) {
         setIsMobileMenuOpen(false);
-        if (menuButtonRef.current) {
-          menuButtonRef.current.focus();
-        }
+        if (menuButtonRef.current) menuButtonRef.current.focus();
       }
     };
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isMobileMenuOpen]);
-
-  // Отключаем авто-восстановление скролла браузером (стандартное API SPA)
-  useEffect(() => {
-    if ('scrollRestoration' in window.history) {
-      window.history.scrollRestoration = 'manual';
-    }
-  }, []);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -305,30 +381,35 @@ function App() {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  // Скролл вверх при смене страницы (basePath), но не при смене query (?zone=, ?tab=, ?ride=)
+  // Скролл вверх при смене страницы
   const basePath = currentPath.split('?')[0];
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [basePath]);
-  
+
   const renderPage = () => {
-    const [basePath, queryString] = currentPath.split('?');
-    
-    switch (basePath) {
-      case '#/zones': 
+    const [base, queryString] = currentPath.split('?');
+
+    switch (base) {
+      case '#/zones': {
         const urlParams = new URLSearchParams(queryString);
-        return <ZonesPage 
-          initialZone={urlParams.get('zone') || undefined} 
+        return <ZonesPage
+          initialZone={urlParams.get('zone') || undefined}
           initialTab={(urlParams.get('tab') as 'overview' | 'attractions' | 'infrastructure' | 'rules') || undefined}
         />;
-      case '#/attractions': 
+      }
+      case '#/attractions': {
         const attrParams = new URLSearchParams(queryString);
         return <AttractionsPage initialRide={attrParams.get('ride') || undefined} />;
+      }
       case '#/map': return <MapPage />;
       case '#/hotel': return <HotelPage />;
       case '#/visit': return <VisitPage />;
       case '#/tickets': return <TicketsPage />;
-      case '#/planner': return <PlannerPage />;
+      case '#/planner': {
+        const plannerParams = new URLSearchParams(queryString);
+        return <PlannerPage initialInterests={plannerParams.get('interests') || undefined} />;
+      }
       default: return <HomePage />;
     }
   };
@@ -340,7 +421,7 @@ function App() {
           <div className="text-xl font-bold text-teal-900 cursor-pointer" onClick={() => navigate('#/')}>
             🌴 Aqua Paradise
           </div>
-          
+
           <nav className="hidden md:flex gap-6 text-sm font-medium text-gray-600">
             <button onClick={() => navigate('#/')} className="hover:text-teal-600">Главная</button>
             <button onClick={() => navigate('#/zones')} className="hover:text-teal-600">Зоны</button>
@@ -352,7 +433,7 @@ function App() {
             <button onClick={() => navigate('#/tickets')} className="bg-teal-600 text-white px-4 py-2 rounded-full hover:bg-teal-700 transition">Билеты</button>
           </nav>
 
-          <button 
+          <button
             ref={menuButtonRef}
             className="md:hidden p-2 text-gray-600 hover:text-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-500 rounded"
             onClick={() => setIsMobileMenuOpen(true)}
@@ -367,15 +448,11 @@ function App() {
 
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-[60] md:hidden">
-          <div 
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-            onClick={() => setIsMobileMenuOpen(false)}
-          ></div>
-          
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)}></div>
           <div className="absolute top-0 right-0 w-[80%] max-w-sm h-full bg-white shadow-2xl flex flex-col animate-slide-in">
             <div className="p-4 border-b border-gray-100 flex justify-between items-center">
               <span className="font-bold text-teal-900">Меню</span>
-              <button 
+              <button
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="p-2 text-gray-500 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-500 rounded"
                 aria-label="Закрыть меню"
@@ -383,7 +460,6 @@ function App() {
                 ✕
               </button>
             </div>
-            
             <div className="flex-grow overflow-y-auto p-4 flex flex-col gap-2">
               {[
                 { path: '#/', label: 'Главная' },
@@ -394,7 +470,7 @@ function App() {
                 { path: '#/visit', label: 'Посещение' },
                 { path: '#/planner', label: 'Планировщик' },
               ].map((item) => (
-                <button 
+                <button
                   key={item.path}
                   onClick={() => navigate(item.path)}
                   className="text-left py-3 px-4 rounded-xl hover:bg-teal-50 hover:text-teal-700 font-medium text-gray-800 transition"
@@ -403,7 +479,7 @@ function App() {
                 </button>
               ))}
               <div className="mt-4 pt-4 border-t border-gray-100">
-                <button 
+                <button
                   onClick={() => navigate('#/tickets')}
                   className="w-full bg-teal-600 text-white py-3 rounded-xl font-medium hover:bg-teal-700 transition shadow-md"
                 >
@@ -415,9 +491,7 @@ function App() {
         </div>
       )}
 
-      <main className="flex-grow">
-        {renderPage()}
-      </main>
+      <main className="flex-grow">{renderPage()}</main>
 
       <footer className="bg-[#0a192f] text-white py-12 mt-auto">
         <div className="max-w-7xl mx-auto px-4">
