@@ -8,10 +8,10 @@ type Attraction = {
   zone: string;
   interests: string[];
   duration: [number, number];
-  minAge: number;        // 0 = без ограничений
-  minHeight: number | null; // null = без ограничений
-  requiresAdult: boolean; // требуется сопровождающий 18+ (для детей младше X)
-  adultAgeThreshold: number; // до какого возраста нужен взрослый
+  minAge: number;
+  minHeight: number | null;
+  requiresAdult: boolean;
+  adultAgeThreshold: number;
 };
 
 const ATTRACTIONS_DB: Attraction[] = [
@@ -37,6 +37,13 @@ const formatTime = (minutesFromStart: number, startHour: number): string | null 
   return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
 };
 
+// Тип гостя
+type Guest = {
+  id: string;
+  age: number;
+  height: number;
+};
+
 type PlanItem = Attraction & {
   chosenDuration: number;
   startTime: string | null;
@@ -56,10 +63,11 @@ export default function PlannerPage() {
   const [isGenerated, setIsGenerated] = useState(false);
   const [showAdvanced, setShowAdvanced] = useState(false);
 
-  // НОВОЕ: параметры группы (APR-BUG-006)
-  const [groupMinAge, setGroupMinAge] = useState<number | ''>('');
-  const [groupMinHeight, setGroupMinHeight] = useState<number | ''>('');
-  const [hasAdult, setHasAdult] = useState(true);
+  // НОВОЕ: массив гостей (APR-BUG-006)
+  const [guests, setGuests] = useState<Guest[]>([
+    { id: 'g1', age: 30, height: 175 },
+    { id: 'g2', age: 8, height: 120 },
+  ]);
 
   const [pace, setPace] = useState('balanced');
   const [transport, setTransport] = useState('auto');
@@ -73,29 +81,58 @@ export default function PlannerPage() {
     );
   };
 
-  const dayStart = ticketType === 'evening' ? 17 : 10;
-  const dayEnd = 22;
-
-  // Проверка доступности аттракциона для группы
-  const checkAccessibility = (attr: Attraction): { ok: boolean; reason: string | null } => {
-    const age = typeof groupMinAge === 'number' ? groupMinAge : null;
-    const height = typeof groupMinHeight === 'number' ? groupMinHeight : null;
-
-    if (age !== null && attr.minAge > 0 && age < attr.minAge) {
-      return { ok: false, reason: `Минимальный возраст: ${attr.minAge}+` };
+  // --- Управление гостями ---
+  const addGuest = (type: 'adult' | 'child') => {
+    if (guests.length >= 10) {
+      alert('Максимальное количество посетителей — 10.');
+      return;
     }
-    if (height !== null && attr.minHeight !== null && height < attr.minHeight) {
-      return { ok: false, reason: `Минимальный рост: ${attr.minHeight} см` };
-    }
-    if (attr.requiresAdult && age !== null && age < attr.adultAgeThreshold && !hasAdult) {
-      return { ok: false, reason: `До ${attr.adultAgeThreshold} лет нужен сопровождающий 18+` };
-    }
-    return { ok: true, reason: null };
+    const newGuest: Guest = {
+      id: `g${Date.now()}`,
+      age: type === 'adult' ? 30 : 8,
+      height: type === 'adult' ? 175 : 120,
+    };
+    setGuests([...guests, newGuest]);
   };
 
+  const updateGuest = (id: string, field: 'age' | 'height', value: number) => {
+    setGuests(prev => prev.map(g => g.id === id ? { ...g, [field]: value } : g));
+  };
+
+  const removeGuest = (id: string) => {
+    if (guests.length <= 1) {
+      alert('В группе должен быть хотя бы один человек.');
+      return;
+    }
+    setGuests(prev => prev.filter(g => g.id !== id));
+  };
+
+  // --- Проверка доступности для группы ---
+  const checkAccessibility = (attr: Attraction): { ok: boolean; reasons: string[] } => {
+    const reasons: string[] = [];
+    guests.forEach((g, i) => {
+      const label = `Гость ${i + 1}`;
+      if (attr.minAge > 0 && g.age < attr.minAge) {
+        reasons.push(`${label}: возраст ${g.age} < ${attr.minAge}`);
+      }
+      if (attr.minHeight !== null && g.height < attr.minHeight) {
+        reasons.push(`${label}: рост ${g.height} < ${attr.minHeight} см`);
+      }
+    });
+    // Проверка сопровождения: нужен хотя бы один 18+
+    const hasAdult = guests.some(g => g.age >= 18);
+    if (attr.requiresAdult && !hasAdult) {
+      reasons.push('Нужен сопровождающий 18+');
+    }
+    return { ok: reasons.length === 0, reasons };
+  };
+
+  // --- Пересчёт времени ---
   const recalculateTimes = (inputPlan: PlanPeriod[]): PlanPeriod[] => {
     let currentMinutes = 0;
     let overLimitReached = false;
+    const dayStart = ticketType === 'evening' ? 17 : 10;
+    const dayEnd = 22;
 
     return inputPlan.map(period => ({
       ...period,
@@ -135,10 +172,17 @@ export default function PlannerPage() {
       return;
     }
 
+    // Проверка: если в группе есть несовершеннолетние, но нет 18+
+    const hasMinor = guests.some(g => g.age < 18);
+    const hasAdult = guests.some(g => g.age >= 18);
+    if (hasMinor && !hasAdult) {
+      alert('Для посещения курорта гостям младше 18 лет необходим сопровождающий от 18 лет.');
+      return;
+    }
+
     let filtered = ATTRACTIONS_DB.filter(a =>
       a.interests.some(i => selectedInterests.includes(i))
     );
-
     if (ticketType === 'evening') {
       filtered = filtered.filter(a => midDuration(a.duration) <= 60);
     }
@@ -153,7 +197,7 @@ export default function PlannerPage() {
         isOverLimit: false,
         limitMessage: null,
         isInaccessible: !access.ok,
-        inaccessibleReason: access.reason,
+        inaccessibleReason: access.ok ? null : access.reasons.join('; '),
       };
     };
 
@@ -207,7 +251,7 @@ export default function PlannerPage() {
       isOverLimit: false,
       limitMessage: null,
       isInaccessible: !access.ok,
-      inaccessibleReason: access.reason,
+      inaccessibleReason: access.ok ? null : access.reasons.join('; '),
     };
     const newPlan = plan.length > 0
       ? plan.map(p => ({ ...p, items: [...p.items] }))
@@ -224,6 +268,9 @@ export default function PlannerPage() {
     const usedIds = new Set(plan.flatMap(p => p.items.map(i => i.id)));
     return ATTRACTIONS_DB.filter(a => !usedIds.has(a.id));
   }, [plan]);
+
+  const dayStart = ticketType === 'evening' ? 17 : 10;
+  const dayEnd = 22;
 
   return (
     <div className="bg-[#f8f9fa] min-h-screen py-12">
@@ -259,45 +306,39 @@ export default function PlannerPage() {
                 </div>
               </div>
 
-              {/* НОВОЕ: Параметры группы (APR-BUG-006) */}
+              {/* НОВОЕ: Состав группы (каждый гость) */}
               <div className="mb-6 p-4 bg-gray-50 rounded-2xl border border-gray-100">
-                <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider mb-3">Состав группы</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-xs font-medium text-gray-500 mb-1">Возраст младшего участника</label>
-                    <input
-                      type="number"
-                      min="0"
-                      max="120"
-                      placeholder="Например, 8"
-                      value={groupMinAge}
-                      onChange={(e) => setGroupMinAge(e.target.value === '' ? '' : parseInt(e.target.value))}
-                      className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm"
-                    />
+                <div className="flex justify-between items-center mb-3">
+                  <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider">Состав группы ({guests.length}/10)</h3>
+                  <div className="flex gap-2">
+                    <button onClick={() => addGuest('adult')} className="text-xs bg-teal-600 text-white px-3 py-1.5 rounded-lg hover:bg-teal-700 transition">+ Взрослый (18+)</button>
+                    <button onClick={() => addGuest('child')} className="text-xs bg-amber-500 text-white px-3 py-1.5 rounded-lg hover:bg-amber-600 transition">+ Ребёнок</button>
                   </div>
-                  <div>
-                    <label className="block text-xs font-medium text-gray-500 mb-1">Рост самого низкого (см)</label>
-                    <input
-                      type="number"
-                      min="0"
-                      max="250"
-                      placeholder="Например, 120"
-                      value={groupMinHeight}
-                      onChange={(e) => setGroupMinHeight(e.target.value === '' ? '' : parseInt(e.target.value))}
-                      className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm"
-                    />
-                  </div>
-                  <div className="flex items-end">
-                    <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={hasAdult}
-                        onChange={(e) => setHasAdult(e.target.checked)}
-                        className="w-4 h-4 text-teal-600 rounded"
-                      />
-                      Есть сопровождающий 18+
-                    </label>
-                  </div>
+                </div>
+                <div className="space-y-2">
+                  {guests.map((g, idx) => (
+                    <div key={g.id} className="flex items-center gap-3 bg-white p-2 rounded-lg border border-gray-100">
+                      <span className="text-xs font-medium text-gray-500 w-16">Гость {idx + 1}</span>
+                      <label className="flex items-center gap-1 text-xs text-gray-600">
+                        Возраст:
+                        <input
+                          type="number" min="0" max="120" value={g.age}
+                          onChange={(e) => updateGuest(g.id, 'age', parseInt(e.target.value) || 0)}
+                          className="w-16 px-2 py-1 border border-gray-200 rounded text-sm"
+                        />
+                      </label>
+                      <label className="flex items-center gap-1 text-xs text-gray-600">
+                        Рост (см):
+                        <input
+                          type="number" min="0" max="250" value={g.height}
+                          onChange={(e) => updateGuest(g.id, 'height', parseInt(e.target.value) || 0)}
+                          className="w-20 px-2 py-1 border border-gray-200 rounded text-sm"
+                        />
+                      </label>
+                      <span className="text-xs text-gray-400 ml-auto">{g.age >= 18 ? '👤 Взрослый' : '👶 Ребёнок'}</span>
+                      <button onClick={() => removeGuest(g.id)} className="text-red-400 hover:text-red-600 p-1" title="Удалить">✕</button>
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -392,7 +433,7 @@ export default function PlannerPage() {
                           <div className="font-medium text-gray-900 text-sm">{a.name}</div>
                           <div className="text-xs text-gray-500">{a.zone} • {a.duration[0]}–{a.duration[1]} мин</div>
                           {!access.ok && (
-                            <div className="text-xs text-red-600 font-medium mt-1">⛔ {access.reason}</div>
+                            <div className="text-xs text-red-600 font-medium mt-1">⛔ {access.reasons.join('; ')}</div>
                           )}
                         </button>
                       );
