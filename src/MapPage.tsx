@@ -15,8 +15,6 @@ const zonesData = [
   { id: 'grand-hotel', name: 'Paradise Grand Hotel', x: 15, y: 10, color: '#64748b', desc: 'Гостиничный комплекс' },
 ] as const;
 
-type ZoneId = typeof zonesData[number]['id'];
-
 // Групповой маркер «Транспортный узел / Главный вход».
 // Привязан к концептуальной точке gateway; три внутренних объекта
 // не имеют собственных координат — позиция уточняется (Visual Pending).
