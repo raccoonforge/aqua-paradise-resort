@@ -1,4 +1,5 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
+import { useFocusTrap } from './hooks/useFocusTrap';
 
 // Данные об аттракционах (пока рабочие)
 const allAttractions = [
@@ -61,6 +62,7 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
   
   // Состояние для модального окна
     const [selectedRideId, setSelectedRideId] = useState<string | null>(initialParams.ride);
+    const modalRef = useFocusTrap<HTMLDivElement>(!!selectedRideId);
 
   // Обновление URL при изменении фильтров или выбранной карточки (URL-009)
   useEffect(() => {
@@ -233,12 +235,18 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
           onClick={handleCloseRide}
         >
           <div 
-            className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl relative"
-            onClick={(e) => e.stopPropagation()} // Останавливаем всплытие, чтобы клик по контенту не закрывал
+            ref={modalRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="attraction-modal-title"
+            tabIndex={-1}
+            className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl relative outline-none"
+            onClick={(e) => e.stopPropagation()}
           >
             <button 
               onClick={handleCloseRide}
-              className="absolute top-4 right-4 z-10 bg-white/80 p-2 rounded-full hover:bg-gray-100 transition"
+              aria-label="Закрыть окно аттракциона"
+              className="absolute top-4 right-4 z-10 bg-white/80 p-2 rounded-full hover:bg-gray-100 transition focus:outline-none focus:ring-2 focus:ring-teal-500"
             >
               ✕
             </button>
@@ -249,7 +257,7 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
             
             <div className="p-8">
               <span className="text-sm font-bold text-teal-600 tracking-wider uppercase mb-2 block">{activeRide.zone}</span>
-              <h2 className="text-3xl font-serif text-gray-900 mb-4">{activeRide.name}</h2>
+              <h2 id="attraction-modal-title" className="text-3xl font-serif text-gray-900 mb-4">{activeRide.name}</h2>
               <p className="text-gray-700 text-lg mb-6">{activeRide.desc}</p>
               
               <div className="grid grid-cols-2 gap-4 mb-6">
