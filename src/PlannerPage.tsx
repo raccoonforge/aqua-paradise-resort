@@ -95,7 +95,6 @@ export default function PlannerPage() {
 
   const recalculateTimes = (inputPlan: PlanPeriod[]): PlanPeriod[] => {
     let currentMinutes = 0;
-    const limitMinutes = (dayEnd - dayStart) * 60;
     let overLimitReached = false;
 
     return inputPlan.map(period => ({
