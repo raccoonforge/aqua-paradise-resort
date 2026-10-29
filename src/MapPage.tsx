@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo } from 'react';
+import { useState, useRef, useMemo, useEffect } from 'react';
 import { conceptualRoute, isConceptuallyReachable, type RouteNodeId } from './data/island-transport';
 
 // Данные о зонах (сохранены из исходной версии; координаты — иллюстративные)
@@ -41,7 +41,6 @@ const CATEGORIES = [
 const PAN_LIMIT = { x: 300, y: 200 };
 const ZOOM_MIN = 0.6;
 const ZOOM_MAX = 1.8;
-
 const clampZoom = (z: number) => Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, z));
 
 export default function MapPage() {
@@ -76,35 +75,87 @@ export default function MapPage() {
       (query === '' || transportHub.name.toLowerCase().includes(query) || transportHub.subObjects.some(o => o.name.toLowerCase().includes(query)));
   }, [query, category]);
 
-  // Pan (Pointer Events — работает и для мыши, и для touch, и для стилуса)
+  // ============ Жесты: pan (1 палец / мышь) и pinch (2 пальца) ============
+  // Активные касания/курсоры: id → { x, y }
+  const pointers = useRef<Map<number, { x: number; y: number }>>(new Map());
+  // Для pinch — начальное расстояние и стартовый zoom
+  const pinchRef = useRef<{ distance: number; zoom: number } | null>(null);
+
+  const mapRef = useRef<HTMLDivElement>(null);
+
+  const distanceBetween = (a: { x: number; y: number }, b: { x: number; y: number }) => {
+    const dx = a.x - b.x;
+    const dy = a.y - b.y;
+    return Math.hypot(dx, dy);
+  };
+
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     // Не начинаем перетаскивание при клике по кнопке-пину
     if ((e.target as HTMLElement).closest('button')) return;
-    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-    setIsDragging(true);
-    dragStart.current = { x: e.clientX - position.x, y: e.clientY - position.y };
-  };
-  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!isDragging) return;
-    const nx = e.clientX - dragStart.current.x;
-    const ny = e.clientY - dragStart.current.y;
-    setPosition({
-      x: Math.max(-PAN_LIMIT.x, Math.min(PAN_LIMIT.x, nx)),
-      y: Math.max(-PAN_LIMIT.y, Math.min(PAN_LIMIT.y, ny)),
-    });
-  };
-  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
-    (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
-    setIsDragging(false);
+
+    pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+    if (pointers.current.size === 1) {
+      setIsDragging(true);
+      dragStart.current = { x: e.clientX - position.x, y: e.clientY - position.y };
+    } else if (pointers.current.size === 2) {
+      // Начинаем pinch
+      const [p1, p2] = Array.from(pointers.current.values());
+      pinchRef.current = {
+        distance: distanceBetween(p1, p2),
+        zoom,
+      };
+    }
+
+    (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
   };
 
-  // Zoom колесом мыши (только когда курсор над картой)
-  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
-    // Не мешаем скроллу страницы, если не над картой
-    e.preventDefault();
-    const delta = e.deltaY > 0 ? -0.1 : 0.1;
-    setZoom(z => clampZoom(z + delta));
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!pointers.current.has(e.pointerId)) return;
+    pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+    // Pinch
+    if (pointers.current.size === 2 && pinchRef.current) {
+      const [p1, p2] = Array.from(pointers.current.values());
+      const currentDistance = distanceBetween(p1, p2);
+      if (pinchRef.current.distance > 0) {
+        const ratio = currentDistance / pinchRef.current.distance;
+        const newZoom = clampZoom(pinchRef.current.zoom * ratio);
+        setZoom(newZoom);
+      }
+      return;
+    }
+
+    // Pan (1 касание)
+    if (pointers.current.size === 1 && isDragging) {
+      const nx = e.clientX - dragStart.current.x;
+      const ny = e.clientY - dragStart.current.y;
+      setPosition({
+        x: Math.max(-PAN_LIMIT.x, Math.min(PAN_LIMIT.x, nx)),
+        y: Math.max(-PAN_LIMIT.y, Math.min(PAN_LIMIT.y, ny)),
+      });
+    }
   };
+
+  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    pointers.current.delete(e.pointerId);
+    if (pointers.current.size < 2) pinchRef.current = null;
+    if (pointers.current.size === 0) setIsDragging(false);
+    (e.currentTarget as HTMLElement).releasePointerCapture?.(e.pointerId);
+  };
+
+  // Wheel через нативный listener с passive: false (иначе preventDefault не сработает)
+  useEffect(() => {
+    const el = mapRef.current;
+    if (!el) return;
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? -0.1 : 0.1;
+      setZoom(z => clampZoom(z + delta));
+    };
+    el.addEventListener('wheel', onWheel, { passive: false });
+    return () => el.removeEventListener('wheel', onWheel);
+  }, []);
 
   const zoomIn = () => setZoom(z => clampZoom(z + 0.2));
   const zoomOut = () => setZoom(z => clampZoom(z - 0.2));
@@ -157,13 +208,13 @@ export default function MapPage() {
 
       {/* ЛЕВАЯ ЧАСТЬ: Карта */}
       <div
+        ref={mapRef}
         className={`relative flex-grow md:w-[70%] h-[50vh] md:h-full overflow-hidden bg-[#d1d5db] ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
-        onWheel={handleWheel}
-        style={{ touchAction: 'none' }}
+        style={{ touchAction: 'pan-y' }}
         aria-label="Интерактивная карта острова"
       >
         {/* Сетка */}
@@ -198,10 +249,24 @@ export default function MapPage() {
                 onClick={(e) => { e.stopPropagation(); setSelectedId(zone.id); setExpandedHub(false); }}
                 aria-label={`Зона ${zone.name}`}
                 aria-pressed={isSelected}
-                className={`absolute transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group transition-all focus:outline-none focus-visible:ring-4 focus-visible:ring-teal-300 rounded-full p-3 -m-3 ${
+                className={`absolute transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group transition-all focus:outline-none focus-visible:ring-4 focus-visible:ring-teal-300 rounded-full ${
                   isSelected ? 'z-30 scale-110' : 'z-20 hover:scale-105'
                 }`}
-                style={{ left: `${zone.x}%`, top: `${zone.y}%` }}
+                style={{
+                  left: `${zone.x}%`,
+                  top: `${zone.y}%`,
+                  // увеличенный hitbox для тача, визуально не двигает
+                  padding: '12px',
+                  marginLeft: '-12px',
+                  marginTop: '-12px',
+                }}
+                style={{
+                  left: `${zone.x}%`,
+                  top: `${zone.y}%`,
+                  padding: '12px',
+                  marginLeft: '-12px',
+                  marginTop: '-12px',
+                }}
               >
                 <div
                   className={`w-6 h-6 rounded-full border-2 border-white shadow-lg transition-colors ${
@@ -227,7 +292,13 @@ export default function MapPage() {
               className={`absolute transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group transition-all z-20 hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-teal-300 rounded-full ${
                 expandedHub ? 'scale-110 z-30' : ''
               }`}
-              style={{ left: `${transportHub.x}%`, top: `${transportHub.y}%` }}
+              style={{
+                left: `${transportHub.x}%`,
+                top: `${transportHub.y}%`,
+                padding: '12px',
+                marginLeft: '-12px',
+                marginTop: '-12px',
+              }}
             >
               <div
                 className={`w-8 h-8 rounded-md border-2 border-white shadow-lg flex items-center justify-center text-white text-xs font-bold ${
