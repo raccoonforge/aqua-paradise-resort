@@ -6,7 +6,7 @@ import TicketsPage from './TicketsPage';
 import AttractionsPage from './AttractionsPage';
 import ZonesPage from './ZonesPage';
 import { useState, useEffect, useRef } from 'react';
-import { ZONE_SLUGS } from './data/attractions';
+import { ZONE_SLUGS, ATTRACTIONS } from './data/attractions';
 
 // Блок "О курорте"
 const AboutResort = () => {
@@ -169,12 +169,12 @@ const HomePage = () => (
 
 const AttractionsCarousel = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const rides = [
-    { name: "Skyfall", zone: "Adrenaline Peak", intensity: "Экстрим", desc: "Свободное падение с высоты 40 метров.", age: "16+", height: "150 см", color: "bg-blue-200" },
-    { name: "Poseidon's Descent", zone: "Atlantis Realm", intensity: "Высокая", desc: "Крутые виражи в недрах подводного города.", age: "14+", height: "140 см", color: "bg-teal-200" },
-    { name: "Stormbreaker", zone: "Pirate's Cove", intensity: "Средняя", desc: "Семейная горка с неожиданными поворотами.", age: "6+", height: "110 см", color: "bg-indigo-200" },
-    { name: "Crystal Passage", zone: "Atlantis Realm", intensity: "Спокойная", desc: "Плавное путешествие среди кристальных пещер.", age: "4+", height: "100 см", color: "bg-emerald-200" },
-  ];
+  // Берём 4 объекта из единого справочника — без локальных копий.
+  // Раньше Stormbreaker в этом массиве был приписан к Adrenaline Peak —
+  // исправлено (он в Pirate's Cove, см. ATTRACTIONS).
+  const rides = ['skyfall', 'poseidons-descent', 'stormbreaker', 'crystal-passage']
+    .map(id => ATTRACTIONS.find(a => a.id === id))
+    .filter((a): a is NonNullable<typeof a> => Boolean(a));
 
   const nextSlide = () => setActiveIndex((prev) => (prev + 1) % rides.length);
   const prevSlide = () => setActiveIndex((prev) => (prev - 1 + rides.length) % rides.length);
@@ -209,8 +209,8 @@ const AttractionsCarousel = () => {
                   <p className="text-gray-600 text-sm mb-4">{ride.desc}</p>
                   <div className="flex gap-4 text-xs font-medium text-gray-500 bg-gray-50 p-3 rounded-lg">
                     <span className="flex items-center gap-1">🔥 {ride.intensity}</span>
-                    <span className="flex items-center gap-1">👤 {ride.age}</span>
-                    <span className="flex items-center gap-1">📏 {ride.height}</span>
+                    {ride.minAge > 0 && <span className="flex items-center gap-1">👤 {ride.minAge}+</span>}
+                    {ride.minHeight !== null && <span className="flex items-center gap-1">📏 {ride.minHeight} см</span>}
                   </div>
                 </div>
               </div>
