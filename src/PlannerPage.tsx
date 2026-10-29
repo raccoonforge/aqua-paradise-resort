@@ -648,7 +648,7 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
               )}
             </div>
 
-            <div ref={printRef} className="bg-[#f8f9fa]">
+            <div ref={printRef} className="print-ref bg-[#f8f9fa]">
               {/* Заголовок для печати — виден только в print */}
               <div className="hidden print:block mb-4">
                 <h1 className="text-2xl font-serif text-gray-900">Aqua Paradise — Персональный маршрут</h1>
