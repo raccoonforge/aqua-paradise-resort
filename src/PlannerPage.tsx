@@ -135,10 +135,7 @@ export default function PlannerPage() {
    * Раскладывает доступные объекты по времени, начиная с dayStart.
    * Недоступные — сразу отсеивает.
    */
-  const buildSchedule = (
-    availableItems: Attraction[],
-    inaccessibleItems: InaccessibleItem[]
-  ) => {
+  const buildSchedule = (availableItems: Attraction[]) => {
     const dayStart = ticketType === 'evening' ? 17 : 10;
     const dayEnd = 22;
     let currentMinutes = 0;
@@ -204,10 +201,10 @@ export default function PlannerPage() {
     return periods;
   };
 
-  const rebuildPlan = (availableItems: Attraction[], inaccessibleItems: InaccessibleItem[]) => {
-    const { scheduled, overflowed, hasConflicts } = buildSchedule(availableItems, inaccessibleItems);
+  const rebuildPlan = (availableItems: Attraction[], inaccessibleList: InaccessibleItem[]) => {
+    const { scheduled, overflowed, hasConflicts } = buildSchedule(availableItems);
     setPlan(groupByPeriod(scheduled));
-    setInaccessible([...inaccessibleItems, ...overflowed]);
+    setInaccessible([...inaccessibleList, ...overflowed]);
     setHasConflicts(hasConflicts);
   };
 
@@ -274,14 +271,6 @@ export default function PlannerPage() {
     // Удалённый доступный объект уходит "за пределы" — просто не возвращаем его
     rebuildPlan(rest, inaccessible);
     void removed;
-  };
-
-  const changeDuration = (periodIndex: number, itemIndex: number, delta: number) => {
-    // Для простоты пересобираем: длительность меняется только у выбранного,
-    // но так как мы всегда берём midDuration, ручное изменение временно не влияет.
-    // Оставим управление для будущего шага; сейчас — без изменений.
-    const all = flattenAvailable();
-    applyEdit(all);
   };
 
   const addItem = (attractionId: string) => {
