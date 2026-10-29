@@ -36,3 +36,11 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* Карта: на тач-устройствах запрещаем браузерные жесты на контейнере карты,
+   чтобы pan/pinch работали наши. На мыши — ничего не делаем. */
+@media (pointer: coarse) {
+  [data-map-container] {
+    touch-action: none;
+  }
+}
