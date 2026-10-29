@@ -42,6 +42,8 @@ const PAN_LIMIT = { x: 300, y: 200 };
 const ZOOM_MIN = 0.6;
 const ZOOM_MAX = 1.8;
 
+const clampZoom = (z: number) => Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, z));
+
 export default function MapPage() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [expandedHub, setExpandedHub] = useState(false);
@@ -74,12 +76,15 @@ export default function MapPage() {
       (query === '' || transportHub.name.toLowerCase().includes(query) || transportHub.subObjects.some(o => o.name.toLowerCase().includes(query)));
   }, [query, category]);
 
-  // Pan
-  const handleMouseDown = (e: React.MouseEvent) => {
+  // Pan (Pointer Events — работает и для мыши, и для touch, и для стилуса)
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    // Не начинаем перетаскивание при клике по кнопке-пину
+    if ((e.target as HTMLElement).closest('button')) return;
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
     setIsDragging(true);
     dragStart.current = { x: e.clientX - position.x, y: e.clientY - position.y };
   };
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!isDragging) return;
     const nx = e.clientX - dragStart.current.x;
     const ny = e.clientY - dragStart.current.y;
@@ -88,9 +93,19 @@ export default function MapPage() {
       y: Math.max(-PAN_LIMIT.y, Math.min(PAN_LIMIT.y, ny)),
     });
   };
-  const handleMouseUp = () => setIsDragging(false);
+  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+    setIsDragging(false);
+  };
 
-  const clampZoom = (z: number) => Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, z));
+  // Zoom колесом мыши (только когда курсор над картой)
+  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    // Не мешаем скроллу страницы, если не над картой
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? -0.1 : 0.1;
+    setZoom(z => clampZoom(z + delta));
+  };
+
   const zoomIn = () => setZoom(z => clampZoom(z + 0.2));
   const zoomOut = () => setZoom(z => clampZoom(z - 0.2));
   const resetView = () => { setZoom(1); setPosition({ x: 0, y: 0 }); };
@@ -143,10 +158,12 @@ export default function MapPage() {
       {/* ЛЕВАЯ ЧАСТЬ: Карта */}
       <div
         className={`relative flex-grow md:w-[70%] h-[50vh] md:h-full overflow-hidden bg-[#d1d5db] ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
+        onWheel={handleWheel}
+        style={{ touchAction: 'none' }}
         aria-label="Интерактивная карта острова"
       >
         {/* Сетка */}
@@ -171,8 +188,8 @@ export default function MapPage() {
             <path d="M 85 10 L 75 25 L 65 55 L 50 45 L 40 65 L 50 85" stroke="#6b7280" strokeWidth="2" strokeDasharray="5,5" fill="none" />
           </svg>
 
-          {/* Метки зон */}
-          {zonesData.map((zone) => {
+          {/* Метки зон (скрываем, если выбран фильтр «Транспорт») */}
+          {category !== 'transport' && zonesData.map((zone) => {
             const isSelected = selectedId === zone.id;
             const isOnRoute = routePath?.includes(zone.id as RouteNodeId) ?? false;
             return (
@@ -181,7 +198,7 @@ export default function MapPage() {
                 onClick={(e) => { e.stopPropagation(); setSelectedId(zone.id); setExpandedHub(false); }}
                 aria-label={`Зона ${zone.name}`}
                 aria-pressed={isSelected}
-                className={`absolute transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group transition-all focus:outline-none focus-visible:ring-4 focus-visible:ring-teal-300 rounded-full ${
+                className={`absolute transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group transition-all focus:outline-none focus-visible:ring-4 focus-visible:ring-teal-300 rounded-full p-3 -m-3 ${
                   isSelected ? 'z-30 scale-110' : 'z-20 hover:scale-105'
                 }`}
                 style={{ left: `${zone.x}%`, top: `${zone.y}%` }}
@@ -201,8 +218,8 @@ export default function MapPage() {
             );
           })}
 
-          {/* Групповой маркер транспортного узла */}
-          {showHub && (
+          {/* Групповой маркер транспортного узла (скрываем, если выбран фильтр «Зоны») */}
+          {showHub && category !== 'zones' && (
             <button
               onClick={(e) => { e.stopPropagation(); setSelectedId(null); setExpandedHub(true); }}
               aria-label="Транспортный узел / Главный вход"
@@ -221,7 +238,7 @@ export default function MapPage() {
                 ⇅
               </div>
               <span className={`mt-2 text-xs font-bold px-2 py-1 rounded-md bg-white/90 shadow-sm whitespace-nowrap transition-opacity ${
-                expandedHub ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                expandedHub || category === 'transport' ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
               }`}>
                 {transportHub.name}
               </span>
