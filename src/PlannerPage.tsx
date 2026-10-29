@@ -59,10 +59,15 @@ type InaccessibleItem = Attraction & {
 
 type PlanPeriod = { period: string; title: string; items: ScheduledItem[] };
 
-export default function PlannerPage() {
+export default function PlannerPage({ initialInterests }: { initialInterests?: string }) {
   const [date, setDate] = useState('');
   const [ticketType, setTicketType] = useState('day');
-  const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
+const parsedInitialInterests = useMemo(() => {
+  if (!initialInterests) return [];
+  const valid = ['Адреналин', 'Семейный отдых', 'Релакс', 'Исследования'];
+  return initialInterests.split(',').map(s => s.trim()).filter(s => valid.includes(s));
+}, [initialInterests]);
+const [selectedInterests, setSelectedInterests] = useState<string[]>(parsedInitialInterests);
   const [isGenerated, setIsGenerated] = useState(false);
   const [showAdvanced, setShowAdvanced] = useState(false);
 
