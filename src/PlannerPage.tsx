@@ -139,6 +139,8 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
   const printRef = useRef<HTMLDivElement>(null);
   const [linkCopied, setLinkCopied] = useState(false);
   const [imageGenerating, setImageGenerating] = useState(false);
+  // Модалка с ручным копированием (замена prompt)
+  const [manualLink, setManualLink] = useState<string | null>(null);
 
   // Чтение состояния из URL (APR-BUG-015 — share link)
   useEffect(() => {
@@ -234,7 +236,8 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
       setLinkCopied(true);
       setTimeout(() => setLinkCopied(false), 2500);
     } else {
-      window.prompt('Скопируйте ссылку вручную:', link);
+      // Показываем кастомную модалку вместо prompt
+      setManualLink(link);
     }
   };
 
@@ -795,6 +798,65 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
                   </button>
                 );
               })}
+            </div>
+          </div>
+        </div>
+      )}
+            {/* Модалка ручного копирования (замена prompt) */}
+      {manualLink !== null && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+          onClick={() => setManualLink(null)}
+        >
+          <div
+            className="bg-white rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="manual-link-title"
+          >
+            <div className="p-4 border-b border-gray-100 flex justify-between items-center">
+              <h3 id="manual-link-title" className="font-medium text-gray-900">Скопируйте ссылку вручную</h3>
+              <button
+                onClick={() => setManualLink(null)}
+                aria-label="Закрыть"
+                className="text-gray-400 hover:text-gray-700 p-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="p-4">
+              <label htmlFor="manual-link-input" className="block text-sm text-gray-600 mb-2">
+                Браузер не дал скопировать автоматически. Выделите и нажмите Ctrl+C (Cmd+C):
+              </label>
+              <textarea
+                id="manual-link-input"
+                value={manualLink}
+                readOnly
+                ref={(el) => { if (el) { el.focus(); el.select(); } }}
+                className="w-full h-24 px-3 py-2 rounded-lg border border-gray-200 text-xs font-mono text-gray-700 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-500/50 resize-none"
+              />
+              <div className="flex gap-2 justify-end mt-4">
+                <button
+                  onClick={() => setManualLink(null)}
+                  className="px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
+                >
+                  Закрыть
+                </button>
+                <button
+                  onClick={async () => {
+                    const ok = await copyToClipboard(manualLink);
+                    if (ok) {
+                      setLinkCopied(true);
+                      setTimeout(() => setLinkCopied(false), 2500);
+                      setManualLink(null);
+                    }
+                  }}
+                  className="px-4 py-2 rounded-lg text-sm font-medium bg-teal-600 text-white hover:bg-teal-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-300"
+                >
+                  Попробовать скопировать
+                </button>
+              </div>
             </div>
           </div>
         </div>
