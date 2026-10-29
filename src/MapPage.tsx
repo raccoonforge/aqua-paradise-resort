@@ -1,7 +1,7 @@
-import { useState, useRef, useMemo, useEffect } from 'react';
+import { useState, useRef, useMemo } from 'react';
 import { conceptualRoute, isConceptuallyReachable, type RouteNodeId } from './data/island-transport';
 
-// Данные о зонах (сохранены из исходной версии; координаты — иллюстративные)
+// Данные о зонах (сохранены из исходной версии; координаты иллюстративные).
 const zonesData = [
   { id: 'paradise-boulevard', name: 'Paradise Boulevard', x: 50, y: 85, color: '#14b8a6', desc: 'Входная зона и главная аллея' },
   { id: 'paradise-market', name: 'Paradise Market', x: 40, y: 65, color: '#f59e0b', desc: 'Торгово-ресторанный квартал' },
@@ -16,8 +16,7 @@ const zonesData = [
 ] as const;
 
 // Групповой маркер «Транспортный узел / Главный вход».
-// Привязан к концептуальной точке gateway; три внутренних объекта
-// не имеют собственных координат — позиция уточняется (Visual Pending).
+// Внутренние объекты не имеют собственных координат — Visual Pending.
 const transportHub = {
   id: 'gateway',
   name: 'Транспортный узел / Главный вход',
@@ -30,18 +29,28 @@ const transportHub = {
   ],
 };
 
-// Фильтры категорий (по документации: зоны + транспорт)
 const CATEGORIES = [
   { id: 'all', label: 'Все' },
   { id: 'zones', label: 'Зоны' },
   { id: 'transport', label: 'Транспорт' },
 ];
 
-// Ограничения панорамирования
 const PAN_LIMIT = { x: 300, y: 200 };
 const ZOOM_MIN = 0.6;
 const ZOOM_MAX = 1.8;
 const clampZoom = (z: number) => Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, z));
+
+// Tap vs drag thresholds
+const TAP_MOVE_LIMIT = 8;
+const TAP_TIME_LIMIT = 250;
+
+type PointerInfo = {
+  x: number;
+  y: number;
+  startX: number;
+  startY: number;
+  startTime: number;
+};
 
 export default function MapPage() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -61,6 +70,97 @@ export default function MapPage() {
   const [routePath, setRoutePath] = useState<RouteNodeId[] | null>(null);
   const [routeError, setRouteError] = useState<string | null>(null);
 
+  // Жесты
+  const pointers = useRef<Map<number, PointerInfo>>(new Map());
+  const pinchRef = useRef<{ distance: number; zoom: number } | null>(null);
+  const mapRef = useRef<HTMLDivElement | null>(null);
+
+  const handleWheelNative = (e: WheelEvent) => {
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? -0.1 : 0.1;
+    setZoom(z => clampZoom(z + delta));
+  };
+  const setMapRef = (el: HTMLDivElement | null) => {
+    if (mapRef.current) {
+      mapRef.current.removeEventListener('wheel', handleWheelNative);
+    }
+    mapRef.current = el;
+    if (el) {
+      el.addEventListener('wheel', handleWheelNative, { passive: false });
+    }
+  };
+
+  const distanceBetween = (a: { x: number; y: number }, b: { x: number; y: number }) => {
+    const dx = a.x - b.x;
+    const dy = a.y - b.y;
+    return Math.hypot(dx, dy);
+  };
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    pointers.current.set(e.pointerId, {
+      x: e.clientX,
+      y: e.clientY,
+      startX: e.clientX,
+      startY: e.clientY,
+      startTime: Date.now(),
+    });
+
+    if (pointers.current.size === 1) {
+      setIsDragging(true);
+      dragStart.current = { x: e.clientX - position.x, y: e.clientY - position.y };
+    } else if (pointers.current.size === 2) {
+      const [p1, p2] = Array.from(pointers.current.values());
+      pinchRef.current = { distance: distanceBetween(p1, p2), zoom };
+      setIsDragging(false);
+    }
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const prev = pointers.current.get(e.pointerId);
+    if (!prev) return;
+    pointers.current.set(e.pointerId, { ...prev, x: e.clientX, y: e.clientY });
+
+    if (pointers.current.size === 2 && pinchRef.current) {
+      const [p1, p2] = Array.from(pointers.current.values());
+      const currentDistance = distanceBetween(p1, p2);
+      if (pinchRef.current.distance > 0) {
+        const ratio = currentDistance / pinchRef.current.distance;
+        setZoom(clampZoom(pinchRef.current.zoom * ratio));
+      }
+      return;
+    }
+
+    if (pointers.current.size === 1 && isDragging) {
+      const nx = e.clientX - dragStart.current.x;
+      const ny = e.clientY - dragStart.current.y;
+      setPosition({
+        x: Math.max(-PAN_LIMIT.x, Math.min(PAN_LIMIT.x, nx)),
+        y: Math.max(-PAN_LIMIT.y, Math.min(PAN_LIMIT.y, ny)),
+      });
+    }
+  };
+
+  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    const p = pointers.current.get(e.pointerId);
+    if (p) {
+      const dx = e.clientX - p.startX;
+      const dy = e.clientY - p.startY;
+      const distance = Math.hypot(dx, dy);
+      const elapsed = Date.now() - p.startTime;
+
+      if (distance < TAP_MOVE_LIMIT && elapsed < TAP_TIME_LIMIT) {
+        const target = e.target as HTMLElement;
+        const pin = target.closest('button');
+        if (pin) {
+          pin.click();
+        }
+      }
+    }
+    pointers.current.delete(e.pointerId);
+    if (pointers.current.size < 2) pinchRef.current = null;
+    if (pointers.current.size === 0) setIsDragging(false);
+  };
+
   // Поиск
   const query = search.trim().toLowerCase();
   const filteredZones = useMemo(() => {
@@ -74,88 +174,6 @@ export default function MapPage() {
     return (category === 'all' || category === 'transport') &&
       (query === '' || transportHub.name.toLowerCase().includes(query) || transportHub.subObjects.some(o => o.name.toLowerCase().includes(query)));
   }, [query, category]);
-
-  // ============ Жесты: pan (1 палец / мышь) и pinch (2 пальца) ============
-  // Активные касания/курсоры: id → { x, y }
-  const pointers = useRef<Map<number, { x: number; y: number }>>(new Map());
-  // Для pinch — начальное расстояние и стартовый zoom
-  const pinchRef = useRef<{ distance: number; zoom: number } | null>(null);
-
-  const mapRef = useRef<HTMLDivElement>(null);
-
-  const distanceBetween = (a: { x: number; y: number }, b: { x: number; y: number }) => {
-    const dx = a.x - b.x;
-    const dy = a.y - b.y;
-    return Math.hypot(dx, dy);
-  };
-
-  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    // Не начинаем перетаскивание при клике по кнопке-пину
-    if ((e.target as HTMLElement).closest('button')) return;
-
-    pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
-
-    if (pointers.current.size === 1) {
-      setIsDragging(true);
-      dragStart.current = { x: e.clientX - position.x, y: e.clientY - position.y };
-    } else if (pointers.current.size === 2) {
-      // Начинаем pinch
-      const [p1, p2] = Array.from(pointers.current.values());
-      pinchRef.current = {
-        distance: distanceBetween(p1, p2),
-        zoom,
-      };
-    }
-
-    (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
-  };
-
-  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!pointers.current.has(e.pointerId)) return;
-    pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
-
-    // Pinch
-    if (pointers.current.size === 2 && pinchRef.current) {
-      const [p1, p2] = Array.from(pointers.current.values());
-      const currentDistance = distanceBetween(p1, p2);
-      if (pinchRef.current.distance > 0) {
-        const ratio = currentDistance / pinchRef.current.distance;
-        const newZoom = clampZoom(pinchRef.current.zoom * ratio);
-        setZoom(newZoom);
-      }
-      return;
-    }
-
-    // Pan (1 касание)
-    if (pointers.current.size === 1 && isDragging) {
-      const nx = e.clientX - dragStart.current.x;
-      const ny = e.clientY - dragStart.current.y;
-      setPosition({
-        x: Math.max(-PAN_LIMIT.x, Math.min(PAN_LIMIT.x, nx)),
-        y: Math.max(-PAN_LIMIT.y, Math.min(PAN_LIMIT.y, ny)),
-      });
-    }
-  };
-
-  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
-    pointers.current.delete(e.pointerId);
-    if (pointers.current.size < 2) pinchRef.current = null;
-    if (pointers.current.size === 0) setIsDragging(false);
-    (e.currentTarget as HTMLElement).releasePointerCapture?.(e.pointerId);
-  };
-
-  // Wheel через нативный listener с passive: false (иначе preventDefault не сработает)
-  useEffect(() => {
-    const el = mapRef.current;
-    if (!el) return;
-    const onWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      const delta = e.deltaY > 0 ? -0.1 : 0.1;
-      setZoom(z => clampZoom(z + delta));
-    };
-    el.addEventListener('wheel', onWheel, { passive: false });
-    return () => el.removeEventListener('wheel', onWheel);
-  }, []);
 
   const zoomIn = () => setZoom(z => clampZoom(z + 0.2));
   const zoomOut = () => setZoom(z => clampZoom(z - 0.2));
@@ -188,17 +206,13 @@ export default function MapPage() {
     setRouteError(null);
   };
 
-  // Подписи узлов для селектов маршрута
   const routeNodes: { id: RouteNodeId; label: string }[] = [
     ...zonesData.map(z => ({ id: z.id as RouteNodeId, label: z.name })),
     ...transportHub.subObjects.map(o => ({
-      // Для маршрута используем зону Paradise Boulevard как вход
       id: 'paradise-boulevard' as RouteNodeId,
       label: `Вход (${o.name})`,
     })),
   ];
-
-  // Уникальные узлы для селекта (по id)
   const uniqueRouteNodes = Array.from(new Map(routeNodes.map(n => [n.id, n])).values());
 
   const selectedZone = selectedId ? zonesData.find(z => z.id === selectedId) : null;
@@ -208,14 +222,14 @@ export default function MapPage() {
 
       {/* ЛЕВАЯ ЧАСТЬ: Карта */}
       <div
-        ref={mapRef}
+        ref={setMapRef}
         className={`relative flex-grow md:w-[70%] h-[50vh] md:h-full overflow-hidden bg-[#d1d5db] ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
-        style={{ touchAction: 'pan-y' }}
         aria-label="Интерактивная карта острова"
+        data-map-container
       >
         {/* Сетка */}
         <div
@@ -233,13 +247,13 @@ export default function MapPage() {
             transition: isDragging ? 'none' : 'transform 0.15s ease-out',
           }}
         >
-          {/* Связи (декоративные, концептуальные) */}
+          {/* Декоративные связи */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-30" aria-hidden="true">
             <path d="M 15 10 L 25 25 L 45 15" stroke="#6b7280" strokeWidth="2" strokeDasharray="5,5" fill="none" />
             <path d="M 85 10 L 75 25 L 65 55 L 50 45 L 40 65 L 50 85" stroke="#6b7280" strokeWidth="2" strokeDasharray="5,5" fill="none" />
           </svg>
 
-          {/* Метки зон (скрываем, если выбран фильтр «Транспорт») */}
+          {/* Метки зон (скрываем при фильтре «Транспорт») */}
           {category !== 'transport' && zonesData.map((zone) => {
             const isSelected = selectedId === zone.id;
             const isOnRoute = routePath?.includes(zone.id as RouteNodeId) ?? false;
@@ -252,14 +266,6 @@ export default function MapPage() {
                 className={`absolute transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group transition-all focus:outline-none focus-visible:ring-4 focus-visible:ring-teal-300 rounded-full ${
                   isSelected ? 'z-30 scale-110' : 'z-20 hover:scale-105'
                 }`}
-                style={{
-                  left: `${zone.x}%`,
-                  top: `${zone.y}%`,
-                  // увеличенный hitbox для тача, визуально не двигает
-                  padding: '12px',
-                  marginLeft: '-12px',
-                  marginTop: '-12px',
-                }}
                 style={{
                   left: `${zone.x}%`,
                   top: `${zone.y}%`,
@@ -283,7 +289,7 @@ export default function MapPage() {
             );
           })}
 
-          {/* Групповой маркер транспортного узла (скрываем, если выбран фильтр «Зоны») */}
+          {/* Групповой маркер транспортного узла (скрываем при фильтре «Зоны») */}
           {showHub && category !== 'zones' && (
             <button
               onClick={(e) => { e.stopPropagation(); setSelectedId(null); setExpandedHub(true); }}
@@ -316,7 +322,7 @@ export default function MapPage() {
             </button>
           )}
 
-          {/* Линия маршрута (концептуальная, по пинам) */}
+          {/* Линия концептуального маршрута */}
           {routePath && routePath.length > 1 && (
             <svg className="absolute inset-0 w-full h-full pointer-events-none z-10" aria-hidden="true">
               {routePath.slice(0, -1).map((fromId, i) => {
@@ -337,7 +343,7 @@ export default function MapPage() {
           )}
         </div>
 
-        {/* Управление картой */}
+        {/* Управление */}
         <div className="absolute bottom-6 right-6 flex flex-col gap-2 z-20">
           <div className="bg-white rounded-xl shadow-lg flex flex-col">
             <button
@@ -410,7 +416,6 @@ export default function MapPage() {
 
         <div className="flex-grow overflow-y-auto p-4">
 
-          {/* Групповой маркер транспортного узла */}
           {expandedHub && !selectedZone ? (
             <div className="animate-fade-in">
               <button
@@ -433,7 +438,6 @@ export default function MapPage() {
               </div>
             </div>
           ) : selectedZone ? (
-            /* Карточка выбранной зоны */
             <div className="animate-fade-in">
               <button
                 onClick={() => setSelectedId(null)}
@@ -505,7 +509,6 @@ export default function MapPage() {
               </div>
             </div>
           ) : (
-            /* Каталог */
             <div>
               <h2 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">
                 Объекты {filteredZones.length + (showHub ? 1 : 0)}
