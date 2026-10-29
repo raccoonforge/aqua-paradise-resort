@@ -8,14 +8,13 @@ type Attraction = {
   zone: string;
   interests: string[];
   duration: [number, number];
-  hours: { open: number; close: number }; // часы работы в 24-часовом формате
+  hours: { open: number; close: number };
   minAge: number;
   minHeight: number | null;
   requiresAdult: boolean;
   adultAgeThreshold: number;
 };
 
-// Часы работы и ограничения — из website-requirements.md §7.7.3–7.7.6
 const ATTRACTIONS_DB: Attraction[] = [
   // Adrenaline Peak
   { id: 'skyfall', name: 'Skyfall', zone: 'Adrenaline Peak', interests: ['Адреналин'], duration: [10, 15], hours: { open: 10, close: 19 }, minAge: 16, minHeight: 150, requiresAdult: false, adultAgeThreshold: 18 },
@@ -59,7 +58,6 @@ const ATTRACTIONS_DB: Attraction[] = [
   { id: 'emerald-walk', name: 'Emerald Walk', zone: 'Eden Gardens', interests: ['Релакс', 'Исследования'], duration: [30, 45], hours: { open: 9, close: 21 }, minAge: 0, minHeight: null, requiresAdult: false, adultAgeThreshold: 18 },
 ];
 
-// §7.7.13: демонстрационные расстояния между зонами (метры)
 const WALKING_DISTANCES: Record<string, number> = {
   'Paradise Boulevard-Paradise Market': 350,
   'Paradise Market-Eden Gardens': 500,
@@ -74,19 +72,15 @@ const WALKING_DISTANCES: Record<string, number> = {
 
 function getWalkDistance(from: string, to: string): number | null {
   if (from === to) return 0;
-  const key1 = `${from}-${to}`;
-  const key2 = `${to}-${from}`;
-  return WALKING_DISTANCES[key1] ?? WALKING_DISTANCES[key2] ?? null;
+  return WALKING_DISTANCES[`${from}-${to}`] ?? WALKING_DISTANCES[`${to}-${from}`] ?? null;
 }
 
-// §7.7.13: скорость 4 км/ч (обычный темп), округление вверх
 function getWalkMinutes(from: string, to: string, pace: string): number | null {
   const distance = getWalkDistance(from, to);
   if (distance === null) return null;
   if (distance === 0) return 0;
   const speedKmH = pace === 'calm' ? 3 : 4;
-  const hours = (distance / 1000) / speedKmH;
-  return Math.ceil(hours * 60);
+  return Math.ceil((distance / 1000) / speedKmH * 60);
 }
 
 const midDuration = (d: [number, number]) => Math.round((d[0] + d[1]) / 2);
@@ -101,11 +95,14 @@ const formatTime = (minutesFromStart: number, startHour: number): string | null 
 
 type Guest = { id: string; age: number; height: number };
 
+// ScheduledItem может быть доступным или недоступным (inaccessibleReasons).
+// Недоступный НЕ получает время (startTime = null), чтобы не сдвигать расписание.
 type ScheduledItem = Attraction & {
   chosenDuration: number;
-  startMinutes: number;
-  startTime: string;
-  endTime: string;
+  startMinutes: number | null;
+  startTime: string | null;
+  endTime: string | null;
+  inaccessibleReasons: string[];
 };
 
 type InaccessibleItem = Attraction & { reasons: string[] };
@@ -139,9 +136,7 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
   const [replaceTarget, setReplaceTarget] = useState<{ pIndex: number; iIndex: number } | null>(null);
 
   const toggleInterest = (interest: string) => {
-    setSelectedInterests(prev =>
-      prev.includes(interest) ? prev.filter(i => i !== interest) : [...prev, interest]
-    );
+    setSelectedInterests(prev => prev.includes(interest) ? prev.filter(i => i !== interest) : [...prev, interest]);
   };
 
   const addGuest = (type: 'adult' | 'child') => {
@@ -170,7 +165,7 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
     return reasons;
   };
 
-  const buildSchedule = (availableItems: Attraction[]) => {
+  const buildSchedule = (availableItems: { attr: Attraction; inaccessibleReasons: string[] }[]) => {
     const dayStart = ticketType === 'evening' ? 17 : 10;
     const dayEnd = 22;
     let currentMinutes = 0;
@@ -180,15 +175,25 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
     const scheduled: ScheduledItem[] = [];
     const overflowed: InaccessibleItem[] = [];
 
-    for (const item of availableItems) {
+    for (const { attr: item, inaccessibleReasons } of availableItems) {
+      // Недоступный объект — попадает в план без времени (визуально помечен)
+      if (inaccessibleReasons.length > 0) {
+        scheduled.push({
+          ...item,
+          chosenDuration: midDuration(item.duration),
+          startMinutes: null,
+          startTime: null,
+          endTime: null,
+          inaccessibleReasons,
+        });
+        continue;
+      }
+
       const mid = midDuration(item.duration);
       const startAbs = dayStart * 60 + currentMinutes;
-
-      // Проверка: попадает ли в часы работы объекта (APR-BUG-007)
       const itemOpenAbs = item.hours.open * 60;
       const itemCloseAbs = item.hours.close * 60;
       if (startAbs < itemOpenAbs) {
-        // Объект ещё не открыт — пропускаем
         overflowed.push({ ...item, reasons: [`Открывается в ${item.hours.open}:00`] });
         continue;
       }
@@ -202,16 +207,21 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
 
       const startTime = formatTime(currentMinutes, dayStart)!;
       const endTime = formatTime(currentMinutes + mid, dayStart)!;
-      scheduled.push({ ...item, chosenDuration: mid, startMinutes: currentMinutes, startTime, endTime });
+      scheduled.push({
+        ...item,
+        chosenDuration: mid,
+        startMinutes: currentMinutes,
+        startTime,
+        endTime,
+        inaccessibleReasons: [],
+      });
 
-      // Переход — реальное расстояние по §7.7.13
       currentMinutes += mid;
       if (lastZone !== null && lastZone !== item.zone) {
         const walkMin = getWalkMinutes(lastZone, item.zone, pace);
-        if (walkMin !== null) currentMinutes += walkMin;
-        else currentMinutes += 15; // fallback
+        currentMinutes += walkMin ?? 15;
       } else if (lastZone === item.zone) {
-        currentMinutes += 5; // внутри зоны
+        currentMinutes += 5;
       }
       lastZone = item.zone;
     }
@@ -224,6 +234,8 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
     const afternoon: ScheduledItem[] = [];
     const evening: ScheduledItem[] = [];
     items.forEach(item => {
+      // Недоступные — отправляем в «Вечер» чтобы они не «съедали» время (startHour = null)
+      if (item.startTime === null) { evening.push(item); return; }
       const startHour = parseInt(item.startTime.split(':')[0]);
       if (startHour < 13) morning.push(item);
       else if (startHour < 17) afternoon.push(item);
@@ -237,30 +249,25 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
   };
 
   const rebuildPlan = (availableItems: Attraction[], inaccessibleList: InaccessibleItem[]) => {
-    const { scheduled, overflowed, hasConflicts } = buildSchedule(availableItems);
+    // Для каждого объекта заранее считаем причины недоступности
+    const itemsWithReasons = availableItems.map(attr => ({
+      attr,
+      inaccessibleReasons: checkAccessibility(attr),
+    }));
+    const { scheduled, overflowed, hasConflicts } = buildSchedule(itemsWithReasons);
     setPlan(groupByPeriod(scheduled));
     setInaccessible([...inaccessibleList, ...overflowed]);
     setHasConflicts(hasConflicts);
   };
 
   const generatePlan = () => {
-    if (!date || selectedInterests.length === 0) {
-      alert('Пожалуйста, выберите дату и хотя бы один интерес.');
-      return;
-    }
+    if (!date || selectedInterests.length === 0) { alert('Пожалуйста, выберите дату и хотя бы один интерес.'); return; }
     const hasMinor = guests.some(g => g.age < 18);
     const hasAdult = guests.some(g => g.age >= 18);
-    if (hasMinor && !hasAdult) {
-      alert('Для посещения курорта гостям младше 18 лет необходим сопровождающий от 18 лет.');
-      return;
-    }
+    if (hasMinor && !hasAdult) { alert('Для посещения курорта гостям младше 18 лет необходим сопровождающий от 18 лет.'); return; }
 
     let filtered = ATTRACTIONS_DB.filter(a => a.interests.some(i => selectedInterests.includes(i)));
-
-    // Evening Pass — только объекты, работающие до 21:00 и позже (APR-BUG-007)
-    if (ticketType === 'evening') {
-      filtered = filtered.filter(a => a.hours.close >= 21);
-    }
+    if (ticketType === 'evening') filtered = filtered.filter(a => a.hours.close >= 21);
 
     const available: Attraction[] = [];
     const inacc: InaccessibleItem[] = [];
@@ -295,7 +302,6 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
     rebuildPlan(all.filter(a => a.id !== id), inaccessible);
   };
 
-  // Замена остановки (APR-BUG-016)
   const openReplace = (pIndex: number, iIndex: number) => setReplaceTarget({ pIndex, iIndex });
 
   const performReplace = (newId: string) => {
@@ -326,7 +332,6 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
     return ATTRACTIONS_DB.filter(a => !usedIds.has(a.id));
   }, [plan, inaccessible]);
 
-  // Альтернативы для замены — те, что ещё не в плане и не в недоступных
   const availableForReplace = useMemo(() => {
     const usedIds = new Set([...plan.flatMap(p => p.items.map(i => i.id))]);
     return ATTRACTIONS_DB.filter(a => !usedIds.has(a.id));
@@ -470,10 +475,14 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
                       const reasons = checkAccessibility(a);
                       const ok = reasons.length === 0;
                       return (
-                        <button key={a.id} onClick={() => addItem(a.id)} className={`text-left p-3 rounded-xl border transition ${ok ? 'border-gray-100 hover:border-teal-300 hover:bg-teal-50' : 'border-red-100 bg-red-50/30 opacity-70'}`}>
+                        <button key={a.id} onClick={() => addItem(a.id)} className={`text-left p-3 rounded-xl border transition ${ok ? 'border-gray-100 hover:border-teal-300 hover:bg-teal-50' : 'border-red-100 bg-red-50/30 hover:bg-red-50'}`}>
                           <div className="font-medium text-gray-900 text-sm">{a.name}</div>
                           <div className="text-xs text-gray-500">{a.zone} • {a.duration[0]}–{a.duration[1]} мин</div>
-                          {!ok && <div className="text-xs text-red-600 font-medium mt-1">⛔ {reasons.join('; ')}</div>}
+                          {!ok && (
+                            <div className="text-xs text-red-600 font-medium mt-1">
+                              ⛔ {reasons.join('; ')} — будет помечен как недоступный
+                            </div>
+                          )}
                         </button>
                       );
                     })}
@@ -493,15 +502,12 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
             )}
 
             {plan.length === 0 && inaccessible.length === 0 ? (
-              /* APR-BUG-017: empty state */
               <div className="text-center py-16 bg-white rounded-2xl border border-gray-100 mb-6">
                 <p className="text-lg text-gray-700 mb-2">Не удалось составить маршрут.</p>
                 <p className="text-sm text-gray-500 mb-6">По выбранным интересам нет подходящих объектов для вашей группы.</p>
-                <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                  <button onClick={() => setIsGenerated(false)} className="bg-teal-600 text-white px-6 py-2 rounded-full font-medium hover:bg-teal-700 transition">
-                    Изменить параметры
-                  </button>
-                </div>
+                <button onClick={() => setIsGenerated(false)} className="bg-teal-600 text-white px-6 py-2 rounded-full font-medium hover:bg-teal-700 transition">
+                  Изменить параметры
+                </button>
               </div>
             ) : (
               <div className="space-y-8 relative mb-8">
@@ -520,27 +526,40 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
                     <div className="space-y-4 md:ml-16">
                       {period.items.map((item, iIndex) => {
                         const prev = iIndex > 0 ? period.items[iIndex - 1] : null;
-                        const walkMin = prev ? getWalkMinutes(prev.zone, item.zone, pace) : null;
+                        const walkMin = (prev && prev.startTime !== null && item.startTime !== null)
+                          ? getWalkMinutes(prev.zone, item.zone, pace)
+                          : null;
+                        const isInaccessible = item.inaccessibleReasons.length > 0;
                         return (
-                          <div key={item.id}>
-                            {prev && (
+                          <div key={`${item.id}-${iIndex}`}>
+                            {prev && prev.startTime !== null && item.startTime !== null && (
                               <div className="flex items-center gap-2 ml-6 mb-2 text-xs text-gray-500">
                                 <span>↓</span>
-                                <span>
-                                  Переход: {walkMin !== null ? `пешком ~${walkMin} мин` : 'пешком (расстояние уточняется)'}
-                                </span>
+                                <span>Переход: {walkMin !== null ? `пешком ~${walkMin} мин` : 'пешком (расстояние уточняется)'}</span>
                               </div>
                             )}
-                            <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-wrap items-center justify-between gap-2 hover:shadow-md transition">
+                            <div className={`p-4 rounded-2xl shadow-sm border flex flex-wrap items-center justify-between gap-2 transition ${
+                              isInaccessible ? 'bg-red-50/50 border-red-300' : 'bg-white border-gray-100 hover:shadow-md'
+                            }`}>
                               <div className="flex gap-4 items-center">
-                                <div className="w-12 h-12 bg-gray-100 rounded-lg flex-shrink-0 flex items-center justify-center text-gray-400 text-xs">[Ф]</div>
+                                <div className={`w-12 h-12 rounded-lg flex-shrink-0 flex items-center justify-center text-xs ${
+                                  isInaccessible ? 'bg-red-100 text-red-500' : 'bg-gray-100 text-gray-400'
+                                }`}>
+                                  {isInaccessible ? '⛔' : '[Ф]'}
+                                </div>
                                 <div>
                                   <h4 className="font-serif text-lg text-gray-900">{item.name}</h4>
-                                  <p className="text-xs text-gray-500">{item.zone} • {item.startTime} – {item.endTime}</p>
-                                  <p className="text-xs text-gray-400 mt-0.5">{item.chosenDuration} мин</p>
+                                  <p className="text-xs text-gray-500">
+                                    {item.zone}
+                                    {!isInaccessible && item.startTime && ` • ${item.startTime} – ${item.endTime} • ${item.chosenDuration} мин`}
+                                  </p>
+                                  {isInaccessible && (
+                                    <p className="text-xs text-red-700 font-medium mt-1">
+                                      Недоступен: {item.inaccessibleReasons.join('; ')}
+                                    </p>
+                                  )}
                                 </div>
                               </div>
-                              {/* APR-BUG-018: кнопки всегда видимы */}
                               <div className="flex gap-1 flex-shrink-0">
                                 <button onClick={() => moveItem(pIndex, iIndex, 'up')} aria-label="Раньше" className="p-2 text-gray-500 hover:text-teal-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded">↑</button>
                                 <button onClick={() => moveItem(pIndex, iIndex, 'down')} aria-label="Позже" className="p-2 text-gray-500 hover:text-teal-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded">↓</button>
@@ -587,7 +606,7 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
         )}
       </div>
 
-      {/* Пicker замены (APR-BUG-016) */}
+      {/* Пикер замены */}
       {replaceTarget && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={() => setReplaceTarget(null)}>
           <div className="bg-white rounded-2xl w-full max-w-lg max-h-[80vh] overflow-hidden shadow-2xl" onClick={(e) => e.stopPropagation()}>
@@ -597,12 +616,17 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
             </div>
             <div className="p-4 overflow-y-auto max-h-[60vh] grid grid-cols-1 gap-2">
               {availableForReplace.length === 0 && <p className="text-sm text-gray-500">Нет доступных альтернатив.</p>}
-              {availableForReplace.map(a => (
-                <button key={a.id} onClick={() => performReplace(a.id)} className="text-left p-3 rounded-xl border border-gray-100 hover:border-teal-300 hover:bg-teal-50 transition">
-                  <div className="font-medium text-gray-900 text-sm">{a.name}</div>
-                  <div className="text-xs text-gray-500">{a.zone} • {a.duration[0]}–{a.duration[1]} мин</div>
-                </button>
-              ))}
+              {availableForReplace.map(a => {
+                const reasons = checkAccessibility(a);
+                const ok = reasons.length === 0;
+                return (
+                  <button key={a.id} onClick={() => performReplace(a.id)} className={`text-left p-3 rounded-xl border transition ${ok ? 'border-gray-100 hover:border-teal-300 hover:bg-teal-50' : 'border-red-100 bg-red-50/30 hover:bg-red-50'}`}>
+                    <div className="font-medium text-gray-900 text-sm">{a.name}</div>
+                    <div className="text-xs text-gray-500">{a.zone} • {a.duration[0]}–{a.duration[1]} мин</div>
+                    {!ok && <div className="text-xs text-red-600 font-medium mt-1">⛔ {reasons.join('; ')}</div>}
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
