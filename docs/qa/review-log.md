@@ -4,27 +4,65 @@
 466 checks — 325 Passed, 109 Failed, 32 Blocked.
 
 ## Agreed review #1
-- TICK-056: Passed→Failed (invalid group state does not show explanation).
-- RESP-026: Blocked→Failed (mobile edit buttons not visible).
-- DOC-040: Blocked→Failed (Visit states unsupported Paradise Loop “10 minutes”).
-- DOC-050: Passed→Failed (substantial site/documentation contradictions).
-- DOC-021: Passed→Failed (required age/height restrictions not reflected).
-- DOC-004: Blocked→Passed (capacity omitted, conditional wording; no contradiction).
+- TICK-056: Passed→Failed.
+- RESP-026: Blocked→Failed.
+- DOC-040: Blocked→Failed.
+- DOC-050: Passed→Failed.
+- DOC-021: Passed→Failed.
+- DOC-004: Blocked→Passed.
 
 After review #1: 323 Passed / 114 Failed / 29 Blocked.
 
 ## Agreed review #2
-- DOC-032: Passed→Failed (tariff copy absent; purchase conditions not coherently described).
-- PLAN-026: Passed→Failed (travel time shown without supported calculation).
-- DOC-044: original Failed **retained in historical totals**, requirement flagged Needs clarification (villa scope unclear).
+- DOC-032: Passed→Failed.
+- PLAN-026: Passed→Failed.
+- DOC-044: original Failed retained; requirement flagged Needs clarification.
 
 After review #2: **321 Passed / 116 Failed / 29 Blocked**.
 
-## Source-of-truth questions requiring decision
-1. **Age entry:** `docs/master/website-requirements.md` mandates individual dates of birth/automatic ages; `docs/pages/tickets.md` documents category counters. The two need reconciliation before adding a new issue for DOB omission.
-2. **Hotel villas:** `docs/pages/hotel.md` lists example categories, but descriptive properties of villas are not finalized; distinguish missing approved category from missing unapproved specifications.
-3. **Map routing:** `docs/source-of-truth.md` and `docs/aqua-paradise-map-readiness-v0.4.md` distinguish illustrative map from actual routing data. Do not assert accurate walk/vehicle ETA until supported.
-4. **Additional activities:** determine approved catalog before marking any new attraction “invented”.
-5. **Map consistency:** geographic concepts, visual schematic and detailed paths have different maturity levels; avoid claiming road-level accuracy.
+## Реакция на дефекты — Package 1–8 (2026-10-30)
 
-All original checklists remain historical evidence in the conversation; this repo package is a consolidated rendition, **not a verbatim archive of all 466 per-case comments**. Do not label it as one.
+### Что было исправлено
+Реализовано 8 функциональных пакетов по реестру `defect-register.md`:
+
+| Пакет | Ключевые изменения | Закрыто дефектов |
+|---|---|---|
+| 1A | Единый справочник `ATTRACTIONS`, aria-labels, reduced-motion, Footer, slug для Poseidon's Descent, scroll-to-top при смене страницы, `tab=...` в URL зон | 020, 021, часть 008, часть 011 |
+| 1B | Focus trap в модалках, Escape, возврат фокуса | 008 (полностью), 019 |
+| 2 | Stormbreaker в Pirate's Cove, две ветки Ocean Wings, единый источник | 011, 034 |
+| 3 | Карта: pan/pinch/tap, zoom колесом, hub, фильтры, empty state | 012, 013, 014, 028 |
+| 4 | Клавиатура на карточках, фильтры возраст/рост, быстрые категории, счётчик | 008 (финально), 026, 027 |
+| 5 | Мини-планировщик, передача интересов, пропорции 1440px | 031, 033 |
+| 6 | Deluxe Room, «Все удобства», транспорт отеля, пакеты как концепция, шаттл | 022, 023, 024, 025, 030 |
+| 7 | Карточки тарифов, QR-пасхалка | 009, 032 |
+| 8A | Evening Pass, время по §7.7.13, замена остановки, кнопки на мобильном, empty state, недоступные объекты | 005, 006, 007, 016, 017, 018, 029 |
+| 8B | PDF/PNG/Ссылка + модалка ручного копирования | 015, 015-A |
+
+**Итого исправлено:** 26 из 34 подтверждённых дефектов.
+
+### Что осталось
+- **APR-BUG-010 (Content Pending):** тексты 6 зон — ждут утверждённых формулировок.
+- **NC-HOTEL-DELUXE, NC-SHUTTLE, NC-HOTEL-PACKAGES, NC-EXTREME, NC-OCEAN-WINGS, NC-ZONES-TEXTS** — открытые вопросы требований.
+
+### Что ушло в Visual Pending
+- Cinematic Intro (видео/3D).
+- ResortScene v0.4 на карте.
+- Точные координаты причала/канатки.
+- Финальные фото.
+
+### Не заявляем
+- Не считаем все 116 дефектов «закрытыми» — исторические результаты первого прогона не переписаны.
+- Не считаем сайт «готовым к релизу» — второй прогон обязателен.
+- Не выдаём «smoke-test passed» за «полный QA passed».
+
+## Следующий шаг
+- Второй QA-прогон по `docs/qa/regression-plan.md`.
+- По результатам — закрыть оставшиеся проверки или внести точечные правки.
+- Разобрать NC-* с владельцем требований.
+
+## Source-of-truth questions (retained from first review)
+1. Age entry: DOB vs counters — reconciled (Packages 1–8 используют `age`/`height` группы в Planner, что допускает §7.2).
+2. Hotel villas: описательные свойства не финализированы — `NC-HOTEL-DELUXE` остаётся.
+3. Map routing: концептуальный граф ≠ геометрия. Не выдаём hops за время.
+4. Additional activities: не добавляли новых объектов.
+5. Map consistency: v0.1–v0.4 хранятся как историческое; runtime использует упрощённую схему.
