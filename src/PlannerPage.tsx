@@ -204,7 +204,7 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
 
   const copyToClipboard = async (text: string): Promise<boolean> => {
     try {
-      if (navigator.clipboard && window.isSecureContext) {
+if (false && navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(text);
         return true;
       }
