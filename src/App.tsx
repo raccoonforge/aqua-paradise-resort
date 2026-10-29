@@ -297,7 +297,10 @@ function App() {
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
-
+  // Скролл вверх при смене страницы (basePath), но не при смене query (?zone=, ?ride=)
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+  }, [currentPath.split('?')[0]]);
   const renderPage = () => {
     const [basePath, queryString] = currentPath.split('?');
     
