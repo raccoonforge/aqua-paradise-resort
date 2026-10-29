@@ -202,7 +202,7 @@ const AttractionsCarousel = () => {
                 `}
                 style={{ transform: `translateX(${offset * 60}%) scale(${isActive ? 1 : 0.85})`, zIndex: isActive ? 10 : 5 }}
               >
-                <div className={`h-48 md:h-64 ${ride.color} flex items-center justify-center text-gray-500`}>[Фото: {ride.name}]</div>
+                <div className={`h-48 md:h-64 ${['bg-blue-200', 'bg-teal-200', 'bg-indigo-200', 'bg-emerald-200'][index % 4]} flex items-center justify-center text-gray-500`}>[Фото: {ride.name}]</div>
                 <div className="p-6 text-left relative bg-white">
                   <span className="text-xs font-bold text-teal-600 tracking-wider uppercase mb-2 block">{ride.zone}</span>
                   <h3 className="text-2xl font-serif text-gray-900 mb-2">{ride.name}</h3>
