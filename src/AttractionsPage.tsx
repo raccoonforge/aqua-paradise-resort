@@ -5,20 +5,24 @@ import { ATTRACTIONS, type Attraction } from './data/attractions';
 const INTENSITIES = ['Все', 'Спокойная', 'Семейная', 'Средняя', 'Высокая', 'Экстрим', 'Релакс'];
 const ZONES = ['Все', 'Adrenaline Peak', 'Atlantis Realm', 'Eden Gardens', "Pirate's Cove", 'Paradise Boulevard', 'Ocean Bay', 'Serenity Spa', 'Little Paradise', 'Paradise Market'];
 
+// Быстрые категории — настроение, а не строгий технический уровень.
+// «Экстрим и высокие» объединяет intensity 'Экстрим' и 'Высокая'
+// согласно решению от 2026-10-30 (см. docs/qa/defect-register.md).
 const QUICK_CATEGORIES = [
   { id: 'all', label: 'Все' },
   { id: 'calm', label: 'Спокойные' },
   { id: 'family', label: 'Семейные' },
-  { id: 'extreme', label: 'Экстрим' },
+  { id: 'extreme', label: 'Экстрим и высокие' },
 ] as const;
 
 type QuickCategory = typeof QUICK_CATEGORIES[number]['id'];
 
-// Проверка попадания аттракциона в быструю категорию
 function matchesQuickCategory(attr: Attraction, cat: QuickCategory): boolean {
   if (cat === 'all') return true;
   if (cat === 'calm') return attr.intensity === 'Спокойная';
   if (cat === 'family') return attr.intensity === 'Семейная' || (attr.minAge > 0 && attr.minAge < 10);
+  // «Экстрим и высокие» — объединение двух явно заданных в данных уровней.
+  // Не интерпретируем «Средняя» и не угадываем по названию/фото/характеристикам.
   if (cat === 'extreme') return attr.intensity === 'Экстрим' || attr.intensity === 'Высокая';
   return true;
 }
