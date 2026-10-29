@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
+import html2canvas from 'html2canvas';
 
 const ALL_INTERESTS = ['Адреналин', 'Семейный отдых', 'Релакс', 'Исследования'];
 
@@ -134,7 +135,92 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
 
   const [showAddPicker, setShowAddPicker] = useState(false);
   const [replaceTarget, setReplaceTarget] = useState<{ pIndex: number; iIndex: number } | null>(null);
+    // Экспорт (APR-BUG-015)
+  const printRef = useRef<HTMLDivElement>(null);
+  const [linkCopied, setLinkCopied] = useState(false);
+  const [imageGenerating, setImageGenerating] = useState(false);
 
+  // Чтение состояния из URL (APR-BUG-015 — share link)
+  useEffect(() => {
+    const hash = window.location.hash;
+    const qs = hash.split('?')[1] || '';
+    const params = new URLSearchParams(qs);
+    const stateParam = params.get('state');
+    if (!stateParam) return;
+    try {
+      const decoded = JSON.parse(atob(stateParam));
+      if (decoded.date) setDate(decoded.date);
+      if (decoded.ticketType) setTicketType(decoded.ticketType);
+      if (Array.isArray(decoded.interests)) setSelectedInterests(decoded.interests);
+      if (Array.isArray(decoded.guests)) setGuests(decoded.guests.map((g: any, i: number) => ({ id: `g${i}`, age: g.age, height: g.height })));
+      if (decoded.pace) setPace(decoded.pace);
+      // План восстановим после короткой задержки — после установки всех параметров
+      if (Array.isArray(decoded.planIds) && decoded.planIds.length > 0) {
+        setTimeout(() => {
+          const attrs = decoded.planIds
+            .map((id: string) => ATTRACTIONS_DB.find(a => a.id === id))
+            .filter(Boolean) as Attraction[];
+          setIsGenerated(true);
+          rebuildPlan(attrs, []);
+        }, 50);
+      }
+    } catch {
+      // поврежлённая ссылка — игнорируем
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Сериализация плана в URL
+  const buildShareLink = (): string => {
+    const planIds = plan.flatMap(p => p.items.map(i => i.id));
+    const state = {
+      date,
+      ticketType,
+      interests: selectedInterests,
+      guests: guests.map(g => ({ age: g.age, height: g.height })),
+      pace,
+      planIds,
+    };
+    const encoded = btoa(JSON.stringify(state));
+    return `${window.location.origin}${window.location.pathname}#/planner?state=${encoded}`;
+  };
+
+  const handleShareLink = async () => {
+    const link = buildShareLink();
+    try {
+      await navigator.clipboard.writeText(link);
+      setLinkCopied(true);
+      setTimeout(() => setLinkCopied(false), 2500);
+    } catch {
+      // Fallback — показать в alert
+      window.prompt('Скопируйте ссылку:', link);
+    }
+  };
+
+  const handleExportImage = async () => {
+    if (!printRef.current) return;
+    setImageGenerating(true);
+    try {
+      const canvas = await html2canvas(printRef.current, {
+        backgroundColor: '#f8f9fa',
+        scale: 2,
+        logging: false,
+      });
+      const link = document.createElement('a');
+      link.download = `aqua-paradise-${date || 'route'}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    } catch {
+      alert('Не удалось создать изображение. Попробуйте PDF.');
+    } finally {
+      setImageGenerating(false);
+    }
+  };
+
+  const handleExportPdf = () => {
+    window.print();
+  };
+  
   const toggleInterest = (interest: string) => {
     setSelectedInterests(prev => prev.includes(interest) ? prev.filter(i => i !== interest) : [...prev, interest]);
   };
@@ -445,20 +531,42 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
 
         {isGenerated && (
           <div className="animate-fade-in">
-            <div className="bg-teal-900 text-white p-5 md:p-6 rounded-3xl mb-6 shadow-lg flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+            {/* Шапка — экранная, не в печати */}
+            <div className="bg-teal-900 text-white p-5 md:p-6 rounded-3xl mb-6 shadow-lg flex flex-col md:flex-row md:justify-between md:items-center gap-4 print:hidden">
               <div>
                 <h2 className="text-xl md:text-2xl font-serif mb-1">Ваш персональный маршрут</h2>
                 <p className="text-teal-200 text-sm">
                   Дата: {date} • {ticketType === 'day' ? 'Day Pass' : ticketType === 'premium' ? 'Premium Pass' : 'Evening Pass'}
                 </p>
               </div>
-              <div className="flex gap-2 flex-shrink-0">
-                <button onClick={() => alert('PDF будет в Package 8B')} className="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg text-sm transition">PDF</button>
-                <button onClick={() => alert('Ссылка будет в Package 8B')} className="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg text-sm transition">Ссылка</button>
+              <div className="flex flex-wrap gap-2 flex-shrink-0">
+                <button
+                  onClick={handleExportPdf}
+                  className="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg text-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-300"
+                  aria-label="Скачать PDF"
+                >
+                  PDF
+                </button>
+                <button
+                  onClick={handleExportImage}
+                  disabled={imageGenerating}
+                  className="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg text-sm transition disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-300"
+                  aria-label="Скачать изображение"
+                >
+                  {imageGenerating ? 'Готовим...' : 'PNG'}
+                </button>
+                <button
+                  onClick={handleShareLink}
+                  className="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg text-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-300"
+                  aria-label="Скопировать ссылку на маршрут"
+                >
+                  {linkCopied ? '✓ Скопировано' : 'Ссылка'}
+                </button>
               </div>
             </div>
 
-            <div className="mb-6">
+            {/* Кнопка «Добавить» — только на экране, не в печати */}
+            <div className="mb-6 print:hidden">
               {!showAddPicker ? (
                 <button onClick={() => setShowAddPicker(true)} className="w-full bg-white border-2 border-dashed border-teal-300 text-teal-700 py-3 rounded-2xl font-medium hover:bg-teal-50 transition">
                   + Добавить остановку
@@ -491,6 +599,15 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
               )}
             </div>
 
+            <div ref={printRef} className="bg-[#f8f9fa]">
+              {/* Заголовок для печати — виден только в print */}
+              <div className="hidden print:block mb-4">
+                <h1 className="text-2xl font-serif text-gray-900">Aqua Paradise — Персональный маршрут</h1>
+                <p className="text-sm text-gray-600">
+                  Дата: {date} • {ticketType === 'day' ? 'Day Pass' : ticketType === 'premium' ? 'Premium Pass' : 'Evening Pass'}
+                </p>
+              </div>
+            
             {hasConflicts && (
               <div className="bg-red-50 border border-red-200 text-red-800 p-4 rounded-xl mb-6 flex items-start gap-3">
                 <span className="text-xl">⚠️</span>
@@ -597,7 +714,9 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
               </div>
             )}
 
-            <div className="mt-12 text-center">
+            </div>{/* ← КОНЕЦ printRef */}
+              
+            <div className="mt-12 text-center print:hidden">
               <button onClick={() => window.location.hash = '#/map'} className="bg-white border border-gray-200 text-gray-800 px-8 py-3 rounded-full font-medium hover:bg-gray-50 transition shadow-sm">
                 Посмотреть маршрут на карте
               </button>
