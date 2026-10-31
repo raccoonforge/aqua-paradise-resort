@@ -16,8 +16,6 @@ const AGE_DISCOUNTS = {
   senior: 0.25
 };
 
-// Описание тарифов для карточек (APR-BUG-009)
-// Источник: website-requirements.md §6.2, §6.6.1
 const TARIFFS = [
   {
     id: 'day' as const,
@@ -58,7 +56,6 @@ const TARIFFS = [
   },
 ];
 
-// URL для пасхалки (дословно из Master Blueprint §4.7)
 const EASTER_EGG_URL = 'https://www.twitch.tv/bigrussianmum';
 
 export default function TicketsPage() {
@@ -71,6 +68,9 @@ export default function TicketsPage() {
 
   const [hasCabana, setHasCabana] = useState(false);
   const [hasPriority, setHasPriority] = useState(false);
+
+  // APR-BUG-037: ошибка оформления
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
   const isWeekend = useMemo(() => {
     if (!visitDate) return false;
@@ -87,6 +87,17 @@ export default function TicketsPage() {
   }, [visitDate]);
 
   const totalGuests = Object.values(guests).reduce((a, b) => a + b, 0);
+
+  // APR-BUG-037: сегодняшняя дата (локально, в формате YYYY-MM-DD)
+  const todayStr = useMemo(() => {
+    const d = new Date();
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  }, []);
+
+  const isPastDate = visitDate !== '' && visitDate < todayStr;
 
   const minorsCount = guests.child + guests.teen + guests.infant;
   const adultsCount = guests.adult + guests.senior;
@@ -123,7 +134,6 @@ export default function TicketsPage() {
 
   const totalCost = Math.round((ticketsCost + extrasCost) * 100) / 100;
 
-  // Модалка
   const [showTicket, setShowTicket] = useState(false);
   const [orderNumber, setOrderNumber] = useState('');
   const ticketModalRef = useFocusTrap<HTMLDivElement>(showTicket);
@@ -136,7 +146,11 @@ export default function TicketsPage() {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [showTicket]);
 
-  // QR-пасхалка (APR-BUG-032)
+  // Сброс ошибки при изменении параметров
+  useEffect(() => {
+    setCheckoutError(null);
+  }, [visitDate, guests, ticketType]);
+
   const qrCanvasRef = useRef<HTMLCanvasElement>(null);
   const [easterEggOpen, setEasterEggOpen] = useState(false);
 
@@ -164,6 +178,31 @@ export default function TicketsPage() {
     });
   };
 
+  const handleCheckout = () => {
+    // APR-BUG-037: проверки перед оформлением
+    if (!visitDate) {
+      setCheckoutError('Выберите дату посещения.');
+      return;
+    }
+    if (isPastDate) {
+      setCheckoutError('Дата посещения не может быть в прошлом.');
+      return;
+    }
+    if (isAdultRequired) {
+      setCheckoutError('Для посещения несовершеннолетних необходим сопровождающий 18+.');
+      return;
+    }
+    if (totalGuests === 0) {
+      setCheckoutError('Добавьте хотя бы одного гостя.');
+      return;
+    }
+    setCheckoutError(null);
+    const randomNum = Math.floor(100000 + Math.random() * 900000);
+    setOrderNumber(`APR-${randomNum}`);
+    setShowTicket(true);
+    setEasterEggOpen(false);
+  };
+
   return (
     <div className="bg-[#f8f9fa] min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4">
@@ -183,18 +222,21 @@ export default function TicketsPage() {
               <input
                 type="date"
                 value={visitDate}
+                min={todayStr}
                 onChange={(e) => setVisitDate(e.target.value)}
                 aria-label="Дата посещения"
+                aria-describedby="date-help"
                 className="w-full md:w-1/2 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
               />
+              <p id="date-help" className="text-xs text-gray-500 mt-2">Прошедшие даты недоступны.</p>
               {visitDate && (
-                <p className="text-xs text-teal-600 mt-2">
+                <p className="text-xs text-teal-600 mt-1">
                   {isHighSeason ? 'Высокий сезон' : 'Низкий сезон'} • {isWeekend ? 'Выходной день (+15%)' : 'Будний день'}
                 </p>
               )}
             </div>
 
-            {/* Шаг 2: Тариф — карточки сравнения (APR-BUG-009) */}
+            {/* Шаг 2: Тариф */}
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
               <h2 className="text-xl font-serif text-gray-900 mb-4">2. Выберите тариф</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -287,11 +329,14 @@ export default function TicketsPage() {
                       type="checkbox"
                       checked={hasCabana}
                       onChange={(e) => setHasCabana(e.target.checked)}
-                      className="w-5 h-5 text-teal-600 rounded focus:ring-teal-500"
+                      aria-describedby="cabana-hint"
+                      className="w-5 h-5 text-teal-600 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
                     />
                     <div className="flex-grow">
                       <span className="block font-medium text-gray-900">Приватная кабана</span>
-                      <span className="text-sm text-gray-500">Аренда на весь день (Day и Premium)</span>
+                      <span id="cabana-hint" className="text-sm text-gray-500">
+                        Аренда на весь день (Day и Premium). Нажмите Space, чтобы выбрать.
+                      </span>
                     </div>
                     <span className="font-bold text-gray-900">{ticketType === 'premium' ? '$67.50' : '$75.00'}</span>
                   </label>
@@ -302,11 +347,14 @@ export default function TicketsPage() {
                         type="checkbox"
                         checked={hasPriority}
                         onChange={(e) => setHasPriority(e.target.checked)}
-                        className="w-5 h-5 text-teal-600 rounded focus:ring-teal-500"
+                        aria-describedby="priority-hint"
+                        className="w-5 h-5 text-teal-600 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
                       />
                       <div className="flex-grow">
                         <span className="block font-medium text-gray-900">Приоритетный доступ</span>
-                        <span className="text-sm text-gray-500">Быстрый проход на аттракционы</span>
+                        <span id="priority-hint" className="text-sm text-gray-500">
+                          Быстрый проход на аттракционы. Нажмите Space, чтобы выбрать.
+                        </span>
                       </div>
                       <span className="font-bold text-gray-900">$25 / чел.</span>
                     </label>
@@ -342,20 +390,20 @@ export default function TicketsPage() {
                 </div>
               </div>
 
-              {isAdultRequired && (
-                <div className="bg-red-50 text-red-700 p-3 rounded-lg text-sm mb-4 border border-red-200">
+              {checkoutError && (
+                <div className="bg-red-50 text-red-700 p-3 rounded-lg text-sm mb-4 border border-red-200" role="alert">
+                  {checkoutError}
+                </div>
+              )}
+              {isAdultRequired && !checkoutError && (
+                <div className="bg-amber-50 text-amber-800 p-3 rounded-lg text-sm mb-4 border border-amber-200">
                   Для посещения курорта гостям младше 18 лет необходим сопровождающий от 18 лет.
                 </div>
               )}
 
               <button
-                onClick={() => {
-                  const randomNum = Math.floor(100000 + Math.random() * 900000);
-                  setOrderNumber(`APR-${randomNum}`);
-                  setShowTicket(true);
-                  setEasterEggOpen(false);
-                }}
-                disabled={totalGuests === 0 || !visitDate || isAdultRequired}
+                onClick={handleCheckout}
+                disabled={totalGuests === 0 || isAdultRequired}
                 className="w-full bg-teal-600 text-white py-4 rounded-xl font-medium hover:bg-teal-700 transition disabled:opacity-50 disabled:cursor-not-allowed mb-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-300"
               >
                 Оформить билеты
@@ -427,7 +475,6 @@ export default function TicketsPage() {
                 </div>
               </div>
 
-              {/* QR-пасхалка (APR-BUG-032) */}
               {!easterEggOpen ? (
                 <div className="text-center">
                   <button
