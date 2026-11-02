@@ -1,5 +1,6 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { toPng } from 'html-to-image';
+import { useFocusTrap } from './hooks/useFocusTrap';
 
 const ALL_INTERESTS = ['Адреналин', 'Семейный отдых', 'Релакс', 'Исследования'];
 
@@ -71,17 +72,79 @@ const WALKING_DISTANCES: Record<string, number> = {
   'Eden Gardens-Little Paradise': 450,
 };
 
-function getWalkDistance(from: string, to: string): number | null {
+type Mobility = 'none' | 'stroller' | 'wheelchair';
+type TransportMode = 'auto' | 'walk' | 'shuttle';
+type TravelStep = { mode: 'walk' | 'shuttle'; minutes: number; summary: string };
+const LOOP_STOPS = ['Paradise Boulevard', 'Paradise Market', 'Eden Gardens', 'Serenity Spa', 'Ocean Bay', 'Adrenaline Peak', 'Atlantis Realm', "Pirate's Cove"] as const;
+const STOP_NAMES = ['Central Station', 'Paradise Market Station', 'Eden Gardens Station', 'Serenity Spa Station', 'Ocean Bay Station', 'Adrenaline Peak Station', 'Atlantis Realm Station', "Pirate's Cove Station"] as const;
+
+function getWalkDistance(from: string, to: string, mobility: Mobility = 'none'): number | null {
   if (from === to) return 0;
-  return WALKING_DISTANCES[`${from}-${to}`] ?? WALKING_DISTANCES[`${to}-${from}`] ?? null;
+  const distances = new Map<string, number>();
+  const visited = new Set<string>();
+  distances.set(from, 0);
+  for (;;) {
+    const current = [...distances].filter(([id]) => !visited.has(id)).sort((a, b) => a[1] - b[1])[0];
+    if (!current) return null;
+    const [node, total] = current;
+    if (node === to) return total;
+    visited.add(node);
+    for (const [edge, metres] of Object.entries(WALKING_DISTANCES)) {
+      // Two steep demo paths are not accessible to wheelchair users (§7.7.13).
+      if (mobility === 'wheelchair' && (edge === 'Ocean Bay-Adrenaline Peak' || edge === 'Adrenaline Peak-Atlantis Realm')) continue;
+      const split = edge.split('-');
+      const other = split[0] === node ? split[1] : split[1] === node ? split[0] : null;
+      if (!other || visited.has(other)) continue;
+      const next = total + metres;
+      if (next < (distances.get(other) ?? Infinity)) distances.set(other, next);
+    }
+  }
 }
 
-function getWalkMinutes(from: string, to: string, pace: string): number | null {
-  const distance = getWalkDistance(from, to);
+function getWalkMinutes(from: string, to: string, pace: string, mobility: Mobility = 'none'): number | null {
+  const distance = getWalkDistance(from, to, mobility);
   if (distance === null) return null;
-  if (distance === 0) return 0;
-  const speedKmH = pace === 'calm' ? 3 : 4;
-  return Math.ceil((distance / 1000) / speedKmH * 60);
+  return Math.ceil(distance / (pace === 'calm' ? 3000 : 4000) * 60);
+}
+
+function travelBetween(from: string, to: string, timeAbs: number, pace: string, transport: TransportMode, mobility: Mobility): TravelStep | null {
+  if (from === to) return { mode: 'walk', minutes: 5, summary: 'Переход внутри зоны • 5 мин (демо)' };
+  const walkingMinutes = getWalkMinutes(from, to, pace, mobility);
+  const walking: TravelStep | null = walkingMinutes === null ? null : { mode: 'walk', minutes: walkingMinutes, summary: 'Пешком • ' + walkingMinutes + ' мин (демо)' };
+  const stopZone = (zone: string): string => zone === 'Little Paradise' ? 'Eden Gardens' : zone;
+  const fromIndex = LOOP_STOPS.indexOf(stopZone(from) as typeof LOOP_STOPS[number]);
+  const toIndex = LOOP_STOPS.indexOf(stopZone(to) as typeof LOOP_STOPS[number]);
+  let bestShuttle: TravelStep | null = null;
+  if (fromIndex >= 0 && toIndex >= 0 && fromIndex !== toIndex) {
+    const approach = from === 'Little Paradise' ? getWalkMinutes(from, 'Eden Gardens', pace, mobility) : 0;
+    const exit = to === 'Little Paradise' ? getWalkMinutes('Eden Gardens', to, pace, mobility) : 0;
+    if (approach !== null && exit !== null) {
+      for (const direction of [1, -1] as const) {
+        const steps = direction === 1 ? (toIndex - fromIndex + 8) % 8 : (fromIndex - toIndex + 8) % 8;
+        const offsetSteps = direction === 1 ? fromIndex : (8 - fromIndex) % 8;
+        const startService = 8 * 60 + 30 + offsetSteps * 5;
+        const ready = timeAbs + approach;
+        const board = startService + Math.max(0, Math.ceil((ready - startService) / 10)) * 10;
+        const lastBoard = 21 * 60 + 50 + offsetSteps * 5;
+        const arrival = board + steps * 5;
+        if (board > lastBoard || arrival + exit > 22 * 60 + 30) continue;
+        const total = arrival + exit - timeAbs;
+        const candidate: TravelStep = {
+          mode: 'shuttle', minutes: total,
+          summary: 'Paradise Loop • ' + STOP_NAMES[fromIndex] + ' → ' + STOP_NAMES[toIndex] +
+            ' • ' + (direction === 1 ? 'по часовой стрелке' : 'против часовой стрелки') +
+            ' • ожидание ' + (board - ready) + ' мин, поездка ' + (steps * 5) + ' мин' +
+            (approach + exit > 0 ? ', подход ' + (approach + exit) + ' мин' : '') + ' (демо)'
+        };
+        if (!bestShuttle || candidate.minutes < bestShuttle.minutes) bestShuttle = candidate;
+      }
+    }
+  }
+  if (transport === 'walk') return walking ?? bestShuttle;
+  if (transport === 'shuttle') return bestShuttle ?? walking;
+  if (!walking) return bestShuttle;
+  if (!bestShuttle || walking.minutes <= bestShuttle.minutes) return walking;
+  return bestShuttle;
 }
 
 const midDuration = (d: [number, number]) => Math.round((d[0] + d[1]) / 2);
@@ -102,8 +165,9 @@ type ScheduledItem = Attraction & {
   chosenDuration: number;
   startMinutes: number | null;
   startTime: string | null;
-  endTime: string | null;
-  inaccessibleReasons: string[];
+  endTime: string | null;  inaccessibleReasons: string[];
+  travel: TravelStep | null;
+  breakBefore: number;
 };
 
 type InaccessibleItem = Attraction & { reasons: string[] };
@@ -126,15 +190,24 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
     { id: 'g2', age: 8, height: 120 },
   ]);
 
-  const [pace, setPace] = useState('balanced');
-  const [transport, setTransport] = useState('auto');
+  const [pace, setPace] = useState('balanced');  const [transport, setTransport] = useState<TransportMode>('auto');
+  const [mobility, setMobility] = useState<Mobility>('none');
+  const [breakMinutes, setBreakMinutes] = useState(0);
+  const [priorityZones, setPriorityZones] = useState<string[]>([]);
+  const [durationOverrides, setDurationOverrides] = useState<Record<string, number>>({});
 
   const [plan, setPlan] = useState<PlanPeriod[]>([]);
   const [inaccessible, setInaccessible] = useState<InaccessibleItem[]>([]);
   const [hasConflicts, setHasConflicts] = useState(false);
 
-  const [showAddPicker, setShowAddPicker] = useState(false);
-  const [replaceTarget, setReplaceTarget] = useState<{ pIndex: number; iIndex: number } | null>(null);
+  const [showAddPicker, setShowAddPicker] = useState(false);  const [replaceTarget, setReplaceTarget] = useState<{ pIndex: number; iIndex: number } | null>(null);
+  const replaceDialogRef = useFocusTrap<HTMLDivElement>(replaceTarget !== null);
+  useEffect(() => {
+    if (!replaceTarget) return;
+    const onEscape = (e: KeyboardEvent) => { if (e.key === 'Escape') setReplaceTarget(null); };
+    document.addEventListener('keydown', onEscape);
+    return () => document.removeEventListener('keydown', onEscape);
+  }, [replaceTarget]);
     // Экспорт (APR-BUG-015)
   const printRef = useRef<HTMLDivElement>(null);
   const [linkCopied, setLinkCopied] = useState(false);
@@ -154,8 +227,12 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
       if (decoded.date) setDate(decoded.date);
       if (decoded.ticketType) setTicketType(decoded.ticketType);
       if (Array.isArray(decoded.interests)) setSelectedInterests(decoded.interests);
-      if (Array.isArray(decoded.guests)) setGuests(decoded.guests.map((g: any, i: number) => ({ id: `g${i}`, age: g.age, height: g.height })));
-      if (decoded.pace) setPace(decoded.pace);
+      if (Array.isArray(decoded.guests)) setGuests(decoded.guests.map((g: any, i: number) => ({ id: `g${i}`, age: g.age, height: g.height })));      if (decoded.pace) setPace(decoded.pace);
+      if (['auto', 'walk', 'shuttle'].includes(decoded.transport)) setTransport(decoded.transport);
+      if (['none', 'stroller', 'wheelchair'].includes(decoded.mobility)) setMobility(decoded.mobility);
+      if ([0, 15, 30].includes(decoded.breakMinutes)) setBreakMinutes(decoded.breakMinutes);
+      if (Array.isArray(decoded.priorityZones)) setPriorityZones(decoded.priorityZones.filter((v: unknown) => typeof v === 'string'));
+      if (decoded.durationOverrides && typeof decoded.durationOverrides === 'object') setDurationOverrides(decoded.durationOverrides);
       // План восстановим после короткой задержки — после установки всех параметров
       if (Array.isArray(decoded.planIds) && decoded.planIds.length > 0) {
         setTimeout(() => {
@@ -196,8 +273,8 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
       date,
       ticketType,
       interests: selectedInterests,
-      guests: guests.map(g => ({ age: g.age, height: g.height })),
-      pace,
+      guests: guests.map(g => ({ age: g.age, height: g.height })),      pace,
+      transport, mobility, breakMinutes, priorityZones, durationOverrides,
       planIds,
     };
     const encoded = base64EncodeUnicode(JSON.stringify(state));
@@ -291,68 +368,52 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
     return reasons;
   };
 
-  const buildSchedule = (availableItems: { attr: Attraction; inaccessibleReasons: string[] }[]) => {
+  const buildSchedule = (availableItems: { attr: Attraction; inaccessibleReasons: string[] }[], overrides: Record<string, number> = durationOverrides) => {
     const dayStart = ticketType === 'evening' ? 17 : 10;
     const dayEnd = 22;
-    let currentMinutes = 0;
-    let over = false;
+    let clock = dayStart * 60;
+    let conflicts = false;
     let lastZone: string | null = null;
-
+    let completed = 0;
     const scheduled: ScheduledItem[] = [];
     const overflowed: InaccessibleItem[] = [];
-
     for (const { attr: item, inaccessibleReasons } of availableItems) {
-      // Недоступный объект — попадает в план без времени (визуально помечен)
+      const chosenDuration = Math.max(item.duration[0], Math.min(item.duration[1], overrides[item.id] ?? midDuration(item.duration)));
       if (inaccessibleReasons.length > 0) {
-        scheduled.push({
-          ...item,
-          chosenDuration: midDuration(item.duration),
-          startMinutes: null,
-          startTime: null,
-          endTime: null,
-          inaccessibleReasons,
-        });
+        scheduled.push({ ...item, chosenDuration, startMinutes: null, startTime: null, endTime: null, inaccessibleReasons, travel: null, breakBefore: 0 });
         continue;
       }
-
-      const mid = midDuration(item.duration);
-      const startAbs = dayStart * 60 + currentMinutes;
-      const itemOpenAbs = item.hours.open * 60;
-      const itemCloseAbs = item.hours.close * 60;
-      if (startAbs < itemOpenAbs) {
-        overflowed.push({ ...item, reasons: [`Открывается в ${item.hours.open}:00`] });
+      const breakBefore = completed > 0 && completed % 3 === 0 ? breakMinutes : 0;
+      const travel = lastZone ? travelBetween(lastZone, item.zone, clock + breakBefore, pace, transport, mobility) : null;
+      if (lastZone && !travel) {
+        conflicts = true;
+        overflowed.push({ ...item, reasons: ['Нет доступного перехода в выбранных условиях'] });
         continue;
       }
-      const endAbs = startAbs + mid;
-      const effectiveClose = Math.min(itemCloseAbs, dayEnd * 60);
-      if (endAbs > effectiveClose) {
-        over = true;
-        overflowed.push({ ...item, reasons: [`Не помещается до закрытия (${item.hours.close}:00)`] });
+      const start = clock + breakBefore + (travel?.minutes ?? 0);
+      const itemOpen = item.hours.open * 60;
+      const effectiveClose = Math.min(item.hours.close * 60, dayEnd * 60);
+      if (start < itemOpen) {
+        overflowed.push({ ...item, reasons: ['Открывается в ' + item.hours.open + ':00'] });
         continue;
       }
-
-      const startTime = formatTime(currentMinutes, dayStart)!;
-      const endTime = formatTime(currentMinutes + mid, dayStart)!;
+      if (start + chosenDuration > effectiveClose) {
+        conflicts = true;
+        overflowed.push({ ...item, reasons: ['Не помещается до закрытия (' + item.hours.close + ':00)'] });
+        continue;
+      }
       scheduled.push({
-        ...item,
-        chosenDuration: mid,
-        startMinutes: currentMinutes,
-        startTime,
-        endTime,
-        inaccessibleReasons: [],
+        ...item, chosenDuration,
+        startMinutes: start - dayStart * 60,
+        startTime: formatTime(start - dayStart * 60, dayStart),
+        endTime: formatTime(start + chosenDuration - dayStart * 60, dayStart),
+        inaccessibleReasons: [], travel, breakBefore,
       });
-
-      currentMinutes += mid;
-      if (lastZone !== null && lastZone !== item.zone) {
-        const walkMin = getWalkMinutes(lastZone, item.zone, pace);
-        currentMinutes += walkMin ?? 15;
-      } else if (lastZone === item.zone) {
-        currentMinutes += 5;
-      }
+      clock = start + chosenDuration;
+      completed += 1;
       lastZone = item.zone;
     }
-
-    return { scheduled, overflowed, hasConflicts: over };
+    return { scheduled, overflowed, hasConflicts: conflicts };
   };
 
   const groupByPeriod = (items: ScheduledItem[]): PlanPeriod[] => {
@@ -372,15 +433,12 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
     if (ticketType !== 'evening' && afternoon.length > 0) periods.push({ period: 'afternoon', title: 'День', items: afternoon });
     if (evening.length > 0) periods.push({ period: 'evening', title: 'Вечер', items: evening });
     return periods;
-  };
-
-  const rebuildPlan = (availableItems: Attraction[], inaccessibleList: InaccessibleItem[]) => {
+  };  const rebuildPlan = (availableItems: Attraction[], inaccessibleList: InaccessibleItem[], overrides: Record<string, number> = durationOverrides) => {
     // Для каждого объекта заранее считаем причины недоступности
     const itemsWithReasons = availableItems.map(attr => ({
       attr,
       inaccessibleReasons: checkAccessibility(attr),
-    }));
-    const { scheduled, overflowed, hasConflicts } = buildSchedule(itemsWithReasons);
+    }));    const { scheduled, overflowed, hasConflicts } = buildSchedule(itemsWithReasons, overrides);
     setPlan(groupByPeriod(scheduled));
     setInaccessible([...inaccessibleList, ...overflowed]);
     setHasConflicts(hasConflicts);
@@ -401,16 +459,22 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
       const reasons = checkAccessibility(a);
       if (reasons.length === 0) available.push(a);
       else inacc.push({ ...a, reasons });
-    });
-
-    setIsGenerated(true);
-    rebuildPlan(available, inacc);
+    });    setIsGenerated(true);
+    const prioritized = [...available].sort((a, b) => Number(priorityZones.includes(b.zone)) - Number(priorityZones.includes(a.zone)));
+    rebuildPlan(prioritized, inacc);
   };
 
   const flattenAvailable = (): Attraction[] =>
-    plan.flatMap(p => p.items.map(i => ATTRACTIONS_DB.find(a => a.id === i.id)!));
+    plan.flatMap(p => p.items.map(i => ATTRACTIONS_DB.find(a => a.id === i.id)!));  const applyEdit = (newAvailable: Attraction[]) => rebuildPlan(newAvailable, inaccessible);
 
-  const applyEdit = (newAvailable: Attraction[]) => rebuildPlan(newAvailable, inaccessible);
+  const updateStopDuration = (id: string, minutes: number) => {
+    const attr = ATTRACTIONS_DB.find(a => a.id === id);
+    if (!attr || !Number.isFinite(minutes)) return;
+    const clamped = Math.max(attr.duration[0], Math.min(attr.duration[1], minutes));
+    const next = { ...durationOverrides, [id]: clamped };
+    setDurationOverrides(next);
+    rebuildPlan(flattenAvailable(), inaccessible, next);
+  };
 
   const moveItem = (periodIndex: number, itemIndex: number, direction: 'up' | 'down') => {
     const all = flattenAvailable();
@@ -520,7 +584,7 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
                         <input type="number" min="0" max="250" value={g.height} onChange={(e) => updateGuest(g.id, 'height', parseInt(e.target.value) || 0)} className="w-20 px-2 py-1 border border-gray-200 rounded text-sm" />
                       </label>
                       <span className="text-xs text-gray-400 ml-auto">{g.age >= 18 ? '👤' : '👶'}</span>
-                      <button onClick={() => removeGuest(g.id)} className="text-red-400 hover:text-red-600 p-1" title="Удалить">✕</button>
+                      <button onClick={() => removeGuest(g.id)} className="text-red-400 hover:text-red-600 p-1" title="Удалить" aria-label={`Удалить гостя ${idx + 1}`}>✕</button>
                     </div>
                   ))}
                 </div>
@@ -539,7 +603,7 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
 
               <div className="mb-6 border-t border-gray-100 pt-4">
                 <button onClick={() => setShowAdvanced(!showAdvanced)} className="text-sm text-teal-600 font-medium hover:underline flex items-center gap-2">
-                  {showAdvanced ? 'Скрыть дополнительные настройки' : 'Дополнительные настройки (темп, транспорт)'}
+                  {showAdvanced ? 'Скрыть дополнительные настройки' : 'Дополнительные настройки (темп, транспорт, перерывы, приоритеты)'}
                 </button>
                 {showAdvanced && (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 animate-fade-in">
@@ -552,15 +616,41 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
                     </div>
                     <div>
                       <label className="block text-xs font-medium text-gray-500 mb-2">Передвижение</label>
-                      <select value={transport} onChange={(e) => setTransport(e.target.value)} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm">
-                        <option value="auto">Пешком (по расстояниям §7.7.13)</option>
-                      </select>
-                    </div>
-                  </div>
-                )}
-              </div>
+                      <select value={transport} onChange={(e) => setTransport(e.target.value as TransportMode)} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm">
+                        <option value="auto">Оптимальный (сравнить время)</option>
+                         <option value="walk">Преимущественно пешком</option>
+                         <option value="shuttle">Предпочитать Paradise Loop</option>
+                      </select>                     </div>
+                     <div>
+                       <label className="block text-xs font-medium text-gray-500 mb-2">Доступность передвижения</label>
+                       <select value={mobility} onChange={e => setMobility(e.target.value as Mobility)} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm">
+                         <option value="none">Без ограничений</option>
+                         <option value="stroller">С детской коляской</option>
+                         <option value="wheelchair">С инвалидной коляской</option>
+                       </select>
+                     </div>
+                     <div>
+                       <label className="block text-xs font-medium text-gray-500 mb-2">Перерыв после каждых трёх остановок</label>
+                       <select value={breakMinutes} onChange={e => setBreakMinutes(Number(e.target.value))} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm">
+                         <option value={0}>Без дополнительного перерыва</option>
+                         <option value={15}>15 минут</option>
+                         <option value={30}>30 минут</option>
+                       </select>
+                     </div>
+                     <fieldset className="md:col-span-2"><legend className="block text-xs font-medium text-gray-500 mb-2">Приоритетные зоны</legend>
+                       <div className="flex flex-wrap gap-3">
+                         {[...new Set(ATTRACTIONS_DB.map(a => a.zone))].map(zone => (
+                           <label key={zone} className="text-xs inline-flex items-center gap-1 bg-gray-50 px-2 py-2 rounded-lg">
+                             <input type="checkbox" checked={priorityZones.includes(zone)} onChange={e => setPriorityZones(prev => e.target.checked ? [...prev, zone] : prev.filter(z => z !== zone))} /> {zone}
+                           </label>
+                         ))}
+                       </div>
+                     </fieldset>
+                   </div>
+                 )}
+               </div>
 
-              <div className="text-center">
+               <div className="text-center">
                 <button onClick={generatePlan} className="bg-teal-600 text-white px-12 py-4 rounded-full text-lg font-medium hover:bg-teal-700 transition shadow-lg">
                   Сгенерировать маршрут
                 </button>
@@ -681,21 +771,17 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
                     </div>
 
                     <div className="space-y-4 md:ml-16">
-                      {period.items.map((item, iIndex) => {
-                        const prev = iIndex > 0 ? period.items[iIndex - 1] : null;
-                        const walkMin = (prev && prev.startTime !== null && item.startTime !== null)
-                          ? getWalkMinutes(prev.zone, item.zone, pace)
-                          : null;
+                      {period.items.map((item, iIndex) => {                         const travel = item.travel;
                         const isInaccessible = item.inaccessibleReasons.length > 0;
                         return (
                           <div key={`${item.id}-${iIndex}`}>
-                            {prev && prev.startTime !== null && item.startTime !== null && (
+                            {travel && item.startTime !== null && (
                               <div className="flex items-center gap-2 ml-6 mb-2 text-xs text-gray-500">
                                 <span>↓</span>
-                                <span>Переход: {walkMin !== null ? `пешком ~${walkMin} мин` : 'пешком (расстояние уточняется)'}</span>
+                                <span>{travel.summary}</span>
                               </div>
-                            )}
-                            <div className={`p-4 rounded-2xl shadow-sm border flex flex-wrap items-center justify-between gap-2 transition ${
+                            )}                             {item.breakBefore > 0 && <p className="text-xs text-indigo-600 mb-2 ml-6">☕ Перерыв: {item.breakBefore} мин</p>}
+                             <div className={`p-4 rounded-2xl shadow-sm border flex flex-wrap items-center justify-between gap-2 transition ${
                               isInaccessible ? 'bg-red-50/50 border-red-300' : 'bg-white border-gray-100 hover:shadow-md'
                             }`}>
                               <div className="flex gap-4 items-center">
@@ -709,8 +795,16 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
                                   <p className="text-xs text-gray-500">
                                     {item.zone}
                                     {!isInaccessible && item.startTime && ` • ${item.startTime} – ${item.endTime} • ${item.chosenDuration} мин`}
-                                  </p>
-                                  {isInaccessible && (
+                                  </p>                                   {!isInaccessible && (
+                                     <label className="flex items-center gap-2 text-xs text-gray-600 mt-2 print:hidden">
+                                       Длительность, мин
+                                       <input type="number" min={item.duration[0]} max={item.duration[1]} step={1} value={item.chosenDuration}
+                                         onChange={e => updateStopDuration(item.id, Number(e.target.value))}
+                                         aria-label={'Длительность ' + item.name + ' в минутах'} className="w-16 px-2 py-1 border border-gray-300 rounded" />
+                                       <span>({item.duration[0]}–{item.duration[1]})</span>
+                                     </label>
+                                   )}
+                                   {isInaccessible && (
                                     <p className="text-xs text-red-700 font-medium mt-1">
                                       Недоступен: {item.inaccessibleReasons.join('; ')}
                                     </p>
@@ -767,10 +861,9 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
 
       {/* Пикер замены */}
       {replaceTarget && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={() => setReplaceTarget(null)}>
-          <div className="bg-white rounded-2xl w-full max-w-lg max-h-[80vh] overflow-hidden shadow-2xl" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={() => setReplaceTarget(null)}>           <div ref={replaceDialogRef} role="dialog" aria-modal="true" aria-labelledby="replace-dialog-title" tabIndex={-1} className="bg-white rounded-2xl w-full max-w-lg max-h-[80vh] overflow-hidden shadow-2xl outline-none" onClick={(e) => e.stopPropagation()}>
             <div className="p-4 border-b border-gray-100 flex justify-between items-center">
-              <span className="font-medium text-gray-900">Заменить на...</span>
+              <h3 id="replace-dialog-title" className="font-medium text-gray-900">Заменить на...</h3>
               <button onClick={() => setReplaceTarget(null)} aria-label="Закрыть" className="text-gray-400 hover:text-gray-700 p-1">✕</button>
             </div>
             <div className="p-4 overflow-y-auto max-h-[60vh] grid grid-cols-1 gap-2">
