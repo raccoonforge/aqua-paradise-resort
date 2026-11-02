@@ -18,6 +18,22 @@ type Attraction = {
 };
 
 const ATTRACTIONS_DB: Attraction[] = [
+  // Не-ride остановки: данные утверждённого каталога, §7.7.8–11.
+  // Для инфраструктуры не создаём отдельный пункт «транзит» или остановку шаттла.
+  { id: 'paradise-gateway', name: 'Paradise Gateway', zone: 'Paradise Boulevard', interests: ['Исследования', 'Семейный отдых'], duration: [10, 15], hours: { open: 9, close: 22 }, minAge: 0, minHeight: null, requiresAdult: false, adultAgeThreshold: 18 },
+  { id: 'palm-avenue', name: 'Palm Avenue (прогулка)', zone: 'Paradise Boulevard', interests: ['Релакс', 'Исследования'], duration: [15, 30], hours: { open: 9, close: 22 }, minAge: 0, minHeight: null, requiresAdult: false, adultAgeThreshold: 18 },
+  { id: 'island-welcome-center', name: 'Island Welcome Center', zone: 'Paradise Boulevard', interests: ['Исследования'], duration: [10, 20], hours: { open: 9, close: 22 }, minAge: 0, minHeight: null, requiresAdult: false, adultAgeThreshold: 18 },
+  { id: 'sunset-market-square', name: 'Sunset Market Square', zone: 'Paradise Market', interests: ['Релакс', 'Исследования', 'Семейный отдых'], duration: [20, 40], hours: { open: 9, close: 22 }, minAge: 0, minHeight: null, requiresAdult: false, adultAgeThreshold: 18 },
+  { id: 'tropical-bites', name: 'Tropical Bites Food Hall (питание оплачивается отдельно)', zone: 'Paradise Market', interests: ['Семейный отдых', 'Релакс'], duration: [30, 45], hours: { open: 9, close: 22 }, minAge: 0, minHeight: null, requiresAdult: false, adultAgeThreshold: 18 },
+  { id: 'azure-terrace', name: 'Azure Terrace Restaurant (оплачивается отдельно)', zone: 'Paradise Market', interests: ['Релакс'], duration: [60, 90], hours: { open: 12, close: 22 }, minAge: 0, minHeight: null, requiresAdult: false, adultAgeThreshold: 18 },
+  { id: 'coconut-and-co', name: 'Coconut & Co. (питание оплачивается отдельно)', zone: 'Paradise Market', interests: ['Семейный отдых', 'Релакс'], duration: [10, 20], hours: { open: 9, close: 21 }, minAge: 0, minHeight: null, requiresAdult: false, adultAgeThreshold: 18 },
+  { id: 'island-treasures', name: 'Island Treasures (покупки оплачиваются отдельно)', zone: 'Paradise Market', interests: ['Исследования'], duration: [15, 30], hours: { open: 10, close: 22 }, minAge: 0, minHeight: null, requiresAdult: false, adultAgeThreshold: 18 },
+  { id: 'splash-essentials', name: 'Splash Essentials (покупки оплачиваются отдельно)', zone: 'Paradise Market', interests: ['Исследования'], duration: [10, 20], hours: { open: 9, close: 20 }, minAge: 0, minHeight: null, requiresAdult: false, adultAgeThreshold: 18 },
+  { id: 'hidden-falls', name: 'Hidden Falls', zone: 'Eden Gardens', interests: ['Релакс', 'Исследования'], duration: [15, 25], hours: { open: 9, close: 19 }, minAge: 0, minHeight: null, requiresAdult: false, adultAgeThreshold: 18 },
+  { id: 'orchid-pavilion', name: 'Orchid Pavilion', zone: 'Eden Gardens', interests: ['Релакс', 'Исследования'], duration: [15, 25], hours: { open: 9, close: 19 }, minAge: 0, minHeight: null, requiresAdult: false, adultAgeThreshold: 18 },
+  { id: 'starlight-trail', name: 'Starlight Trail', zone: 'Eden Gardens', interests: ['Релакс', 'Исследования'], duration: [25, 40], hours: { open: 17, close: 21 }, minAge: 0, minHeight: null, requiresAdult: true, adultAgeThreshold: 12 },
+  { id: 'mist-sanctuary', name: 'Mist Sanctuary', zone: 'Serenity Spa', interests: ['Релакс'], duration: [20, 40], hours: { open: 10, close: 20 }, minAge: 16, minHeight: null, requiresAdult: true, adultAgeThreshold: 18 },
+  
   // Adrenaline Peak
   { id: 'skyfall', name: 'Skyfall', zone: 'Adrenaline Peak', interests: ['Адреналин'], duration: [10, 15], hours: { open: 10, close: 19 }, minAge: 16, minHeight: 150, requiresAdult: false, adultAgeThreshold: 18 },
   { id: 'velocity-racers', name: 'Velocity Racers', zone: 'Adrenaline Peak', interests: ['Адреналин'], duration: [15, 20], hours: { open: 10, close: 19 }, minAge: 12, minHeight: 140, requiresAdult: false, adultAgeThreshold: 18 },
@@ -460,7 +476,32 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
       if (reasons.length === 0) available.push(a);
       else inacc.push({ ...a, reasons });
     });    setIsGenerated(true);
-    const prioritized = [...available].sort((a, b) => Number(priorityZones.includes(b.zone)) - Number(priorityZones.includes(a.zone)));
+    const preferredZones = ['Paradise Boulevard', 'Paradise Market', 'Eden Gardens', 'Serenity Spa'];
+    const groups = new Map<string, Attraction[]>();
+    available.forEach(item => {
+      const group = groups.get(item.zone) ?? [];
+      group.push(item);
+      groups.set(item.zone, group);
+    });
+    const zoneOrder = [...groups.keys()].sort((a, b) => {
+      const priorityDifference = Number(priorityZones.includes(b)) - Number(priorityZones.includes(a));
+      if (priorityDifference !== 0) return priorityDifference;
+      const aIndex = preferredZones.indexOf(a);
+      const bIndex = preferredZones.indexOf(b);
+      return (aIndex < 0 ? preferredZones.length : aIndex) - (bIndex < 0 ? preferredZones.length : bIndex);
+    });
+    const prioritized: Attraction[] = [];
+    let remaining = true;
+    while (remaining) {
+      remaining = false;
+      zoneOrder.forEach(zone => {
+        const item = groups.get(zone)?.shift();
+        if (item) {
+          prioritized.push(item);
+          remaining = true;
+        }
+      });
+    }
     rebuildPlan(prioritized, inacc);
   };
 
