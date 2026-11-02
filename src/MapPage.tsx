@@ -1,562 +1,222 @@
-import { useState, useRef, useMemo } from 'react';
-import { conceptualRoute, isConceptuallyReachable, type RouteNodeId } from './data/island-transport';
+import { useMemo, useRef, useState, type PointerEvent, type WheelEvent } from 'react';
 
-// Данные о зонах (сохранены из исходной версии; координаты иллюстративные).
-const zonesData = [
+type TravelMode = 'walk' | 'shuttle';
+type Category = 'all' | 'zones' | 'transport';
+type Node = { id: string; name: string; x: number; y: number; color: string; desc: string };
+type Segment = { from: string; to: string; mode: TravelMode; minutes: number; distance?: number; direction?: string; wait?: number };
+type Route = { segments: Segment[]; minutes: number; walkMetres: number; explanation?: string };
+
+// ИЛЛЮСТРАТИВНЫЕ позиции старой схемы, не утверждённый геоплан или GPS.
+const ZONES: readonly Node[] = [
   { id: 'paradise-boulevard', name: 'Paradise Boulevard', x: 50, y: 85, color: '#14b8a6', desc: 'Входная зона и главная аллея' },
   { id: 'paradise-market', name: 'Paradise Market', x: 40, y: 65, color: '#f59e0b', desc: 'Торгово-ресторанный квартал' },
   { id: 'eden-gardens', name: 'Eden Gardens', x: 50, y: 45, color: '#22c55e', desc: 'Ботанический сад и зона отдыха' },
   { id: 'little-paradise', name: 'Little Paradise', x: 65, y: 55, color: '#f472b6', desc: 'Детская зона' },
-  { id: 'serenity-spa', name: 'Serenity Spa', x: 30, y: 45, color: '#a855f7', desc: 'Спа и велнес-центр' },
+  { id: 'serenity-spa', name: 'Serenity Spa', x: 30, y: 45, color: '#a855f7', desc: 'Зона спокойного отдыха' },
   { id: 'adrenaline-peak', name: 'Adrenaline Peak', x: 45, y: 15, color: '#ef4444', desc: 'Экстремальные аттракционы' },
-  { id: 'atlantis-realm', name: 'Atlantis Realm', x: 25, y: 25, color: '#3b82f6', desc: 'Подводный город и аквариум' },
+  { id: 'atlantis-realm', name: 'Atlantis Realm', x: 25, y: 25, color: '#3b82f6', desc: 'Затерянный город' },
   { id: 'pirates-cove', name: "Pirate's Cove", x: 75, y: 25, color: '#854d0e', desc: 'Пиратские приключения' },
   { id: 'ocean-bay', name: 'Ocean Bay', x: 85, y: 10, color: '#0ea5e9', desc: 'Пляж и морские развлечения' },
-  { id: 'grand-hotel', name: 'Paradise Grand Hotel', x: 15, y: 10, color: '#64748b', desc: 'Гостиничный комплекс' },
-] as const;
-
-// Групповой маркер «Транспортный узел / Главный вход».
-// Внутренние объекты не имеют собственных координат — Visual Pending.
-const transportHub = {
-  id: 'gateway',
-  name: 'Транспортный узел / Главный вход',
-  x: 50, y: 92,
-  color: '#0f766e',
-  subObjects: [
-    { id: 'ocean-wings', name: 'Канатная дорога Ocean Wings', desc: 'Позиция станции на схеме уточняется.' },
-    { id: 'ferry-terminal', name: 'Морской причал', desc: 'Позиция причала на схеме уточняется.' },
-    { id: 'main-gateway', name: 'Главный вход', desc: 'Единая точка входа для гостей курорта.' },
-  ],
-};
-
-const CATEGORIES = [
-  { id: 'all', label: 'Все' },
-  { id: 'zones', label: 'Зоны' },
-  { id: 'transport', label: 'Транспорт' },
+  { id: 'grand-hotel', name: 'Paradise Grand Hotel', x: 15, y: 10, color: '#64748b', desc: 'Гостиничный комплекс; маршрут к отелю уточняется' },
 ];
+const ENTRY = { id: 'gateway', name: 'Транспортный узел / Главный вход', x: 50, y: 92, color: '#0f766e' };
+const ENTRY_OBJECTS = [
+  { name: 'Канатная дорога Ocean Wings', desc: 'Положение отдельной станции на финальной карте уточняется.' },
+  { name: 'Морской причал', desc: 'Положение отдельного причала на финальной карте уточняется.' },
+  { name: 'Главный вход', desc: 'Точка входа в Paradise Boulevard.' },
+];
+// Утверждённые demo-переходы: docs/master/website-requirements.md §7.7.13.
+const WALK: readonly [string, string, number][] = [
+  ['paradise-boulevard', 'paradise-market', 350],
+  ['paradise-market', 'eden-gardens', 500],
+  ['eden-gardens', 'serenity-spa', 600],
+  ['serenity-spa', 'ocean-bay', 450],
+  ['ocean-bay', 'adrenaline-peak', 700],
+  ['adrenaline-peak', 'atlantis-realm', 550],
+  ['atlantis-realm', 'pirates-cove', 450],
+  ['pirates-cove', 'paradise-boulevard', 600],
+  ['eden-gardens', 'little-paradise', 450],
+];
+// Порядок восьми станций Paradise Loop §7.7.12. Little Paradise — пешком от Eden Gardens.
+const LOOP = ['paradise-boulevard', 'paradise-market', 'eden-gardens', 'serenity-spa', 'ocean-bay', 'adrenaline-peak', 'atlantis-realm', 'pirates-cove'] as const;
+const nodeById = (id: string) => ZONES.find(n => n.id === id);
+const minutesWalk = (metres: number, slow: boolean) => Math.ceil(metres * 60 / (slow ? 3000 : 4000));
 
-const PAN_LIMIT = { x: 300, y: 200 };
-const ZOOM_MIN = 0.6;
-const ZOOM_MAX = 1.8;
-const clampZoom = (z: number) => Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, z));
+function shortestWalk(from: string, to: string, slow: boolean): Route | null {
+  if (from === to) return { segments: [], minutes: 0, walkMetres: 0 };
+  const dist = new Map<string, number>([[from, 0]]);
+  const previous = new Map<string, string>();
+  const used = new Set<string>();
+  while (true) {
+    const next = Array.from(dist.entries()).filter(([id]) => !used.has(id)).sort((a, b) => a[1] - b[1])[0];
+    if (!next) return null;
+    const [current, weight] = next;
+    if (current === to) break;
+    used.add(current);
+    for (const [a, b, metres] of WALK) {
+      const adjacent = a === current ? b : b === current ? a : null;
+      if (!adjacent || weight + metres >= (dist.get(adjacent) ?? Infinity)) continue;
+      dist.set(adjacent, weight + metres);
+      previous.set(adjacent, current);
+    }
+  }
+  const ids = [to];
+  while (ids[0] !== from) {
+    const prior = previous.get(ids[0]);
+    if (!prior) return null;
+    ids.unshift(prior);
+  }
+  const metres = dist.get(to) ?? 0;
+  // Итог округляется после суммирования расстояний, а не по участкам.
+  const minutes = minutesWalk(metres, slow);
+  const segments = ids.slice(0, -1).map((id, i) => {
+    const next = ids[i + 1];
+    const part = WALK.find(([a, b]) => (a === id && b === next) || (a === next && b === id));
+    return { from: id, to: next, mode: 'walk' as const, minutes: minutesWalk(part?.[2] ?? 0, slow), distance: part?.[2] ?? 0 };
+  });
+  return { segments, minutes, walkMetres: metres };
+}
 
-// Tap vs drag thresholds
-const TAP_MOVE_LIMIT = 8;
-const TAP_TIME_LIMIT = 250;
+function loopRoute(from: string, to: string, slow: boolean): Route | null {
+  if (from === to) return { segments: [], minutes: 0, walkMetres: 0 };
+  const boarding = from === 'little-paradise' ? 'eden-gardens' : from;
+  const exiting = to === 'little-paradise' ? 'eden-gardens' : to;
+  const fromIndex = LOOP.indexOf(boarding as typeof LOOP[number]);
+  const toIndex = LOOP.indexOf(exiting as typeof LOOP[number]);
+  if (fromIndex < 0 || toIndex < 0) return null;
+  const segments: Segment[] = [];
+  let walking = 0;
+  if (from === 'little-paradise') {
+    walking += 450;
+    segments.push({ from, to: boarding, mode: 'walk', distance: 450, minutes: minutesWalk(450, slow) });
+  }
+  if (boarding !== exiting) {
+    const clockwise = (toIndex - fromIndex + LOOP.length) % LOOP.length;
+    const counter = (fromIndex - toIndex + LOOP.length) % LOOP.length;
+    const steps = Math.min(clockwise, counter);
+    const dir = clockwise <= counter ? 1 : -1;
+    const direction = dir === 1 ? 'по часовой стрелке' : 'против часовой стрелки';
+    const ids: string[] = [boarding];
+    for (let i = 1; i <= steps; i++) ids.push(LOOP[(fromIndex + dir * i + LOOP.length * 2) % LOOP.length]);
+    ids.slice(0, -1).forEach((id, i) => segments.push({ from: id, to: ids[i + 1], mode: 'shuttle', minutes: 5, direction, wait: i === 0 ? 5 : 0 }));
+  }
+  if (to === 'little-paradise') {
+    walking += 450;
+    segments.push({ from: exiting, to, mode: 'walk', distance: 450, minutes: minutesWalk(450, slow) });
+  }
+  const minutes = (boarding === exiting ? 0 : 5) + segments.reduce((sum, s) => sum + s.minutes, 0);
+  return { segments, minutes, walkMetres: walking, explanation: 'Ожидание шаттла ~5 минут — предварительная демонстрационная оценка. Точное время зависит от остановки и расписания.' };
+}
 
-type PointerInfo = {
-  x: number;
-  y: number;
-  startX: number;
-  startY: number;
-  startTime: number;
-};
-
+const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 export default function MapPage() {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [expandedHub, setExpandedHub] = useState(false);
+  const [selected, setSelected] = useState<string | null>(null);
   const [search, setSearch] = useState('');
-  const [category, setCategory] = useState<'all' | 'zones' | 'transport'>('all');
-
-  // Панорамирование и масштаб
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
-  const dragStart = useRef({ x: 0, y: 0 });
+  const [category, setCategory] = useState<Category>('all');
   const [zoom, setZoom] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [from, setFrom] = useState('');
+  const [to, setTo] = useState('');
+  const [mode, setMode] = useState<TravelMode>('walk');
+  const [slow, setSlow] = useState(false);
+  const [route, setRoute] = useState<Route | null>(null);
+  const [error, setError] = useState('');
+  const [panelOpen, setPanelOpen] = useState(false);
+  const [controlsOpen, setControlsOpen] = useState(false);
+  const mapRef = useRef<HTMLDivElement>(null);
+  const gestures = useRef(new Map<number, { x: number; y: number }>());
+  const moving = useRef<{ x: number; y: number; originX: number; originY: number } | null>(null);
+  const pinching = useRef<{ distance: number; zoom: number } | null>(null);
 
-  // Маршрут (концептуальный, без времени/расстояний)
-  const [routeFrom, setRouteFrom] = useState<RouteNodeId | ''>('');
-  const [routeTo, setRouteTo] = useState<RouteNodeId | ''>('');
-  const [routePath, setRoutePath] = useState<RouteNodeId[] | null>(null);
-  const [routeError, setRouteError] = useState<string | null>(null);
-
-  // Жесты
-  const pointers = useRef<Map<number, PointerInfo>>(new Map());
-  const pinchRef = useRef<{ distance: number; zoom: number } | null>(null);
-  const mapRef = useRef<HTMLDivElement | null>(null);
-
-  const handleWheelNative = (e: WheelEvent) => {
-    e.preventDefault();
-    const delta = e.deltaY > 0 ? -0.1 : 0.1;
-    setZoom(z => clampZoom(z + delta));
+  const filtered = useMemo(() => ZONES.filter(z => (category !== 'transport') && z.name.toLowerCase().includes(search.trim().toLowerCase())), [search, category]);
+  const showEntry = category !== 'zones' && (search.trim() === '' || `${ENTRY.name} ${ENTRY_OBJECTS.map(o => o.name).join(' ')}`.toLowerCase().includes(search.trim().toLowerCase()));
+  const selectedNode = nodeById(selected ?? '');
+  const label = (id: string) => nodeById(id)?.name ?? id;
+  const resetRoute = () => { setFrom(''); setTo(''); setRoute(null); setError(''); };
+  const resetAll = () => { setSearch(''); setCategory('all'); setSelected(null); setPanelOpen(false); resetRoute(); };
+  const buildRoute = () => {
+    setRoute(null);
+    if (!from || !to) { setError('Выберите обе точки маршрута.'); return; }
+    if (from === to) { setError('Начальная и конечная точки совпадают.'); return; }
+    const result = mode === 'walk' ? shortestWalk(from, to, slow) : loopRoute(from, to, slow);
+    if (!result) { setError('Для выбранных точек нет подтверждённого демонстрационного перехода. Выберите другие точки или способ передвижения.'); return; }
+    setError(''); setRoute(result); setPanelOpen(true);
   };
-  const setMapRef = (el: HTMLDivElement | null) => {
-    if (mapRef.current) {
-      mapRef.current.removeEventListener('wheel', handleWheelNative);
-    }
-    mapRef.current = el;
-    if (el) {
-      el.addEventListener('wheel', handleWheelNative, { passive: false });
-    }
-  };
-
-  const distanceBetween = (a: { x: number; y: number }, b: { x: number; y: number }) => {
-    const dx = a.x - b.x;
-    const dy = a.y - b.y;
-    return Math.hypot(dx, dy);
-  };
-
-  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    pointers.current.set(e.pointerId, {
-      x: e.clientX,
-      y: e.clientY,
-      startX: e.clientX,
-      startY: e.clientY,
-      startTime: Date.now(),
-    });
-
-    if (pointers.current.size === 1) {
-      setIsDragging(true);
-      dragStart.current = { x: e.clientX - position.x, y: e.clientY - position.y };
-    } else if (pointers.current.size === 2) {
-      const [p1, p2] = Array.from(pointers.current.values());
-      pinchRef.current = { distance: distanceBetween(p1, p2), zoom };
-      setIsDragging(false);
+  const resetView = () => { setZoom(1); setPan({ x: 0, y: 0 }); };
+  const onPointerDown = (e: PointerEvent<HTMLDivElement>) => {
+    if ((e.target as HTMLElement).closest('button, input, select')) return;
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    gestures.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (gestures.current.size === 1) moving.current = { x: e.clientX, y: e.clientY, originX: pan.x, originY: pan.y };
+    if (gestures.current.size === 2) {
+      const [a, b] = [...gestures.current.values()];
+      pinching.current = { distance: Math.hypot(a.x - b.x, a.y - b.y), zoom };
+      moving.current = null;
     }
   };
-
-  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    const prev = pointers.current.get(e.pointerId);
-    if (!prev) return;
-    pointers.current.set(e.pointerId, { ...prev, x: e.clientX, y: e.clientY });
-
-    if (pointers.current.size === 2 && pinchRef.current) {
-      const [p1, p2] = Array.from(pointers.current.values());
-      const currentDistance = distanceBetween(p1, p2);
-      if (pinchRef.current.distance > 0) {
-        const ratio = currentDistance / pinchRef.current.distance;
-        setZoom(clampZoom(pinchRef.current.zoom * ratio));
-      }
-      return;
-    }
-
-    if (pointers.current.size === 1 && isDragging) {
-      const nx = e.clientX - dragStart.current.x;
-      const ny = e.clientY - dragStart.current.y;
-      setPosition({
-        x: Math.max(-PAN_LIMIT.x, Math.min(PAN_LIMIT.x, nx)),
-        y: Math.max(-PAN_LIMIT.y, Math.min(PAN_LIMIT.y, ny)),
-      });
+  const onPointerMove = (e: PointerEvent<HTMLDivElement>) => {
+    if (!gestures.current.has(e.pointerId)) return;
+    gestures.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (gestures.current.size === 2 && pinching.current) {
+      const [a, b] = [...gestures.current.values()];
+      setZoom(clamp(pinching.current.zoom * Math.hypot(a.x - b.x, a.y - b.y) / Math.max(1, pinching.current.distance), 0.6, 1.8));
+    } else if (moving.current) {
+      setPan({ x: clamp(moving.current.originX + e.clientX - moving.current.x, -300, 300), y: clamp(moving.current.originY + e.clientY - moving.current.y, -200, 200) });
     }
   };
+  const onPointerUp = (e: PointerEvent<HTMLDivElement>) => { gestures.current.delete(e.pointerId); if (gestures.current.size < 2) pinching.current = null; moving.current = null; };
+  const onWheel = (e: WheelEvent<HTMLDivElement>) => { if (e.ctrlKey) return; e.preventDefault(); setZoom(z => clamp(z + (e.deltaY < 0 ? 0.1 : -0.1), 0.6, 1.8)); };
 
-  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
-    const p = pointers.current.get(e.pointerId);
-    if (p) {
-      const dx = e.clientX - p.startX;
-      const dy = e.clientY - p.startY;
-      const distance = Math.hypot(dx, dy);
-      const elapsed = Date.now() - p.startTime;
-
-      if (distance < TAP_MOVE_LIMIT && elapsed < TAP_TIME_LIMIT) {
-        const target = e.target as HTMLElement;
-        const pin = target.closest('button');
-        if (pin) {
-          pin.click();
-        }
-      }
-    }
-    pointers.current.delete(e.pointerId);
-    if (pointers.current.size < 2) pinchRef.current = null;
-    if (pointers.current.size === 0) setIsDragging(false);
-  };
-
-  // Поиск
-  const query = search.trim().toLowerCase();
-  const filteredZones = useMemo(() => {
-    return zonesData.filter(z =>
-      (category === 'all' || category === 'zones') &&
-      (query === '' || z.name.toLowerCase().includes(query))
-    );
-  }, [query, category]);
-
-  const showHub = useMemo(() => {
-    return (category === 'all' || category === 'transport') &&
-      (query === '' || transportHub.name.toLowerCase().includes(query) || transportHub.subObjects.some(o => o.name.toLowerCase().includes(query)));
-  }, [query, category]);
-
-  const zoomIn = () => setZoom(z => clampZoom(z + 0.2));
-  const zoomOut = () => setZoom(z => clampZoom(z - 0.2));
-  const resetView = () => { setZoom(1); setPosition({ x: 0, y: 0 }); };
-
-  const handleBuildRoute = () => {
-    setRouteError(null);
-    setRoutePath(null);
-    if (!routeFrom || !routeTo) return;
-    if (routeFrom === routeTo) {
-      setRouteError('Начальная и конечная точки совпадают.');
-      return;
-    }
-    if (!isConceptuallyReachable(routeFrom, routeTo)) {
-      setRouteError('Нет доступной связи по концептуальному графу. Попробуйте другую пару.');
-      return;
-    }
-    const path = conceptualRoute(routeFrom, routeTo);
-    if (!path) {
-      setRouteError('Не удалось построить концептуальный маршрут.');
-      return;
-    }
-    setRoutePath(path);
-  };
-
-  const resetRoute = () => {
-    setRouteFrom('');
-    setRouteTo('');
-    setRoutePath(null);
-    setRouteError(null);
-  };
-
-  const routeNodes: { id: RouteNodeId; label: string }[] = [
-    ...zonesData.map(z => ({ id: z.id as RouteNodeId, label: z.name })),
-    ...transportHub.subObjects.map(o => ({
-      id: 'paradise-boulevard' as RouteNodeId,
-      label: `Вход (${o.name})`,
-    })),
-  ];
-  const uniqueRouteNodes = Array.from(new Map(routeNodes.map(n => [n.id, n])).values());
-
-  const selectedZone = selectedId ? zonesData.find(z => z.id === selectedId) : null;
-
+  // Маршрутные линии — только иллюстративное отображение сегментов на старых якорях карты.
+  const drawSegments = route?.segments.filter(s => nodeById(s.from) && nodeById(s.to)) ?? [];
   return (
-    <div className="h-[calc(100vh-64px)] flex flex-col md:flex-row overflow-hidden bg-[#e5e7eb]">
-
-      {/* ЛЕВАЯ ЧАСТЬ: Карта */}
-      <div
-        ref={setMapRef}
-        className={`relative flex-grow md:w-[70%] h-[50vh] md:h-full overflow-hidden bg-[#d1d5db] ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerUp}
-        aria-label="Интерактивная карта острова"
-        data-map-container
-      >
-        {/* Сетка */}
-        <div
-          className="absolute inset-0 opacity-20"
-          style={{ backgroundImage: 'radial-gradient(#6b7280 1px, transparent 1px)', backgroundSize: '40px 40px' }}
-          aria-hidden="true"
-        ></div>
-
-        {/* Мир (сдвиг + масштаб) */}
-        <div
-          className="absolute inset-0"
-          style={{
-            transform: `translate(${position.x}px, ${position.y}px) scale(${zoom})`,
-            transformOrigin: 'center',
-            transition: isDragging ? 'none' : 'transform 0.15s ease-out',
-          }}
-        >
-          {/* Декоративные связи */}
-          <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-30" aria-hidden="true">
-            <path d="M 15 10 L 25 25 L 45 15" stroke="#6b7280" strokeWidth="2" strokeDasharray="5,5" fill="none" />
-            <path d="M 85 10 L 75 25 L 65 55 L 50 45 L 40 65 L 50 85" stroke="#6b7280" strokeWidth="2" strokeDasharray="5,5" fill="none" />
+    <main className="h-[calc(100dvh-64px)] min-h-[520px] flex flex-col md:flex-row bg-slate-100 overflow-hidden">
+      <section ref={mapRef} aria-label="Схематическая карта острова" className="relative flex-1 min-h-0 md:w-[70%] overflow-hidden bg-slate-200 touch-none" onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={onPointerUp} onWheel={onWheel}>
+        <div className="absolute inset-0 opacity-25 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#64748b 1px, transparent 1px)', backgroundSize: '40px 40px' }} aria-hidden="true" />
+        <div className="absolute inset-0" style={{ transform: `translate(${pan.x}px,${pan.y}px) scale(${zoom})`, transformOrigin: 'center' }}>
+          <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            {WALK.map(([a,b],i) => { const x = nodeById(a); const y = nodeById(b); return x && y ? <line key={i} x1={x.x} y1={x.y} x2={y.x} y2={y.y} stroke="#64748b" opacity="0.35" strokeWidth="0.45" strokeDasharray="1 1" /> : null; })}
+            {drawSegments.map((s,i) => { const a=nodeById(s.from)!; const b=nodeById(s.to)!; return <line key={`${i}-${s.from}`} x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke={s.mode === 'shuttle' ? '#d97706' : '#0d9488'} strokeWidth="0.9" strokeDasharray={s.mode === 'shuttle' ? '1.5 1' : undefined} />; })}
           </svg>
-
-          {/* Метки зон (скрываем при фильтре «Транспорт») */}
-          {category !== 'transport' && zonesData.map((zone) => {
-            const isSelected = selectedId === zone.id;
-            const isOnRoute = routePath?.includes(zone.id as RouteNodeId) ?? false;
-            return (
-              <button
-                key={zone.id}
-                onClick={(e) => { e.stopPropagation(); setSelectedId(zone.id); setExpandedHub(false); }}
-                aria-label={`Зона ${zone.name}`}
-                aria-pressed={isSelected}
-                className={`absolute transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group transition-all focus:outline-none focus-visible:ring-4 focus-visible:ring-teal-300 rounded-full ${
-                  isSelected ? 'z-30 scale-110' : 'z-20 hover:scale-105'
-                }`}
-                style={{
-                  left: `${zone.x}%`,
-                  top: `${zone.y}%`,
-                  padding: '12px',
-                  marginLeft: '-12px',
-                  marginTop: '-12px',
-                }}
-              >
-                <div
-                  className={`w-6 h-6 rounded-full border-2 border-white shadow-lg transition-colors ${
-                    isSelected ? 'ring-4 ring-white/50' : ''
-                  } ${isOnRoute ? 'ring-4 ring-teal-400' : ''}`}
-                  style={{ backgroundColor: zone.color }}
-                ></div>
-                <span className={`mt-2 text-xs font-bold px-2 py-1 rounded-md bg-white/90 shadow-sm whitespace-nowrap transition-opacity ${
-                  isSelected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
-                }`}>
-                  {zone.name}
-                </span>
-              </button>
-            );
-          })}
-
-          {/* Групповой маркер транспортного узла (скрываем при фильтре «Зоны») */}
-          {showHub && category !== 'zones' && (
-            <button
-              onClick={(e) => { e.stopPropagation(); setSelectedId(null); setExpandedHub(true); }}
-              aria-label="Транспортный узел / Главный вход"
-              aria-pressed={expandedHub}
-              className={`absolute transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group transition-all z-20 hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-teal-300 rounded-full ${
-                expandedHub ? 'scale-110 z-30' : ''
-              }`}
-              style={{
-                left: `${transportHub.x}%`,
-                top: `${transportHub.y}%`,
-                padding: '12px',
-                marginLeft: '-12px',
-                marginTop: '-12px',
-              }}
-            >
-              <div
-                className={`w-8 h-8 rounded-md border-2 border-white shadow-lg flex items-center justify-center text-white text-xs font-bold ${
-                  expandedHub ? 'ring-4 ring-white/50' : ''
-                }`}
-                style={{ backgroundColor: transportHub.color }}
-              >
-                ⇅
-              </div>
-              <span className={`mt-2 text-xs font-bold px-2 py-1 rounded-md bg-white/90 shadow-sm whitespace-nowrap transition-opacity ${
-                expandedHub || category === 'transport' ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
-              }`}>
-                {transportHub.name}
-              </span>
-            </button>
-          )}
-
-          {/* Линия концептуального маршрута */}
-          {routePath && routePath.length > 1 && (
-            <svg className="absolute inset-0 w-full h-full pointer-events-none z-10" aria-hidden="true">
-              {routePath.slice(0, -1).map((fromId, i) => {
-                const toId = routePath[i + 1];
-                const a = zonesData.find(z => z.id === fromId);
-                const b = zonesData.find(z => z.id === toId);
-                if (!a || !b) return null;
-                return (
-                  <line
-                    key={`${fromId}-${toId}`}
-                    x1={`${a.x}%`} y1={`${a.y}%`}
-                    x2={`${b.x}%`} y2={`${b.y}%`}
-                    stroke="#14b8a6" strokeWidth="3" strokeLinecap="round" strokeDasharray="6,4"
-                  />
-                );
-              })}
-            </svg>
-          )}
+          {ZONES.filter(z => category !== 'transport').map(z => <button key={z.id} type="button" onClick={() => {setSelected(z.id); setPanelOpen(true);}} aria-pressed={selected===z.id} aria-label={`Показать ${z.name}`} className={`absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 rounded-full focus-visible:outline-4 focus-visible:outline-teal-600 ${selected===z.id ? 'z-30' : 'z-20'}`} style={{left:`${z.x}%`,top:`${z.y}%`}}><span className="block w-6 h-6 border-2 border-white rounded-full shadow-lg" style={{backgroundColor:z.color}} /><span className="sr-only">{z.name}</span></button>)}
+          {showEntry && <button type="button" aria-label="Главный вход и транспортный узел" onClick={()=>{setSelected('gateway');setPanelOpen(true);}} className="absolute -translate-x-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-lg bg-teal-800 text-white border-2 border-white shadow-lg focus-visible:outline-4 focus-visible:outline-teal-400" style={{left:`${ENTRY.x}%`,top:`${ENTRY.y}%`}}>⇅</button>}
         </div>
-
-        {/* Управление */}
-        <div className="absolute bottom-6 right-6 flex flex-col gap-2 z-20">
-          <div className="bg-white rounded-xl shadow-lg flex flex-col">
-            <button
-              onClick={zoomIn}
-              aria-label="Приблизить"
-              disabled={zoom >= ZOOM_MAX}
-              className="w-10 h-10 text-xl font-bold text-gray-700 hover:bg-gray-50 rounded-t-xl disabled:opacity-40 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
-            >
-              +
-            </button>
-            <div className="h-px bg-gray-200" />
-            <button
-              onClick={zoomOut}
-              aria-label="Отдалить"
-              disabled={zoom <= ZOOM_MIN}
-              className="w-10 h-10 text-xl font-bold text-gray-700 hover:bg-gray-50 rounded-b-xl disabled:opacity-40 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
-            >
-              −
-            </button>
+        <div className="absolute top-3 left-3 max-w-[70%] pointer-events-none rounded-lg bg-white/90 px-3 py-2 text-xs text-slate-700 shadow-sm">Демонстрационная схема · координаты условные</div>
+        <div className="absolute top-3 right-3 flex gap-2 z-40">
+          <button type="button" aria-label="Открыть панель поиска и маршрутов" className="md:hidden w-11 h-11 rounded-xl bg-white text-teal-800 shadow-lg font-bold focus-visible:outline-2 focus-visible:outline-teal-500" onClick={()=>setPanelOpen(v=>!v)}>☰</button>
+          <button type="button" aria-label="Показать управление картой" aria-expanded={controlsOpen} className="md:hidden w-11 h-11 rounded-xl bg-white text-slate-700 shadow-lg focus-visible:outline-2 focus-visible:outline-teal-500" onClick={()=>setControlsOpen(v=>!v)}>⚙</button>
+        </div>
+        <div className={`absolute bottom-3 right-3 z-30 flex flex-col gap-2 ${controlsOpen ? '' : 'hidden md:flex'}`}>
+          <div className="flex flex-row md:flex-col rounded-xl overflow-hidden bg-white shadow-lg">
+            <button type="button" aria-label="Приблизить" disabled={zoom>=1.8} onClick={()=>setZoom(v=>clamp(v+0.2,0.6,1.8))} className="w-11 h-11 font-bold text-xl disabled:opacity-40 hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-teal-500">+</button>
+            <button type="button" aria-label="Отдалить" disabled={zoom<=0.6} onClick={()=>setZoom(v=>clamp(v-0.2,0.6,1.8))} className="w-11 h-11 font-bold text-xl disabled:opacity-40 hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-teal-500">−</button>
           </div>
-          <button
-            onClick={resetView}
-            aria-label="Показать весь остров"
-            className="bg-white px-3 py-2 rounded-xl shadow-lg hover:bg-gray-50 text-gray-700 font-bold text-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
-          >
-            Показать весь остров
-          </button>
-          {routePath && (
-            <button
-              onClick={resetRoute}
-              aria-label="Сбросить маршрут"
-              className="bg-red-500 text-white px-3 py-2 rounded-xl shadow-lg hover:bg-red-600 font-bold text-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-300"
-            >
-              Сбросить маршрут
-            </button>
-          )}
+          <button type="button" onClick={resetView} className="rounded-xl bg-white px-3 py-2 min-h-11 text-xs font-semibold shadow-lg focus-visible:outline-2 focus-visible:outline-teal-500">Весь остров</button>
+          {route && <button type="button" onClick={resetRoute} className="rounded-xl bg-red-600 text-white px-3 py-2 min-h-11 text-xs font-semibold shadow-lg focus-visible:outline-2 focus-visible:outline-teal-500">Сброс маршрута</button>}
         </div>
-      </div>
+        {route && <div className="absolute left-3 bottom-3 z-20 bg-white/95 shadow-sm rounded-lg px-3 py-2 text-xs text-slate-700 max-w-[64%]">Маршрут: <span className="text-teal-700">━ пешком</span> · <span className="text-amber-700">┄ Paradise Loop</span></div>}
+      </section>
 
-      {/* ПРАВАЯ ЧАСТЬ: Панель */}
-      <div className="w-full md:w-[30%] h-[50vh] md:h-full bg-white shadow-xl flex flex-col z-40">
-
-        <div className="p-4 border-b border-gray-100">
-          <h1 className="text-2xl font-serif text-gray-900 mb-3">Карта острова</h1>
-          <input
-            type="text"
-            placeholder="Поиск объекта..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            aria-label="Поиск объектов на карте"
-            className="w-full px-4 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500/50 text-sm"
-          />
-          <div className="flex flex-wrap gap-2 mt-3" role="group" aria-label="Фильтр категорий">
-            {CATEGORIES.map(cat => (
-              <button
-                key={cat.id}
-                onClick={() => setCategory(cat.id as any)}
-                aria-pressed={category === cat.id}
-                className={`px-3 py-1 rounded-full text-xs font-medium border transition ${
-                  category === cat.id
-                    ? 'bg-teal-600 text-white border-teal-600'
-                    : 'bg-white text-gray-600 border-gray-200 hover:border-teal-300'
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
+      <aside className={`z-40 bg-white shadow-xl flex flex-col md:w-[30%] md:h-full min-w-0 ${panelOpen ? 'absolute inset-x-0 bottom-0 h-[55dvh] rounded-t-2xl md:static md:rounded-none' : 'hidden md:flex'}`} aria-label="Каталог и маршруты острова">
+        <div className="p-4 border-b border-gray-100 shrink-0">
+          <div className="flex items-center justify-between gap-2 mb-3"><h1 className="text-xl font-serif text-slate-900">Карта острова</h1><button type="button" className="md:hidden p-2 text-teal-700 underline" onClick={()=>setPanelOpen(false)}>Закрыть</button></div>
+          <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Поиск объекта..." aria-label="Поиск объектов" className="w-full px-4 py-2 rounded-xl border border-slate-300 text-sm focus-visible:outline-2 focus-visible:outline-teal-500" />
+          <div role="group" aria-label="Фильтр категорий" className="flex gap-2 flex-wrap mt-3">{(['all','zones','transport'] as const).map((cat)=><button key={cat} type="button" aria-pressed={category===cat} onClick={()=>setCategory(cat)} className={`px-3 py-1.5 rounded-full border text-xs ${category===cat?'bg-teal-700 text-white':'bg-white text-slate-700'}`}>{cat==='all'?'Все':cat==='zones'?'Зоны':'Транспорт'}</button>)}<button type="button" onClick={resetAll} className="px-3 py-1.5 text-xs underline text-teal-700">Сбросить фильтры</button></div>
         </div>
-
-        <div className="flex-grow overflow-y-auto p-4">
-
-          {expandedHub && !selectedZone ? (
-            <div className="animate-fade-in">
-              <button
-                onClick={() => setExpandedHub(false)}
-                className="text-sm text-teal-600 mb-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded"
-              >
-                ← Назад к каталогу
-              </button>
-              <span className="text-xs font-bold text-teal-600 uppercase tracking-wider block mb-1">Транспорт</span>
-              <h2 className="text-2xl font-serif text-gray-900 mb-2">{transportHub.name}</h2>
-              <p className="text-xs text-gray-500 mb-4">Групповой объект. Точные позиции отдельных станций уточняются.</p>
-
-              <div className="space-y-3">
-                {transportHub.subObjects.map(obj => (
-                  <div key={obj.id} className="border border-gray-100 rounded-xl p-3">
-                    <h3 className="font-medium text-gray-900 text-sm mb-1">{obj.name}</h3>
-                    <p className="text-xs text-gray-500">{obj.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : selectedZone ? (
-            <div className="animate-fade-in">
-              <button
-                onClick={() => setSelectedId(null)}
-                className="text-sm text-teal-600 mb-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded"
-              >
-                ← Назад к каталогу
-              </button>
-
-              <div className="h-40 bg-gray-200 rounded-xl mb-4 flex items-center justify-center text-gray-400">
-                [Фото: {selectedZone.name}]
-              </div>
-
-              <span className="text-xs font-bold text-teal-600 uppercase tracking-wider block mb-1">Тематическая зона</span>
-              <h2 className="text-2xl font-serif text-gray-900 mb-2">{selectedZone.name}</h2>
-              <p className="text-gray-600 text-sm mb-6">{selectedZone.desc}</p>
-
-              <button
-                onClick={() => window.location.hash = `#/zones?zone=${selectedZone.id}`}
-                className="w-full bg-teal-600 text-white py-3 rounded-xl font-medium hover:bg-teal-700 transition mb-6 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-300"
-              >
-                Подробнее о зоне
-              </button>
-
-              <div className="border-t border-gray-100 pt-6">
-                <h3 className="font-medium text-gray-900 mb-3">Концептуальный маршрут</h3>
-                <p className="text-xs text-gray-500 mb-3">
-                  Без времени и расстояний. Использует концептуальный граф переходов.
-                </p>
-                <label className="block text-xs text-gray-600 mb-1" htmlFor="route-from">Откуда</label>
-                <select
-                  id="route-from"
-                  value={routeFrom}
-                  onChange={(e) => setRouteFrom(e.target.value as RouteNodeId | '')}
-                  className="w-full mb-2 p-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/50"
-                >
-                  <option value="">Выберите точку</option>
-                  {uniqueRouteNodes.map(n => <option key={n.id} value={n.id}>{n.label}</option>)}
-                </select>
-                <label className="block text-xs text-gray-600 mb-1" htmlFor="route-to">Куда</label>
-                <select
-                  id="route-to"
-                  value={routeTo}
-                  onChange={(e) => setRouteTo(e.target.value as RouteNodeId | '')}
-                  className="w-full mb-3 p-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/50"
-                >
-                  <option value="">Выберите точку</option>
-                  {uniqueRouteNodes.map(n => <option key={n.id} value={n.id}>{n.label}</option>)}
-                </select>
-                <button
-                  onClick={handleBuildRoute}
-                  disabled={!routeFrom || !routeTo}
-                  className="w-full bg-gray-900 text-white py-2 rounded-lg font-medium hover:bg-gray-800 transition disabled:opacity-50 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-300"
-                >
-                  Построить концептуальный маршрут
-                </button>
-
-                {routeError && (
-                  <div className="mt-3 text-xs text-red-700 bg-red-50 border border-red-100 rounded-lg p-2">
-                    {routeError}
-                  </div>
-                )}
-
-                {routePath && (
-                  <div className="mt-3 text-xs text-teal-800 bg-teal-50 border border-teal-100 rounded-lg p-2">
-                    <div className="font-medium mb-1">Концептуальный маршрут:</div>
-                    <div className="leading-relaxed">{routePath.join(' → ')}</div>
-                  </div>
-                )}
-              </div>
-            </div>
-          ) : (
-            <div>
-              <h2 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">
-                Объекты {filteredZones.length + (showHub ? 1 : 0)}
-              </h2>
-
-              {filteredZones.length === 0 && !showHub ? (
-                <div className="text-center py-8">
-                  <p className="text-sm text-gray-500 mb-3">Ничего не найдено.</p>
-                  <button
-                    onClick={() => { setSearch(''); setCategory('all'); }}
-                    className="text-teal-600 text-sm font-medium underline focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded"
-                  >
-                    Сбросить поиск и фильтры
-                  </button>
-                </div>
-              ) : (
-                <div className="space-y-2">
-                  {showHub && (
-                    <button
-                      onClick={() => { setSelectedId(null); setExpandedHub(true); }}
-                      className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition text-left border border-transparent hover:border-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
-                    >
-                      <div className="w-3 h-3 rounded-sm flex-shrink-0" style={{ backgroundColor: transportHub.color }}></div>
-                      <div>
-                        <div className="font-medium text-gray-900 text-sm">{transportHub.name}</div>
-                        <div className="text-xs text-gray-500">Канатная дорога, причал, главный вход</div>
-                      </div>
-                    </button>
-                  )}
-                  {filteredZones.map(zone => (
-                    <button
-                      key={zone.id}
-                      onClick={() => { setSelectedId(zone.id); setExpandedHub(false); }}
-                      className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition text-left border border-transparent hover:border-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
-                    >
-                      <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: zone.color }}></div>
-                      <div>
-                        <div className="font-medium text-gray-900 text-sm">{zone.name}</div>
-                        <div className="text-xs text-gray-500">{zone.desc}</div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
+        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          {selected && <section className="border-b border-slate-100 pb-4"><button type="button" onClick={()=>setSelected(null)} className="text-sm text-teal-700 underline mb-3">← Назад к объектам</button>{selected==='gateway'?<><h2 className="font-serif text-lg">{ENTRY.name}</h2>{ENTRY_OBJECTS.map(o=><div key={o.name} className="mt-3 border rounded-lg p-3"><strong className="text-sm">{o.name}</strong><p className="text-xs text-slate-600">{o.desc}</p></div>)}</>:selectedNode?<><h2 className="font-serif text-xl">{selectedNode.name}</h2><p className="text-slate-600 text-sm mt-1">{selectedNode.desc}</p><button type="button" className="mt-3 px-4 py-2 rounded-lg bg-teal-700 text-white text-sm" onClick={()=>{window.location.hash=selectedNode.id==='grand-hotel'?'#/hotel':`#/zones?zone=${selectedNode.id}`;}}>Подробнее</button><button type="button" onClick={()=>{setFrom(selectedNode.id);setSelected(null);}} className="mt-3 ml-2 text-sm underline text-teal-700">Маршрут отсюда</button></>:null}</section>}
+          {!selected && <section><h2 className="font-semibold text-sm text-slate-700 mb-3">Объекты ({filtered.length + (showEntry?1:0)})</h2>{showEntry && <button type="button" onClick={()=>setSelected('gateway')} className="w-full text-left p-3 rounded-lg border mb-2 hover:bg-slate-50 text-sm">⇅ {ENTRY.name}</button>}{filtered.map(z=><button type="button" key={z.id} onClick={()=>setSelected(z.id)} className="w-full text-left p-3 rounded-lg border mb-2 hover:bg-slate-50"><span className="font-medium text-sm">{z.name}</span><span className="block text-xs text-slate-500">{z.desc}</span></button>)}{filtered.length===0 && !showEntry && <p className="text-sm text-slate-500">Объекты не найдены.</p>}</section>}
+          <section className="border-t border-slate-200 pt-4" aria-label="Построение маршрута"><h2 className="font-semibold text-slate-900 mb-1">Маршрут по острову</h2><p className="text-xs text-slate-500 mb-3">Время и расстояния демонстрационные. Линии на карте схематичны; маршрут до отеля пока не утверждён.</p>
+            <label className="block text-sm mb-1" htmlFor="route-from">Откуда</label><select id="route-from" className="w-full border rounded-lg p-2 mb-3 text-sm" value={from} onChange={e=>{setFrom(e.target.value);setRoute(null);}}><option value="">Выберите зону</option>{ZONES.filter(z=>z.id!=='grand-hotel').map(z=><option key={z.id} value={z.id}>{z.name}</option>)}</select>
+            <label className="block text-sm mb-1" htmlFor="route-to">Куда</label><select id="route-to" className="w-full border rounded-lg p-2 mb-3 text-sm" value={to} onChange={e=>{setTo(e.target.value);setRoute(null);}}><option value="">Выберите зону</option>{ZONES.filter(z=>z.id!=='grand-hotel').map(z=><option key={z.id} value={z.id}>{z.name}</option>)}</select>
+            <fieldset className="mb-3"><legend className="text-sm mb-1">Способ передвижения</legend><div className="flex gap-3 flex-wrap"><label className="text-sm"><input type="radio" name="map-mode" checked={mode==='walk'} onChange={()=>{setMode('walk');setRoute(null);}} /> Пешком</label><label className="text-sm"><input type="radio" name="map-mode" checked={mode==='shuttle'} onChange={()=>{setMode('shuttle');setRoute(null);}} /> Paradise Loop</label></div></fieldset>
+            <label className="text-sm flex items-center gap-2 mb-3"><input type="checkbox" checked={slow} onChange={e=>{setSlow(e.target.checked);setRoute(null);}} /> Медленный темп (3 км/ч)</label>
+            <button type="button" disabled={!from||!to} onClick={buildRoute} className="w-full bg-slate-900 text-white py-3 rounded-xl disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-teal-500">Построить маршрут</button>
+            {error && <p role="alert" className="mt-3 p-3 rounded-lg bg-red-50 text-red-700 text-sm">{error}</p>}
+            {route && <div className="mt-3 p-3 border border-teal-200 bg-teal-50 rounded-xl text-sm"><p className="font-semibold text-teal-900">Ориентировочно {route.minutes} мин · пешком {route.walkMetres} м</p><ol className="mt-2 space-y-2 list-decimal list-inside">{route.segments.map((s,i)=><li key={i}><span className="font-medium">{s.mode==='walk'?'Пешком':'Paradise Loop'}:</span> {label(s.from)} → {label(s.to)}{s.mode==='walk'?` (${s.distance} м)`:` (${s.direction})`}</li>)}</ol>{route.explanation && <p className="text-xs mt-3 text-slate-600">{route.explanation}</p>}<button type="button" className="mt-3 text-red-700 underline" onClick={resetRoute}>Сбросить маршрут</button></div>}
+          </section>
         </div>
-      </div>
-    </div>
+      </aside>
+    </main>
   );
 }
