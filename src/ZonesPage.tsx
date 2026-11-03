@@ -275,7 +275,7 @@ export default function ZonesPage({ initialZone, initialTab }: { initialZone?: s
                         document.getElementById(`zone-tab-${TABS[next].id}`)?.focus();
                       }
                     }}
-                    className={`flex-1 min-w-[96px] py-4 px-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-teal-600 ${activeTab === tab.id ? 'text-teal-600 border-b-2 border-teal-600 bg-white' : 'text-gray-500 hover:text-gray-800'}`}
+                      className={`flex-none shrink-0 whitespace-nowrap min-w-max px-4 py-4 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-teal-600 ${activeTab === tab.id ? 'text-teal-600 border-b-2 border-teal-600 bg-white' : 'text-gray-500 hover:text-gray-800'}`}
                   >{tab.label}</button>
                 ))}
               </div>
