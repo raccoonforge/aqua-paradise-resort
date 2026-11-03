@@ -448,16 +448,35 @@ function App() {
             🌴 Aqua Paradise
           </div>
 
-          <nav className="hidden md:flex gap-6 text-sm font-medium text-gray-600">
-            <button onClick={() => navigate('#/')} className="hover:text-teal-600">Главная</button>
-            <button onClick={() => navigate('#/zones')} className="hover:text-teal-600">Зоны</button>
-            <button onClick={() => navigate('#/attractions')} className="hover:text-teal-600">Аттракционы</button>
-            <button onClick={() => navigate('#/map')} className="hover:text-teal-600">Карта</button>
-            <button onClick={() => navigate('#/hotel')} className="hover:text-teal-600">Отель</button>
-            <button onClick={() => navigate('#/visit')} className="hover:text-teal-600">Посещение</button>
-            <button onClick={() => navigate('#/planner')} className="hover:text-teal-600">Планировщик</button>
-            <button onClick={() => navigate('#/tickets')} className="bg-teal-600 text-white px-4 py-2 rounded-full hover:bg-teal-700 transition">Билеты</button>
-          </nav>
+<nav aria-label="Основная навигация" className="hidden md:flex gap-6 text-sm font-medium text-gray-600">
+  {([
+    { path: '#/', label: 'Главная' },
+    { path: '#/zones', label: 'Зоны' },
+    { path: '#/attractions', label: 'Аттракционы' },
+    { path: '#/map', label: 'Карта' },
+    { path: '#/hotel', label: 'Отель' },
+    { path: '#/visit', label: 'Посещение' },
+    { path: '#/planner', label: 'Планировщик' },
+  ] as const).map(item => (
+    <button
+      key={item.path}
+      type="button"
+      onClick={() => navigate(item.path)}
+      aria-current={basePath === item.path ? 'page' : undefined}
+      className={`rounded-sm border-b-2 py-1 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-600 ${basePath === item.path ? 'border-teal-600 text-teal-700' : 'border-transparent hover:border-teal-300 hover:text-teal-600'}`}
+    >
+      {item.label}
+    </button>
+  ))}
+  <button
+    type="button"
+    onClick={() => navigate('#/tickets')}
+    aria-current={basePath === '#/tickets' ? 'page' : undefined}
+    className={`bg-teal-600 text-white px-4 py-2 rounded-full hover:bg-teal-700 transition focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-600 ${basePath === '#/tickets' ? 'ring-2 ring-teal-800 ring-offset-2' : ''}`}
+  >
+    Билеты
+  </button>
+</nav>
 
           <button
             ref={menuButtonRef}
@@ -499,7 +518,8 @@ function App() {
                 <button
                   key={item.path}
                   onClick={() => navigate(item.path)}
-                  className="text-left py-3 px-4 rounded-xl hover:bg-teal-50 hover:text-teal-700 font-medium text-gray-800 transition"
+                  aria-current={basePath === item.path ? 'page' : undefined}
+                  className={`text-left py-3 px-4 rounded-xl font-medium transition focus-visible:outline-2 focus-visible:outline-teal-600 ${basePath === item.path ? 'bg-teal-50 text-teal-800 border-l-4 border-teal-600' : 'text-gray-800 hover:bg-teal-50 hover:text-teal-700 border-l-4 border-transparent'}`}
                 >
                   {item.label}
                 </button>
@@ -507,6 +527,7 @@ function App() {
               <div className="mt-4 pt-4 border-t border-gray-100">
                 <button
                   onClick={() => navigate('#/tickets')}
+                  aria-current={basePath === '#/tickets' ? 'page' : undefined}
                   className="w-full bg-teal-600 text-white py-3 rounded-xl font-medium hover:bg-teal-700 transition shadow-md"
                 >
                   Купить билеты
