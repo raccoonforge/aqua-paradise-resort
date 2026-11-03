@@ -4,6 +4,24 @@ import { useFocusTrap } from './hooks/useFocusTrap';
 
 const ALL_INTERESTS = ['Адреналин', 'Семейный отдых', 'Релакс', 'Исследования'];
 
+// Локальная календарная дата без преобразования через UTC.
+const todayLocal = (): string => {
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth() + 1).padStart(2, '0');
+  const d = String(now.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+};
+
+const isValidVisitDate = (value: string): boolean => {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const [year, month, day] = value.split('-').map(Number);
+  const parsed = new Date(year, month - 1, day);
+  return parsed.getFullYear() === year &&
+    parsed.getMonth() === month - 1 &&
+    parsed.getDate() === day;
+};
+
 type Attraction = {
   id: string;
   name: string;
@@ -462,6 +480,8 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
 
   const generatePlan = () => {
     if (!date || selectedInterests.length === 0) { alert('Пожалуйста, выберите дату и хотя бы один интерес.'); return; }
+    if (!isValidVisitDate(date)) { alert('Укажите корректную дату посещения.'); return; }
+    if (date < todayLocal()) { alert('Нельзя составить маршрут на прошедшую дату. Выберите сегодня или будущую дату.'); return; }
     const hasMinor = guests.some(g => g.age < 18);
     const hasAdult = guests.some(g => g.age >= 18);
     if (hasMinor && !hasAdult) { alert('Для посещения курорта гостям младше 18 лет необходим сопровождающий от 18 лет.'); return; }
@@ -592,7 +612,7 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Дата посещения</label>
-                  <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500/50" />
+                  <input type="date" min={todayLocal()} value={date} onChange={(e) => setDate(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500/50" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Тип билета</label>
