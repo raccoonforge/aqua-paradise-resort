@@ -11,13 +11,35 @@ import { ZONE_SLUGS, ATTRACTIONS } from './data/attractions';
 // TODO: Cinematic Intro — отложено (Visual Pending: нужны видео/3D-ассеты).
 // В Master Blueprint §4.1 описан спуск по горке; без медиа делаем только Hero.
 
+// Visual-only slot: replace its contents with a real asset in the final media phase.
+type MediaPlaceholderProps = {
+  mediaId: string;
+  label: string;
+  className?: string;
+};
+
+const MediaPlaceholder = ({ mediaId, label, className = '' }: MediaPlaceholderProps) => (
+  <div className={`apr-media ${className}`} data-media-id={mediaId} aria-hidden="true">
+    <div className="apr-media__mark">
+      <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden="true">
+        <rect x="5" y="8" width="38" height="32" rx="3" />
+        <circle cx="33" cy="18" r="4" />
+        <path d="m8 36 12-14 9 10 5-6 7 10" />
+      </svg>
+      <span>МЕСТО ДЛЯ ФОТО</span>
+      <strong>{label}</strong>
+    </div>
+    <span className="apr-media__id">{mediaId}</span>
+  </div>
+);
+
 // APR-BUG-035: полароиды доступны с клавиатуры, можно вернуться назад и начать заново.
 const AboutResort = () => {
   const photos = [
-    { title: 'Ocean Bay', text: 'Там, где начинается рай', color: 'bg-cyan-100', pos: '-translate-x-32 -translate-y-16 -rotate-12' },
-    { title: 'Adrenaline Peak', text: 'Почувствуй силу приключений', color: 'bg-orange-100', pos: 'translate-x-32 -translate-y-8 rotate-12' },
-    { title: 'Eden Gardens', text: 'Найди гармонию с природой', color: 'bg-green-100', pos: '-translate-x-24 translate-y-24 -rotate-6' },
-    { title: 'Paradise Grand Hotel', text: 'Искусство безупречного отдыха', color: 'bg-amber-50', pos: 'translate-x-24 translate-y-16 rotate-6' },
+    { title: 'Ocean Bay', text: 'Там, где начинается рай', mediaId: 'home.polaroid.ocean-bay', pos: '-translate-x-32 -translate-y-16 -rotate-12' },
+    { title: 'Adrenaline Peak', text: 'Почувствуй силу приключений', mediaId: 'home.polaroid.adrenaline-peak', pos: 'translate-x-32 -translate-y-8 rotate-12' },
+    { title: 'Eden Gardens', text: 'Найди гармонию с природой', mediaId: 'home.polaroid.eden-gardens', pos: '-translate-x-24 translate-y-24 -rotate-6' },
+    { title: 'Paradise Grand Hotel', text: 'Искусство безупречного отдыха', mediaId: 'home.polaroid.hotel', pos: 'translate-x-24 translate-y-16 rotate-6' },
   ];
 
   const [revealedCount, setRevealedCount] = useState(0);
@@ -31,10 +53,10 @@ const AboutResort = () => {
   };
 
   return (
-    <section id="about" className="py-20 sm:py-24 bg-[#f8f9fa] min-h-[720px] flex items-center">
+    <section id="about" className="apr-about py-20 sm:py-28 min-h-[720px] flex items-center">
       <div className="max-w-5xl mx-auto px-4 w-full">
         {/* Карточки и текст находятся в одной области, но кнопки всегда доступны. */}
-        <div className="relative min-h-[440px] sm:min-h-[470px] flex items-center justify-center">
+        <div className="relative min-h-[400px] sm:min-h-[500px] flex items-center justify-center">
           <div
             className={`max-w-3xl mx-auto text-center space-y-6 transition-opacity duration-500 ${allRevealed ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
             aria-hidden={!allRevealed}
@@ -68,7 +90,7 @@ const AboutResort = () => {
                     className={`absolute bg-white p-3 pb-8 rounded-sm shadow-2xl transition-transform duration-700 ease-out motion-reduce:transition-none origin-center ${isRevealed ? `${photo.pos} opacity-0 scale-90` : 'translate-y-0 rotate-0 scale-100 opacity-100'}`}
                     style={{ zIndex, pointerEvents: 'none' }}
                   >
-                    <div className={`w-56 h-56 sm:w-72 sm:h-72 ${photo.color} rounded-sm mb-4 flex items-center justify-center text-gray-400 text-sm`}>[Фото]</div>
+                    <MediaPlaceholder mediaId={photo.mediaId} label={photo.title} className="w-56 h-56 sm:w-72 sm:h-72 rounded-sm mb-4" />
                     <h3 className="font-serif text-lg text-gray-900 text-center">{photo.title}</h3>
                     <p className="text-xs text-gray-500 text-center mt-1">{photo.text}</p>
                   </div>
@@ -115,33 +137,34 @@ const NineWorlds = () => {
   const [activeZone, setActiveZone] = useState(0);
 
   return (
-    <section className="relative h-[80vh] min-h-[600px] flex flex-col justify-between overflow-hidden">
-      <div className={`absolute inset-0 bg-gradient-to-t ${zones[activeZone].color} transition-colors duration-1000 ease-in-out`}></div>
-      <div className="relative z-10 max-w-6xl mx-auto px-4 w-full pt-20 flex-grow flex flex-col justify-center">
+    <section className="apr-worlds relative min-h-[720px] h-[90vh] max-h-[1050px] flex flex-col justify-between overflow-hidden">
+      <MediaPlaceholder mediaId={`home.zone.${ZONE_SLUGS[zones[activeZone].name]}`} label={zones[activeZone].name} className="absolute inset-0" />
+      <div className={`absolute inset-0 bg-gradient-to-r from-[#082e37]/95 via-[#0b3741]/65 to-[#124c52]/15 ${zones[activeZone].color} pointer-events-none`}></div>
+      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 w-full pt-16 flex-grow flex flex-col justify-center">
         <div className="max-w-xl text-white">
           <span className="tracking-widest text-sm font-semibold uppercase mb-4 block opacity-80">EXPLORE THE ISLAND</span>
-          <h2 className="text-5xl md:text-7xl font-serif mb-6 drop-shadow-lg transition-all duration-500">{zones[activeZone].name}</h2>
+          <h2 className="text-5xl md:text-7xl lg:text-8xl font-serif mb-6 drop-shadow-lg transition-all duration-500">{zones[activeZone].name}</h2>
           <p className="text-lg md:text-xl text-gray-100 mb-8 font-light drop-shadow-md transition-all duration-500">{zones[activeZone].desc}</p>
           <button
             onClick={() => {
               const slug = ZONE_SLUGS[zones[activeZone].name];
               if (slug) window.location.hash = `#/zones?zone=${slug}`;
             }}
-            className="bg-white text-gray-900 px-8 py-3 rounded-full font-medium hover:bg-gray-100 transition shadow-lg"
+            className="apr-button apr-button--light"
           >
             Подробнее о зоне
           </button>
         </div>
       </div>
-      <div className="relative z-10 w-full bg-black/20 backdrop-blur-md border-t border-white/10">
+      <div className="relative z-10 w-full bg-[#062c35]/70 backdrop-blur-xl border-t border-white/15">
         <div className="max-w-6xl mx-auto px-4 py-4">
-          <div className="flex overflow-x-auto gap-4 pb-2 scrollbar-hide">
+          <div className="flex overflow-x-auto gap-3 pb-2 scrollbar-hide">
             {zones.map((zone, index) => (
               <button
                 key={zone.name}
                 onClick={() => setActiveZone(index)}
                 aria-label={`Показать зону ${zone.name}`}
-                className={`flex-shrink-0 px-6 py-3 rounded-full text-sm font-medium transition-all ${
+                className={`flex-shrink-0 px-5 py-3 rounded-full text-sm font-medium transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
                   activeZone === index ? 'bg-white text-gray-900 shadow-lg scale-105' : 'bg-white/10 text-white hover:bg-white/20'
                 }`}
               >
@@ -156,42 +179,43 @@ const NineWorlds = () => {
 };
 
 const HomePage = () => (
-  <>
-    <div className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-teal-500/20 via-cyan-600/40 to-[#f8f9fa] z-0"></div>
-      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto flex flex-col items-center">
-        <span className="text-teal-800 tracking-[0.2em] font-semibold text-sm mb-6 uppercase">WELCOME TO AQUA PARADISE</span>
-        <h1 className="text-5xl md:text-7xl font-serif text-gray-900 mb-6 leading-tight">
-          Ты ещё не видел <br className="hidden md:block"/> рай таким.
+  <div className="apr-home">
+    <section className="apr-hero relative min-h-[760px] h-[calc(100svh-64px)] flex items-center justify-center overflow-hidden">
+      <MediaPlaceholder mediaId="home.hero.ocean-bay" label="OCEAN BAY · ARRIVAL" className="absolute inset-0" />
+      <div className="apr-hero__veil absolute inset-0 pointer-events-none" />
+      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto flex flex-col items-center">
+        <span className="apr-eyebrow text-[#e7d7b3] mb-7">WELCOME TO AQUA PARADISE</span>
+        <h1 className="apr-hero__title font-serif text-white mb-7 leading-[1.07]">
+          Ты ещё не видел <span className="block italic font-normal">рай таким.</span>
         </h1>
-        <p className="text-lg md:text-xl text-gray-700 mb-10 max-w-2xl font-light">
+        <p className="text-base sm:text-lg md:text-xl text-white/90 mb-11 max-w-2xl leading-relaxed font-light">
           Девять уникальных миров. Один тропический остров. От безмятежных лагун до захватывающих приключений — здесь каждый найдёт свой рай.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4">
-          <button
+        <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+          <button type="button"
             onClick={() => {
               const el = document.getElementById('about');
-              if (el) el.scrollIntoView({ behavior: 'smooth' });
+              if (el) el.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
             }}
-            className="bg-teal-600 text-white px-8 py-3 rounded-full text-lg font-medium hover:bg-teal-700 transition shadow-lg"
-          >
-            Исследовать остров
+            className="apr-button apr-button--sand">
+            Исследовать остров <span aria-hidden="true">↗</span>
           </button>
-          <button
+          <button type="button"
             onClick={() => window.location.hash = '#/planner'}
-            className="bg-white/80 backdrop-blur text-teal-900 border border-teal-600/30 px-8 py-3 rounded-full text-lg font-medium hover:bg-white transition shadow-lg"
-          >
+            className="apr-button apr-button--outline">
             Спланировать отдых
           </button>
         </div>
-        <div className="mt-20 text-sm tracking-[0.15em] text-teal-900/60 font-medium">OCEAN BAY · AQUA PARADISE</div>
       </div>
-    </div>
+      <div className="absolute bottom-9 left-0 right-0 z-10 text-center text-[11px] sm:text-xs tracking-[0.27em] text-white/75 font-medium">
+        OCEAN BAY · AQUA PARADISE
+      </div>
+    </section>
     <AboutResort />
     <NineWorlds />
     <AttractionsCarousel />
     <PlannerTeaser />
-  </>
+  </div>
 );
 
 const AttractionsCarousel = () => {
@@ -204,9 +228,9 @@ const AttractionsCarousel = () => {
   const prevSlide = () => setActiveIndex((prev) => (prev - 1 + rides.length) % rides.length);
 
   return (
-    <section className="py-24 bg-white overflow-hidden">
+    <section className="apr-attractions py-24 sm:py-32 overflow-hidden">
       <div className="max-w-5xl mx-auto px-4 text-center mb-12">
-        <h2 className="text-4xl md:text-5xl font-serif text-gray-900 mb-4">Выберите своё приключение</h2>
+        <h2 className="text-4xl md:text-6xl font-serif text-[#19313a] mb-4">Выберите своё приключение</h2>
         <p className="text-gray-600">От захватывающих дух спусков до спокойных прогулок по воде.</p>
       </div>
       <div className="relative max-w-4xl mx-auto flex items-center justify-center h-[400px]">
@@ -218,16 +242,16 @@ const AttractionsCarousel = () => {
             if (offset > 1) offset -= rides.length;
             if (Math.abs(offset) > 1) return null;
             const isActive = offset === 0;
-            const cardColor = ['bg-blue-200', 'bg-teal-200', 'bg-indigo-200', 'bg-emerald-200'][index % 4];
+            const mediaId = `home.ride.${ride.id}`;
             return (
               <div
                 key={index}
-                className={`absolute w-[300px] md:w-[380px] bg-white rounded-xl shadow-2xl overflow-hidden transition-all duration-500 ease-in-out
+                className={`absolute w-[280px] sm:w-[320px] md:w-[380px] bg-white rounded-2xl shadow-2xl overflow-hidden transition-all duration-500 ease-in-out
                   ${isActive ? 'z-10 scale-100 opacity-100' : 'scale-90 opacity-50 blur-[1px]'}
                 `}
                 style={{ transform: `translateX(${offset * 60}%) scale(${isActive ? 1 : 0.85})`, zIndex: isActive ? 10 : 5 }}
               >
-                <div className={`h-48 md:h-56 ${cardColor} flex items-center justify-center text-gray-500`}>[Фото: {ride.name}]</div>
+                <MediaPlaceholder mediaId={mediaId} label={ride.name} className="h-48 md:h-56" />
                 <div className="p-6 text-left relative bg-white">
                   <span className="text-xs font-bold text-teal-600 tracking-wider uppercase mb-2 block">{ride.zone}</span>
                   <h3 className="text-2xl font-serif text-gray-900 mb-2">{ride.name}</h3>
@@ -308,8 +332,7 @@ const PlannerTeaser = () => {
   };
 
   return (
-    <section className="py-24 bg-teal-900 text-white relative overflow-hidden">
-      <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+    <section className="apr-planner py-24 sm:py-32 text-white relative overflow-hidden">
       <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
         <span className="tracking-widest text-teal-300 text-sm font-semibold uppercase mb-2 block">PLAN YOUR DAY</span>
         <h2 className="text-4xl md:text-5xl font-serif mb-6">Собери свой идеальный день.</h2>
@@ -339,8 +362,9 @@ const PlannerTeaser = () => {
                 const item = recommendation[idx];
                 if (!item) return null;
                 return (
-                  <div key={period} className="bg-white/10 backdrop-blur rounded-xl p-4 border border-white/10">
-                    <span className="text-xs text-teal-300 font-bold uppercase tracking-wider">{period}</span>
+                  <div key={period} className="apr-planner__card bg-white/10 backdrop-blur rounded-2xl p-4 border border-white/15 overflow-hidden">
+                    <MediaPlaceholder mediaId={`home.planner.${['morning', 'afternoon', 'evening'][idx]}`} label={item.name} className="h-36 mb-4 rounded-xl" />
+                     <span className="text-xs text-teal-300 font-bold uppercase tracking-wider">{period}</span>
                     <h3 className="font-serif text-xl text-white mt-1 mb-1">{item.name}</h3>
                     <p className="text-xs text-teal-200 mb-2">{item.zone}</p>
                     <p className="text-sm text-gray-200 line-clamp-2">{item.desc}</p>
@@ -362,7 +386,7 @@ const PlannerTeaser = () => {
 
         <button
           onClick={handleOpenPlanner}
-          className="bg-white text-teal-900 px-8 py-3 rounded-full text-lg font-medium hover:bg-gray-100 transition shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+          className="apr-button apr-button--sand focus-visible:ring-2 focus-visible:ring-white"
         >
           {selected.length > 0 ? 'Открыть полный планировщик с этими интересами' : 'Открыть полный планировщик'}
         </button>
@@ -540,7 +564,7 @@ function App() {
 
       <main className="flex-grow">{renderPage()}</main>
 
-      <footer className="bg-[#0a192f] text-white py-12 mt-auto">
+      <footer className="apr-footer bg-[#102f39] text-white py-16 mt-auto">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             <div>
