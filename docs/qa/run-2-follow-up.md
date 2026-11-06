@@ -1,7 +1,7 @@
 # QA Run 2 — defect follow-up and targeted regression
 
 **Created:** 2026-10-30. **Source:** tester-submitted 466 updated cases; see [Run 2 report](test-report-run-2.md).  
-**State:** observations confirmed by manual tester, **fixes not yet verified**. New issue IDs are tracking proposals until entered in the consolidated register.
+**State at creation (2026-10-30):** observations confirmed by manual tester, **fixes not yet verified at that time**. This is a historical triage snapshot; current results are in [the subsequent 153/153 regression report](test-report-targeted-regressions-2026-11-06.md) and [updated defect register](defect-register.md).
 
 ## Priority 1: safety/validity and blocked keyboard flows
 
