@@ -19,7 +19,7 @@ jobs:
   build-and-deploy-preview:
     runs-on: ubuntu-latest
     environment:
-      name: github-pages
+      name: preview
       url: ${{ steps.deployment.outputs.page_url }}preview/
     steps:
       - name: Checkout production from main
