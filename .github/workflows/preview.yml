@@ -42,7 +42,7 @@ jobs:
       - name: Build unchanged production site
         working-directory: production
         run: |
-          npm ci
+          npm ci || npm install
           npm run build
 
       - name: Build preview at /preview/
@@ -50,7 +50,7 @@ jobs:
         env:
           VITE_BASE_PATH: /aqua-paradise-resort/preview/
         run: |
-          npm ci
+          npm ci || npm install
           npm run build
 
       - name: Place preview in a separate subdirectory
