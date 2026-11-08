@@ -180,7 +180,7 @@ const NineWorlds = () => {
 
 const HomePage = () => (
   <div className="apr-home">
-    <section className="apr-hero relative min-h-[760px] h-[calc(100svh-64px)] flex items-center justify-center overflow-hidden">
+    <section className="apr-hero relative min-h-[760px] h-[100svh] flex items-center justify-center overflow-hidden">
       <MediaPlaceholder mediaId="home.hero.ocean-bay" label="OCEAN BAY · ARRIVAL" className="absolute inset-0" />
       <div className="apr-hero__veil absolute inset-0 pointer-events-none" />
       <div className="relative z-10 text-center px-6 max-w-5xl mx-auto flex flex-col items-center">
@@ -544,7 +544,7 @@ function App() {
         </div>
       )}
 
-      <main className="flex-grow">{renderPage()}</main>
+      <main className={`flex-grow ${basePath === '#/' ? 'apr-main--home' : 'apr-main--inner'}`}>{renderPage()}</main>
 
       <footer className="apr-footer bg-[#102f39] text-white py-16 mt-auto">
         <div className="max-w-7xl mx-auto px-4">
