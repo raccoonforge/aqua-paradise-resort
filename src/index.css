@@ -387,3 +387,21 @@ body {
   border-color: #e0b981;
 }
 @media (prefers-reduced-motion: reduce) { .apr-nav-link { transition: none; } }
+
+/* Fully transparent navigation while scrolling — no glass or background panel. */
+.apr-site-header,
+.apr-site-header--hero,
+.apr-site-header--solid {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+  border: 0;
+}
+.apr-site-header--solid .apr-site-header__inner { min-height: 78px; }
+.apr-site-header .apr-brand__name,
+.apr-site-header .apr-nav-link {
+  text-shadow: 0 1px 5px rgba(2,24,29,.72), 0 2px 14px rgba(2,24,29,.42);
+}
+.apr-site-header .apr-nav-link:hover,
+.apr-site-header .apr-nav-dropdown[open] > .apr-nav-link { text-shadow: none; }
