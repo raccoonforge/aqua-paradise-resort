@@ -426,14 +426,23 @@ body {
   .apr-main--inner { padding-top: 70px; }
 }
 
-/* Hero editorial composition — no cinematic intro, ready for an Ocean Bay photograph. */
-.apr-hero { min-height: 100svh; background: #103f46; }
+/* Hero layout: content may grow beyond the viewport on short screens. */
+.apr-hero {
+  min-height: 100vh;
+  min-height: 100svh;
+  height: auto;
+  background: #103f46;
+}
 .apr-hero__veil {
   background:
     radial-gradient(ellipse 65% 55% at 50% 52%, rgba(5,31,38,.60) 0%, rgba(5,31,38,.25) 55%, transparent 100%),
     linear-gradient(180deg, rgba(5,31,38,.27) 0%, transparent 24%, transparent 68%, rgba(5,31,38,.32) 100%);
 }
-.apr-hero__content { padding-top: 5.5rem; padding-bottom: 6.5rem; }
+.apr-hero__content {
+  box-sizing: border-box;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
 .apr-hero__title {
   font-size: clamp(3.7rem, 8.2vw, 8.2rem);
   font-weight: 500;
@@ -442,11 +451,19 @@ body {
   text-shadow: 0 7px 28px rgba(4,26,31,.24);
 }
 .apr-hero__accent { color: #f1d5a2; }
-.apr-hero__description { max-width: 710px; text-wrap: pretty; text-shadow: 0 2px 15px rgba(4,26,31,.32); }
+.apr-hero__description {
+  max-width: 710px;
+  text-wrap: pretty;
+  text-shadow: 0 2px 15px rgba(4,26,31,.32);
+}
 @media (max-width: 639px) {
-  .apr-hero { min-height: 720px; min-height: 100svh; }
-  .apr-hero__content { padding-top: 6rem; padding-bottom: 5rem; }
+  .apr-hero__content { padding-top: 6rem; padding-bottom: 6rem; }
   .apr-hero__title { font-size: clamp(3.4rem, 12.4vw, 5.2rem); line-height: 1.01; }
   .apr-hero__description { font-size: 1rem; line-height: 1.65; }
 }
-@media (prefers-reduced-motion: reduce) { .apr-hero__content * { scroll-behavior: auto; } }
+@media (max-height: 650px) and (min-width: 640px) {
+  .apr-hero__content { padding-top: 5.5rem; padding-bottom: 4rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .apr-hero__content * { scroll-behavior: auto; }
+}
