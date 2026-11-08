@@ -467,3 +467,42 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .apr-hero__content * { scroll-behavior: auto; }
 }
+
+/* Discreet scroll invitation, independent of the centered Hero copy. */
+.apr-hero__scroll-cue {
+  position: absolute;
+  z-index: 12;
+  bottom: clamp(16px, 3.5vh, 34px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: #e8d6b8;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  white-space: nowrap;
+  cursor: pointer;
+  text-shadow: 0 2px 12px rgba(4,26,31,.55);
+}
+.apr-hero__scroll-cue svg { animation: apr-scroll-cue 3.4s ease-in-out infinite; }
+.apr-hero__scroll-cue:hover { color: #fff1d2; }
+.apr-hero__scroll-cue:focus-visible { outline: 2px solid #fff1d2; outline-offset: 3px; }
+@keyframes apr-scroll-cue {
+  0%, 30%, 100% { transform: translateY(0); }
+  48% { transform: translateY(6px); }
+  64% { transform: translateY(0); }
+}
+@media (max-height: 680px) {
+  .apr-hero__content { padding-bottom: 7.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .apr-hero__scroll-cue svg { animation: none; }
+}
