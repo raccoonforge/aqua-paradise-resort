@@ -184,14 +184,14 @@ const HomePage = () => (
       <MediaPlaceholder mediaId="home.hero.ocean-bay" label="OCEAN BAY · ARRIVAL" className="absolute inset-0" />
       <div className="apr-hero__veil absolute inset-0 pointer-events-none" />
       <div className="apr-hero__content relative z-10 text-center px-6 max-w-5xl mx-auto flex flex-col items-center">
-        <span className="apr-eyebrow text-[#e7d7b3] mb-7">WELCOME TO AQUA PARADISE</span>
+        <span className="apr-eyebrow apr-hero__reveal apr-hero__reveal--eyebrow text-[#e7d7b3] mb-7">WELCOME TO AQUA PARADISE</span>
         <h1 className="apr-hero__title font-serif text-white mb-7 leading-[1.07]">
-          Девять миров. <span className="block italic font-normal apr-hero__accent">Один рай.</span>
+          <span className="block apr-hero__reveal apr-hero__reveal--title">Девять миров.</span> <span className="block italic font-normal apr-hero__accent apr-hero__reveal apr-hero__reveal--accent">Один рай.</span>
         </h1>
-        <p className="apr-hero__description text-base sm:text-lg md:text-xl text-white/90 mb-11 max-w-2xl leading-relaxed font-light">
+        <p className="apr-hero__description apr-hero__reveal apr-hero__reveal--description text-base sm:text-lg md:text-xl text-white/90 mb-11 max-w-2xl leading-relaxed font-light">
           От лазурных лагун и тропических садов до головокружительных водных приключений. Открой остров, где каждый момент становится особенным.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+        <div className="apr-hero__reveal apr-hero__reveal--buttons flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
           <button type="button"
             onClick={() => {
               const el = document.getElementById('about');
@@ -206,7 +206,7 @@ const HomePage = () => (
             Спланировать отдых
           </button>
         </div>
-        <div className="apr-hero__location mt-8 text-center text-[11px] sm:text-xs tracking-[0.27em] text-white/75 font-medium">
+        <div className="apr-hero__location apr-hero__reveal apr-hero__reveal--location mt-8 text-center text-[11px] sm:text-xs tracking-[0.27em] text-white/75 font-medium">
           OCEAN BAY · AQUA PARADISE
         </div>
       </div>
