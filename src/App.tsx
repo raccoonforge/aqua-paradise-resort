@@ -101,54 +101,58 @@ const AboutResort = () => {
 
 const NineWorlds = () => {
   const zones = [
-    { name: 'Ocean Bay', desc: 'Сердце курорта. Белоснежный песок, лазурная лагуна и безмятежность.', color: 'from-cyan-400/40 to-blue-900/80' },
-    { name: 'Adrenaline Peak', desc: 'Вызов для смельчаков. Самые высокие и быстрые водные горки острова.', color: 'from-orange-500/40 to-red-900/80' },
-    { name: 'Eden Gardens', desc: 'Тропический рай. Редкие растения, водопады и невероятная тишина.', color: 'from-green-500/40 to-emerald-900/80' },
-    { name: 'Atlantis Realm', desc: 'Затерянный город. Погружение в мифы и подводные приключения.', color: 'from-blue-600/40 to-indigo-900/80' },
-    { name: "Pirate's Cove", desc: 'Остров сокровищ. Приключения для всей семьи в декорациях пиратских историй.', color: 'from-amber-600/40 to-stone-900/80' },
-    { name: 'Serenity Spa', desc: 'Место силы. Премиальные спа-процедуры и абсолютный релакс.', color: 'from-purple-400/40 to-slate-900/80' },
-    { name: 'Little Paradise', desc: 'Мир для самых маленьких. Безопасные горки и любимые герои.', color: 'from-pink-400/40 to-rose-900/80' },
-    { name: 'Paradise Market', desc: 'Вкус острова. Рестораны, кафе и колоритные местные товары.', color: 'from-yellow-500/40 to-orange-900/80' },
-    { name: 'Paradise Boulevard', desc: 'Центральная артерия. Главные площади, шоу и вечерние прогулки.', color: 'from-teal-400/40 to-teal-900/80' },
+    { name: 'Atlantis Realm', tag: 'Исследования', desc: 'Затерянный мир древних руин, водных маршрутов и приключений среди морских легенд.', color: '#174c63' },
+    { name: 'Eden Gardens', tag: 'Природа', desc: 'Тропические сады, тенистые тропы и водопады, где время словно замедляется.', color: '#285a49' },
+    { name: 'Adrenaline Peak', tag: 'Экстрим', desc: 'Головокружительные спуски и захватывающие водные приключения для самых смелых.', color: '#704d3e' },
+    { name: 'Ocean Bay', tag: 'Пляжный отдых', desc: 'Лазурная вода, белоснежный песок и безмятежный отдых у открытого моря.', color: '#176b76' },
+    { name: 'Serenity Spa', tag: 'Релакс', desc: 'Уединённое пространство спокойствия, восстановления и премиального отдыха.', color: '#486c68' },
+    { name: "Pirate's Cove", tag: 'Приключения', desc: 'Пиратские истории, спрятанные сокровища и весёлые открытия для всей семьи.', color: '#635344' },
+    { name: 'Little Paradise', tag: 'Для детей', desc: 'Яркий и безопасный мир водных развлечений для самых маленьких гостей.', color: '#527f79' },
+    { name: 'Paradise Market', tag: 'Гастрономия', desc: 'Ароматы островной кухни, уютные кафе и атмосферные торговые улочки.', color: '#846044' },
+    { name: 'Paradise Boulevard', tag: 'Прогулки', desc: 'Праздничное сердце острова: площади, вечерние огни и незабываемые встречи.', color: '#375c61' },
   ];
-
   const [activeZone, setActiveZone] = useState(0);
-
+  const zone = zones[activeZone];
+  const changeZone = (index: number) => setActiveZone((index + zones.length) % zones.length);
   return (
-    <section className="apr-worlds relative min-h-[720px] h-[90vh] max-h-[1050px] flex flex-col justify-between overflow-hidden">
-      <MediaPlaceholder mediaId={`home.zone.${ZONE_SLUGS[zones[activeZone].name]}`} label={zones[activeZone].name} className="absolute inset-0" />
-      <div className={`absolute inset-0 bg-gradient-to-r from-[#082e37]/95 via-[#0b3741]/65 to-[#124c52]/15 ${zones[activeZone].color} pointer-events-none`}></div>
-      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 w-full pt-16 flex-grow flex flex-col justify-center">
-        <div className="max-w-xl text-white">
-          <span className="tracking-widest text-sm font-semibold uppercase mb-4 block opacity-80">EXPLORE THE ISLAND</span>
-          <h2 className="text-5xl md:text-7xl lg:text-8xl font-serif mb-6 drop-shadow-lg transition-all duration-500">{zones[activeZone].name}</h2>
-          <p className="text-lg md:text-xl text-gray-100 mb-8 font-light drop-shadow-md transition-all duration-500">{zones[activeZone].desc}</p>
-          <button
-            onClick={() => {
-              const slug = ZONE_SLUGS[zones[activeZone].name];
-              if (slug) window.location.hash = `#/zones?zone=${slug}`;
-            }}
-            className="apr-button apr-button--light"
-          >
-            Подробнее о зоне
-          </button>
+    <section id="worlds" className="apr-worlds" aria-label="Девять миров Aqua Paradise">
+      <div className="apr-worlds__frame" style={{ '--world-tone': zone.color } as React.CSSProperties}>
+        <div className="apr-worlds__backdrops" aria-hidden="true">
+          {zones.map((item, index) => (
+            <div key={item.name} className={`apr-worlds__backdrop ${index === activeZone ? 'is-active' : ''}`}>
+              <MediaPlaceholder mediaId={`home.zone.${ZONE_SLUGS[item.name]}`} label={item.name} className="apr-worlds__media" />
+            </div>
+          ))}
         </div>
-      </div>
-      <div className="relative z-10 w-full bg-[#062c35]/70 backdrop-blur-xl border-t border-white/15">
-        <div className="max-w-6xl mx-auto px-4 py-4">
-          <div className="flex overflow-x-auto gap-3 pb-2 scrollbar-hide">
-            {zones.map((zone, index) => (
-              <button
-                key={zone.name}
-                onClick={() => setActiveZone(index)}
-                aria-label={`Показать зону ${zone.name}`}
-                className={`flex-shrink-0 px-5 py-3 rounded-full text-sm font-medium transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
-                  activeZone === index ? 'bg-white text-gray-900 shadow-lg scale-105' : 'bg-white/10 text-white hover:bg-white/20'
-                }`}
-              >
-                {zone.name}
-              </button>
-            ))}
+        <div className="apr-worlds__shade" aria-hidden="true" />
+        <div className="apr-worlds__content">
+          <div className="apr-worlds__intro">
+            <span className="apr-worlds__eyebrow">ТРОПИЧЕСКИЙ КУРОРТ</span>
+            <h2 className="apr-worlds__heading">Девять миров.<br /><em>Aqua Paradise</em></h2>
+            <p className="apr-worlds__lead">От тропических садов до затерянных цивилизаций — выбери свой мир приключений.</p>
+          </div>
+          <div className="apr-worlds__selected" key={zone.name}>
+            <span className="apr-worlds__selected-kicker">СЕЙЧАС ВЫ В МИРЕ</span>
+            <h3>{zone.name}</h3>
+            <p>{zone.desc}</p>
+            <div className="apr-worlds__actions">
+              <button type="button" className="apr-button apr-button--sand" onClick={() => { const slug = ZONE_SLUGS[zone.name]; if (slug) window.location.hash = `#/zones?zone=${slug}`; }}>Подробнее о зоне <span aria-hidden="true">↗</span></button>
+              <button type="button" className="apr-button apr-button--outline" onClick={() => window.location.hash = '#/tickets'}>Выбрать билет</button>
+            </div>
+          </div>
+        </div>
+        <div className="apr-worlds__dock">
+          <span className="apr-worlds__dock-label">ДЕВЯТЬ МИРОВ AQUA PARADISE</span>
+          <div className="apr-worlds__dock-row">
+            <div className="apr-worlds__rail" role="group" aria-label="Выберите тематическую зону">
+              {zones.map((item, index) => (
+                <button key={item.name} type="button" aria-pressed={activeZone === index} onClick={() => changeZone(index)} className={`apr-worlds__tab ${activeZone === index ? 'is-active' : ''}`}>
+                  <span className="apr-worlds__thumb" style={{ backgroundColor: item.color }}><span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span></span>
+                  <span className="apr-worlds__tab-copy"><strong>{item.name}</strong><small>{item.tag}</small></span>
+                </button>
+              ))}
+            </div>
+            <button type="button" className="apr-worlds__next" onClick={() => changeZone(activeZone + 1)} aria-label="Следующий мир">→</button>
           </div>
         </div>
       </div>
