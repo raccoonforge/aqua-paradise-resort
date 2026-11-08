@@ -732,3 +732,9 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .apr-about__control-buttons button { transition: none; }
 }
+
+/* About controls: neutral ivory text, matching the main section copy. */
+.apr-about__progress,
+.apr-about__control-buttons button {
+  color: #f7f4ed;
+}
