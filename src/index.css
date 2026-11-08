@@ -648,3 +648,28 @@ body {
   .apr-about__polaroid--4 { --move-x: -6%; --move-y: 80%; }
   .apr-about__controls { min-height: 48px; padding: 5px 8px 10px; }
 }
+
+/* Laptop-height tuning: keep the ornamental frame within a typical viewport. */
+@media (min-width: 640px) and (max-height: 820px) {
+  .apr-about { padding-top: 10px; padding-bottom: 10px; }
+  .apr-about__frame { min-height: calc(100svh - 20px); }
+  .apr-about__scene { min-height: 0; }
+  .apr-about__controls { min-height: 40px; padding: 4px 12px 10px; }
+  .apr-about__eyebrow { margin-bottom: 14px; }
+  .apr-about__heading { font-size: clamp(34px, 4vw, 54px); }
+  .apr-about__description { margin-top: 16px; margin-bottom: 18px; line-height: 1.55; font-size: 14px; }
+  .apr-about__stats { padding-top: 15px; }
+  .apr-about__polaroid { width: clamp(225px, 23vw, 340px); }
+  .apr-about__photo { height: clamp(205px, 22vw, 305px); }
+}
+@media (min-width: 640px) and (max-height: 680px) {
+  .apr-about__frame { min-height: calc(100svh - 20px); }
+  .apr-about__scene { min-height: 0; }
+  .apr-about__eyebrow { margin-bottom: 10px; }
+  .apr-about__heading { font-size: clamp(31px, 3.5vw, 45px); }
+  .apr-about__description { margin: 12px auto 14px; font-size: 13px; }
+  .apr-about__stats { padding-top: 12px; }
+  .apr-about__stats strong { font-size: 28px; }
+  .apr-about__polaroid { width: clamp(195px, 20vw, 290px); }
+  .apr-about__photo { height: clamp(175px, 19vw, 260px); }
+}
