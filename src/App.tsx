@@ -70,7 +70,7 @@ const AboutResort = () => {
                   type="button"
                   key={photo.mediaId}
                   className={`apr-about__polaroid apr-about__polaroid--${index + 1} ${moved ? 'is-moved' : 'is-stacked'}`}
-                  style={{ zIndex: moved ? index + 1 : 10 + index }}
+                  style={{ zIndex: moved ? index + 1 : 10 + (photos.length - index) }}
                   onClick={active ? revealNext : undefined}
                   disabled={!active}
                   aria-label={`Открыть фотографию ${index + 1} из ${photos.length}: ${photo.title}`}
