@@ -530,3 +530,68 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .apr-hero__reveal { animation: none; }
 }
+
+/* About Resort: polaroids uncover copy without moving it from its center. */
+.apr-about { background: radial-gradient(ellipse at 50% 40%, #164f56 0%, #103f46 55%, #092e36 100%); color: #f7f4ed; padding: 64px 16px 32px; overflow: hidden; }
+.apr-about__frame { max-width: 1500px; margin: auto; border: 1px solid rgba(225,204,159,.25); min-height: 750px; position: relative; }
+.apr-about__scene { min-height: 690px; position: relative; display: grid; place-items: center; isolation: isolate; }
+.apr-about__copy { width: min(620px, 54%); text-align: center; position: relative; z-index: 1; transition: opacity .85s ease; pointer-events: none; }
+.apr-about__eyebrow { display: block; color: #e1bc80; letter-spacing: .3em; font-size: 12px; margin-bottom: 28px; }
+.apr-about__heading { font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(38px, 4.2vw, 66px); line-height: 1.02; font-weight: 500; }
+.apr-about__heading em { display: block; color: #efcf96; font-weight: 400; }
+.apr-about__description { margin: 28px auto 36px; max-width: 540px; line-height: 1.85; color: #e2e9e6; font-size: 16px; }
+.apr-about__stats { display: flex; justify-content: center; gap: 24px; border-top: 1px solid rgba(225,204,159,.35); padding-top: 28px; }
+.apr-about__stats > div { flex: 1; display: flex; flex-direction: column; gap: 7px; }
+.apr-about__stats strong { font-family: 'Cormorant Garamond', Georgia, serif; color: #efcf96; font-size: clamp(25px, 2.8vw, 40px); font-weight: 500; white-space: nowrap; }
+.apr-about__stats span { font-size: 11px; color: #c1d1cf; }
+.apr-about__photos { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.apr-about__polaroid { position: absolute; top: 50%; left: 50%; width: clamp(205px, 24vw, 320px); padding: 10px 10px 18px; border: 0; background: #f5f0e5; color: #23444a; box-shadow: 0 20px 48px rgba(0,15,20,.45); transform: translate(-50%,-50%) rotate(var(--stack-rotation, 0deg)); transition: transform 1s cubic-bezier(.22,1,.36,1), box-shadow .4s ease; pointer-events: auto; cursor: pointer; text-align: center; }
+.apr-about__polaroid:disabled { cursor: default; }
+.apr-about__polaroid:focus-visible { outline: 3px solid #efcf96; outline-offset: 5px; }
+.apr-about__polaroid--1 { --stack-rotation: -7deg; --move-x: -190%; --move-y: -104%; --move-r: -12deg; }
+.apr-about__polaroid--2 { --stack-rotation: 6deg; --move-x: 88%; --move-y: -110%; --move-r: 10deg; }
+.apr-about__polaroid--3 { --stack-rotation: -3deg; --move-x: -198%; --move-y: 14%; --move-r: -8deg; }
+.apr-about__polaroid--4 { --stack-rotation: 4deg; --move-x: 92%; --move-y: 14%; --move-r: 8deg; }
+.apr-about__polaroid.is-moved { transform: translate(var(--move-x),var(--move-y)) rotate(var(--move-r)); }
+.apr-about__photo { display: block; width: 100%; height: clamp(190px, 23vw, 300px); overflow: hidden; margin-bottom: 13px; }
+.apr-about__photo-title { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; }
+.apr-about__photo-caption { display: block; font-size: 11px; margin-top: 4px; opacity: .75; }
+.apr-about__controls { min-height: 56px; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 20px; padding: 10px 16px 20px; }
+.apr-about__progress { font-size: 12px; color: #d9c7a8; letter-spacing: .08em; }
+.apr-about__control-buttons { display: flex; gap: 14px; }
+.apr-about__control-buttons button { color: #f7e4bf; border-bottom: 1px solid #b9945d; padding: 5px; font-size: 12px; }
+.apr-about__control-buttons button:focus-visible { outline: 2px solid #efcf96; }
+@media (max-width: 900px) {
+  .apr-about__frame { min-height: 740px; }
+  .apr-about__scene { min-height: 680px; }
+  .apr-about__copy { width: min(460px, 64%); }
+  .apr-about__polaroid { width: clamp(160px, 24vw, 230px); }
+  .apr-about__photo { height: clamp(155px, 23vw, 220px); }
+  .apr-about__polaroid--1 { --move-x: -160%; --move-y: -135%; }
+  .apr-about__polaroid--2 { --move-x: 60%; --move-y: -140%; }
+  .apr-about__polaroid--3 { --move-x: -170%; --move-y: 40%; }
+  .apr-about__polaroid--4 { --move-x: 70%; --move-y: 40%; }
+}
+@media (max-width: 639px) {
+  .apr-about { padding: 32px 10px 22px; }
+  .apr-about__frame { min-height: 740px; }
+  .apr-about__scene { min-height: 680px; }
+  .apr-about__copy { width: calc(100% - 24px); padding-top: 55px; }
+  .apr-about__heading { font-size: clamp(32px, 8vw, 44px); }
+  .apr-about__description { font-size: 13px; line-height: 1.65; margin: 18px auto 22px; }
+  .apr-about__eyebrow { font-size: 10px; margin-bottom: 16px; }
+  .apr-about__stats { gap: 5px; padding-top: 15px; }
+  .apr-about__stats strong { font-size: 24px; }
+  .apr-about__stats span { font-size: 9px; }
+  .apr-about__polaroid { width: min(55vw, 210px); padding: 7px 7px 12px; }
+  .apr-about__photo { height: min(47vw, 175px); margin-bottom: 8px; }
+  .apr-about__photo-title { font-size: 9px; }
+  .apr-about__photo-caption { font-size: 8px; }
+  .apr-about__polaroid--1 { --move-x: -91%; --move-y: -178%; --move-r: -11deg; }
+  .apr-about__polaroid--2 { --move-x: -9%; --move-y: -176%; --move-r: 9deg; }
+  .apr-about__polaroid--3 { --move-x: -91%; --move-y: 78%; --move-r: -8deg; }
+  .apr-about__polaroid--4 { --move-x: -9%; --move-y: 80%; --move-r: 8deg; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .apr-about__copy, .apr-about__polaroid { transition: none; }
+}
