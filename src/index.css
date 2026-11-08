@@ -679,3 +679,56 @@ body {
 .apr-home #about {
   scroll-margin-top: 0;
 }
+
+/* Shared APR champagne-gold tokens: same palette as the Hero headline and CTAs. */
+:root {
+  --apr-gold-gradient: linear-gradient(100deg, #fff1d2 0%, #efcf96 19%, #d4a968 46%, #b78343 78%, #a8753b 100%);
+  --apr-gold-light: #efcf96;
+  --apr-gold-border: rgba(239, 207, 150, .65);
+}
+.apr-hero__accent,
+.apr-about__eyebrow,
+.apr-about__heading em,
+.apr-about__stats strong {
+  background-image: var(--apr-gold-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.apr-about__eyebrow,
+.apr-about__heading em,
+.apr-about__stats strong { color: var(--apr-gold-light); }
+.apr-about__control-buttons { gap: 10px; }
+.apr-about__control-buttons button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 38px;
+  padding: 8px 18px;
+  border: 1px solid var(--apr-gold-border);
+  border-radius: 999px;
+  background: rgba(239,207,150,.08);
+  color: #fff1d2;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .02em;
+  cursor: pointer;
+  transition: background-color .2s ease, box-shadow .2s ease, transform .2s ease, border-color .2s ease;
+}
+.apr-about__control-buttons button:hover {
+  background: rgba(239,207,150,.2);
+  border-color: #efcf96;
+  box-shadow: 0 0 0 3px rgba(239,207,150,.09);
+  transform: translateY(-1px);
+}
+.apr-about__control-buttons button:active {
+  transform: translateY(1px);
+  background: rgba(239,207,150,.27);
+}
+.apr-about__control-buttons button:focus-visible {
+  outline: 2px solid #fff1d2;
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .apr-about__control-buttons button { transition: none; }
+}
