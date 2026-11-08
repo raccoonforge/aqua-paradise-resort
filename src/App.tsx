@@ -548,7 +548,7 @@ function App() {
         <div className="apr-footer__inner">
           <div className="apr-footer__top">
             <div className="apr-footer__identity">
-              <span className="apr-footer__eyebrow">AQUA PARADISE · ISLAND RESORT</span>
+              <div className="apr-footer__brand"><ResortLogo /><span className="apr-footer__eyebrow">AQUA PARADISE · ISLAND RESORT</span></div>
               <h2>Девять миров.<br/><em>Один рай.</em></h2>
               <p>Остров, где приключения встречаются с безмятежностью.</p>
             </div>
