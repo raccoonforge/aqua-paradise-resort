@@ -506,3 +506,21 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .apr-hero__scroll-cue svg { animation: none; }
 }
+
+/* One-time, understated editorial entrance. The final state is always visible. */
+.apr-hero__reveal {
+  animation: apr-hero-reveal .72s cubic-bezier(.22,1,.36,1) both;
+}
+.apr-hero__reveal--eyebrow { animation-delay: .15s; }
+.apr-hero__reveal--title { animation-delay: .35s; }
+.apr-hero__reveal--accent { animation-delay: .55s; }
+.apr-hero__reveal--description { animation-delay: .85s; }
+.apr-hero__reveal--buttons { animation-delay: 1.05s; }
+.apr-hero__reveal--location { animation-delay: 1.25s; }
+@keyframes apr-hero-reveal {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .apr-hero__reveal { animation: none; }
+}
