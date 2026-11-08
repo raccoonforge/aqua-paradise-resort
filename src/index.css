@@ -828,3 +828,47 @@ body {
   .apr-worlds { padding: 0; }
   .apr-worlds__frame { min-height: 100svh; border-radius: 0; }
 }
+
+/* Signature attractions: editorial coverflow on deep ocean, photo-ready cards. */
+.apr-attractions { position: relative; isolation: isolate; overflow: hidden; min-height: 900px; padding: 105px 20px 110px; background: radial-gradient(ellipse at 50% 45%,#1d5960 0%,#103f46 42%,#092d35 100%); color: #f7f4ed; text-align: center; }
+.apr-attractions__glow { position: absolute; width: min(85vw,900px); height: 600px; left: 50%; top: 30%; transform: translateX(-50%); background: radial-gradient(ellipse,rgba(192,156,98,.16),transparent 68%); pointer-events: none; }
+.apr-attractions__intro { position: relative; z-index: 2; max-width: 770px; margin: 0 auto; }
+.apr-attractions__eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .3em; color: #efcf96; }
+.apr-attractions__intro h2 { margin: 16px 0; font-family: var(--font-serif); font-size: clamp(48px,6vw,86px); font-weight: 500; line-height: .95; letter-spacing: -.035em; }
+.apr-attractions__intro h2 em { font-weight: 400; background: var(--apr-gold-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.apr-attractions__intro p { max-width: 620px; margin: 0 auto; font-size: 14px; line-height: 1.8; color: rgba(247,244,237,.8); }
+.apr-attractions__gallery { position: relative; z-index: 1; width: min(100%,1100px); height: clamp(360px,38vw,485px); margin: 30px auto 0; display: flex; align-items: center; justify-content: center; }
+.apr-attractions__stage { position: relative; width: 100%; height: 100%; perspective: 1250px; }
+.apr-attractions__card { position: absolute; top: 50%; left: 50%; width: clamp(235px,29vw,360px); height: clamp(320px,35vw,440px); padding: 8px; border: 1px solid rgba(239,207,150,.25); border-radius: 16px; background: #f7f4ed; color: #173b42; text-align: left; overflow: hidden; box-shadow: 0 22px 65px rgba(0,17,23,.45); transform: translate(-50%,-50%) translateX(calc(var(--card-offset) * clamp(145px,21vw,290px))) rotateY(calc(var(--card-offset) * -24deg)) scale(calc(1 - var(--card-depth) * .16)); opacity: calc(1 - var(--card-depth) * .3); z-index: calc(10 - var(--card-depth)); transition: transform .65s cubic-bezier(.2,.7,.2,1),opacity .65s ease,box-shadow .3s ease; cursor: pointer; }
+.apr-attractions__card.is-active { box-shadow: 0 30px 80px rgba(0,14,19,.55),0 0 35px rgba(239,207,150,.12); }
+.apr-attractions__card:focus-visible { outline: 3px solid #efcf96; outline-offset: 4px; }
+.apr-attractions__photo { width: 100%; height: 80%; border-radius: 10px; }
+.apr-attractions__photo .apr-media__mark { transform: translate(-50%,-50%) scale(.8); }
+.apr-attractions__photo .apr-media__id { display: none; }
+.apr-attractions__card-caption { display: flex; flex-direction: column; padding: 10px 10px 0; }
+.apr-attractions__card-caption small { font-size: 9px; text-transform: uppercase; letter-spacing: .17em; color: #607477; }
+.apr-attractions__card-caption strong { font-family: var(--font-serif); font-size: clamp(19px,2vw,27px); line-height: 1.15; font-weight: 600; }
+.apr-attractions__arrow { position: absolute; z-index: 15; top: 50%; width: 46px; height: 46px; border: 1px solid rgba(247,244,237,.7); border-radius: 50%; background: rgba(5,30,36,.35); font-size: 25px; line-height: 1; transition: background .2s ease,transform .2s ease; }
+.apr-attractions__arrow:hover { background: rgba(247,244,237,.18); transform: scale(1.06); }
+.apr-attractions__arrow:focus-visible { outline: 2px solid #efcf96; outline-offset: 4px; }
+.apr-attractions__arrow--prev { left: 0; }
+.apr-attractions__arrow--next { right: 0; }
+.apr-attractions__details { position: relative; z-index: 2; max-width: 600px; margin: 0 auto; animation: apr-worlds-enter .5s ease both; }
+.apr-attractions__counter { font-size: 12px; letter-spacing: .2em; font-weight: 600; color: #efcf96; }
+.apr-attractions__counter span { color: rgba(247,244,237,.45); padding: 0 8px; }
+.apr-attractions__details h3 { font-family: var(--font-serif); font-size: clamp(35px,4vw,55px); font-weight: 500; margin: 10px 0; }
+.apr-attractions__details p { margin: 0 auto; font-size: 14px; line-height: 1.7; color: rgba(247,244,237,.85); }
+.apr-attractions__meta { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin: 16px 0 24px; }
+.apr-attractions__meta span { border: 1px solid rgba(247,244,237,.25); border-radius: 99px; padding: 6px 13px; font-size: 11px; }
+.apr-attractions__details .apr-button { min-height: 48px; font-size: 12px; }
+@media(max-width:639px) {
+  .apr-attractions { min-height: 0; padding: 75px 12px 85px; }
+  .apr-attractions__intro h2 { font-size: clamp(43px,11vw,60px); }
+  .apr-attractions__intro p { font-size: 12px; }
+  .apr-attractions__gallery { height: 380px; margin-top: 20px; }
+  .apr-attractions__card { width: min(65vw,270px); height: 340px; transform: translate(-50%,-50%) translateX(calc(var(--card-offset) * 44vw)) rotateY(calc(var(--card-offset) * -22deg)) scale(calc(1 - var(--card-depth) * .17)); }
+  .apr-attractions__arrow { width: 36px; height: 36px; font-size: 20px; }
+  .apr-attractions__details p { font-size: 12px; }
+  .apr-attractions__details .apr-button { width: auto; max-width: 100%; }
+}
+@media(prefers-reduced-motion:reduce) { .apr-attractions__card { transition: none; } .apr-attractions__details { animation: none; } }
