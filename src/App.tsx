@@ -5,7 +5,7 @@ import VisitPage from './VisitPage';
 import TicketsPage from './TicketsPage';
 import AttractionsPage from './AttractionsPage';
 import ZonesPage from './ZonesPage';
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo, type ReactNode } from 'react';
 import { ZONE_SLUGS, ATTRACTIONS } from './data/attractions';
 
 // TODO: Cinematic Intro — отложено (Visual Pending: нужны видео/3D-ассеты).
@@ -397,7 +397,7 @@ const PlannerTeaser = () => {
 
 type HeaderIconName = 'compass' | 'waves' | 'heart' | 'route' | 'bus' | 'shield' | 'help';
 const HeaderIcon = ({ name }: { name: HeaderIconName }) => {
-  const paths: Record<HeaderIconName, React.ReactNode> = {
+  const paths: Record<HeaderIconName, ReactNode> = {
     compass: <><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2.2 4.8-4.8 2.2 2.2-4.8z"/></>,
     waves: <><path d="M2 9c2.5 0 2.5 2 5 2s2.5-2 5-2 2.5 2 5 2 2.5-2 5-2"/><path d="M2 15c2.5 0 2.5 2 5 2s2.5-2 5-2 2.5 2 5 2 2.5-2 5-2"/></>,
     heart: <path d="M20.8 8.5c0 4.5-8.8 10.5-8.8 10.5S3.2 13 3.2 8.5a4.6 4.6 0 0 1 8.8-1.8 4.6 4.6 0 0 1 8.8 1.8Z"/>,
