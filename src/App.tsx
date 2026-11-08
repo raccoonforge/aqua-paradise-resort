@@ -387,8 +387,9 @@ function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const [headerScrolled, setHeaderScrolled] = useState(() => window.scrollY > 36);
+  const [showBackToTop, setShowBackToTop] = useState(() => window.scrollY > 350);
   useEffect(() => {
-    const onScroll = () => setHeaderScrolled(window.scrollY > 36);
+    const onScroll = () => { setHeaderScrolled(window.scrollY > 36); setShowBackToTop(window.scrollY > 350); };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -518,6 +519,18 @@ function App() {
       )}
 
       <main className={`flex-grow ${basePath === '#/' ? 'apr-main--home' : 'apr-main--inner'}`}>{renderPage()}</main>
+
+      <button
+        type="button"
+        className={`apr-back-to-top${showBackToTop && !isMobileMenuOpen ? ' apr-back-to-top--visible' : ''}`}
+        onClick={() => window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })}
+        aria-label="Вернуться наверх страницы"
+        title="Наверх"
+        tabIndex={showBackToTop && !isMobileMenuOpen ? 0 : -1}
+        aria-hidden={!showBackToTop || isMobileMenuOpen}
+      >
+        <span aria-hidden="true">↑</span>
+      </button>
 
       <footer className="apr-footer" id="site-footer">
         <div className="apr-footer__inner">
