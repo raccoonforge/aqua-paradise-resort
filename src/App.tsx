@@ -5,7 +5,7 @@ import VisitPage from './VisitPage';
 import TicketsPage from './TicketsPage';
 import AttractionsPage from './AttractionsPage';
 import ZonesPage from './ZonesPage';
-import { useState, useEffect, useRef, useMemo, type ReactNode } from 'react';
+import { useState, useEffect, useRef, useMemo, type ReactNode, type CSSProperties } from 'react';
 import { ZONE_SLUGS, ATTRACTIONS } from './data/attractions';
 
 // TODO: Cinematic Intro — отложено (Visual Pending: нужны видео/3D-ассеты).
@@ -116,7 +116,7 @@ const NineWorlds = () => {
   const changeZone = (index: number) => setActiveZone((index + zones.length) % zones.length);
   return (
     <section id="worlds" className="apr-worlds" aria-label="Девять миров Aqua Paradise">
-      <div className="apr-worlds__frame" style={{ '--world-tone': zone.color } as React.CSSProperties}>
+      <div className="apr-worlds__frame" style={{ '--world-tone': zone.color } as CSSProperties}>
         <div className="apr-worlds__backdrops" aria-hidden="true">
           {zones.map((item, index) => (
             <div key={item.name} className={`apr-worlds__backdrop ${index === activeZone ? 'is-active' : ''}`}>
