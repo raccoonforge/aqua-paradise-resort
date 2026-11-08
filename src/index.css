@@ -816,3 +816,15 @@ body {
 }
 @media(max-height:760px) and (min-width:640px) { .apr-worlds__content { padding-top: 92px; gap: 20px; } .apr-worlds__heading { font-size: clamp(54px,5.5vw,80px); } .apr-worlds__frame { min-height: 660px; } }
 @media(prefers-reduced-motion:reduce) { .apr-worlds__backdrop,.apr-worlds__selected,.apr-worlds__frame { transition: none; animation: none; } }
+
+/* Nine Worlds: edge-to-edge immersion without a framing border. */
+.apr-worlds { padding: 0; }
+.apr-worlds__frame {
+  min-height: 100svh;
+  border: 0;
+  border-radius: 0;
+}
+@media (max-width: 639px) {
+  .apr-worlds { padding: 0; }
+  .apr-worlds__frame { min-height: 100svh; border-radius: 0; }
+}
