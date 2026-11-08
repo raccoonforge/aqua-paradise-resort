@@ -1051,3 +1051,11 @@ body {
  .apr-footer__identity h2 { font-size: clamp(42px,10vw,56px); }
  .apr-footer__nav { gap: 20px; padding-top: 0; }
 }
+
+/* Persistent, unobtrusive return-to-top control. */
+.apr-back-to-top { position: fixed; z-index: 90; right: clamp(18px,3vw,42px); bottom: clamp(20px,3vw,40px); width: 49px; height: 49px; border: 1px solid rgba(239,207,150,.65); border-radius: 50%; display: grid; place-items: center; background: #0b333b; color: #efcf96; font-size: 25px; line-height: 1; box-shadow: 0 8px 25px rgba(0,0,0,.22); opacity: 0; visibility: hidden; transform: translateY(12px); pointer-events: none; transition: opacity .25s ease,transform .25s ease,visibility .25s ease,background .2s ease; }
+.apr-back-to-top--visible { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
+.apr-back-to-top:hover { background: #15505a; }
+.apr-back-to-top:focus-visible { outline: 2px solid #efcf96; outline-offset: 4px; }
+@media(max-width:600px) { .apr-back-to-top { right: 16px; bottom: 18px; width: 44px; height: 44px; } }
+@media(prefers-reduced-motion:reduce) { .apr-back-to-top { transition: none; } }
