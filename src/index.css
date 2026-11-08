@@ -738,3 +738,22 @@ body {
 .apr-about__control-buttons button {
   color: #f7f4ed;
 }
+
+/* About actions mirror the Hero's understated secondary outline button. */
+.apr-about__control-buttons button {
+  border: 1px solid rgba(255,255,255,.65);
+  background: rgba(255,255,255,.08);
+  color: #f7f4ed;
+  box-shadow: none;
+}
+.apr-about__control-buttons button:hover {
+  border-color: rgba(255,255,255,.8);
+  background: rgba(255,255,255,.2);
+  box-shadow: none;
+}
+.apr-about__control-buttons button:active {
+  background: rgba(255,255,255,.25);
+}
+.apr-about__control-buttons button:focus-visible {
+  outline: 2px solid #f7f4ed;
+}
