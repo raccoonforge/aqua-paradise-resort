@@ -89,7 +89,7 @@ body {
   --apr-deep: #103f46;
   --apr-lagoon: #247f82;
   --apr-pearl: #f7f4ed;
-  --apr-sand: #c6a46a;
+  --apr-sand: #dfc592;
   --apr-ink: #263638;
   --apr-mist: #e8ddcb;
   --apr-muted: #526368;
@@ -276,3 +276,20 @@ body {
   .apr-hero__title { line-height: 1.02; }
   .apr-button { min-height: 52px; }
 }
+
+/* Champagne glow: a restrained satin gradient reserved for primary actions. */
+.apr-button--sand {
+  background: linear-gradient(115deg, #f5e8c9 0%, #e8d2a4 42%, #d6b77d 78%, #ead4a8 100%);
+  background-size: 180% 100%;
+  color: #233c3d;
+  border: 1px solid #e9d6af;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.48), 0 8px 24px rgba(10,45,47,.16);
+  transition: background-position .35s ease, box-shadow .25s ease, transform .2s ease;
+}
+.apr-button--sand:hover {
+  background: linear-gradient(115deg, #fff0d2 0%, #f0dcb5 42%, #dec18c 78%, #f1deb9 100%);
+  border-color: #f0ddb7;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 12px 28px rgba(10,45,47,.19);
+}
+.apr-button--sand:active { transform: translateY(0); box-shadow: inset 0 2px 5px rgba(79,56,24,.14); }
+@media (prefers-reduced-motion: reduce) { .apr-button--sand { transition: none; } }
