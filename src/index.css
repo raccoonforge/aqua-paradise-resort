@@ -1014,3 +1014,24 @@ body {
 .apr-footer__bottom button { white-space: nowrap; color: #f7f4ed; transition: color .2s; }
 @media(max-width:850px) { .apr-footer__top { gap: 45px; flex-direction: column; } .apr-footer__nav { max-width: 440px; } .apr-footer__bottom { flex-wrap: wrap; } }
 @media(max-width:520px) { .apr-footer__top { padding: 70px 0 35px; } .apr-footer__identity h2 { font-size: clamp(50px,13vw,70px); } .apr-footer__nav { gap: 18px; } .apr-footer__wordmark { font-size: clamp(37px,10vw,57px); padding: 30px 0; } .apr-footer__bottom { flex-direction: column; align-items: flex-start; gap: 10px; } }
+
+/* Compact footer: a quiet closing strip, not another full-page section. */
+.apr-footer__top { padding: 26px 0 18px; gap: 30px; align-items: start; }
+.apr-footer__identity h2 { font-size: clamp(29px,3vw,42px); margin: 7px 0 5px; line-height: 1; }
+.apr-footer__identity p { font-size: 11px; line-height: 1.4; }
+.apr-footer__eyebrow { font-size: 9px; letter-spacing: .16em; }
+.apr-footer__nav { padding-top: 0; gap: clamp(18px,3vw,45px); }
+.apr-footer__nav > div { gap: 6px; }
+.apr-footer__nav h3 { font-size: 9px; margin-bottom: 3px; }
+.apr-footer__nav button { font-size: 11px; position: relative; text-decoration: none; padding-bottom: 2px; }
+.apr-footer__nav button::after { content: ''; position: absolute; left: 0; bottom: 0; width: 100%; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .25s ease; }
+.apr-footer__nav button:hover::after,.apr-footer__nav button:focus-visible::after { transform: scaleX(1); }
+.apr-footer__wordmark { display: none; }
+.apr-footer__bottom { padding: 12px 0 16px; border-top: 1px solid rgba(239,207,150,.22); font-size: 9px; gap: 15px; }
+.apr-footer__bottom p { max-width: 390px; }
+.apr-footer__bottom button { position: relative; padding-bottom: 2px; }
+.apr-footer__bottom button::after { content: ''; position: absolute; left: 0; bottom: 0; width: 100%; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .25s ease; }
+.apr-footer__bottom button:hover::after,.apr-footer__bottom button:focus-visible::after { transform: scaleX(1); }
+@media (max-width:850px) { .apr-footer__top { flex-direction: row; gap: 25px; } .apr-footer__nav { gap: 20px; } }
+@media (max-width:650px) { .apr-footer__top { flex-direction: column; padding: 26px 0 18px; gap: 20px; } .apr-footer__nav { width: 100%; max-width: none; } .apr-footer__bottom { flex-direction: column; align-items: flex-start; gap: 7px; } }
+@media (prefers-reduced-motion:reduce) { .apr-footer__nav button::after,.apr-footer__bottom button::after { transition: none; } }
