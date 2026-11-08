@@ -1059,3 +1059,10 @@ body {
 .apr-back-to-top:focus-visible { outline: 2px solid #efcf96; outline-offset: 4px; }
 @media(max-width:600px) { .apr-back-to-top { right: 16px; bottom: 18px; width: 44px; height: 44px; } }
 @media(prefers-reduced-motion:reduce) { .apr-back-to-top { transition: none; } }
+
+/* Header identity: approved gold palm/waves, scaled for real navigation. */
+.apr-brand { gap: 10px; }
+.apr-brand__emblem { width: 48px; height: 48px; flex: none; display: block; }
+.apr-brand__name { font-weight: 500; font-size: clamp(21px,1.9vw,27px); letter-spacing: -.025em; }
+.apr-brand__name small { color: #e9c58b; letter-spacing: .28em; }
+@media(max-width:600px) { .apr-brand__emblem { width: 40px; height: 40px; } .apr-brand { gap: 7px; } }
