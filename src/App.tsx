@@ -222,7 +222,6 @@ const HomePage = () => (
         <svg viewBox="0 0 32 24" width="32" height="24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <path d="M5 5 16 16 27 5" />
         </svg>
-        <span>Листайте вниз</span>
       </button>
     </section>
     <AboutResort />
