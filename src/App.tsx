@@ -316,64 +316,53 @@ const PlannerTeaser = () => {
   };
 
   return (
-    <section className="apr-planner py-24 sm:py-32 text-white relative overflow-hidden">
-      <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
-        <span className="tracking-widest text-teal-300 text-sm font-semibold uppercase mb-2 block">PLAN YOUR DAY</span>
-        <h2 className="text-4xl md:text-5xl font-serif mb-6">Собери свой идеальный день.</h2>
-        <p className="text-teal-100 mb-10 text-lg">Выберите то, что вам по душе, и мы покажем, каким может быть ваш отдых.</p>
-
-        <div className="flex flex-wrap justify-center gap-4 mb-10">
-          {interests.map(interest => (
-            <button
-              key={interest}
-              onClick={() => toggleInterest(interest)}
-              aria-pressed={selected.includes(interest)}
-              className={`px-6 py-3 rounded-full border-2 transition-all font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-300 ${
-                selected.includes(interest) ? 'bg-teal-400 border-teal-400 text-teal-900' : 'border-teal-700 hover:border-teal-500 text-teal-100'
-              }`}
-            >
-              {interest}
-            </button>
-          ))}
-        </div>
-
-        {/* Пример дня — 3 карточки */}
-        {recommendation && recommendation.length > 0 && (
-          <div className="mb-10 animate-fade-in">
-            <p className="text-sm text-teal-200 mb-4 uppercase tracking-wider">Пример дня</p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
-              {['Утро', 'День', 'Вечер'].map((period, idx) => {
-                const item = recommendation[idx];
-                if (!item) return null;
-                return (
-                  <div key={period} className="apr-planner__card bg-white/10 backdrop-blur rounded-2xl p-4 border border-white/15 overflow-hidden">
-                    <MediaPlaceholder mediaId={`home.planner.${['morning', 'afternoon', 'evening'][idx]}`} label={item.name} className="h-36 mb-4 rounded-xl" />
-                     <span className="text-xs text-teal-300 font-bold uppercase tracking-wider">{period}</span>
-                    <h3 className="font-serif text-xl text-white mt-1 mb-1">{item.name}</h3>
-                    <p className="text-xs text-teal-200 mb-2">{item.zone}</p>
-                    <p className="text-sm text-gray-200 line-clamp-2">{item.desc}</p>
-                  </div>
-                );
-              })}
-            </div>
-            <p className="text-xs text-teal-300 mt-3">
-              Это пример для вдохновения, а не гарантированное расписание. Полный план — в планировщике.
-            </p>
+    <section id="mini-planner" className="apr-planner" aria-labelledby="mini-planner-title">
+      <div className="apr-planner__layout">
+        <div className="apr-planner__intro">
+          <span className="apr-planner__eyebrow">YOUR PERFECT DAY · AQUA PARADISE</span>
+          <h2 id="mini-planner-title">Ваш идеальный день <em>начинается здесь.</em></h2>
+          <p className="apr-planner__lead">У каждого свой рай. Расскажите, что вам нравится, — и мы подберём впечатления для вашего путешествия.</p>
+          <h3 className="apr-planner__select-title">Что вас вдохновляет?</h3>
+          <div className="apr-planner__choices">
+            {interests.map((interest, index) => (
+              <button type="button" key={interest} className={`apr-planner__choice ${selected.includes(interest) ? 'is-selected' : ''}`} onClick={() => toggleInterest(interest)} aria-pressed={selected.includes(interest)}>
+                <span className="apr-planner__choice-index">0{index + 1}</span>
+                <span>{interest}</span>
+                <span aria-hidden="true" className="apr-planner__choice-mark">{selected.includes(interest) ? '✓' : '+'}</span>
+              </button>
+            ))}
           </div>
-        )}
-
-        {selected.length > 0 && !recommendation && (
-          <p className="text-amber-200 text-sm mb-6">
-            По выбранным интересам пока нет рекомендаций. Попробуйте другие или откройте полный планировщик.
-          </p>
-        )}
-
-        <button
-          onClick={handleOpenPlanner}
-          className="apr-button apr-button--sand focus-visible:ring-2 focus-visible:ring-white"
-        >
-          {selected.length > 0 ? 'Открыть полный планировщик с этими интересами' : 'Открыть полный планировщик'}
-        </button>
+          <button type="button" className="apr-planner__reset" onClick={() => setSelected([])} disabled={selected.length === 0}>Сбросить выбор ↺</button>
+        </div>
+        <div className="apr-planner__preview">
+          <div className="apr-planner__preview-header">
+            <span>ВАШ МАРШРУТ</span>
+            <span className="apr-planner__preview-badge">ПРЕДВАРИТЕЛЬНЫЙ ПЛАН</span>
+          </div>
+          <h3>Один день. <em>Тысяча впечатлений.</em></h3>
+          <p className="apr-planner__preview-lead">{selected.length ? 'Вдохновляющий маршрут по вашим интересам' : 'Выберите интересы слева, чтобы увидеть рекомендации'}</p>
+          <div className="apr-planner__timeline" aria-live="polite">
+            {['Утро', 'День', 'Вечер'].map((period, idx) => {
+              const item = recommendation?.[idx];
+              return (
+                <div className="apr-planner__time" key={period}>
+                  <div className="apr-planner__time-marker"><span>{idx + 1}</span></div>
+                  <div className="apr-planner__time-body">
+                    <span className="apr-planner__period">{period}</span>
+                    <strong>{item?.name ?? (selected.length ? 'Свободное время' : ['Начните с открытий', 'Поймайте момент', 'Насладитесь вечером'][idx])}</strong>
+                    <small>{item?.zone ?? (selected.length ? 'Добавьте интересы для новых идей' : 'Ваше приключение ждёт')}</small>
+                  </div>
+                  <div className="apr-planner__time-media">
+                    <MediaPlaceholder mediaId={`home.planner.${['morning', 'afternoon', 'evening'][idx]}`} label={item?.name ?? period} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          {selected.length > 0 && !recommendation && <p className="apr-planner__notice">По выбранным интересам пока нет подходящих аттракционов.</p>}
+          <p className="apr-planner__disclaimer">Это пример для вдохновения, а не гарантированное расписание.</p>
+          <button type="button" className="apr-planner__cta" onClick={handleOpenPlanner}>Составить полный маршрут <span aria-hidden="true">↗</span></button>
+        </div>
       </div>
     </section>
   );
