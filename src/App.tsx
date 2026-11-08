@@ -36,84 +36,62 @@ const MediaPlaceholder = ({ mediaId, label, className = '' }: MediaPlaceholderPr
 // APR-BUG-035: полароиды доступны с клавиатуры, можно вернуться назад и начать заново.
 const AboutResort = () => {
   const photos = [
-    { title: 'Ocean Bay', text: 'Там, где начинается рай', mediaId: 'home.polaroid.ocean-bay', pos: '-translate-x-32 -translate-y-16 -rotate-12' },
-    { title: 'Adrenaline Peak', text: 'Почувствуй силу приключений', mediaId: 'home.polaroid.adrenaline-peak', pos: 'translate-x-32 -translate-y-8 rotate-12' },
-    { title: 'Eden Gardens', text: 'Найди гармонию с природой', mediaId: 'home.polaroid.eden-gardens', pos: '-translate-x-24 translate-y-24 -rotate-6' },
-    { title: 'Paradise Grand Hotel', text: 'Искусство безупречного отдыха', mediaId: 'home.polaroid.hotel', pos: 'translate-x-24 translate-y-16 rotate-6' },
+    { title: 'Ocean Bay', text: 'Там, где начинается рай', mediaId: 'home.polaroid.ocean-bay' },
+    { title: 'Adrenaline Peak', text: 'Почувствуй силу приключений', mediaId: 'home.polaroid.adrenaline-peak' },
+    { title: 'Eden Gardens', text: 'Найди гармонию с природой', mediaId: 'home.polaroid.eden-gardens' },
+    { title: 'Paradise Grand Hotel', text: 'Искусство безупречного отдыха', mediaId: 'home.polaroid.hotel' },
   ];
-
   const [revealedCount, setRevealedCount] = useState(0);
-  const allRevealed = revealedCount === photos.length;
-
-  const revealNext = () => {
-    setRevealedCount(previous => Math.min(previous + 1, photos.length));
-  };
-  const undoReveal = () => {
-    setRevealedCount(previous => Math.max(previous - 1, 0));
-  };
+  const revealNext = () => setRevealedCount(previous => Math.min(previous + 1, photos.length));
+  const undoReveal = () => setRevealedCount(previous => Math.max(previous - 1, 0));
 
   return (
-    <section id="about" className="apr-about py-20 sm:py-28 min-h-[720px] flex items-center">
-      <div className="max-w-5xl mx-auto px-4 w-full">
-        {/* Карточки и текст находятся в одной области, но кнопки всегда доступны. */}
-        <div className="relative min-h-[400px] sm:min-h-[500px] flex items-center justify-center">
-          <div
-            className={`max-w-3xl mx-auto text-center space-y-6 transition-opacity duration-500 ${allRevealed ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-            aria-hidden={!allRevealed}
-          >
-            <span className="text-teal-700 tracking-widest text-sm font-semibold uppercase block">ABOUT THE RESORT</span>
-            <h2 className="text-4xl md:text-5xl font-serif text-gray-900">Один остров. Девять миров впечатлений.</h2>
-            <p className="text-gray-600 leading-relaxed text-lg">
-              Aqua Paradise — это место, где мечты об идеальном отдыхе становятся реальностью. Крупный тропический курорт, где захватывающие приключения гармонично сочетаются с белоснежным пляжем и премиальным комфортом.
+    <section id="about" className="apr-about" aria-label="О курорте">
+      <div className="apr-about__frame">
+        <div className="apr-about__scene">
+          <div className="apr-about__copy" style={{ opacity: revealedCount / photos.length }}>
+            <span className="apr-about__eyebrow">ABOUT THE RESORT</span>
+            <h2 className="apr-about__heading">Не просто остров. <em>Целый мир открытий.</em></h2>
+            <p className="apr-about__description">
+              Девять уникальных миров, объединённых одним тропическим раем. Здесь приключения соседствуют с безмятежностью, а каждый уголок создан для незабываемых впечатлений.
             </p>
-            <div className="flex justify-center gap-8 pt-6">
-              <div className="text-center"><span className="block text-3xl font-serif text-teal-600">9</span><span className="text-sm text-gray-500">зон</span></div>
-              <div className="text-center"><span className="block text-3xl font-serif text-teal-600">6 км²</span><span className="text-sm text-gray-500">площадь</span></div>
-              <div className="text-center"><span className="block text-3xl font-serif text-teal-600">09–22</span><span className="text-sm text-gray-500">часы</span></div>
+            <div className="apr-about__stats">
+              <div><strong>9</strong><span>тематических зон</span></div>
+              <div><strong>6 км²</strong><span>территория острова</span></div>
+              <div><strong>09:00–22:00</strong><span>время работы</span></div>
             </div>
           </div>
-
-          {!allRevealed && (
-            <button
-              type="button"
-              onClick={revealNext}
-              aria-label={`Открыть полароид ${revealedCount + 1} из ${photos.length}: ${photos[revealedCount].title}`}
-              className="absolute inset-0 w-full flex items-center justify-center cursor-pointer rounded-xl focus:outline-none focus-visible:ring-4 focus-visible:ring-teal-600 focus-visible:ring-offset-4"
-            >
-              {photos.map((photo, index) => {
-                const isRevealed = index < revealedCount;
-                const zIndex = photos.length - index;
-                return (
-                  <div
-                    key={photo.title}
-                    aria-hidden="true"
-                    className={`absolute bg-white p-3 pb-8 rounded-sm shadow-2xl transition-transform duration-700 ease-out motion-reduce:transition-none origin-center ${isRevealed ? `${photo.pos} opacity-0 scale-90` : 'translate-y-0 rotate-0 scale-100 opacity-100'}`}
-                    style={{ zIndex, pointerEvents: 'none' }}
-                  >
-                    <MediaPlaceholder mediaId={photo.mediaId} label={photo.title} className="w-56 h-56 sm:w-72 sm:h-72 rounded-sm mb-4" />
-                    <h3 className="font-serif text-lg text-gray-900 text-center">{photo.title}</h3>
-                    <p className="text-xs text-gray-500 text-center mt-1">{photo.text}</p>
-                  </div>
-                );
-              })}
-            </button>
-          )}
+          <div className="apr-about__photos">
+            {photos.map((photo, index) => {
+              const moved = index < revealedCount;
+              const active = index === revealedCount;
+              return (
+                <button
+                  type="button"
+                  key={photo.mediaId}
+                  className={`apr-about__polaroid apr-about__polaroid--${index + 1} ${moved ? 'is-moved' : 'is-stacked'}`}
+                  style={{ zIndex: moved ? index + 1 : 10 + index }}
+                  onClick={active ? revealNext : undefined}
+                  disabled={!active}
+                  aria-label={`Открыть фотографию ${index + 1} из ${photos.length}: ${photo.title}`}
+                >
+                  <MediaPlaceholder mediaId={photo.mediaId} label={photo.title} className="apr-about__photo" />
+                  <span className="apr-about__photo-title">{photo.title}</span>
+                  <span className="apr-about__photo-caption">{photo.text}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
-
-        <div className="relative z-10 mt-5 flex flex-col sm:flex-row gap-3 items-center justify-center print:hidden">
-          <p className="sr-only" role="status" aria-live="polite">
-            {allRevealed ? 'Все четыре полароида открыты.' : `Открыто полароидов: ${revealedCount} из ${photos.length}.`}
-          </p>
-          {!allRevealed && <p className="text-sm text-teal-700 font-medium">Нажмите на карточку или используйте Enter / пробел · {revealedCount} из {photos.length}</p>}
-          {revealedCount > 0 && !allRevealed && (
-            <button type="button" onClick={undoReveal} className="px-5 py-2 border border-teal-500 text-teal-800 bg-white rounded-full font-medium hover:bg-teal-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600">
-              Назад к полароиду
-            </button>
-          )}
+        <div className="apr-about__controls">
+          <span className="apr-about__progress" role="status" aria-live="polite">
+            {revealedCount === 4 ? 'История острова открыта' : `Нажмите на верхнюю фотографию · ${revealedCount} / 4`}
+          </span>
           {revealedCount > 0 && (
-            <button type="button" onClick={() => setRevealedCount(0)} className="px-5 py-2 bg-teal-700 text-white rounded-full font-medium hover:bg-teal-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2">
-              Посмотреть ещё раз
-            </button>
+            <div className="apr-about__control-buttons">
+              {revealedCount < 4 && <button type="button" onClick={undoReveal}>Назад</button>}
+              <button type="button" onClick={() => setRevealedCount(0)}>Сначала</button>
+            </div>
           )}
         </div>
       </div>
