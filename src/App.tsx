@@ -519,36 +519,36 @@ function App() {
 
       <main className={`flex-grow ${basePath === '#/' ? 'apr-main--home' : 'apr-main--inner'}`}>{renderPage()}</main>
 
-      <footer className="apr-footer bg-[#102f39] text-white py-16 mt-auto">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-            <div>
-              <h2 className="text-2xl font-serif mb-2">Aqua Paradise</h2>
-              <p className="text-teal-200 text-sm">Девять миров. Один остров. Тысячи впечатлений.</p>
+      <footer className="apr-footer" id="site-footer">
+        <div className="apr-footer__inner">
+          <div className="apr-footer__top">
+            <div className="apr-footer__identity">
+              <span className="apr-footer__eyebrow">AQUA PARADISE · ISLAND RESORT</span>
+              <h2>Девять миров.<br/><em>Один рай.</em></h2>
+              <p>Остров, где приключения встречаются с безмятежностью.</p>
             </div>
-            <div>
-              <h3 className="text-sm font-bold uppercase tracking-wider text-teal-400 mb-3">Исследовать</h3>
-              <ul className="space-y-2 text-sm text-gray-300">
-                <li><button onClick={() => navigate('#/')} className="hover:text-white">О курорте</button></li>
-                <li><button onClick={() => navigate('#/zones')} className="hover:text-white">Девять миров</button></li>
-                <li><button onClick={() => navigate('#/attractions')} className="hover:text-white">Аттракционы</button></li>
-                <li><button onClick={() => navigate('#/map')} className="hover:text-white">Карта острова</button></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-sm font-bold uppercase tracking-wider text-teal-400 mb-3">Спланировать</h3>
-              <ul className="space-y-2 text-sm text-gray-300">
-                <li><button onClick={() => navigate('#/tickets')} className="hover:text-white">Билеты</button></li>
-                <li><button onClick={() => navigate('#/planner')} className="hover:text-white">Планировщик</button></li>
-                <li><button onClick={() => navigate('#/hotel')} className="hover:text-white">Отель</button></li>
-                <li><button onClick={() => navigate('#/visit')} className="hover:text-white">Посещение</button></li>
-              </ul>
-            </div>
+            <nav className="apr-footer__nav" aria-label="Навигация в подвале">
+              <div>
+                <h3>Исследовать</h3>
+                <button type="button" onClick={() => { navigate('#/'); setTimeout(() => document.getElementById('about')?.scrollIntoView({behavior:'smooth'}),0); }}>О курорте</button>
+                <button type="button" onClick={() => navigate('#/zones')}>Девять миров</button>
+                <button type="button" onClick={() => navigate('#/attractions')}>Аттракционы</button>
+                <button type="button" onClick={() => navigate('#/map')}>Карта острова</button>
+              </div>
+              <div>
+                <h3>Ваш отдых</h3>
+                <button type="button" onClick={() => navigate('#/tickets')}>Билеты</button>
+                <button type="button" onClick={() => navigate('#/planner')}>Планировщик</button>
+                <button type="button" onClick={() => navigate('#/hotel')}>Отель</button>
+                <button type="button" onClick={() => navigate('#/visit')}>Посещение</button>
+              </div>
+            </nav>
           </div>
-          <div className="border-t border-gray-800 pt-6 text-center">
-            <p className="text-sm text-gray-400">
-              Демонстрационный проект. Курорт, цены и услуги вымышлены. Реальные бронирования и платежи не осуществляются.
-            </p>
+          <div className="apr-footer__wordmark" aria-label="Aqua Paradise">AQUA <span>PARADISE</span></div>
+          <div className="apr-footer__bottom">
+            <span>© {new Date().getFullYear()} Aqua Paradise · Концептуальный проект</span>
+            <p>Вымышленный курорт. Цены и услуги демонстрационные. Бронирования и платежи не осуществляются.</p>
+            <button type="button" onClick={() => window.scrollTo({top:0,behavior:'smooth'})}>Наверх ↑</button>
           </div>
         </div>
       </footer>
