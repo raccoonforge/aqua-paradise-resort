@@ -382,6 +382,18 @@ const HeaderIcon = ({ name }: { name: HeaderIconName }) => {
   return <svg aria-hidden="true" className="apr-menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" strokeLinejoin="round">{paths[name]}</svg>;
 };
 
+// Original scalable emblem based on the approved palm-and-waves direction.
+const ResortLogo = () => (
+  <svg className="apr-brand__emblem" viewBox="0 0 100 100" fill="none" aria-hidden="true" focusable="false">
+    <g fill="#E9C58B">
+      <path d="M50 39C43 24 31 17 13 23c15-1 25 7 33 20C31 35 17 39 9 53c14-10 26-11 40-5C38 53 33 61 31 70c11-8 18-17 21-29 4 13 7 21 4 32 11-12 10-25 0-35 15 0 24 7 32 18-1-18-14-27-32-23 10-10 19-13 32-9-12-12-25-10-36 6C55 15 52 9 43 5c5 12 7 20 7 34Z"/>
+      <path d="M48 42C40 57 28 65 10 73c19-4 33-11 44-28Z"/>
+      <path d="M6 82c17-15 29-17 45-8 13 7 23 7 43-6-15 19-31 23-47 15-14-7-25-7-41-1Z"/>
+      <path d="M8 90c19-8 31-6 43 0 14 6 26 3 42-8-14 16-29 19-44 13-13-6-25-7-41-5Z"/>
+    </g>
+  </svg>
+);
+
 function App() {
   const [currentPath, setCurrentPath] = useState(window.location.hash || '#/');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -469,7 +481,7 @@ function App() {
       <header className={`apr-site-header ${basePath === '#/' && !headerScrolled ? 'apr-site-header--hero' : 'apr-site-header--solid'}`}>
         <div className="apr-site-header__inner">
           <button type="button" className="apr-brand" onClick={() => navigate('#/')} aria-label="Aqua Paradise — на главную">
-            <span className="apr-brand__symbol" aria-hidden="true">🌴</span>
+            <ResortLogo />
             <span className="apr-brand__name">Aqua Paradise<small>ISLAND RESORT</small></span>
           </button>
           <nav className="apr-site-nav" aria-label="Основная навигация">
