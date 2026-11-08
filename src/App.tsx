@@ -180,7 +180,7 @@ const NineWorlds = () => {
 
 const HomePage = () => (
   <div className="apr-home">
-    <section className="apr-hero relative min-h-[760px] h-[100svh] flex items-center justify-center overflow-hidden">
+    <section className="apr-hero relative flex items-center justify-center overflow-hidden">
       <MediaPlaceholder mediaId="home.hero.ocean-bay" label="OCEAN BAY · ARRIVAL" className="absolute inset-0" />
       <div className="apr-hero__veil absolute inset-0 pointer-events-none" />
       <div className="apr-hero__content relative z-10 text-center px-6 max-w-5xl mx-auto flex flex-col items-center">
