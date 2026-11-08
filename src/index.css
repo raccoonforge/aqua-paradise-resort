@@ -405,3 +405,23 @@ body {
 }
 .apr-site-header .apr-nav-link:hover,
 .apr-site-header .apr-nav-dropdown[open] > .apr-nav-link { text-shadow: none; }
+
+/* True image-overlay header: remove its layout footprint instead of faking transparency. */
+.apr-site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  margin: 0;
+  z-index: 50;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+}
+.apr-site-header--hero { margin-bottom: 0; }
+.apr-main--home { padding-top: 0; }
+.apr-main--inner { padding-top: 78px; }
+.apr-hero { min-height: 100svh; }
+@media (max-width: 639px) {
+  .apr-site-header--hero { margin-bottom: 0; }
+  .apr-main--inner { padding-top: 70px; }
+}
