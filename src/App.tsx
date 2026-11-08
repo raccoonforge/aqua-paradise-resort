@@ -395,6 +395,20 @@ const PlannerTeaser = () => {
   );
 };
 
+type HeaderIconName = 'compass' | 'waves' | 'heart' | 'route' | 'bus' | 'shield' | 'help';
+const HeaderIcon = ({ name }: { name: HeaderIconName }) => {
+  const paths: Record<HeaderIconName, React.ReactNode> = {
+    compass: <><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2.2 4.8-4.8 2.2 2.2-4.8z"/></>,
+    waves: <><path d="M2 9c2.5 0 2.5 2 5 2s2.5-2 5-2 2.5 2 5 2 2.5-2 5-2"/><path d="M2 15c2.5 0 2.5 2 5 2s2.5-2 5-2 2.5 2 5 2 2.5-2 5-2"/></>,
+    heart: <path d="M20.8 8.5c0 4.5-8.8 10.5-8.8 10.5S3.2 13 3.2 8.5a4.6 4.6 0 0 1 8.8-1.8 4.6 4.6 0 0 1 8.8 1.8Z"/>,
+    route: <><circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M8 18h6a4 4 0 0 0 0-8h-4a4 4 0 0 1 0-8"/></>,
+    bus: <><rect x="4" y="3" width="16" height="15" rx="3"/><path d="M4 11h16M8 21v-3m8 3v-3M8 7h2m4 0h2"/></>,
+    shield: <><path d="M12 2 4 5v6c0 5 3.4 8.6 8 11 4.6-2.4 8-6 8-11V5z"/><path d="m9 12 2 2 4-4"/></>,
+    help: <><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.7 2.7 0 0 1 5.2 1c0 1.8-2.7 2.1-2.7 4M12 17.5h.01"/></>,
+  };
+  return <svg aria-hidden="true" className="apr-menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" strokeLinejoin="round">{paths[name]}</svg>;
+};
+
 function App() {
   const [currentPath, setCurrentPath] = useState(window.location.hash || '#/');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -489,9 +503,9 @@ function App() {
             <details className="apr-nav-dropdown">
               <summary className="apr-nav-link">Развлечения <span aria-hidden="true">⌄</span></summary>
               <div className="apr-nav-dropdown__panel">
-                <button onClick={() => navigate('#/zones')}><span aria-hidden="true">✦</span><span><strong>Тематические зоны</strong><small>Девять миров острова</small></span></button>
-                <button onClick={() => navigate('#/attractions')}><span aria-hidden="true">≈</span><span><strong>Аттракционы</strong><small>От релакса до экстрима</small></span></button>
-                <button onClick={() => navigate('#/attractions')}><span aria-hidden="true">♡</span><span><strong>Семейный отдых</strong><small>Развлечения для всей семьи</small></span></button>
+                <button onClick={() => navigate('#/zones')}><HeaderIcon name="compass" /><span><strong>Тематические зоны</strong><small>Девять миров острова</small></span></button>
+                <button onClick={() => navigate('#/attractions')}><HeaderIcon name="waves" /><span><strong>Аттракционы</strong><small>От релакса до экстрима</small></span></button>
+                <button onClick={() => navigate('#/attractions')}><HeaderIcon name="heart" /><span><strong>Семейный отдых</strong><small>Развлечения для всей семьи</small></span></button>
               </div>
             </details>
             <button type="button" className="apr-nav-link" onClick={() => navigate('#/map')}>Карта острова</button>
@@ -499,10 +513,10 @@ function App() {
             <details className="apr-nav-dropdown">
               <summary className="apr-nav-link">Посещение <span aria-hidden="true">⌄</span></summary>
               <div className="apr-nav-dropdown__panel">
-                <button onClick={() => navigate('#/visit')}><span aria-hidden="true">↗</span><span><strong>Как добраться</strong><small>Путь на остров</small></span></button>
-                <button onClick={() => navigate('#/visit')}><span aria-hidden="true">⌁</span><span><strong>Транспорт</strong><small>Передвижение по курорту</small></span></button>
-                <button onClick={() => navigate('#/visit')}><span aria-hidden="true">✓</span><span><strong>Правила и безопасность</strong><small>Комфортный отдых</small></span></button>
-                <button onClick={() => navigate('#/visit')}><span aria-hidden="true">?</span><span><strong>FAQ</strong><small>Ответы на вопросы</small></span></button>
+                <button onClick={() => navigate('#/visit')}><HeaderIcon name="route" /><span><strong>Как добраться</strong><small>Путь на остров</small></span></button>
+                <button onClick={() => navigate('#/visit')}><HeaderIcon name="bus" /><span><strong>Транспорт</strong><small>Передвижение по курорту</small></span></button>
+                <button onClick={() => navigate('#/visit')}><HeaderIcon name="shield" /><span><strong>Правила и безопасность</strong><small>Комфортный отдых</small></span></button>
+                <button onClick={() => navigate('#/visit')}><HeaderIcon name="help" /><span><strong>FAQ</strong><small>Ответы на вопросы</small></span></button>
               </div>
             </details>
           </nav>
