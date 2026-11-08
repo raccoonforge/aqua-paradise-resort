@@ -742,7 +742,7 @@ body {
 /* About actions mirror the Hero's understated secondary outline button. */
 .apr-about__control-buttons button {
   border: 1px solid rgba(255,255,255,.65);
-  background: rgba(255,255,255,.08);
+  background: transparent;
   color: #f7f4ed;
   box-shadow: none;
 }
