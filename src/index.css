@@ -450,7 +450,13 @@ body {
   letter-spacing: -.048em;
   text-shadow: 0 7px 28px rgba(4,26,31,.24);
 }
-.apr-hero__accent { color: #f1d5a2; }
+.apr-hero__accent {
+  color: #efcf96;
+  background: linear-gradient(100deg, #fff1d2 0%, #efcf96 19%, #d4a968 46%, #b78343 78%, #a8753b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 .apr-hero__description {
   max-width: 710px;
   text-wrap: pretty;
