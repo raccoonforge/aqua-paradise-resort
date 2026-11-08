@@ -595,3 +595,56 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .apr-about__copy, .apr-about__polaroid { transition: none; }
 }
+
+/* About Resort composition refinement: full-screen frame and oversized edge polaroids. */
+.apr-about {
+  box-sizing: border-box;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: 18px 14px;
+  display: flex;
+  align-items: stretch;
+}
+.apr-about__frame {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: max(620px, calc(100svh - 36px));
+  display: flex;
+  flex-direction: column;
+}
+.apr-about__scene {
+  flex: 1;
+  min-height: 550px;
+}
+.apr-about__copy { width: min(620px, 48%); }
+.apr-about__polaroid { width: clamp(265px, 26vw, 400px); }
+.apr-about__photo { height: clamp(240px, 25vw, 370px); }
+.apr-about__polaroid--1 { --move-x: -205%; --move-y: -108%; }
+.apr-about__polaroid--2 { --move-x: 105%; --move-y: -108%; }
+.apr-about__polaroid--3 { --move-x: -210%; --move-y: 10%; }
+.apr-about__polaroid--4 { --move-x: 110%; --move-y: 10%; }
+.apr-about__controls { flex: 0 0 auto; }
+@media (min-width: 640px) and (max-width: 1100px) {
+  .apr-about__copy { width: min(530px, 56%); }
+  .apr-about__heading { font-size: clamp(36px, 4.2vw, 54px); }
+  .apr-about__polaroid { width: clamp(240px, 29vw, 340px); }
+  .apr-about__photo { height: clamp(215px, 27vw, 310px); }
+  .apr-about__polaroid--1 { --move-x: -195%; --move-y: -110%; }
+  .apr-about__polaroid--2 { --move-x: 95%; --move-y: -110%; }
+  .apr-about__polaroid--3 { --move-x: -200%; --move-y: 10%; }
+  .apr-about__polaroid--4 { --move-x: 100%; --move-y: 10%; }
+}
+@media (max-width: 639px) {
+  .apr-about { padding: 10px 8px; }
+  .apr-about__frame { min-height: max(690px, calc(100svh - 20px)); }
+  .apr-about__scene { min-height: 630px; }
+  .apr-about__copy { width: calc(100% - 28px); padding-top: 0; }
+  .apr-about__heading { font-size: clamp(31px, 8vw, 42px); }
+  .apr-about__polaroid { width: min(61vw, 240px); }
+  .apr-about__photo { height: min(52vw, 204px); }
+  .apr-about__polaroid--1 { --move-x: -94%; --move-y: -179%; }
+  .apr-about__polaroid--2 { --move-x: -6%; --move-y: -179%; }
+  .apr-about__polaroid--3 { --move-x: -94%; --move-y: 80%; }
+  .apr-about__polaroid--4 { --move-x: -6%; --move-y: 80%; }
+  .apr-about__controls { min-height: 48px; padding: 5px 8px 10px; }
+}
