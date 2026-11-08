@@ -206,9 +206,9 @@ const HomePage = () => (
             Спланировать отдых
           </button>
         </div>
-      </div>
-      <div className="absolute bottom-9 left-0 right-0 z-10 text-center text-[11px] sm:text-xs tracking-[0.27em] text-white/75 font-medium">
-        OCEAN BAY · AQUA PARADISE
+        <div className="apr-hero__location mt-8 text-center text-[11px] sm:text-xs tracking-[0.27em] text-white/75 font-medium">
+          OCEAN BAY · AQUA PARADISE
+        </div>
       </div>
     </section>
     <AboutResort />
