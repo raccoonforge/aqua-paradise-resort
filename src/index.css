@@ -1066,3 +1066,8 @@ body {
 .apr-brand__name { font-weight: 500; font-size: clamp(21px,1.9vw,27px); letter-spacing: -.025em; }
 .apr-brand__name small { color: #e9c58b; letter-spacing: .28em; }
 @media(max-width:600px) { .apr-brand__emblem { width: 40px; height: 40px; } .apr-brand { gap: 7px; } }
+
+/* Reuse the same resort emblem in the footer without expanding its height. */
+.apr-footer__brand { display: flex; align-items: center; gap: 11px; }
+.apr-footer__brand .apr-brand__emblem { width: 39px; height: 39px; }
+@media(max-width:600px) { .apr-footer__brand .apr-brand__emblem { width: 35px; height: 35px; } }
