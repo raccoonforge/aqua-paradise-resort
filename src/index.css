@@ -757,3 +757,62 @@ body {
 .apr-about__control-buttons button:focus-visible {
   outline: 2px solid #f7f4ed;
 }
+
+/* Nine Worlds — immersive, photo-ready full-scene switcher. */
+.apr-worlds { box-sizing: border-box; min-height: 100svh; padding: 18px 14px; background: #092f36; color: #f7f4ed; }
+.apr-worlds__frame { position: relative; isolation: isolate; overflow: hidden; box-sizing: border-box; min-height: max(690px,calc(100svh - 36px)); border: 1px solid rgba(239,207,150,.45); border-radius: 24px; display: flex; flex-direction: column; background: var(--world-tone,#174c63); transition: background-color .7s ease; }
+.apr-worlds__backdrops,.apr-worlds__backdrop,.apr-worlds__media { position: absolute; inset: 0; width: 100%; height: 100%; }
+.apr-worlds__backdrop { opacity: 0; transition: opacity .8s ease; pointer-events: none; }
+.apr-worlds__backdrop.is-active { opacity: 1; }
+.apr-worlds__media.apr-media { background: radial-gradient(ellipse at 72% 38%,color-mix(in srgb,var(--world-tone),#a7d9d2 25%),transparent 55%),linear-gradient(135deg,#0b353c,var(--world-tone)); }
+.apr-worlds__media .apr-media__mark { left: 68%; top: 42%; transform: translate(-50%,-50%); }
+.apr-worlds__media .apr-media__id { display: none; }
+.apr-worlds__shade { position: absolute; inset: 0; background: linear-gradient(90deg,rgba(3,24,30,.89) 0%,rgba(4,29,34,.64) 43%,rgba(4,29,34,.13) 100%),linear-gradient(0deg,rgba(3,20,24,.85),transparent 34%); pointer-events: none; }
+.apr-worlds__content { position: relative; z-index: 1; flex: 1; width: min(100%,1440px); margin: 0 auto; padding: clamp(115px,15vh,170px) clamp(24px,5vw,90px) 45px; display: flex; flex-direction: column; justify-content: center; gap: clamp(26px,5vh,65px); }
+.apr-worlds__eyebrow,.apr-worlds__selected-kicker,.apr-worlds__dock-label { font-size: 11px; letter-spacing: .27em; font-weight: 600; }
+.apr-worlds__eyebrow { color: #efcf96; }
+.apr-worlds__heading { margin: 13px 0 14px; font-family: var(--font-serif); font-size: clamp(57px,6.8vw,112px); line-height: .86; font-weight: 500; letter-spacing: -.035em; }
+.apr-worlds__heading em { font-weight: 400; background: var(--apr-gold-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.apr-worlds__lead { max-width: 570px; font-size: clamp(14px,1.25vw,19px); line-height: 1.6; }
+.apr-worlds__selected { max-width: 560px; animation: apr-worlds-enter .5s ease both; }
+.apr-worlds__selected-kicker { color: #b7e1df; }
+.apr-worlds__selected h3 { margin: 8px 0 6px; font-family: var(--font-serif); font-size: clamp(38px,4vw,64px); line-height: 1; font-weight: 500; }
+.apr-worlds__selected p { max-width: 475px; font-size: 14px; line-height: 1.65; color: rgba(247,244,237,.9); }
+.apr-worlds__actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+.apr-worlds__actions .apr-button { min-height: 48px; padding: 11px 22px; font-size: 12px; }
+.apr-worlds__actions .apr-button--outline { background: transparent; }
+.apr-worlds__dock { position: relative; z-index: 2; padding: 12px clamp(18px,3.5vw,60px) 18px; background: rgba(3,24,29,.62); border-top: 1px solid rgba(255,255,255,.16); backdrop-filter: blur(14px); }
+.apr-worlds__dock-label { display: block; margin-bottom: 10px; color: rgba(247,244,237,.7); font-size: 9px; }
+.apr-worlds__dock-row { display: flex; align-items: center; gap: 12px; }
+.apr-worlds__rail { display: flex; flex: 1; gap: 9px; overflow-x: auto; padding: 3px 2px 8px; scrollbar-width: thin; scrollbar-color: rgba(239,207,150,.4) transparent; }
+.apr-worlds__tab { display: flex; align-items: center; gap: 9px; min-width: 155px; flex: 0 0 auto; padding: 6px; border: 1px solid transparent; border-radius: 12px; text-align: left; transition: background .2s ease,border-color .2s ease; }
+.apr-worlds__tab:hover { background: rgba(255,255,255,.1); }
+.apr-worlds__tab.is-active { background: rgba(239,207,150,.16); border-color: #efcf96; }
+.apr-worlds__thumb { width: 48px; height: 52px; border-radius: 7px; flex-shrink: 0; display: grid; place-items: center; color: rgba(255,255,255,.75); font-family: var(--font-serif); font-size: 20px; }
+.apr-worlds__tab-copy { display: flex; flex-direction: column; gap: 3px; }
+.apr-worlds__tab-copy strong { font-size: 11px; font-weight: 600; white-space: nowrap; }
+.apr-worlds__tab-copy small { font-size: 10px; color: rgba(247,244,237,.66); }
+.apr-worlds__next { flex: 0 0 38px; height: 38px; border: 1px solid rgba(255,255,255,.55); border-radius: 50%; font-size: 23px; line-height: 1; }
+.apr-worlds__next:hover { background: rgba(255,255,255,.18); }
+.apr-worlds__tab:focus-visible,.apr-worlds__next:focus-visible { outline: 2px solid #efcf96; outline-offset: 3px; }
+@keyframes apr-worlds-enter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@media(max-width:639px) {
+  .apr-worlds { padding: 9px; min-height: 100svh; }
+  .apr-worlds__frame { min-height: max(730px,calc(100svh - 18px)); border-radius: 19px; }
+  .apr-worlds__shade { background: linear-gradient(180deg,rgba(3,24,30,.3),rgba(3,24,30,.66) 30%,rgba(3,24,30,.85) 78%); }
+  .apr-worlds__media .apr-media__mark { left: 50%; top: 25%; opacity: .45; }
+  .apr-worlds__content { padding: 118px 22px 24px; gap: 26px; justify-content: end; }
+  .apr-worlds__heading { font-size: clamp(48px,12vw,72px); }
+  .apr-worlds__lead { font-size: 13px; }
+  .apr-worlds__selected h3 { font-size: 39px; }
+  .apr-worlds__selected p { font-size: 12px; }
+  .apr-worlds__actions { flex-direction: column; gap: 9px; }
+  .apr-worlds__actions .apr-button { width: 100%; min-height: 43px; }
+  .apr-worlds__dock { padding: 10px 12px 12px; }
+  .apr-worlds__tab { min-width: 116px; flex-direction: column; align-items: stretch; gap: 5px; }
+  .apr-worlds__thumb { width: 100%; height: 44px; }
+  .apr-worlds__tab-copy strong { font-size: 10px; }
+  .apr-worlds__tab-copy small { display: none; }
+}
+@media(max-height:760px) and (min-width:640px) { .apr-worlds__content { padding-top: 92px; gap: 20px; } .apr-worlds__heading { font-size: clamp(54px,5.5vw,80px); } .apr-worlds__frame { min-height: 660px; } }
+@media(prefers-reduced-motion:reduce) { .apr-worlds__backdrop,.apr-worlds__selected,.apr-worlds__frame { transition: none; animation: none; } }
