@@ -673,3 +673,9 @@ body {
   .apr-about__polaroid { width: clamp(195px, 20vw, 290px); }
   .apr-about__photo { height: clamp(175px, 19vw, 260px); }
 }
+
+/* The fixed transparent header overlays the home page, so About must not
+   inherit the 5.5rem anchor offset used by other sections. */
+.apr-home #about {
+  scroll-margin-top: 0;
+}
