@@ -872,3 +872,57 @@ body {
   .apr-attractions__details .apr-button { width: auto; max-width: 100%; }
 }
 @media(prefers-reduced-motion:reduce) { .apr-attractions__card { transition: none; } .apr-attractions__details { animation: none; } }
+
+/* Fit the complete attractions experience into one desktop viewport. */
+@media (min-width: 768px) {
+  .apr-attractions {
+    box-sizing: border-box;
+    height: 100svh;
+    min-height: 620px;
+    padding: clamp(72px, 9svh, 100px) 20px clamp(18px, 3svh, 35px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .apr-attractions__intro h2 {
+    font-size: clamp(43px, 5svh, 65px);
+    margin: 8px 0;
+  }
+  .apr-attractions__intro p { font-size: 12px; line-height: 1.5; }
+  .apr-attractions__gallery {
+    flex: 1 1 auto;
+    min-height: 235px;
+    height: auto;
+    max-height: 370px;
+    margin: 8px auto 0;
+  }
+  .apr-attractions__card {
+    width: clamp(220px, 24vw, 310px);
+    height: clamp(220px, 37svh, 345px);
+  }
+  .apr-attractions__details h3 {
+    font-size: clamp(30px, 4svh, 42px);
+    margin: 3px 0;
+  }
+  .apr-attractions__details p {
+    font-size: 12px;
+    line-height: 1.45;
+    max-width: 530px;
+  }
+  .apr-attractions__meta { margin: 9px 0 12px; gap: 7px; }
+  .apr-attractions__meta span { padding: 4px 11px; font-size: 10px; }
+  .apr-attractions__details .apr-button { min-height: 39px; padding: 7px 18px; }
+}
+@media (min-width: 768px) and (max-height: 720px) {
+  .apr-attractions { padding-top: 65px; padding-bottom: 12px; }
+  .apr-attractions__intro h2 { font-size: 42px; }
+  .apr-attractions__intro p { max-width: 530px; }
+  .apr-attractions__gallery { min-height: 200px; }
+  .apr-attractions__card { height: clamp(205px, 34svh, 270px); width: clamp(190px, 22vw, 270px); }
+  .apr-attractions__card-caption { padding-top: 6px; }
+  .apr-attractions__card-caption strong { font-size: 20px; }
+  .apr-attractions__details h3 { font-size: 30px; }
+}
+@media (max-width: 767px) {
+  .apr-attractions { min-height: 0; height: auto; }
+}
