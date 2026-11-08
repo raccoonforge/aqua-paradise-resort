@@ -218,55 +218,44 @@ const AttractionsCarousel = () => {
   const rides = ['skyfall', 'poseidons-descent', 'stormbreaker', 'crystal-passage']
     .map(id => ATTRACTIONS.find(a => a.id === id))
     .filter((a): a is NonNullable<typeof a> => Boolean(a));
-
-  const nextSlide = () => setActiveIndex((prev) => (prev + 1) % rides.length);
-  const prevSlide = () => setActiveIndex((prev) => (prev - 1 + rides.length) % rides.length);
+  const changeSlide = (step: number) => setActiveIndex(previous => (previous + step + rides.length) % rides.length);
+  const activeRide = rides[activeIndex];
 
   return (
-    <section className="apr-attractions py-24 sm:py-32 overflow-hidden">
-      <div className="max-w-5xl mx-auto px-4 text-center mb-12">
-        <h2 className="text-4xl md:text-6xl font-serif text-[#19313a] mb-4">Выберите своё приключение</h2>
-        <p className="text-gray-600">От захватывающих дух спусков до спокойных прогулок по воде.</p>
+    <section id="attractions-showcase" className="apr-attractions" aria-label="Избранные аттракционы">
+      <div className="apr-attractions__glow" aria-hidden="true" />
+      <div className="apr-attractions__intro">
+        <span className="apr-attractions__eyebrow">SIGNATURE EXPERIENCES</span>
+        <h2>Выберите своё <em>приключение.</em></h2>
+        <p>От головокружительных спусков до путешествий в затерянные миры. Найдите впечатление, которое запомнится надолго.</p>
       </div>
-      <div className="relative max-w-4xl mx-auto flex items-center justify-center h-[400px]">
-        <button onClick={prevSlide} aria-label="Предыдущий аттракцион" className="absolute left-4 z-20 bg-white/80 p-3 rounded-full shadow-lg hover:bg-white text-gray-800 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500">←</button>
-        <div className="relative w-full h-full flex items-center justify-center perspective-1000">
+      <div className="apr-attractions__gallery" aria-label="Карусель аттракционов">
+        <button type="button" className="apr-attractions__arrow apr-attractions__arrow--prev" onClick={() => changeSlide(-1)} aria-label="Предыдущий аттракцион">←</button>
+        <div className="apr-attractions__stage">
           {rides.map((ride, index) => {
-            let offset = index - activeIndex;
-            if (offset < -1) offset += rides.length;
-            if (offset > 1) offset -= rides.length;
-            if (Math.abs(offset) > 1) return null;
+            let offset = (index - activeIndex + rides.length) % rides.length;
+            if (offset > rides.length / 2) offset -= rides.length;
             const isActive = offset === 0;
-            const mediaId = `home.ride.${ride.id}`;
             return (
-              <div
-                key={index}
-                className={`absolute w-[280px] sm:w-[320px] md:w-[380px] bg-white rounded-2xl shadow-2xl overflow-hidden transition-all duration-500 ease-in-out
-                  ${isActive ? 'z-10 scale-100 opacity-100' : 'scale-90 opacity-50 blur-[1px]'}
-                `}
-                style={{ transform: `translateX(${offset * 60}%) scale(${isActive ? 1 : 0.85})`, zIndex: isActive ? 10 : 5 }}
-              >
-                <MediaPlaceholder mediaId={mediaId} label={ride.name} className="h-48 md:h-56" />
-                <div className="p-6 text-left relative bg-white">
-                  <span className="text-xs font-bold text-teal-600 tracking-wider uppercase mb-2 block">{ride.zone}</span>
-                  <h3 className="text-2xl font-serif text-gray-900 mb-2">{ride.name}</h3>
-                  <p className="text-gray-600 text-sm mb-4">{ride.desc}</p>
-                  <div className="flex gap-4 text-xs font-medium text-gray-500 bg-gray-50 p-3 rounded-lg">
-                    <span className="flex items-center gap-1">🔥 {ride.intensity}</span>
-                    {ride.minAge > 0 && <span className="flex items-center gap-1">👤 {ride.minAge}+</span>}
-                    {ride.minHeight !== null && <span className="flex items-center gap-1">📏 {ride.minHeight} см</span>}
-                  </div>
-                </div>
-              </div>
+              <button type="button" key={ride.id} className={`apr-attractions__card ${isActive ? 'is-active' : ''}`} style={{ '--card-offset': offset, '--card-depth': Math.abs(offset) } as CSSProperties} onClick={() => { if (!isActive) setActiveIndex(index); else window.location.hash = '#/attractions'; }} aria-label={`${ride.name}${isActive ? ', подробнее об аттракционах' : ', показать карточку'}`} aria-current={isActive ? 'true' : undefined} tabIndex={Math.abs(offset) > 1 ? -1 : 0}>
+                <MediaPlaceholder mediaId={`home.ride.${ride.id}`} label={ride.name} className="apr-attractions__photo" />
+                <span className="apr-attractions__card-caption"><small>{ride.zone}</small><strong>{ride.name}</strong></span>
+              </button>
             );
           })}
         </div>
-        <button onClick={nextSlide} aria-label="Следующий аттракцион" className="absolute right-4 z-20 bg-white/80 p-3 rounded-full shadow-lg hover:bg-white text-gray-800 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500">→</button>
+        <button type="button" className="apr-attractions__arrow apr-attractions__arrow--next" onClick={() => changeSlide(1)} aria-label="Следующий аттракцион">→</button>
       </div>
-      <div className="text-center mt-8">
-        <button onClick={() => window.location.hash = '#/attractions'} className="text-teal-600 font-medium hover:text-teal-800 underline underline-offset-4">
-          Смотреть все аттракционы
-        </button>
+      <div className="apr-attractions__details" key={activeRide.id}>
+        <span className="apr-attractions__counter">{String(activeIndex + 1).padStart(2, '0')} <span>/</span> {String(rides.length).padStart(2, '0')}</span>
+        <h3>{activeRide.name}</h3>
+        <p>{activeRide.desc}</p>
+        <div className="apr-attractions__meta">
+          <span>{activeRide.intensity}</span>
+          {activeRide.minAge > 0 && <span>От {activeRide.minAge} лет</span>}
+          {activeRide.minHeight !== null && <span>Рост от {activeRide.minHeight} см</span>}
+        </div>
+        <button type="button" className="apr-button apr-button--sand" onClick={() => window.location.hash = '#/attractions'}>Подробнее об аттракционе <span aria-hidden="true">↗</span></button>
       </div>
     </section>
   );
