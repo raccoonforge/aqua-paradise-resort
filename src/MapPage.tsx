@@ -6,20 +6,20 @@ type Node = { id: string; name: string; x: number; y: number; color: string; des
 type Segment = { from: string; to: string; mode: TravelMode; minutes: number; distance?: number; direction?: string; wait?: number };
 type Route = { segments: Segment[]; minutes: number; walkMetres: number; explanation?: string };
 
-// ИЛЛЮСТРАТИВНЫЕ позиции старой схемы, не утверждённый геоплан или GPS.
+// Позиции меток пересчитаны из docs/data/island-map-markers-v0.4.json в процентные координаты временного полотна. Не GPS.
 const ZONES: readonly Node[] = [
-  { id: 'paradise-boulevard', name: 'Paradise Boulevard', x: 50, y: 85, color: '#14b8a6', desc: 'Входная зона и главная аллея' },
-  { id: 'paradise-market', name: 'Paradise Market', x: 40, y: 65, color: '#f59e0b', desc: 'Торгово-ресторанный квартал' },
-  { id: 'eden-gardens', name: 'Eden Gardens', x: 50, y: 45, color: '#22c55e', desc: 'Ботанический сад и зона отдыха' },
-  { id: 'little-paradise', name: 'Little Paradise', x: 65, y: 55, color: '#f472b6', desc: 'Детская зона' },
-  { id: 'serenity-spa', name: 'Serenity Spa', x: 30, y: 45, color: '#a855f7', desc: 'Зона спокойного отдыха' },
-  { id: 'adrenaline-peak', name: 'Adrenaline Peak', x: 45, y: 15, color: '#ef4444', desc: 'Экстремальные аттракционы' },
-  { id: 'atlantis-realm', name: 'Atlantis Realm', x: 25, y: 25, color: '#3b82f6', desc: 'Затерянный город' },
-  { id: 'pirates-cove', name: "Pirate's Cove", x: 75, y: 25, color: '#854d0e', desc: 'Пиратские приключения' },
-  { id: 'ocean-bay', name: 'Ocean Bay', x: 85, y: 10, color: '#0ea5e9', desc: 'Пляж и морские развлечения' },
-  { id: 'grand-hotel', name: 'Paradise Grand Hotel', x: 15, y: 10, color: '#64748b', desc: 'Гостиничный комплекс; маршрут к отелю уточняется' },
+  { id: 'paradise-boulevard', name: 'Paradise Boulevard', x: 48.5, y: 80.2, color: '#14b8a6', desc: 'Входная зона и главная аллея' },
+  { id: 'paradise-market', name: 'Paradise Market', x: 47.8, y: 73.0, color: '#f59e0b', desc: 'Торгово-ресторанный квартал' },
+  { id: 'eden-gardens', name: 'Eden Gardens', x: 47.2, y: 57.0, color: '#22c55e', desc: 'Ботанический сад и зона отдыха' },
+  { id: 'little-paradise', name: 'Little Paradise', x: 68.2, y: 64.2, color: '#f472b6', desc: 'Детская зона' },
+  { id: 'serenity-spa', name: 'Serenity Spa', x: 31.2, y: 64.7, color: '#a855f7', desc: 'Зона спокойного отдыха' },
+  { id: 'adrenaline-peak', name: 'Adrenaline Peak', x: 49.7, y: 30.1, color: '#ef4444', desc: 'Экстремальные аттракционы' },
+  { id: 'atlantis-realm', name: 'Atlantis Realm', x: 28.8, y: 45.1, color: '#3b82f6', desc: 'Затерянный город' },
+  { id: 'pirates-cove', name: "Pirate's Cove", x: 70.0, y: 44.6, color: '#854d0e', desc: 'Пиратские приключения' },
+  { id: 'ocean-bay', name: 'Ocean Bay', x: 68.2, y: 25.0, color: '#0ea5e9', desc: 'Пляж и морские развлечения' },
+  { id: 'grand-hotel', name: 'Paradise Grand Hotel', x: 33.1, y: 27.0, color: '#64748b', desc: 'Гостиничный комплекс; маршрут к отелю уточняется' },
 ];
-const ENTRY = { id: 'gateway', name: 'Транспортный узел / Главный вход', x: 50, y: 92, color: '#0f766e' };
+const ENTRY = { id: 'gateway', name: 'Транспортный узел / Главный вход', x: 48.5, y: 82.0, color: '#0f766e' };
 const ENTRY_OBJECTS = [
   { name: 'Канатная дорога Ocean Wings', desc: 'Положение отдельной станции на финальной карте уточняется.' },
   { name: 'Морской причал', desc: 'Положение отдельного причала на финальной карте уточняется.' },
@@ -253,13 +253,13 @@ useEffect(() => {
         <div className="absolute inset-0 opacity-25 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#64748b 1px, transparent 1px)', backgroundSize: '40px 40px' }} aria-hidden="true" />
         <div className="absolute inset-0" style={{ transform: `translate(${pan.x}px,${pan.y}px) scale(${zoom})`, transformOrigin: 'center' }}>
           <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-            {WALK.map(([a,b],i) => { const x = nodeById(a); const y = nodeById(b); return x && y ? <line key={i} x1={x.x} y1={x.y} x2={y.x} y2={y.y} stroke="#64748b" opacity="0.35" strokeWidth="0.45" strokeDasharray="1 1" /> : null; })}
+            {/* Дорожная сеть ещё не утверждена: не изображаем прямые линии как реальные дорожки. */}
             {drawSegments.map((s,i) => { const a=nodeById(s.from)!; const b=nodeById(s.to)!; return <line key={`${i}-${s.from}`} x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke={s.mode === 'shuttle' ? '#d97706' : '#0d9488'} strokeWidth="0.9" strokeDasharray={s.mode === 'shuttle' ? '1.5 1' : undefined} />; })}
           </svg>
           {ZONES.filter(() => category !== 'transport').map(z => <button key={z.id} type="button" onClick={() => {setSelected(z.id); setPanelOpen(true);}} aria-pressed={selected===z.id} aria-label={`Показать ${z.name}`} className={`apr-map-pin absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 rounded-full focus-visible:outline-4 focus-visible:outline-teal-600 ${selected===z.id ? 'z-30' : 'z-20'}`} style={{left:`${z.x}%`,top:`${z.y}%`}}><span className="apr-map-pin__dot" /><span className="sr-only">{z.name}</span></button>)}
           {showEntry && <button type="button" aria-label="Главный вход и транспортный узел" onClick={()=>{setSelected('gateway');setPanelOpen(true);}} className="apr-map-gateway absolute -translate-x-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-teal-800 text-white border-2 border-white shadow-lg focus-visible:outline-4 focus-visible:outline-teal-400" style={{left:`${ENTRY.x}%`,top:`${ENTRY.y}%`}}>⇅</button>}
         </div>
-        <div className="apr-map-notice absolute top-3 left-3 max-w-[70%] pointer-events-none rounded-lg px-3 py-2 text-xs shadow-sm">Демонстрационная схема · координаты условные</div>
+        <div className="apr-map-notice absolute top-3 left-3 max-w-[70%] pointer-events-none rounded-lg px-3 py-2 text-xs shadow-sm">Эскиз острова · метки по геоплану v0.4</div>
         <div className="absolute top-3 right-3 flex gap-2 z-40">
           <button type="button" aria-label="Открыть панель поиска и маршрутов" className="md:hidden w-11 h-11 rounded-xl bg-white text-teal-800 shadow-lg font-bold focus-visible:outline-2 focus-visible:outline-teal-500" onClick={()=>setPanelOpen(v=>!v)}>☰</button>
           <button type="button" aria-label="Показать управление картой" aria-expanded={controlsOpen} className="md:hidden w-11 h-11 rounded-xl bg-white text-slate-700 shadow-lg focus-visible:outline-2 focus-visible:outline-teal-500" onClick={()=>setControlsOpen(v=>!v)}>⚙</button>
