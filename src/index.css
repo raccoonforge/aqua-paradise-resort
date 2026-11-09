@@ -1205,3 +1205,34 @@ body {
 .apr-zones-detail-card { background: #fffdf9; border: 1px solid #e5dfd1; min-height: 500px; display: flex; flex-direction: column; overflow: hidden; }
 @media(max-width:900px) { .apr-zones-layout { grid-template-columns: 1fr; } .apr-zones-panorama { min-height: 340px; } .apr-zones-switcher__inner { padding-top: 16px; } }
 @media(prefers-reduced-motion:reduce) { .apr-zones-switcher__item { transition: none; } }
+
+/* Zones reference refinement: ivory compact selector, image-left/content-right. */
+.apr-zones-page { background: #f7f4ed; padding-top: 0; }
+.apr-zones-switcher { background: #f7f4ed; border-bottom: 1px solid #e9e2d5; }
+.apr-zones-switcher__inner { padding: 22px clamp(18px,3vw,48px) 12px; }
+.apr-zones-switcher__track { gap: 8px; padding-bottom: 8px; }
+.apr-zones-switcher__item { gap: 9px; min-height: 66px; padding: 8px 11px; border-radius: 9px; border: 1px solid #e9e4db; background: #fffcf7; color: #173d41; box-shadow: 0 4px 14px rgba(27,49,48,.04); }
+.apr-zones-switcher__item:hover,.apr-zones-switcher__item:focus-visible { color: #0b5668; background: #fff; border-color: #9ac0c0; }
+.apr-zones-switcher__item.is-active { color: #07576a; border-color: #258299; background: #f0f7f6; box-shadow: 0 2px 12px rgba(17,102,116,.11); }
+.apr-zones-switcher__icon { display: grid; place-items: center; width: 42px; height: 42px; flex: 0 0 42px; border-radius: 50%; background: linear-gradient(145deg,#e4eee7,#c7ddd7); font-size: 23px; }
+.apr-zones-switcher__copy { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+.apr-zones-switcher__number { font: italic 400 18px/1 'Cormorant Garamond',serif; color: #9c917e; }
+.apr-zones-switcher__item.is-active .apr-zones-switcher__number { color: #288397; }
+.apr-zones-switcher__name { font: 500 11px/1.35 Manrope,sans-serif; white-space: normal; text-align: left; max-width: 78px; }
+.apr-zones-main { max-width: 1500px; padding: 0 clamp(18px,3vw,48px) 48px; }
+.apr-zones-layout { gap: 0; grid-template-columns: minmax(0,55fr) minmax(0,45fr); }
+.apr-zones-panorama { min-height: 440px; height: 100%; background: radial-gradient(ellipse at 70% 30%,#4c9795,#226a73 50%,#123e49); }
+.apr-zones-panorama::after { border-color: rgba(239,207,150,.22); }
+.apr-zones-details { padding: 30px clamp(20px,3vw,44px); background: #faf8f3; }
+.apr-zones-intro { padding: 0 0 24px; }
+.apr-zones-intro h1 { font-size: clamp(39px,3.8vw,60px); margin: 8px 0 12px; }
+.apr-zones-intro p.text-lg { font-size: 14px; line-height: 1.8; }
+.apr-zones-intro p.text-xs { color: #8d754e; font-size: 11px; }
+.apr-zones-detail-card { min-height: 0; border: 0; background: transparent; overflow: visible; }
+.apr-zones-tabs { display: flex; gap: 5px; overflow-x: auto; padding: 0 0 12px; }
+.apr-zones-tab { flex: 1 0 auto; padding: 10px 12px; border: 1px solid #e5dfd4; border-radius: 999px; background: transparent; color: #31464a; font: 500 11px Manrope,sans-serif; white-space: nowrap; transition: background .2s,color .2s,border-color .2s; }
+.apr-zones-tab:hover,.apr-zones-tab:focus-visible { border-color: #218298; color: #0c6579; }
+.apr-zones-tab.is-active { color: white; border-color: #07677c; background: #07677c; }
+.apr-zones-detail-card [role="tabpanel"] { padding: 14px 0; }
+@media(max-width:900px) { .apr-zones-layout { grid-template-columns: 1fr; } .apr-zones-panorama { min-height: 330px; } .apr-zones-details { padding: 28px 20px; } }
+@media(prefers-reduced-motion:reduce) { .apr-zones-tab { transition: none; } }
