@@ -400,8 +400,19 @@ function App() {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const [headerScrolled, setHeaderScrolled] = useState(() => window.scrollY > 36);
   const [showBackToTop, setShowBackToTop] = useState(() => window.scrollY > 350);
+  const [headerHidden, setHeaderHidden] = useState(false);
+  const lastScrollY = useRef(window.scrollY);
   useEffect(() => {
-    const onScroll = () => { setHeaderScrolled(window.scrollY > 36); setShowBackToTop(window.scrollY > 350); };
+    const onScroll = () => {
+      const y = Math.max(0, window.scrollY);
+      setHeaderScrolled(y > 36);
+      setShowBackToTop(y > 350);
+      const delta = y - lastScrollY.current;
+      if (y < 110) setHeaderHidden(false);
+      else if (delta > 5 && !document.querySelector('.apr-site-nav details[open]')) setHeaderHidden(true);
+      else if (delta < -5) setHeaderHidden(false);
+      lastScrollY.current = y;
+    };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -478,7 +489,7 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#f8f9fa] font-sans">
-      <header className={`apr-site-header ${basePath === '#/' && !headerScrolled ? 'apr-site-header--hero' : 'apr-site-header--solid'}`}>
+      <header className={`apr-site-header ${basePath === '#/' && !headerScrolled ? 'apr-site-header--hero' : 'apr-site-header--solid'} ${headerHidden && !isMobileMenuOpen ? 'apr-site-header--hidden' : ''}`}>
         <div className="apr-site-header__inner">
           <button type="button" className="apr-brand" onClick={() => navigate('#/')} aria-label="Aqua Paradise — на главную">
             <ResortLogo />
@@ -512,6 +523,17 @@ function App() {
           </button>
         </div>
       </header>
+
+      <button
+        type="button"
+        className={`apr-header-quick-menu${headerHidden && !isMobileMenuOpen ? ' apr-header-quick-menu--visible' : ''}`}
+        onClick={() => setIsMobileMenuOpen(true)}
+        aria-label="Открыть навигацию"
+        aria-controls="apr-mobile-menu"
+        aria-expanded={isMobileMenuOpen}
+        aria-hidden={!headerHidden || isMobileMenuOpen}
+        tabIndex={headerHidden && !isMobileMenuOpen ? 0 : -1}
+      ><span /><span /><span /></button>
 
       {isMobileMenuOpen && (
         <div className="apr-mobile-overlay" id="apr-mobile-menu">
