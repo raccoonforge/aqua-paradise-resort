@@ -1350,3 +1350,18 @@ body {
 .apr-catalog { padding-top: 88px; }
 .apr-catalog__intro { margin-bottom: 34px; }
 @media(max-width:640px) { .apr-catalog { padding-top: 84px; } }
+
+/* Approved Luxury Editorial attraction cards. */
+.apr-catalog__card { position:relative; box-shadow:0 4px 18px rgba(19,61,66,.035); }
+.apr-catalog__photo { position:relative; min-height:0; aspect-ratio:16/10; background:linear-gradient(145deg,#2d6b76,#174752 80%); overflow:hidden; }
+.apr-catalog__photo::before { content:''; position:absolute; inset:14px; border:1px solid rgba(241,216,175,.24); pointer-events:none; }
+.apr-catalog__photo-placeholder { position:relative; font:600 10px/1.5 Manrope,sans-serif; letter-spacing:.17em; color:#ead6b4; }
+.apr-catalog__card-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:9px; }
+.apr-catalog__zone { color:#a27c4d; font:600 10px/1.5 Manrope,sans-serif; letter-spacing:.15em; text-transform:uppercase; }
+.apr-catalog__card-arrow { display:grid; place-items:center; width:29px; height:29px; flex:0 0 29px; border:1px solid #e7ddca; border-radius:50%; color:#a7824e; font:400 17px/1 Manrope,sans-serif; transition:background .2s ease,color .2s ease; }
+.apr-catalog__card:hover .apr-catalog__card-arrow,.apr-catalog__card:focus-visible .apr-catalog__card-arrow { background:#185260; color:#fff; }
+.apr-catalog__card-body { padding:24px 25px 28px; }
+.apr-catalog__card-title { margin-bottom:10px; font-size:34px; }
+.apr-catalog__card-body > p { min-height:44px; }
+.apr-catalog__card-body > div:last-child { margin-top:19px; gap:7px; }
+@media(prefers-reduced-motion:reduce) { .apr-catalog__card-arrow { transition:none; } }
