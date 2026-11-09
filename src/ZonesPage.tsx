@@ -241,7 +241,7 @@ export default function ZonesPage({ initialZone, initialTab }: { initialZone?: s
   'eden-gardens': '2 6 73 73',
   'little-paradise': '3 4 73 73',
   'serenity-spa': '2 4 73 73',
-  'pirates-cove': '-1 5 73 73',
+  'pirates-cove': '3 5 73 73',
   'atlantis-realm': '5 4 73 73',
   'adrenaline-peak': '-1 1 73 73',
   'ocean-bay': '7 6 73 73',
