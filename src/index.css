@@ -1485,3 +1485,15 @@ body {
 .apr-map-route__result li { margin-bottom:7px; }
 .apr-map-route__reset { color:#8a554a; font-size:13px; }
 @media(max-width:767px) { .apr-map-route fieldset { padding:10px 12px; } }
+
+/* Custom route-zone dropdown: consistent colors across browser engines. */
+.apr-zone-select { position:relative; margin-bottom:15px; }
+.apr-zone-select__trigger { display:flex; justify-content:space-between; align-items:center; gap:12px; width:100%; min-height:46px; padding:10px 15px; border:1px solid #dcd4c5; border-radius:4px; background:#fffdf9; color:#1b454c; font-size:14px; text-align:left; }
+.apr-zone-select__trigger:hover,.apr-zone-select__trigger[aria-expanded="true"] { border-color:#b99564; }
+.apr-zone-select__chevron { font-size:23px; line-height:1; color:#37616a; }
+.apr-zone-select__options { position:absolute; top:calc(100% + 4px); left:0; right:0; z-index:90; max-height:min(310px,45dvh); overflow-y:auto; padding:6px; border:1px solid #d8c9af; border-radius:5px; background:#fffcf7; box-shadow:0 12px 28px rgba(18,55,60,.18); }
+.apr-zone-select__option { display:flex; justify-content:space-between; align-items:center; width:100%; min-height:39px; padding:9px 11px; border-radius:3px; background:transparent; color:#214a51; font-size:14px; text-align:left; }
+.apr-zone-select__option:hover,.apr-zone-select__option:focus-visible { background:#e7f0ed; color:#123f48; }
+.apr-zone-select__option[aria-current="true"] { background:#f2e9d9; color:#79572e; font-weight:700; }
+.apr-zone-select__option[aria-current="true"] span { color:#ad8552; }
+.apr-zone-select__trigger:focus-visible,.apr-zone-select__option:focus-visible { outline:2px solid #b99564; outline-offset:1px; }
