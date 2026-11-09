@@ -1258,3 +1258,18 @@ body {
 
 /* Keep pictogram at its original size; centering is handled per SVG artwork viewport. */
 .apr-zones-switcher__icon svg { width: 27px; height: 27px; flex: 0 0 27px; transform: none; }
+
+/* Zones: refined editorial content across all four information tabs. */
+.apr-zone-panel { padding: 16px 0 8px; color: #25464b; }
+.apr-zone-panel-content { font-family: Manrope,sans-serif; font-size: 13px; line-height: 1.7; }
+.apr-zone-section-heading { font: 600 10px/1.6 Manrope,sans-serif; letter-spacing: .18em; text-transform: uppercase; color: #a17846; }
+.apr-zone-feature { position: relative; padding: 11px 14px 11px 30px; background: #fffdf8; border: 1px solid #e9e4d9; border-radius: 4px; color: #25484c; font-size: 12px; line-height: 1.6; }
+.apr-zone-feature::before { content: '✦'; position: absolute; left: 12px; top: 12px; color: #ba975e; font-size: 10px; }
+.apr-zone-audience { background: #f1ede4; border-left: 2px solid #b79561; padding: 16px 19px; color: #2d4a4b; font-size: 13px; line-height: 1.75; }
+.apr-zone-attraction { padding: 16px; background: #fffdf9; border: 1px solid #e8e0d3; border-radius: 5px; transition: border-color .2s; }
+.apr-zone-attraction:hover { border-color: #b79b70; }
+.apr-zone-attraction p.font-medium { color: #143e45; font: 500 19px/1.15 'Cormorant Garamond',serif; }
+.apr-zone-attraction button { color: #087187; font-weight: 600; }
+.apr-zone-rule { display: flex; align-items: flex-start; gap: 12px; padding: 13px 15px; background: #f2eee6; border-left: 2px solid #b79561; border-radius: 3px; color: #344c4c; font-size: 12px; line-height: 1.65; }
+.apr-zone-rule-mark { display: grid; place-items: center; flex: 0 0 17px; width: 17px; height: 17px; border: 1px solid #b79561; border-radius: 50%; color: #9b7845; font: italic 600 12px Georgia,serif; }
+@media(prefers-reduced-motion:reduce) { .apr-zone-attraction { transition: none; } }
