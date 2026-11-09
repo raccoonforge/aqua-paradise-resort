@@ -159,24 +159,24 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
   const activeRide = ATTRACTIONS.find(r => r.id === selectedRideId);
 
   return (
-    <div className="bg-[#f8f9fa] min-h-screen py-12">
-      <div className="max-w-7xl mx-auto px-4">
+    <div className="apr-catalog min-h-screen">
+      <div className="apr-catalog__container max-w-7xl mx-auto px-4">
 
-        <div className="text-center mb-10">
+        <div className="apr-catalog__intro text-center mb-10">
           <h1 className="text-4xl md:text-5xl font-serif text-gray-900 mb-4">Аттракционы и развлечения</h1>
           <p className="text-gray-600 max-w-2xl mx-auto">Найдите идеальное приключение для себя и своей семьи.</p>
         </div>
 
         {/* Поиск и фильтры */}
-        <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 mb-6">
-          <div className="flex flex-col md:flex-row gap-3 items-stretch md:items-center mb-3">
+        <div className="apr-catalog__filters mb-6">
+          <div className="apr-catalog__filter-row flex flex-col md:flex-row gap-3 items-stretch md:items-center mb-3">
             <input
               type="text"
               placeholder="Поиск по названию..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               aria-label="Поиск по названию"
-              className="w-full md:w-1/3 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
+              className="apr-catalog__search w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
             />
             <select
               value={zoneFilter}
@@ -204,7 +204,7 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
           </div>
 
           {/* Быстрые категории */}
-          <div className="flex flex-wrap gap-2 mb-3" role="group" aria-label="Быстрые категории">
+          <div className="apr-catalog__quick flex flex-wrap gap-2 mb-3" role="group" aria-label="Быстрые категории">
             {QUICK_CATEGORIES.map(cat => (
               <button
                 key={cat.id}
@@ -222,7 +222,7 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
           </div>
 
           {/* Возраст/рост */}
-          <div className="flex flex-col sm:flex-row gap-3 text-sm">
+          <div className="apr-catalog__measurements flex flex-col sm:flex-row gap-3 text-sm">
             <label className="flex items-center gap-2 text-gray-700">
               <span className="whitespace-nowrap">Возраст:</span>
               <input
@@ -258,7 +258,7 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
         </div>
 
         {/* Счётчик результатов */}
-        <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+        <div className="apr-catalog__results flex flex-wrap items-center justify-between gap-2 mb-4">
           <p className="text-sm text-gray-600">
             Найдено: <strong>{totalShown}</strong>
             {visible.length > 0 && <span className="text-gray-400"> • показано {displayedAttractions.length}</span>}
@@ -286,20 +286,20 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="apr-catalog__grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {displayedAttractions.map((ride) => (
               <button
                 key={ride.id}
                 onClick={() => handleOpenRide(ride.id)}
                 aria-label={`Открыть подробности: ${ride.name}`}
-                className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all cursor-pointer border border-gray-100 group text-left focus:outline-none focus-visible:ring-4 focus-visible:ring-teal-300"
+                className="apr-catalog__card group text-left focus:outline-none focus-visible:ring-4 focus-visible:ring-teal-300"
               >
-                <div className="h-48 bg-gradient-to-br from-teal-100 to-cyan-200 flex items-center justify-center text-teal-800/50 font-serif text-lg group-hover:scale-105 transition-transform">
+                <div className="apr-catalog__photo">
                   [Фото: {ride.name}]
                 </div>
-                <div className="p-5">
+                <div className="apr-catalog__card-body p-5">
                   <span className="text-xs font-bold text-teal-600 tracking-wider uppercase mb-1 block">{ride.zone}</span>
-                  <h3 className="text-xl font-serif text-gray-900 mb-2">{ride.name}</h3>
+                  <h3 className="apr-catalog__card-title mb-2">{ride.name}</h3>
                   <p className="text-gray-600 text-sm line-clamp-2">{ride.desc}</p>
 
                   <div className="flex gap-3 text-xs font-medium text-gray-500 mt-4">
@@ -317,9 +317,9 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
                 key={`hidden-${ride.id}`}
                 onClick={() => handleOpenRide(ride.id)}
                 aria-label={`Открыть подробности: ${ride.name} (скрыто по ограничениям: ${ride.reason})`}
-                className="bg-amber-50 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all cursor-pointer border border-amber-200 group text-left opacity-80 focus:outline-none focus-visible:ring-4 focus-visible:ring-amber-300"
+                className="apr-catalog__card apr-catalog__card--restricted group text-left focus:outline-none focus-visible:ring-4 focus-visible:ring-amber-300"
               >
-                <div className="h-48 bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center text-amber-800/50 font-serif text-lg">
+                <div className="apr-catalog__photo">
                   [Фото: {ride.name}]
                 </div>
                 <div className="p-5">
@@ -361,7 +361,7 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
             aria-modal="true"
             aria-labelledby="attraction-modal-title"
             tabIndex={-1}
-            className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl relative outline-none"
+            className="apr-catalog__modal bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl relative outline-none"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -372,7 +372,7 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
               ✕
             </button>
 
-            <div className="h-64 bg-gradient-to-br from-teal-200 to-cyan-400 flex items-center justify-center text-white text-2xl font-serif">
+            <div className="apr-catalog__modal-photo">
               [Большое фото: {activeRide.name}]
             </div>
 
