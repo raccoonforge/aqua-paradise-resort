@@ -487,7 +487,7 @@ function App() {
           <nav className="apr-site-nav" aria-label="Основная навигация">
             <button type="button" className="apr-nav-link" onClick={() => { navigate('#/'); setTimeout(() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }), 0); }}>О курорте</button>
             <details className="apr-nav-dropdown">
-              <summary className="apr-nav-link">Развлечения <span aria-hidden="true">⌄</span></summary>
+              <summary className="apr-nav-link">Развлечения <span className="apr-nav-chevron" aria-hidden="true" /></summary>
               <div className="apr-nav-dropdown__panel">
                 <button onClick={() => navigate('#/zones')}><HeaderIcon name="compass" /><span><strong>Тематические зоны</strong><small>Девять миров острова</small></span></button>
                 <button onClick={() => navigate('#/attractions')}><HeaderIcon name="slide" /><span><strong>Аттракционы</strong><small>От релакса до экстрима</small></span></button>
@@ -497,7 +497,7 @@ function App() {
             <button type="button" className="apr-nav-link" onClick={() => navigate('#/map')}>Карта острова</button>
             <button type="button" className="apr-nav-link" onClick={() => navigate('#/hotel')}>Отель</button>
             <details className="apr-nav-dropdown">
-              <summary className="apr-nav-link">Посещение <span aria-hidden="true">⌄</span></summary>
+              <summary className="apr-nav-link">Посещение <span className="apr-nav-chevron" aria-hidden="true" /></summary>
               <div className="apr-nav-dropdown__panel">
                 <button onClick={() => navigate('#/visit')}><HeaderIcon name="route" /><span><strong>Как добраться</strong><small>Путь на остров</small></span></button>
                 <button onClick={() => navigate('#/visit')}><HeaderIcon name="shuttle" /><span><strong>Транспорт</strong><small>Передвижение по курорту</small></span></button>
