@@ -539,7 +539,7 @@ function App() {
         <div className="apr-mobile-overlay" id="apr-mobile-menu">
           <button type="button" className="apr-mobile-overlay__scrim" onClick={() => setIsMobileMenuOpen(false)} aria-label="Закрыть меню" />
           <aside className="apr-mobile-drawer" role="dialog" aria-modal="true" aria-label="Навигация по курорту">
-            <div className="apr-mobile-drawer__top"><span className="apr-brand__name">Aqua Paradise<small>ISLAND RESORT</small></span><button type="button" onClick={() => { setIsMobileMenuOpen(false); menuButtonRef.current?.focus(); }} aria-label="Закрыть меню">✕</button></div>
+            <div className="apr-mobile-drawer__top"><span className="apr-mobile-drawer__brand"><ResortLogo /><span className="apr-brand__name">Aqua Paradise<small>ISLAND RESORT</small></span></span><button type="button" onClick={() => { setIsMobileMenuOpen(false); menuButtonRef.current?.focus(); }} aria-label="Закрыть меню">✕</button></div>
             <nav aria-label="Мобильная навигация" className="apr-mobile-links">
               <button onClick={() => { navigate('#/'); setTimeout(() => document.getElementById('about')?.scrollIntoView(), 0); }}>О курорте</button>
               <details><summary>Развлечения <span className="apr-mobile-chevron" aria-hidden="true" /></summary><div className="apr-mobile-submenu"><button onClick={() => navigate('#/zones')}>Тематические зоны</button><button onClick={() => navigate('#/attractions')}>Аттракционы</button><button onClick={() => navigate('#/attractions')}>Семейный отдых</button></div></details>
