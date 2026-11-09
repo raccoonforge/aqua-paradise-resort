@@ -542,10 +542,10 @@ function App() {
             <div className="apr-mobile-drawer__top"><span className="apr-brand__name">Aqua Paradise<small>ISLAND RESORT</small></span><button type="button" onClick={() => { setIsMobileMenuOpen(false); menuButtonRef.current?.focus(); }} aria-label="Закрыть меню">✕</button></div>
             <nav aria-label="Мобильная навигация" className="apr-mobile-links">
               <button onClick={() => { navigate('#/'); setTimeout(() => document.getElementById('about')?.scrollIntoView(), 0); }}>О курорте</button>
-              <details><summary>Развлечения <span aria-hidden="true">⌄</span></summary><div className="apr-mobile-submenu"><button onClick={() => navigate('#/zones')}>Тематические зоны</button><button onClick={() => navigate('#/attractions')}>Аттракционы</button><button onClick={() => navigate('#/attractions')}>Семейный отдых</button></div></details>
+              <details><summary>Развлечения <span className="apr-mobile-chevron" aria-hidden="true" /></summary><div className="apr-mobile-submenu"><button onClick={() => navigate('#/zones')}>Тематические зоны</button><button onClick={() => navigate('#/attractions')}>Аттракционы</button><button onClick={() => navigate('#/attractions')}>Семейный отдых</button></div></details>
               <button onClick={() => navigate('#/map')}>Карта острова</button>
               <button onClick={() => navigate('#/hotel')}>Отель</button>
-              <details><summary>Посещение <span aria-hidden="true">⌄</span></summary><div className="apr-mobile-submenu"><button onClick={() => navigate('#/visit')}>Как добраться</button><button onClick={() => navigate('#/visit')}>Транспорт на острове</button><button onClick={() => navigate('#/visit')}>Правила и безопасность</button><button onClick={() => navigate('#/visit')}>FAQ</button></div></details>
+              <details><summary>Посещение <span className="apr-mobile-chevron" aria-hidden="true" /></summary><div className="apr-mobile-submenu"><button onClick={() => navigate('#/visit')}>Как добраться</button><button onClick={() => navigate('#/visit')}>Транспорт на острове</button><button onClick={() => navigate('#/visit')}>Правила и безопасность</button><button onClick={() => navigate('#/visit')}>FAQ</button></div></details>
             </nav>
             <button type="button" className="apr-button apr-button--sand apr-mobile-tickets" onClick={() => navigate('#/tickets')}>Билеты ↗</button>
           </aside>
