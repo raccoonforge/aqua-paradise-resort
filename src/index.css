@@ -1424,3 +1424,26 @@ body {
 .apr-map-stage .apr-map-notice { background:#fffcf7; border:1px solid #e4dccb; color:#48666a; box-shadow:0 8px 22px rgba(18,64,67,.08); }
 @media(max-width:767px) { .apr-map-panel { border-left:0; border-top:1px solid #e3ddcf; border-radius:18px 18px 0 0; } .apr-map-stage::after { inset:9px; } }
 @media(prefers-reduced-motion:reduce) { .apr-map-panel button { transition:none; } }
+
+/* Premium map markers and unified selected-place panel. */
+.apr-map-pin__dot { display:block; width:24px; height:24px; background:#155462; border:3px solid #f8f1e5; border-radius:50%; box-shadow:0 0 0 1px #bd9a66,0 5px 12px rgba(8,53,62,.3); transition:transform .2s ease,box-shadow .2s ease; }
+.apr-map-pin:hover .apr-map-pin__dot { transform:scale(1.13); }
+.apr-map-pin[aria-pressed="true"] .apr-map-pin__dot { background:#bd965d; box-shadow:0 0 0 5px #fff9e9,0 0 0 7px #ad8655,0 8px 18px rgba(8,53,62,.28); }
+.apr-map-gateway { background:#184d59; border-color:#e9d3a8; box-shadow:0 4px 15px rgba(8,53,62,.25); }
+.apr-map-detail__photo { display:grid; place-items:center; aspect-ratio:16/8; background:linear-gradient(140deg,#357b81,#16434e); border:1px solid #d6c9b3; border-radius:4px; margin:0 0 19px; text-align:center; padding:16px; }
+.apr-map-detail__photo span { color:#e7d2ad; font:600 9px/1.6 Manrope,sans-serif; letter-spacing:.16em; }
+.apr-map-detail__eyebrow { display:block; margin-bottom:7px; color:#a07b49; font:700 10px/1.5 Manrope,sans-serif; letter-spacing:.13em; }
+.apr-map-detail h2 { font:500 clamp(28px,3vw,38px)/1.1 'Cormorant Garamond',serif; color:#163f48; }
+.apr-map-detail__desc { color:#5d7373; font:400 13px/1.7 Manrope,sans-serif; margin-top:10px; }
+.apr-map-detail__actions { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-top:18px; }
+.apr-map-detail__actions button { min-height:39px; border-radius:3px; padding:9px 14px; font:600 12px/1.4 Manrope,sans-serif; }
+.apr-map-detail__primary { background:#155462; color:#fff; }
+.apr-map-detail__primary:hover { background:#103f49; }
+.apr-map-detail__secondary { background:#f7f2e9; color:#23545d; border:1px solid #e0d5c4; }
+.apr-map-detail__secondary:hover { border-color:#b99564; }
+.apr-map-detail__subitem { padding:13px 0; border-bottom:1px solid #e9e0d4; }
+.apr-map-detail__subitem strong { color:#244b50; font-size:13px; }
+.apr-map-detail__subitem p { color:#637676; font-size:12px; line-height:1.6; margin-top:4px; }
+.apr-map-back { text-decoration:none; }
+.apr-map-back:hover { text-decoration:underline; }
+@media(prefers-reduced-motion:reduce) { .apr-map-pin__dot { transition:none; } }
