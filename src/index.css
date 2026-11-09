@@ -1288,3 +1288,14 @@ body {
 .apr-zones-panorama__placeholder strong { font:italic 400 clamp(34px,4vw,64px)/1.05 'Cormorant Garamond',serif; color:#fff7e9; text-shadow:0 2px 22px rgba(4,32,40,.25); }
 .apr-zones-panorama__caption { color:rgba(255,250,235,.7); font:400 11px/1.6 Manrope,sans-serif; }
 @media(max-width:600px) { .apr-zones-panorama__eyebrow { top:27px; left:27px; } .apr-zones-panorama__index { bottom:25px; right:27px; } .apr-zones-panorama__placeholder { padding:70px 18px; } }
+
+/* Light inner pages: preserve the transparent header but restore legible contrast. */
+.apr-site-header--light-page .apr-brand__name,
+.apr-site-header--light-page .apr-nav-link,
+.apr-site-header--light-page .apr-nav-dropdown > summary { color: #123e46 !important; }
+.apr-site-header--light-page .apr-brand__name small { color: #a47b43 !important; }
+.apr-site-header--light-page .apr-nav-link:hover,
+.apr-site-header--light-page .apr-nav-link:focus-visible,
+.apr-site-header--light-page .apr-nav-dropdown[open] > summary { color: #006b7e !important; }
+.apr-site-header--light-page .apr-nav-link::after { background: #ad874e; }
+.apr-site-header--light-page .apr-brand__emblem { filter: brightness(.83) saturate(1.15); }
