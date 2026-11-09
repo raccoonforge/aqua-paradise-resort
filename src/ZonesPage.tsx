@@ -289,30 +289,30 @@ export default function ZonesPage({ initialZone, initialTab }: { initialZone?: s
                 ))}
               </div>
 
-              <div id="zone-tab-panel" role="tabpanel" aria-labelledby={`zone-tab-${activeTab}`} tabIndex={0} className="p-6 flex-grow focus-visible:outline-2 focus-visible:outline-teal-600">
+              <div id="zone-tab-panel" role="tabpanel" aria-labelledby={`zone-tab-${activeTab}`} tabIndex={0} className="apr-zone-panel flex-grow focus-visible:outline-2 focus-visible:outline-teal-600">
                 {activeTab === 'overview' && (
-                  <div className="space-y-6">
+                  <div className="apr-zone-panel-content space-y-6">
                     <div>
-                      <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">Особенности</h2>
+                      <h2 className="apr-zone-section-heading mb-4">Особенности</h2>
                       <ul className="space-y-2">
-                        {activeZone.features.map(feature => <li key={feature} className="bg-teal-50 text-teal-800 px-4 py-3 rounded-xl text-sm border border-teal-100">{feature}</li>)}
+                        {activeZone.features.map(feature => <li key={feature} className="apr-zone-feature">{feature}</li>)}
                       </ul>
                     </div>
                     <div>
-                      <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Кому понравится</h2>
-                      <p className="text-gray-700 bg-gray-50 p-4 rounded-xl border border-gray-100">{activeZone.likes}</p>
+                      <h2 className="apr-zone-section-heading mb-3">Кому понравится</h2>
+                      <p className="apr-zone-audience">{activeZone.likes}</p>
                     </div>
                     <p className="text-xs text-gray-500">Иллюстрации зоны будут добавлены после утверждения визуальных материалов.</p>
                   </div>
                 )}
                 {activeTab === 'attractions' && (
-                  <div className="space-y-5">
+                  <div className="apr-zone-panel-content space-y-5">
                     {zoneAttractions.length > 0 && (
                       <div>
-                        <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Аттракционы</h2>
+                        <h2 className="apr-zone-section-heading mb-3">Аттракционы</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           {zoneAttractions.map(attraction => (
-                            <div key={attraction.id} className="p-3 border border-gray-100 rounded-xl bg-gray-50/40">
+                            <div key={attraction.id} className="apr-zone-attraction">
                               <p className="font-medium text-gray-900">{attraction.name}</p>
                               <p className="text-xs text-gray-500 mt-1">{attraction.intensity} · от {attraction.minAge} лет{attraction.minHeight !== null ? ` · рост от ${attraction.minHeight} см` : ''}</p>
                               <button type="button" onClick={() => { window.location.hash = `#/attractions?ride=${attraction.id}`; }} className="text-teal-700 hover:underline mt-2 text-sm focus-visible:outline-2 focus-visible:outline-teal-600">Подробнее</button>
@@ -322,7 +322,7 @@ export default function ZonesPage({ initialZone, initialTab }: { initialZone?: s
                       </div>
                     )}
                     <div>
-                      <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Что ещё посетить</h2>
+                      <h2 className="apr-zone-section-heading mb-3">Что ещё посетить</h2>
                       <ul className="space-y-2 list-disc pl-5 text-sm text-gray-700">
                         {activeZone.activities.map(activity => <li key={activity}>{activity}</li>)}
                       </ul>
@@ -335,16 +335,16 @@ export default function ZonesPage({ initialZone, initialTab }: { initialZone?: s
                       <p className="text-gray-600 text-sm">Отдельный перечень инфраструктуры этой зоны в утверждённой документации пока не установлен. Информация об основных объектах доступна во вкладке «Развлечения».</p>
                     ) : infrastructureGroups.map(group => (
                       <section key={group.key}>
-                        <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">{group.label}</h2>
+                        <h2 className="apr-zone-section-heading mb-3">{group.label}</h2>
                         <ul className="space-y-2">{group.items?.map(item => <li key={item} className="flex gap-2 text-gray-700 text-sm"><span aria-hidden="true" className="text-teal-500">•</span>{item}</li>)}</ul>
                       </section>
                     ))}
                   </div>
                 )}
                 {activeTab === 'rules' && (
-                  <div className="space-y-4">
+                  <div className="apr-zone-panel-content space-y-4">
                     <ul className="space-y-3">
-                      {activeZone.rules.map(rule => <li key={rule} className="flex items-start gap-3 p-3 bg-amber-50 text-amber-950 rounded-xl text-sm border border-amber-100"><span aria-hidden="true">ℹ️</span>{rule}</li>)}
+                      {activeZone.rules.map(rule => <li key={rule} className="apr-zone-rule"><span aria-hidden="true" className="apr-zone-rule-mark">i</span>{rule}</li>)}
                     </ul>
                     <p className="text-xs text-gray-500">Подробные правила отдельных аттракционов приведены в их карточках и каталоге. Время работы и условия — демонстрационные данные вымышленного курорта.</p>
                   </div>
