@@ -256,7 +256,7 @@ export default function ZonesPage({ initialZone, initialTab }: { initialZone?: s
       <main className="apr-zones-main">
         <div className="apr-zones-layout">
           <div className="apr-zones-visual">
-            <div className="apr-zones-panorama" role="img" aria-label={`Место для будущей панорамной фотографии ${activeZone.name}`}><span className="apr-zones-panorama__eyebrow">AQUA PARADISE · THE NINE WORLDS</span><span className="apr-zones-panorama__mark">◇</span><span className="apr-zones-panorama__label">МЕСТО ДЛЯ ПАНОРАМЫ</span><strong>{activeZone.name}</strong><span className="apr-zones-panorama__index">{String(zonesData.findIndex(zone => zone.id === activeZoneId) + 1).padStart(2, '0')} / 09</span></div>
+            <div className="apr-zones-panorama" role="img" aria-label={`Место для будущей панорамной фотографии ${activeZone.name}`}><span className="apr-zones-panorama__eyebrow">AQUA PARADISE · THE NINE WORLDS</span><span className="apr-zones-panorama__frame" aria-hidden="true"><span className="apr-zones-panorama__horizon" /><span className="apr-zones-panorama__sun" /><span className="apr-zones-panorama__shore apr-zones-panorama__shore--far" /><span className="apr-zones-panorama__shore apr-zones-panorama__shore--near" /></span><span className="apr-zones-panorama__placeholder"><span className="apr-zones-panorama__label">ПАНОРАМНАЯ ФОТОГРАФИЯ · СКОРО</span><strong>{activeZone.name}</strong><span className="apr-zones-panorama__caption">Место для фотографии тематической зоны</span></span><span className="apr-zones-panorama__index">{String(zonesData.findIndex(zone => zone.id === activeZoneId) + 1).padStart(2, '0')} / 09</span></div>
 
           </div>
 
