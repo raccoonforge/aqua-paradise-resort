@@ -371,13 +371,13 @@ const PlannerTeaser = () => {
 type HeaderIconName = 'compass' | 'slide' | 'family' | 'route' | 'shuttle' | 'shield' | 'help';
 const HeaderIcon = ({ name }: { name: HeaderIconName }) => {
   const paths: Record<HeaderIconName, ReactNode> = {
-    compass: <><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2.2 4.8-4.8 2.2 2.2-4.8z"/></>,
-    slide: <><path d="M5 4h5v5c0 2.3 1.2 3.3 3.4 3.3H16c2.4 0 3.8 1.4 3.8 3.6V18"/><path d="M3.5 18c2.4-1.7 4.3-1.7 6.6 0s4.3 1.7 6.6 0 3.3-1.7 4.8-.8"/><path d="M5 4v10"/></>,
-    family: <><circle cx="8" cy="7.5" r="2.4"/><circle cx="17" cy="9" r="2"/><path d="M3 19v-2.2c0-3 2.1-4.9 5-4.9s5 1.9 5 4.9V19"/><path d="M14 14c2.6-1.2 6 .4 6 3.7V19"/></>,
-    route: <><circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M8 18h6a4 4 0 0 0 0-8h-4a4 4 0 0 1 0-8"/></>,
-    shuttle: <><path d="M4 15V8.5C4 6 6 4 8.5 4h7C18 4 20 6 20 8.5V15c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2Z"/><path d="M4 10h16M8 17v2m8-2v2M7.5 13.5h1m7 0h1"/><path d="M8 4v6m8-6v6"/></>,
-    shield: <><path d="M12 2 4 5v6c0 5 3.4 8.6 8 11 4.6-2.4 8-6 8-11V5z"/><path d="m9 12 2 2 4-4"/></>,
-    help: <><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.7 2.7 0 0 1 5.2 1c0 1.8-2.7 2.1-2.7 4M12 17.5h.01"/></>,
+    compass: <><circle cx="12" cy="12" r="9"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/><path d="m12 5 2.3 7-2.3 2.3L9.7 12z"/><path d="M7 18c2-1.4 3.5-1.4 5.5 0"/></>,
+    slide: <><path d="M4 7h9l-4.5-3zM6 7v12M12 7v3"/><path d="M12 10c5 0 9 1.5 8 4s-5 3.1-9 4.1S5 20 4 21"/><path d="M12 12c4.3 0 6.7 1 6 2.1s-5.1 2.6-8.3 3.6S5.7 19.2 5 20"/><path d="M2 22c2-1 3-1 5 0s3 1 5 0"/></>,
+    family: <><circle cx="8" cy="7" r="3"/><circle cx="17" cy="9" r="2.5"/><circle cx="12.5" cy="15" r="2"/><path d="M2.5 20v-3c0-3.4 2.1-5.2 5.5-5.2 2.2 0 3.6.7 4.5 2"/><path d="M17 14c3 0 4.5 1.7 4.5 5v1M8.5 22v-1.5c0-2.2 1.6-3.5 4-3.5s4 1.3 4 3.5V22"/></>,
+    route: <><path d="M4 18c4-5 7-1 11-6 2-2.5 3-4.5 5-6" strokeDasharray="2 2"/><path d="M7 18c0 2-3 4-3 4s-3-2-3-4a3 3 0 0 1 6 0ZM23 5c0 2-3 4-3 4s-3-2-3-4a3 3 0 0 1 6 0Z" transform="translate(0 -1)"/></>,
+    shuttle: <><path d="M3 14 6 7h12l3 7v5H3zM5 7c2-3 12-3 14 0"/><path d="M8 9v5m8-5v5M3 16h18M7 19v1m10-1v1"/><circle cx="7" cy="20" r="2"/><circle cx="17" cy="20" r="2"/><path d="M11 13h2m-10 1h3m12 0h3"/></>,
+    shield: <><path d="M12 2 4 6v6c0 5 3 8 8 10 5-2 8-5 8-10V6z"/><path d="m8 12 3 3 5-6"/></>,
+    help: <><path d="M5 18a9 9 0 1 1 4 3l-5 1z"/><path d="M9 9a3 3 0 0 1 6 1c0 2-3 2-3 5M12 18h.01"/></>,
   };
   return <svg aria-hidden="true" className="apr-menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" strokeLinejoin="round">{paths[name]}</svg>;
 };
@@ -542,10 +542,10 @@ function App() {
             <div className="apr-mobile-drawer__top"><span className="apr-mobile-drawer__brand"><ResortLogo /><span className="apr-brand__name">Aqua Paradise<small>ISLAND RESORT</small></span></span><button type="button" onClick={() => { setIsMobileMenuOpen(false); menuButtonRef.current?.focus(); }} aria-label="Закрыть меню">✕</button></div>
             <nav aria-label="Мобильная навигация" className="apr-mobile-links">
               <button onClick={() => { navigate('#/'); setTimeout(() => document.getElementById('about')?.scrollIntoView(), 0); }}>О курорте</button>
-              <details><summary>Развлечения <span className="apr-mobile-chevron" aria-hidden="true" /></summary><div className="apr-mobile-submenu"><button onClick={() => navigate('#/zones')}>Тематические зоны</button><button onClick={() => navigate('#/attractions')}>Аттракционы</button><button onClick={() => navigate('#/attractions')}>Семейный отдых</button></div></details>
+              <details><summary>Развлечения <span className="apr-mobile-chevron" aria-hidden="true" /></summary><div className="apr-mobile-submenu"><button onClick={() => navigate('#/zones')}><HeaderIcon name="compass" />Тематические зоны</button><button onClick={() => navigate('#/attractions')}><HeaderIcon name="slide" />Аттракционы</button><button onClick={() => navigate('#/attractions')}><HeaderIcon name="family" />Семейный отдых</button></div></details>
               <button onClick={() => navigate('#/map')}>Карта острова</button>
               <button onClick={() => navigate('#/hotel')}>Отель</button>
-              <details><summary>Посещение <span className="apr-mobile-chevron" aria-hidden="true" /></summary><div className="apr-mobile-submenu"><button onClick={() => navigate('#/visit')}>Как добраться</button><button onClick={() => navigate('#/visit')}>Транспорт на острове</button><button onClick={() => navigate('#/visit')}>Правила и безопасность</button><button onClick={() => navigate('#/visit')}>FAQ</button></div></details>
+              <details><summary>Посещение <span className="apr-mobile-chevron" aria-hidden="true" /></summary><div className="apr-mobile-submenu"><button onClick={() => navigate('#/visit')}><HeaderIcon name="route" />Как добраться</button><button onClick={() => navigate('#/visit')}><HeaderIcon name="shuttle" />Транспорт на острове</button><button onClick={() => navigate('#/visit')}><HeaderIcon name="shield" />Правила и безопасность</button><button onClick={() => navigate('#/visit')}><HeaderIcon name="help" />FAQ</button></div></details>
             </nav>
             <button type="button" className="apr-button apr-button--sand apr-mobile-tickets" onClick={() => navigate('#/tickets')}>Билеты ↗</button>
           </aside>
