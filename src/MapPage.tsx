@@ -194,8 +194,8 @@ useEffect(() => {
   // Маршрутные линии — только иллюстративное отображение сегментов на старых якорях карты.
   const drawSegments = route?.segments.filter(s => nodeById(s.from) && nodeById(s.to)) ?? [];
   return (
-    <main className="h-[calc(100dvh-64px)] min-h-[520px] flex flex-col md:flex-row bg-slate-100 overflow-hidden">
-      <section ref={mapRef} aria-label="Схематическая карта острова" className="relative flex-1 min-h-0 md:w-[70%] overflow-hidden bg-slate-200 touch-none" onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={onPointerUp}>
+    <main className="apr-map-page h-[calc(100dvh-64px)] min-h-[520px] flex flex-col md:flex-row bg-slate-100 overflow-hidden">
+      <section ref={mapRef} aria-label="Схематическая карта острова" className="apr-map-stage relative flex-1 min-h-0 md:w-[70%] overflow-hidden touch-none" onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={onPointerUp}>
         <div className="absolute inset-0 opacity-25 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#64748b 1px, transparent 1px)', backgroundSize: '40px 40px' }} aria-hidden="true" />
         <div className="absolute inset-0" style={{ transform: `translate(${pan.x}px,${pan.y}px) scale(${zoom})`, transformOrigin: 'center' }}>
           <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
@@ -205,7 +205,7 @@ useEffect(() => {
           {ZONES.filter(() => category !== 'transport').map(z => <button key={z.id} type="button" onClick={() => {setSelected(z.id); setPanelOpen(true);}} aria-pressed={selected===z.id} aria-label={`Показать ${z.name}`} className={`absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 rounded-full focus-visible:outline-4 focus-visible:outline-teal-600 ${selected===z.id ? 'z-30' : 'z-20'}`} style={{left:`${z.x}%`,top:`${z.y}%`}}><span className="block w-6 h-6 border-2 border-white rounded-full shadow-lg" style={{backgroundColor:z.color}} /><span className="sr-only">{z.name}</span></button>)}
           {showEntry && <button type="button" aria-label="Главный вход и транспортный узел" onClick={()=>{setSelected('gateway');setPanelOpen(true);}} className="absolute -translate-x-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-lg bg-teal-800 text-white border-2 border-white shadow-lg focus-visible:outline-4 focus-visible:outline-teal-400" style={{left:`${ENTRY.x}%`,top:`${ENTRY.y}%`}}>⇅</button>}
         </div>
-        <div className="absolute top-3 left-3 max-w-[70%] pointer-events-none rounded-lg bg-white/90 px-3 py-2 text-xs text-slate-700 shadow-sm">Демонстрационная схема · координаты условные</div>
+        <div className="apr-map-notice absolute top-3 left-3 max-w-[70%] pointer-events-none rounded-lg px-3 py-2 text-xs shadow-sm">Демонстрационная схема · координаты условные</div>
         <div className="absolute top-3 right-3 flex gap-2 z-40">
           <button type="button" aria-label="Открыть панель поиска и маршрутов" className="md:hidden w-11 h-11 rounded-xl bg-white text-teal-800 shadow-lg font-bold focus-visible:outline-2 focus-visible:outline-teal-500" onClick={()=>setPanelOpen(v=>!v)}>☰</button>
           <button type="button" aria-label="Показать управление картой" aria-expanded={controlsOpen} className="md:hidden w-11 h-11 rounded-xl bg-white text-slate-700 shadow-lg focus-visible:outline-2 focus-visible:outline-teal-500" onClick={()=>setControlsOpen(v=>!v)}>⚙</button>
@@ -221,7 +221,7 @@ useEffect(() => {
         {route && <div className="absolute left-3 bottom-3 z-20 bg-white/95 shadow-sm rounded-lg px-3 py-2 text-xs text-slate-700 max-w-[64%]">Маршрут: <span className="text-teal-700">━ пешком</span> · <span className="text-amber-700">┄ Paradise Loop</span></div>}
       </section>
 
-      <aside className={`z-40 bg-white shadow-xl flex flex-col md:w-[30%] md:h-full min-w-0 ${panelOpen ? 'absolute inset-x-0 bottom-0 h-[55dvh] rounded-t-2xl md:static md:rounded-none' : 'hidden md:flex'}`} aria-label="Каталог и маршруты острова">
+      <aside className={`apr-map-panel z-40 shadow-xl flex flex-col md:w-[30%] md:h-full min-w-0 ${panelOpen ? 'absolute inset-x-0 bottom-0 h-[55dvh] rounded-t-2xl md:static md:rounded-none' : 'hidden md:flex'}`} aria-label="Каталог и маршруты острова">
         <div className="p-4 border-b border-gray-100 shrink-0">
           <div className="flex items-center justify-between gap-2 mb-3"><h1 className="text-xl font-serif text-slate-900">Карта острова</h1><button type="button" className="md:hidden p-2 text-teal-700 underline" onClick={()=>setPanelOpen(false)}>Закрыть</button></div>
           <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Поиск объекта..." aria-label="Поиск объектов" className="w-full px-4 py-2 rounded-xl border border-slate-300 text-sm focus-visible:outline-2 focus-visible:outline-teal-500" />
