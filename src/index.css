@@ -1273,3 +1273,18 @@ body {
 .apr-zone-rule { display: flex; align-items: flex-start; gap: 12px; padding: 13px 15px; background: #f2eee6; border-left: 2px solid #b79561; border-radius: 3px; color: #344c4c; font-size: 12px; line-height: 1.65; }
 .apr-zone-rule-mark { display: grid; place-items: center; flex: 0 0 17px; width: 17px; height: 17px; border: 1px solid #b79561; border-radius: 50%; color: #9b7845; font: italic 600 12px Georgia,serif; }
 @media(prefers-reduced-motion:reduce) { .apr-zone-attraction { transition: none; } }
+
+/* Photo-free panorama mockup: reserved image area with an understated editorial overlay. */
+.apr-zones-panorama { isolation: isolate; background: linear-gradient(165deg,#1b5662 0%,#267784 43%,#0b3744 100%); }
+.apr-zones-panorama::before { content:''; position:absolute; inset:0; z-index:0; background: radial-gradient(ellipse at 72% 20%,rgba(241,213,153,.20),transparent 48%),linear-gradient(0deg,rgba(5,30,38,.65),transparent 55%); }
+.apr-zones-panorama__frame { position:absolute; inset:0; overflow:hidden; z-index:0; opacity:.38; }
+.apr-zones-panorama__horizon { position:absolute; top:54%; left:0; width:100%; height:1px; background:rgba(255,245,215,.46); }
+.apr-zones-panorama__sun { position:absolute; top:29%; right:21%; width:clamp(60px,11vw,135px); aspect-ratio:1; border:1px solid rgba(252,226,177,.3); border-radius:50%; box-shadow:0 0 65px 15px rgba(244,206,147,.09); }
+.apr-zones-panorama__shore { position:absolute; left:-15%; right:-15%; height:35%; bottom:-23%; border-radius:50% 50% 0 0; background:#072f39; transform:rotate(-6deg); }
+.apr-zones-panorama__shore--far { bottom:-17%; left:45%; right:-25%; height:30%; background:#0d4854; transform:rotate(12deg); }
+.apr-zones-panorama__placeholder { position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; gap:12px; padding:60px 30px; }
+.apr-zones-panorama__eyebrow,.apr-zones-panorama__index { z-index:2; }
+.apr-zones-panorama__label { color:#e8d0a4; font-size:10px; letter-spacing:.2em; }
+.apr-zones-panorama__placeholder strong { font:italic 400 clamp(34px,4vw,64px)/1.05 'Cormorant Garamond',serif; color:#fff7e9; text-shadow:0 2px 22px rgba(4,32,40,.25); }
+.apr-zones-panorama__caption { color:rgba(255,250,235,.7); font:400 11px/1.6 Manrope,sans-serif; }
+@media(max-width:600px) { .apr-zones-panorama__eyebrow { top:27px; left:27px; } .apr-zones-panorama__index { bottom:25px; right:27px; } .apr-zones-panorama__placeholder { padding:70px 18px; } }
