@@ -361,27 +361,27 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
             aria-modal="true"
             aria-labelledby="attraction-modal-title"
             tabIndex={-1}
-            className="apr-catalog__modal bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl relative outline-none"
+            className="apr-catalog__modal w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl relative outline-none"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               onClick={handleCloseRide}
               aria-label="Закрыть окно аттракциона"
-              className="absolute top-4 right-4 z-10 bg-white/80 p-2 rounded-full hover:bg-gray-100 transition focus:outline-none focus:ring-2 focus:ring-teal-500"
+              className="apr-catalog__modal-close absolute top-4 right-4 z-10 focus:outline-none focus:ring-2 focus:ring-teal-500"
             >
               ✕
             </button>
 
             <div className="apr-catalog__modal-photo">
-              [Большое фото: {activeRide.name}]
+              <span className="apr-catalog__modal-placeholder">МЕСТО ДЛЯ ПАНОРАМНОЙ ФОТОГРАФИИ</span>
             </div>
 
-            <div className="p-8">
-              <span className="text-sm font-bold text-teal-600 tracking-wider uppercase mb-2 block">{activeRide.zone}</span>
-              <h2 id="attraction-modal-title" className="text-3xl font-serif text-gray-900 mb-4">{activeRide.name}</h2>
-              <p className="text-gray-700 text-lg mb-6">{activeRide.desc}</p>
+            <div className="apr-catalog__modal-content p-8">
+              <span className="apr-catalog__modal-zone">{activeRide.zone}</span>
+              <h2 id="attraction-modal-title" className="apr-catalog__modal-title mb-4">{activeRide.name}</h2>
+              <p className="apr-catalog__modal-description mb-6">{activeRide.desc}</p>
 
-              <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="apr-catalog__modal-facts grid grid-cols-2 gap-4 mb-6">
                 <div className="bg-gray-50 p-4 rounded-xl">
                   <span className="block text-xs text-gray-500 uppercase tracking-wide mb-1">Интенсивность</span>
                   <span className="font-medium text-gray-900">{activeRide.intensity}</span>
@@ -400,8 +400,8 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
                 </div>
               </div>
 
-              <div className="bg-red-50 border border-red-100 p-4 rounded-xl text-red-900 text-sm">
-                <span className="font-bold block mb-1">Безопасность:</span>
+              <div className="apr-catalog__modal-safety">
+                <span className="apr-catalog__modal-safety-title">Важная информация о безопасности</span>
                 {activeRide.safety}
               </div>
             </div>
