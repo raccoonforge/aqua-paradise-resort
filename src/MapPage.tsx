@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type PointerEvent } from 'react';
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react';
 
 type TravelMode = 'walk' | 'shuttle';
 type Category = 'all' | 'zones' | 'transport';
@@ -106,6 +106,41 @@ function loopRoute(from: string, to: string, slow: boolean): Route | null {
   }
   const minutes = (boarding === exiting ? 0 : 5) + segments.reduce((sum, s) => sum + s.minutes, 0);
   return { segments, minutes, walkMetres: walking, explanation: 'Ожидание шаттла ~5 минут — предварительная демонстрационная оценка. Точное время зависит от остановки и расписания.' };
+}
+
+function ZoneDropdown({ id, value, onChange }: { id: string; value: string; onChange: (value: string) => void }) {
+  const [open, setOpen] = useState(false);
+  const root = useRef<HTMLDivElement>(null);
+  const options = ZONES.filter(z => z.id !== 'grand-hotel');
+  const selected = options.find(z => z.id === value);
+  useEffect(() => {
+    if (!open) return;
+    const closeOutside = (event: MouseEvent) => { if (!root.current?.contains(event.target as globalThis.Node)) setOpen(false); };
+    document.addEventListener('pointerdown', closeOutside);
+    return () => document.removeEventListener('pointerdown', closeOutside);
+  }, [open]);
+  const choose = (next: string) => { onChange(next); setOpen(false); root.current?.querySelector<HTMLButtonElement>('.apr-zone-select__trigger')?.focus(); };
+  const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Escape' && open) { event.preventDefault(); setOpen(false); root.current?.querySelector<HTMLButtonElement>('.apr-zone-select__trigger')?.focus(); }
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      if (!open) { setOpen(true); return; }
+      const buttons = Array.from(root.current?.querySelectorAll<HTMLButtonElement>('.apr-zone-select__option') ?? []);
+      const index = buttons.indexOf(document.activeElement as HTMLButtonElement);
+      buttons[(index + (event.key === 'ArrowDown' ? 1 : -1) + buttons.length) % buttons.length]?.focus();
+    }
+    if (event.key === 'Home' && open) { event.preventDefault(); root.current?.querySelector<HTMLButtonElement>('.apr-zone-select__option')?.focus(); }
+    if (event.key === 'End' && open) { event.preventDefault(); const buttons = root.current?.querySelectorAll<HTMLButtonElement>('.apr-zone-select__option'); buttons?.[buttons.length - 1]?.focus(); }
+  };
+  return <div className="apr-zone-select" ref={root} onKeyDown={onKeyDown}>
+    <button id={id} type="button" className="apr-zone-select__trigger" aria-expanded={open} aria-controls={id + '-options'} aria-haspopup="true" onClick={()=>setOpen(v=>!v)}>
+      <span>{selected?.name ?? 'Выберите зону'}</span><span className="apr-zone-select__chevron" aria-hidden="true">⌄</span>
+    </button>
+    {open && <div id={id + '-options'} className="apr-zone-select__options" role="group" aria-label="Выбор зоны">
+      <button type="button" className="apr-zone-select__option" aria-current={!value ? 'true' : undefined} onClick={()=>choose('')}>Выберите зону</button>
+      {options.map(z=><button key={z.id} type="button" className="apr-zone-select__option" aria-current={value===z.id ? 'true' : undefined} onClick={()=>choose(z.id)}>{z.name}{value===z.id && <span aria-hidden="true">✓</span>}</button>)}
+    </div>}
+  </div>;
 }
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
@@ -247,8 +282,10 @@ useEffect(() => {
           </section>}
           {!selected && <section><h2 className="font-semibold text-sm text-slate-700 mb-3">Объекты ({filtered.length + (showEntry?1:0)})</h2>{showEntry && <button type="button" onClick={()=>setSelected('gateway')} className="w-full text-left p-3 rounded-lg border mb-2 hover:bg-slate-50 text-sm">⇅ {ENTRY.name}</button>}{filtered.map(z=><button type="button" key={z.id} onClick={()=>setSelected(z.id)} className="w-full text-left p-3 rounded-lg border mb-2 hover:bg-slate-50"><span className="font-medium text-sm">{z.name}</span><span className="block text-xs text-slate-500">{z.desc}</span></button>)}{filtered.length===0 && !showEntry && <p className="text-sm text-slate-500">Объекты не найдены.</p>}</section>}
           <section className="apr-map-route border-t border-slate-200 pt-4" aria-label="Построение маршрута"><h2 className="font-semibold text-slate-900 mb-1">Маршрут по острову</h2><p className="apr-map-route__note text-xs text-slate-500 mb-3">Время и расстояния демонстрационные. Линии на карте схематичны; маршрут до отеля пока не утверждён.</p>
-            <label className="block text-sm mb-1" htmlFor="route-from">Откуда</label><select id="route-from" className="w-full border rounded-lg p-2 mb-3 text-sm" value={from} onChange={e=>{setFrom(e.target.value);setRoute(null);}}><option value="">Выберите зону</option>{ZONES.filter(z=>z.id!=='grand-hotel').map(z=><option key={z.id} value={z.id}>{z.name}</option>)}</select>
-            <label className="block text-sm mb-1" htmlFor="route-to">Куда</label><select id="route-to" className="w-full border rounded-lg p-2 mb-3 text-sm" value={to} onChange={e=>{setTo(e.target.value);setRoute(null);}}><option value="">Выберите зону</option>{ZONES.filter(z=>z.id!=='grand-hotel').map(z=><option key={z.id} value={z.id}>{z.name}</option>)}</select>
+            <label className="block text-sm mb-1" htmlFor="route-from">Откуда</label>
+            <ZoneDropdown id="route-from" value={from} onChange={value=>{setFrom(value);setRoute(null);}} />
+            <label className="block text-sm mb-1" htmlFor="route-to">Куда</label>
+            <ZoneDropdown id="route-to" value={to} onChange={value=>{setTo(value);setRoute(null);}} />
             <fieldset className="mb-3"><legend className="text-sm mb-1">Способ передвижения</legend><div className="flex gap-3 flex-wrap"><label className="text-sm"><input type="radio" name="map-mode" checked={mode==='walk'} onChange={()=>{setMode('walk');setRoute(null);}} /> Пешком</label><label className="text-sm"><input type="radio" name="map-mode" checked={mode==='shuttle'} onChange={()=>{setMode('shuttle');setRoute(null);}} /> Paradise Loop</label></div></fieldset>
             <label className="text-sm flex items-center gap-2 mb-3"><input type="checkbox" checked={slow} onChange={e=>{setSlow(e.target.checked);setRoute(null);}} /> Медленный темп (3 км/ч)</label>
             <button type="button" disabled={!from||!to} onClick={buildRoute} className="apr-map-route__submit w-full text-white py-3 disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-teal-500">Построить маршрут</button>
