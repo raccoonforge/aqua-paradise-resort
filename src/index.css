@@ -1345,3 +1345,8 @@ body {
 .apr-catalog__modal-photo { display:flex; justify-content:center; align-items:center; height:270px; padding:25px; background:linear-gradient(145deg,#357d84,#133e49); color:#fff4db; text-align:center; font:italic 400 32px 'Cormorant Garamond',serif; }
 @media(max-width:640px) { .apr-catalog { padding-top:105px; } .apr-catalog__filters { padding:20px 16px; } .apr-catalog__filter-row select { flex-basis:100%; } .apr-catalog__photo { min-height:230px; } }
 @media(prefers-reduced-motion:reduce) { .apr-catalog__card { transition:none; } .apr-catalog__card:hover { transform:none; } }
+
+/* Attractions: tighten the opening rhythm beneath the transparent header. */
+.apr-catalog { padding-top: 88px; }
+.apr-catalog__intro { margin-bottom: 34px; }
+@media(max-width:640px) { .apr-catalog { padding-top: 84px; } }
