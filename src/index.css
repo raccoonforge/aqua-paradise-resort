@@ -1128,3 +1128,14 @@ body {
 .apr-main--home { padding-top: 0 !important; }
 .apr-main--inner { padding-top: 78px; }
 @media(max-width:639px) { .apr-main--inner { padding-top: 70px; } }
+
+/* Remove the dark halo that reads as a visible header band on ivory sections. */
+.apr-site-header .apr-brand__name,
+.apr-site-header .apr-brand__name small,
+.apr-site-header .apr-nav-link,
+.apr-site-header .apr-nav-link:hover,
+.apr-site-header .apr-nav-dropdown[open] > .apr-nav-link {
+  text-shadow: none !important;
+  filter: none !important;
+}
+.apr-site-header__inner,.apr-site-nav,.apr-brand { background: transparent !important; box-shadow: none !important; backdrop-filter: none !important; }
