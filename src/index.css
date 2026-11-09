@@ -1071,3 +1071,15 @@ body {
 .apr-footer__brand { display: flex; align-items: center; gap: 11px; }
 .apr-footer__brand .apr-brand__emblem { width: 39px; height: 39px; }
 @media(max-width:600px) { .apr-footer__brand .apr-brand__emblem { width: 35px; height: 35px; } }
+
+/* Header navigation polish — retain the approved logo and header behavior. */
+.apr-site-header__inner { gap: clamp(16px,1.8vw,28px); }
+.apr-site-nav { gap: clamp(15px,1.65vw,28px); }
+.apr-nav-link { font-size: clamp(12px,.93vw,13px); font-weight: 500; letter-spacing: .005em; padding: 12px 0; }
+.apr-nav-link::after { bottom: 5px; height: 1px; background: #efcf96; }
+.apr-nav-dropdown[open] > .apr-nav-link::after { right: 0; }
+.apr-nav-dropdown__panel { top: calc(100% + 8px); padding: 10px; border-radius: 12px; background: rgba(12,51,58,.98); border-color: rgba(239,207,150,.17); box-shadow: 0 18px 38px rgba(0,24,30,.24); }
+.apr-nav-dropdown__panel button { gap: 12px; padding: 12px; border-radius: 7px; transition: background .2s ease,color .2s ease; }
+.apr-nav-dropdown__panel button:hover,.apr-nav-dropdown__panel button:focus-visible { background: rgba(239,207,150,.1); }
+.apr-header-tickets { min-height: 42px; white-space: nowrap; }
+@media(prefers-reduced-motion:reduce) { .apr-nav-link::after,.apr-nav-dropdown__panel button { transition: none; } }
