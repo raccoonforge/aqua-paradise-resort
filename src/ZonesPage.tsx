@@ -235,16 +235,16 @@ export default function ZonesPage({ initialZone, initialTab }: { initialZone?: s
                 aria-current={activeZoneId === zone.id ? 'page' : undefined}
                 className={`apr-zones-switcher__item ${activeZoneId === zone.id ? 'is-active' : ''}`}
               >
-                <span className="apr-zones-switcher__icon" aria-hidden="true"><svg viewBox="0 0 32 32" fill="currentColor" stroke="none">
-{zone.id === 'paradise-boulevard' ? <><path d="M14 29h4l-1-13h-2zM16 14C11 7 6 7 2 11c5-1 9 1 13 6-6-3-10-1-12 4 5-3 9-3 13-4 4-2 8-1 12 3-1-6-5-8-11-6 4-5 8-6 13-4-4-5-9-5-14 4z"/></> :
-zone.id === 'paradise-market' ? <><path d="M6 13h20v14H6zM4 11l3-7h18l3 7z"/><path d="M8 13v3a3 3 0 0 0 6 0v-3m0 0v3a3 3 0 0 0 6 0v-3m0 0v3a3 3 0 0 0 6 0v-3" fill="none" stroke="#103e4b" strokeWidth="1.5"/><path d="M13 18h7v9h-7z" fill="#103e4b"/></> :
-zone.id === 'eden-gardens' ? <><path d="M16 29c-1-5-1-9 0-15l2 1c-1 5-1 10 0 14zM15 18C7 19 3 14 4 6c9 0 13 4 11 12zm4 4c-1-9 3-15 11-16 1 9-3 15-11 16zM13 26C7 27 3 23 2 18c7-1 11 2 11 8z"/></> :
-zone.id === 'little-paradise' ? <><path d="M7 18c-3-4-2-9 3-10 2-1 5 0 6 3 2-3 5-4 8-2 4 2 4 7 1 10l-3 2c-1 5-4 7-8 7-6 0-10-4-10-8 0-1 1-2 3-2z"/><circle cx="11" cy="15" r="1.4" fill="#103e4b"/><path d="m22 17 7 2-7 3z" /></> :
-zone.id === 'serenity-spa' ? <><path d="M16 22C8 17 9 11 16 3c7 8 8 14 0 19zM14 24C7 24 3 19 2 11c7 0 12 4 12 13zm4 0c0-9 5-13 12-13-1 8-5 13-12 13zM5 26c7-2 15-2 22 0l-3 3H8z"/></> :
-zone.id === 'pirates-cove' ? <><path d="M16 5c-6 0-10 4-10 10 0 5 3 8 6 9v4h3v-4h2v4h3v-4c4-2 6-5 6-9 0-6-4-10-10-10z"/><circle cx="11" cy="15" r="3" fill="#103e4b"/><circle cx="21" cy="15" r="3" fill="#103e4b"/><path d="m16 18-2 3h4z" fill="#103e4b"/><path d="M3 26 27 5l2 2L5 28zM5 5l24 21-2 2L3 7z"/></> :
-zone.id === 'atlantis-realm' ? <><path d="M16 3 3 12h26zM5 14h22v3H5zM7 18h4v8H7zm7 0h4v8h-4zm7 0h4v8h-4zM4 27h24v3H4z"/></> :
-zone.id === 'adrenaline-peak' ? <><path d="M3 26 13 6l5 10 4-7 8 17z"/><path d="m13 6-3 11 4-3 4 2zm9 3-2 10 3-3 3 3z" fill="#103e4b"/></> :
-<><path d="M3 18c4-9 11-15 18-13 6 2 9 8 8 14-4-5-8-7-13-5-4 2-5 7-3 10-4-1-8-3-10-6z"/><path d="M2 26c5-4 9-4 14 0 4 3 8 3 14-1v4c-6 4-11 4-16 0-4-3-8-3-12 0z"/></>}
+                <span className="apr-zones-switcher__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="white" stroke="none">
+{zone.id === 'paradise-boulevard' ? <><path d="M22 43h5l-2-21h-2z"/><path d="M24 20C18 9 11 8 4 15c9-1 13 2 19 9C13 19 7 22 5 29c8-5 13-5 19-5 6-4 12-3 19 4-2-9-8-13-17-9 5-8 11-10 19-7-7-9-15-8-21 8z"/></> :
+zone.id === 'paradise-market' ? <><path d="M12 18h24v24H12z"/><path d="M16 18v-6a8 8 0 0 1 16 0v6" fill="none" stroke="white" strokeWidth="4" strokeLinecap="round"/><path d="M18 24h12" stroke="#104753" strokeWidth="1.5" opacity=".35"/></> :
+zone.id === 'eden-gardens' ? <><path d="M24 43c-1-9-1-16 1-23l3 2c-2 7-2 14 0 21z"/><path d="M22 27C10 28 5 21 6 9c12 0 20 6 16 18zM29 32c-2-14 5-23 17-24 0 13-5 22-17 24zM21 39C10 39 4 34 2 25c10-1 17 4 19 14z"/></> :
+zone.id === 'little-paradise' ? <><path d="M9 28c-5-7-2-15 5-17 5-2 9 0 12 5 4-4 9-5 13-2 6 4 5 12 0 17l-5 2c-2 8-9 12-17 10-9-2-14-9-13-14z"/><circle cx="17" cy="23" r="2.4" fill="#104753"/><path d="m36 25 10 4-10 5z"/></> :
+zone.id === 'serenity-spa' ? <><path d="M24 34C13 27 13 17 24 4c11 13 11 23 0 30zM21 36C10 37 3 30 2 18c12 0 19 6 19 18zm6 0c0-12 7-18 19-18-1 12-8 19-19 18zM9 40c10-3 20-3 30 0l-4 4H13z"/></> :
+zone.id === 'pirates-cove' ? <><path d="M24 6C14 6 9 12 9 21c0 7 4 12 9 14v7h4v-6h4v6h4v-7c6-3 9-8 9-14C39 12 33 6 24 6z"/><path d="M3 39 42 7l3 4L6 43zM6 7l39 32-3 4L3 11z"/><circle cx="17" cy="21" r="5" fill="#104753"/><circle cx="31" cy="21" r="5" fill="#104753"/><path d="m24 26-4 6h8z" fill="#104753"/></> :
+zone.id === 'atlantis-realm' ? <><path d="M24 5 3 18h42zM8 21h32v4H8zM11 27h5v13h-5zm10 0h6v13h-6zm11 0h5v13h-5zM5 41h38v4H5z"/></> :
+zone.id === 'adrenaline-peak' ? <><path d="M2 40 18 10l8 13 5-8 15 25z"/><path d="m18 10-6 16 7-5 7 3zm13 5-4 13 5-5 7 5z" fill="#104753"/><path d="M4 43h40" stroke="white" strokeWidth="2"/></> :
+<><path d="M3 28C8 14 19 6 30 9c10 3 16 13 14 23-6-8-12-11-20-8-7 3-9 10-6 15C10 37 5 33 3 28z"/><path d="M2 40c7-5 13-5 20 0 7 5 14 5 24-2v5c-9 7-18 7-26 1-6-4-11-4-18 1z"/></>}
 </svg></span><span className="apr-zones-switcher__copy"><span className="apr-zones-switcher__number" aria-hidden="true">{String(zonesData.indexOf(zone) + 1).padStart(2, '0')}</span>
                 <span className="apr-zones-switcher__name">{zone.name}</span></span>
               </button>
