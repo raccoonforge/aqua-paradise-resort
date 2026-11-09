@@ -252,6 +252,26 @@ useEffect(() => {
       <section ref={mapRef} aria-label="Схематическая карта острова" className="apr-map-stage relative flex-1 min-h-0 md:w-[70%] overflow-hidden touch-none" onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={onPointerUp}>
         <div className="absolute inset-0 opacity-25 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#64748b 1px, transparent 1px)', backgroundSize: '40px 40px' }} aria-hidden="true" />
         <div className="absolute inset-0" style={{ transform: `translate(${pan.x}px,${pan.y}px) scale(${zoom})`, transformOrigin: 'center' }}>
+          {/* Temporary coast silhouette: broad northern crown, tapered southern arrival. Not surveyed geography. */}
+          <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="apr-island-land" x1="0" y1="0" x2="0.8" y2="1"><stop stopColor="#82b18d"/><stop offset=".55" stopColor="#6b9e79"/><stop offset="1" stopColor="#477d66"/></linearGradient>
+              <linearGradient id="apr-island-water" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#bce4d6"/><stop offset="1" stopColor="#76bdba"/></linearGradient>
+              <filter id="apr-island-shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#1c5a5d" floodOpacity=".28"/></filter>
+              <clipPath id="apr-island-clip"><path d="M49 9 C33 7 18 12 14 26 C9 39 14 52 22 61 C30 71 41 76 45 89 Q49 97 53 89 C58 77 70 68 79 56 C90 42 90 29 82 18 C74 9 60 7 49 9Z"/></clipPath>
+            </defs>
+            <path d="M49 9 C33 7 18 12 14 26 C9 39 14 52 22 61 C30 71 41 76 45 89 Q49 97 53 89 C58 77 70 68 79 56 C90 42 90 29 82 18 C74 9 60 7 49 9Z" fill="none" stroke="url(#apr-island-water)" strokeWidth="7" opacity=".5"/>
+            <path d="M49 9 C33 7 18 12 14 26 C9 39 14 52 22 61 C30 71 41 76 45 89 Q49 97 53 89 C58 77 70 68 79 56 C90 42 90 29 82 18 C74 9 60 7 49 9Z" fill="url(#apr-island-land)" stroke="#ebd7a7" strokeWidth="1.8" filter="url(#apr-island-shadow)"/>
+            <g clipPath="url(#apr-island-clip)" opacity=".38">
+              <path d="M10 44Q36 30 61 43T93 40M13 60Q42 50 62 64T90 61" fill="none" stroke="#d6e6bb" strokeWidth="2.3" strokeDasharray="2 2"/>
+              <ellipse cx="49" cy="52" rx="13" ry="15" fill="#377456" opacity=".65"/>
+              <ellipse cx="50" cy="29" rx="12" ry="8" fill="#477b62" opacity=".75"/>
+              <ellipse cx="69" cy="24" rx="12" ry="8" fill="#d9c99b" opacity=".8"/>
+              <ellipse cx="30" cy="27" rx="11" ry="7" fill="#d6cda8" opacity=".7"/>
+              <ellipse cx="70" cy="46" rx="8" ry="10" fill="#73b5a2" opacity=".75"/>
+              <ellipse cx="31" cy="46" rx="8" ry="10" fill="#72a5a0" opacity=".7"/>
+            </g>
+          </svg>
           <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
             {/* Дорожная сеть ещё не утверждена: не изображаем прямые линии как реальные дорожки. */}
             {drawSegments.map((s,i) => { const a=nodeById(s.from)!; const b=nodeById(s.to)!; return <line key={`${i}-${s.from}`} x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke={s.mode === 'shuttle' ? '#d97706' : '#0d9488'} strokeWidth="0.9" strokeDasharray={s.mode === 'shuttle' ? '1.5 1' : undefined} />; })}
