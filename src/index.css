@@ -1462,3 +1462,7 @@ body {
 .apr-map-detail__subitem p { font-size:13px; line-height:1.7; }
 .apr-map-stage .apr-map-notice { font-size:13px; line-height:1.5; }
 @media(max-width:767px) { .apr-map-panel .text-xs { font-size:13px; } }
+
+/* Map sidebar section headings: clearly separate from body text. */
+.apr-map-panel section > h2.font-semibold { font-family:'Cormorant Garamond',serif; font-size:27px; font-weight:600; line-height:1.18; letter-spacing:-.01em; color:#163f48; margin-bottom:14px; }
+.apr-map-panel section[aria-label="Построение маршрута"] > h2 { margin-bottom:10px; }
