@@ -295,10 +295,10 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
                 className="apr-catalog__card group text-left focus:outline-none focus-visible:ring-4 focus-visible:ring-teal-300"
               >
                 <div className="apr-catalog__photo">
-                  [Фото: {ride.name}]
+                  <span className="apr-catalog__photo-placeholder" aria-hidden="true">МЕСТО ДЛЯ ФОТОГРАФИИ</span>
                 </div>
                 <div className="apr-catalog__card-body p-5">
-                  <span className="text-xs font-bold text-teal-600 tracking-wider uppercase mb-1 block">{ride.zone}</span>
+                  <div className="apr-catalog__card-heading"><span className="apr-catalog__zone">{ride.zone}</span><span className="apr-catalog__card-arrow" aria-hidden="true">↗</span></div>
                   <h3 className="apr-catalog__card-title mb-2">{ride.name}</h3>
                   <p className="text-gray-600 text-sm line-clamp-2">{ride.desc}</p>
 
