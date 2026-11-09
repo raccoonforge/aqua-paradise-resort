@@ -1112,3 +1112,19 @@ body {
 .apr-site-header .apr-brand__name,.apr-site-header .apr-nav-link {
   text-shadow: 0 1px 5px rgba(2,24,29,.65), 0 2px 13px rgba(2,24,29,.38);
 }
+
+/* Structural fix: overlay the content instead of reserving a sticky header row. */
+.apr-site-header,.apr-site-header--hero,.apr-site-header--solid {
+  position: fixed !important;
+  inset: 0 0 auto 0;
+  width: 100%;
+  margin: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+.apr-main--home { padding-top: 0 !important; }
+.apr-main--inner { padding-top: 78px; }
+@media(max-width:639px) { .apr-main--inner { padding-top: 70px; } }
