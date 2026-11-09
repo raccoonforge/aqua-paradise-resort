@@ -115,30 +115,49 @@ function ZoneDropdown({ id, value, onChange }: { id: string; value: string; onCh
   const selected = options.find(z => z.id === value);
   useEffect(() => {
     if (!open) return;
-    const closeOutside = (event: MouseEvent) => { if (!root.current?.contains(event.target as globalThis.Node)) setOpen(false); };
-    document.addEventListener('pointerdown', closeOutside);
-    return () => document.removeEventListener('pointerdown', closeOutside);
+    const outside = (event: globalThis.PointerEvent) => {
+      if (!root.current?.contains(event.target as globalThis.Node)) setOpen(false);
+    };
+    document.addEventListener('pointerdown', outside);
+    return () => document.removeEventListener('pointerdown', outside);
   }, [open]);
-  const choose = (next: string) => { onChange(next); setOpen(false); root.current?.querySelector<HTMLButtonElement>('.apr-zone-select__trigger')?.focus(); };
+  const choose = (next: string) => {
+    onChange(next);
+    setOpen(false);
+    root.current?.querySelector<HTMLButtonElement>('[data-zone-trigger]')?.focus();
+  };
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === 'Escape' && open) { event.preventDefault(); setOpen(false); root.current?.querySelector<HTMLButtonElement>('.apr-zone-select__trigger')?.focus(); }
+    if (event.key === 'Escape' && open) {
+      event.preventDefault();
+      setOpen(false);
+      root.current?.querySelector<HTMLButtonElement>('[data-zone-trigger]')?.focus();
+    }
     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       event.preventDefault();
       if (!open) { setOpen(true); return; }
-      const buttons = Array.from(root.current?.querySelectorAll<HTMLButtonElement>('.apr-zone-select__option') ?? []);
+      const buttons = Array.from(root.current?.querySelectorAll<HTMLButtonElement>('[data-zone-option]') ?? []);
       const index = buttons.indexOf(document.activeElement as HTMLButtonElement);
       buttons[(index + (event.key === 'ArrowDown' ? 1 : -1) + buttons.length) % buttons.length]?.focus();
     }
-    if (event.key === 'Home' && open) { event.preventDefault(); root.current?.querySelector<HTMLButtonElement>('.apr-zone-select__option')?.focus(); }
-    if (event.key === 'End' && open) { event.preventDefault(); const buttons = root.current?.querySelectorAll<HTMLButtonElement>('.apr-zone-select__option'); buttons?.[buttons.length - 1]?.focus(); }
+    if (event.key === 'Home' && open) { event.preventDefault(); root.current?.querySelector<HTMLButtonElement>('[data-zone-option]')?.focus(); }
+    if (event.key === 'End' && open) {
+      event.preventDefault();
+      const buttons = root.current?.querySelectorAll<HTMLButtonElement>('[data-zone-option]');
+      buttons?.[buttons.length - 1]?.focus();
+    }
   };
-  return <div className="apr-zone-select" ref={root} onKeyDown={onKeyDown}>
-    <button id={id} type="button" className="apr-zone-select__trigger" aria-expanded={open} aria-controls={id + '-options'} aria-haspopup="true" onClick={()=>setOpen(v=>!v)}>
-      <span>{selected?.name ?? 'Выберите зону'}</span><span className="apr-zone-select__chevron" aria-hidden="true">⌄</span>
+  return <div ref={root} onKeyDown={onKeyDown} style={{position:'relative',width:'100%',marginBottom:15,fontFamily:'Manrope, sans-serif'}}>
+    <button id={id} data-zone-trigger type="button" aria-expanded={open} aria-controls={id+'-options'} aria-haspopup="true" onClick={()=>setOpen(v=>!v)}
+      style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12,width:'100%',minHeight:46,padding:'10px 15px',border:'1px solid '+(open?'#b99564':'#dcd4c5'),borderRadius:4,background:'#fffdf9',color:'#1b454c',fontSize:14,textAlign:'left',cursor:'pointer'}}>
+      <span>{selected?.name ?? 'Выберите зону'}</span><span aria-hidden="true" style={{fontSize:22,lineHeight:1,color:'#37616a'}}>⌄</span>
     </button>
-    {open && <div id={id + '-options'} className="apr-zone-select__options" role="group" aria-label="Выбор зоны">
-      <button type="button" className="apr-zone-select__option" aria-current={!value ? 'true' : undefined} onClick={()=>choose('')}>Выберите зону</button>
-      {options.map(z=><button key={z.id} type="button" className="apr-zone-select__option" aria-current={value===z.id ? 'true' : undefined} onClick={()=>choose(z.id)}>{z.name}{value===z.id && <span aria-hidden="true">✓</span>}</button>)}
+    {open && <div id={id+'-options'} role="group" aria-label="Выбор зоны"
+      style={{position:'absolute',top:'calc(100% + 4px)',left:0,right:0,zIndex:100,maxHeight:'min(310px, 45dvh)',overflowY:'auto',padding:6,border:'1px solid #d8c9af',borderRadius:5,background:'#fffcf7',boxShadow:'0 12px 28px rgba(18,55,60,.18)'}}>
+      <button data-zone-option type="button" onClick={()=>choose('')} style={{display:'block',width:'100%',minHeight:39,padding:'9px 11px',border:0,borderRadius:3,background:!value?'#f2e9d9':'transparent',color:'#214a51',fontSize:14,textAlign:'left',cursor:'pointer'}}>Выберите зону</button>
+      {options.map(z=><button data-zone-option key={z.id} type="button" aria-current={value===z.id?'true':undefined} onClick={()=>choose(z.id)}
+        style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:8,width:'100%',minHeight:39,padding:'9px 11px',border:0,borderRadius:3,background:value===z.id?'#f2e9d9':'transparent',color:value===z.id?'#79572e':'#214a51',fontSize:14,textAlign:'left',cursor:'pointer'}}>
+        <span>{z.name}</span>{value===z.id&&<span aria-hidden="true" style={{color:'#ad8552'}}>✓</span>}
+      </button>)}
     </div>}
   </div>;
 }
