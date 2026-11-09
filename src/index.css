@@ -1447,3 +1447,18 @@ body {
 .apr-map-back { text-decoration:none; }
 .apr-map-back:hover { text-decoration:underline; }
 @media(prefers-reduced-motion:reduce) { .apr-map-pin__dot { transition:none; } }
+
+/* Map typography readability pass: keep editorial hierarchy, lift tiny UI text. */
+.apr-map-panel { font-size:14px; }
+.apr-map-panel .text-xs { font-size:13px; line-height:1.55; }
+.apr-map-panel .text-sm { font-size:14px; line-height:1.6; }
+.apr-map-panel input,.apr-map-panel select { font-size:14px; }
+.apr-map-panel button { line-height:1.45; }
+.apr-map-detail__photo span { font-size:12px; letter-spacing:.11em; }
+.apr-map-detail__eyebrow { font-size:12px; letter-spacing:.1em; }
+.apr-map-detail__desc { font-size:14px; line-height:1.75; }
+.apr-map-detail__actions button { font-size:13px; }
+.apr-map-detail__subitem strong { font-size:14px; }
+.apr-map-detail__subitem p { font-size:13px; line-height:1.7; }
+.apr-map-stage .apr-map-notice { font-size:13px; line-height:1.5; }
+@media(max-width:767px) { .apr-map-panel .text-xs { font-size:13px; } }
