@@ -1365,3 +1365,21 @@ body {
 .apr-catalog__card-body > p { min-height:44px; }
 .apr-catalog__card-body > div:last-child { margin-top:19px; gap:7px; }
 @media(prefers-reduced-motion:reduce) { .apr-catalog__card-arrow { transition:none; } }
+
+/* Attraction detail dialog: Luxury Editorial, with a photo-ready panorama. */
+.apr-catalog__modal { background:#fffcf7; border:1px solid #e5dccb; border-radius:7px; color:#1a4249; }
+.apr-catalog__modal-close { display:grid; place-items:center; width:40px; height:40px; border-radius:50%; background:#fffcf7; color:#16434c; box-shadow:0 3px 14px rgba(10,38,45,.18); font-size:20px; }
+.apr-catalog__modal-close:hover { background:#f0e8d8; }
+.apr-catalog__modal-photo { position:relative; height:clamp(230px,34vw,350px); background:radial-gradient(ellipse at 76% 22%,#477f86,#24616c 50%,#103d48); }
+.apr-catalog__modal-photo::after { content:''; position:absolute; inset:18px; border:1px solid rgba(235,212,168,.3); pointer-events:none; }
+.apr-catalog__modal-placeholder { font:600 10px/1.6 Manrope,sans-serif; letter-spacing:.18em; color:#e8d1a7; }
+.apr-catalog__modal-content { padding:clamp(24px,4vw,42px); }
+.apr-catalog__modal-zone { display:block; margin-bottom:9px; color:#a47e4d; font:600 11px/1.5 Manrope,sans-serif; letter-spacing:.17em; text-transform:uppercase; }
+.apr-catalog__modal-title { color:#143e47; font:500 clamp(40px,5vw,62px)/1 'Cormorant Garamond',serif; }
+.apr-catalog__modal-description { color:#536c6e; font:400 14px/1.85 Manrope,sans-serif; }
+.apr-catalog__modal-facts > div { padding:19px 20px; border:1px solid #e7dfd0; border-radius:4px; background:#f7f3eb; }
+.apr-catalog__modal-facts > div > span:first-child { color:#9a784c; font:600 10px/1.5 Manrope,sans-serif; letter-spacing:.13em; }
+.apr-catalog__modal-facts > div > span:last-child { display:block; margin-top:7px; color:#234d54; font:500 14px/1.5 Manrope,sans-serif; }
+.apr-catalog__modal-safety { padding:19px 22px; background:#f3ede2; border-left:2px solid #b58d55; color:#4a5d5e; font:400 13px/1.8 Manrope,sans-serif; }
+.apr-catalog__modal-safety-title { display:block; margin-bottom:6px; color:#936e3d; font:700 11px/1.5 Manrope,sans-serif; letter-spacing:.07em; }
+@media(max-width:640px) { .apr-catalog__modal { max-height:96dvh; } .apr-catalog__modal-facts { gap:9px; } .apr-catalog__modal-facts > div { padding:14px; } }
