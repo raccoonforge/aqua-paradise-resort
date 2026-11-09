@@ -1255,3 +1255,6 @@ body {
 /* Center traced pictograms within the round thumbnail, independent of text alignment. */
 .apr-zones-switcher__icon { display: flex; align-items: center; justify-content: center; padding: 0; line-height: 0; }
 .apr-zones-switcher__icon svg { display: block; flex: 0 0 32px; width: 32px; height: 32px; transform: translate(0, -2px); }
+
+/* Keep pictogram at its original size; centering is handled per SVG artwork viewport. */
+.apr-zones-switcher__icon svg { width: 27px; height: 27px; flex: 0 0 27px; transform: none; }
