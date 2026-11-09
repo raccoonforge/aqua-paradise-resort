@@ -235,8 +235,8 @@ export default function ZonesPage({ initialZone, initialTab }: { initialZone?: s
                 aria-current={activeZoneId === zone.id ? 'page' : undefined}
                 className={`apr-zones-switcher__item ${activeZoneId === zone.id ? 'is-active' : ''}`}
               >
-                <span className="apr-zones-switcher__number" aria-hidden="true">{String(zonesData.indexOf(zone) + 1).padStart(2, '0')}</span><span className="apr-zones-switcher__icon" aria-hidden="true">{zone.icon}</span>
-                <span className="apr-zones-switcher__name">{zone.name}</span>
+                <span className="apr-zones-switcher__icon" aria-hidden="true">{zone.icon}</span><span className="apr-zones-switcher__copy"><span className="apr-zones-switcher__number" aria-hidden="true">{String(zonesData.indexOf(zone) + 1).padStart(2, '0')}</span>
+                <span className="apr-zones-switcher__name">{zone.name}</span></span>
               </button>
             ))}
           </div>
@@ -252,12 +252,12 @@ export default function ZonesPage({ initialZone, initialTab }: { initialZone?: s
 
           <div className="apr-zones-details">
             <div className="apr-zones-intro">
-              <span className="apr-zones-eyebrow">DISCOVER YOUR PARADISE</span><h1>{activeZone.name}</h1>
+              <span className="apr-zones-eyebrow">ZONE {String(zonesData.findIndex(zone => zone.id === activeZoneId) + 1).padStart(2, '0')} · DISCOVER YOUR PARADISE</span><h1>{activeZone.name}</h1>
               <p className="text-xs text-teal-700 font-semibold mb-3">Часы работы зоны: {activeZone.hours}</p>
               <p className="text-lg text-gray-600 leading-relaxed">{activeZone.desc}</p>
             </div>
             <div className="apr-zones-detail-card">
-              <div role="tablist" aria-label={`Сведения о зоне ${activeZone.name}`} className="flex border-b border-gray-100 bg-gray-50/50 overflow-x-auto">
+              <div role="tablist" aria-label={`Сведения о зоне ${activeZone.name}`} className="apr-zones-tabs">
                 {TABS.map((tab, index) => (
                   <button
                     id={`zone-tab-${tab.id}`} key={tab.id} type="button" role="tab"
@@ -274,7 +274,7 @@ export default function ZonesPage({ initialZone, initialTab }: { initialZone?: s
                         document.getElementById(`zone-tab-${TABS[next].id}`)?.focus();
                       }
                     }}
-                      className={`flex-none shrink-0 whitespace-nowrap min-w-max px-4 py-4 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-teal-600 ${activeTab === tab.id ? 'text-teal-600 border-b-2 border-teal-600 bg-white' : 'text-gray-500 hover:text-gray-800'}`}
+                      className={`apr-zones-tab ${activeTab === tab.id ? 'is-active' : ''}`}
                   >{tab.label}</button>
                 ))}
               </div>
