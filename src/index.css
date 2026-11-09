@@ -1466,3 +1466,22 @@ body {
 /* Map sidebar section headings: clearly separate from body text. */
 .apr-map-panel section > h2.font-semibold { font-family:'Cormorant Garamond',serif; font-size:27px; font-weight:600; line-height:1.18; letter-spacing:-.01em; color:#163f48; margin-bottom:14px; }
 .apr-map-panel section[aria-label="Построение маршрута"] > h2 { margin-bottom:10px; }
+
+/* Paradise Loop navigator: quiet luxury controls and legible route summary. */
+.apr-map-route { padding-top:22px; }
+.apr-map-route__note { color:#687b7a; line-height:1.7; margin-bottom:18px; }
+.apr-map-route > label:not(.flex),.apr-map-route fieldset legend { color:#234c53; font-weight:600; font-size:13px; margin-bottom:7px; }
+.apr-map-route select { min-height:44px; padding:10px 12px; margin-bottom:15px; border:1px solid #dcd4c5; border-radius:4px; background:#fffdf9; font-size:14px; }
+.apr-map-route fieldset { padding:12px 14px; background:#f8f4ed; border:1px solid #e6ded1; border-radius:4px; }
+.apr-map-route fieldset legend { padding:0 5px; }
+.apr-map-route fieldset label { display:inline-flex; align-items:center; gap:6px; color:#315960; }
+.apr-map-route input[type="radio"],.apr-map-route input[type="checkbox"] { width:16px; height:16px; accent-color:#155462; flex-shrink:0; }
+.apr-map-route > label.flex { color:#426369; font-size:13px; line-height:1.6; margin:16px 0; }
+.apr-map-route__submit { background:linear-gradient(105deg,#12444f,#1c6670); border:1px solid #b99b6d; border-radius:4px; min-height:46px; font-size:14px; font-weight:600; letter-spacing:.015em; }
+.apr-map-route__submit:not(:disabled):hover { background:linear-gradient(105deg,#0f3842,#16525b); }
+.apr-map-route__result { background:#f4f7f1; border-color:#c7d6c8; border-radius:4px; padding:16px; color:#32545a; line-height:1.65; }
+.apr-map-route__summary { color:#174b54; font-size:15px; }
+.apr-map-route__result ol { padding-left:4px; }
+.apr-map-route__result li { margin-bottom:7px; }
+.apr-map-route__reset { color:#8a554a; font-size:13px; }
+@media(max-width:767px) { .apr-map-route fieldset { padding:10px 12px; } }
