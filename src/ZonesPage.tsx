@@ -223,41 +223,39 @@ export default function ZonesPage({ initialZone, initialTab }: { initialZone?: s
   ].filter(group => group.items && group.items.length > 0);
 
   return (
-    <div className="bg-[#f8f9fa] min-h-screen pb-20">
-      <div className="bg-white border-b border-gray-200 sticky top-16 z-40 shadow-sm">
-        <nav aria-label="Тематические зоны" className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex overflow-x-auto gap-3 pb-2 scrollbar-hide">
+    <div className="apr-zones-page min-h-screen pb-20">
+      <div className="apr-zones-switcher">
+        <nav aria-label="Тематические зоны" className="apr-zones-switcher__inner">
+          <div className="apr-zones-switcher__track">
             {zonesData.map(zone => (
               <button
                 type="button" key={zone.id}
                 onClick={() => setSelection(zone.id, 'overview')}
                 aria-label={`Открыть зону ${zone.name}`}
                 aria-current={activeZoneId === zone.id ? 'page' : undefined}
-                className={`flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-lg border transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 ${activeZoneId === zone.id ? 'border-teal-500 bg-teal-50 text-teal-800 shadow-sm' : 'border-gray-200 hover:border-teal-300 text-gray-600 bg-white'}`}
+                className={`apr-zones-switcher__item ${activeZoneId === zone.id ? 'is-active' : ''}`}
               >
-                <span className="text-xl" aria-hidden="true">{zone.icon}</span>
-                <span className="text-sm font-medium whitespace-nowrap">{zone.name}</span>
+                <span className="apr-zones-switcher__number" aria-hidden="true">{String(zonesData.indexOf(zone) + 1).padStart(2, '0')}</span><span className="apr-zones-switcher__icon" aria-hidden="true">{zone.icon}</span>
+                <span className="apr-zones-switcher__name">{zone.name}</span>
               </button>
             ))}
           </div>
         </nav>
       </div>
 
-      <main className="max-w-7xl mx-auto px-4 mt-8">
-        <div className="flex flex-col lg:flex-row gap-8">
-          <div className="w-full lg:w-[55%] flex flex-col gap-4">
-            <div className="w-full aspect-video bg-gradient-to-br from-teal-300 to-cyan-600 rounded-2xl shadow-lg flex items-center justify-center text-white text-xl font-serif text-center px-3">
-              [Панорама: {activeZone.name}]
-            </div>
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-              <h1 className="text-4xl font-serif text-gray-900 mb-3">{activeZone.name}</h1>
+      <main className="apr-zones-main">
+        <div className="apr-zones-layout">
+          <div className="apr-zones-visual">
+            <div className="apr-zones-panorama" role="img" aria-label={`Место для будущей панорамной фотографии ${activeZone.name}`}><span className="apr-zones-panorama__eyebrow">AQUA PARADISE · THE NINE WORLDS</span><span className="apr-zones-panorama__mark">◇</span><span className="apr-zones-panorama__label">МЕСТО ДЛЯ ПАНОРАМЫ</span><strong>{activeZone.name}</strong><span className="apr-zones-panorama__index">{String(zonesData.findIndex(zone => zone.id === activeZoneId) + 1).padStart(2, '0')} / 09</span></div>
+            <div className="apr-zones-intro">
+              <span className="apr-zones-eyebrow">DISCOVER YOUR PARADISE</span><h1>{activeZone.name}</h1>
               <p className="text-xs text-teal-700 font-semibold mb-3">Часы работы зоны: {activeZone.hours}</p>
               <p className="text-lg text-gray-600 leading-relaxed">{activeZone.desc}</p>
             </div>
           </div>
 
-          <div className="w-full lg:w-[45%] min-w-0">
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden min-h-[500px] flex flex-col">
+          <div className="apr-zones-details">
+            <div className="apr-zones-detail-card">
               <div role="tablist" aria-label={`Сведения о зоне ${activeZone.name}`} className="flex border-b border-gray-100 bg-gray-50/50 overflow-x-auto">
                 {TABS.map((tab, index) => (
                   <button
