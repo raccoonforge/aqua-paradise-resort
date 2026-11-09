@@ -247,14 +247,15 @@ export default function ZonesPage({ initialZone, initialTab }: { initialZone?: s
         <div className="apr-zones-layout">
           <div className="apr-zones-visual">
             <div className="apr-zones-panorama" role="img" aria-label={`Место для будущей панорамной фотографии ${activeZone.name}`}><span className="apr-zones-panorama__eyebrow">AQUA PARADISE · THE NINE WORLDS</span><span className="apr-zones-panorama__mark">◇</span><span className="apr-zones-panorama__label">МЕСТО ДЛЯ ПАНОРАМЫ</span><strong>{activeZone.name}</strong><span className="apr-zones-panorama__index">{String(zonesData.findIndex(zone => zone.id === activeZoneId) + 1).padStart(2, '0')} / 09</span></div>
+
+          </div>
+
+          <div className="apr-zones-details">
             <div className="apr-zones-intro">
               <span className="apr-zones-eyebrow">DISCOVER YOUR PARADISE</span><h1>{activeZone.name}</h1>
               <p className="text-xs text-teal-700 font-semibold mb-3">Часы работы зоны: {activeZone.hours}</p>
               <p className="text-lg text-gray-600 leading-relaxed">{activeZone.desc}</p>
             </div>
-          </div>
-
-          <div className="apr-zones-details">
             <div className="apr-zones-detail-card">
               <div role="tablist" aria-label={`Сведения о зоне ${activeZone.name}`} className="flex border-b border-gray-100 bg-gray-50/50 overflow-x-auto">
                 {TABS.map((tab, index) => (
