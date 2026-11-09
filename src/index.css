@@ -1383,3 +1383,24 @@ body {
 .apr-catalog__modal-safety { padding:19px 22px; background:#f3ede2; border-left:2px solid #b58d55; color:#4a5d5e; font:400 13px/1.8 Manrope,sans-serif; }
 .apr-catalog__modal-safety-title { display:block; margin-bottom:6px; color:#936e3d; font:700 11px/1.5 Manrope,sans-serif; letter-spacing:.07em; }
 @media(max-width:640px) { .apr-catalog__modal { max-height:96dvh; } .apr-catalog__modal-facts { gap:9px; } .apr-catalog__modal-facts > div { padding:14px; } }
+
+/* Compact attraction dialog: landscape split on desktop, stacked on phones. */
+@media(min-width:768px) {
+ .apr-catalog__modal { display:grid; grid-template-columns:minmax(0, .82fr) minmax(0, 1fr); width:min(920px,calc(100vw - 48px)); max-width:920px; max-height:min(680px,calc(100dvh - 48px)); overflow-y:auto; }
+ .apr-catalog__modal-photo { height:auto; min-height:100%; align-self:stretch; }
+ .apr-catalog__modal-content { padding:34px 32px; }
+ .apr-catalog__modal-title { font-size:clamp(38px,4vw,52px); margin-bottom:12px; }
+ .apr-catalog__modal-description { margin-bottom:17px; line-height:1.65; }
+ .apr-catalog__modal-facts { margin-bottom:16px; gap:9px; }
+ .apr-catalog__modal-facts > div { padding:12px 14px; }
+ .apr-catalog__modal-safety { padding:13px 16px; }
+}
+@media(max-width:767px) {
+ .apr-catalog__modal { max-height:calc(100dvh - 24px); }
+ .apr-catalog__modal-photo { height:145px; }
+ .apr-catalog__modal-content { padding:20px 22px 24px; }
+ .apr-catalog__modal-title { font-size:38px; margin-bottom:9px; }
+ .apr-catalog__modal-description { margin-bottom:13px; line-height:1.6; }
+ .apr-catalog__modal-facts { margin-bottom:13px; }
+ .apr-catalog__modal-safety { padding:13px 16px; }
+}
