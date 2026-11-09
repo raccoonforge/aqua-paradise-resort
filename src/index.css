@@ -1171,3 +1171,9 @@ body {
 .apr-mobile-drawer__brand .apr-brand__emblem { width: 49px; height: 49px; flex: 0 0 49px; }
 .apr-mobile-drawer__brand .apr-brand__name { display: flex; flex-direction: column; min-width: 0; line-height: 1.05; }
 @media(max-width:420px) { .apr-mobile-drawer__brand { gap: 8px; } .apr-mobile-drawer__brand .apr-brand__emblem { width: 40px; height: 40px; flex-basis: 40px; } .apr-mobile-drawer__brand .apr-brand__name { font-size: 24px; } }
+
+/* Shared bespoke line icons for desktop dropdowns and compact navigation. */
+.apr-menu-icon { width: 22px; height: 22px; flex: 0 0 22px; color: #efcf96; stroke-width: 1.5; }
+.apr-mobile-submenu button { display: flex; align-items: center; gap: 12px; }
+.apr-mobile-submenu .apr-menu-icon { width: 20px; height: 20px; flex-basis: 20px; transition: color .2s ease; }
+.apr-mobile-submenu button:hover .apr-menu-icon,.apr-nav-dropdown__panel button:hover .apr-menu-icon { color: #fff1d2; }
