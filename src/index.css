@@ -1248,3 +1248,6 @@ body {
 
 /* Fix: prevent small SVG icons from collapsing into solid white blobs. */
 .apr-zones-switcher__icon svg { fill: none; stroke: #fff; stroke-width: 1.65; stroke-linecap: round; stroke-linejoin: round; width: 27px; height: 27px; }
+
+/* Approved variant 3: solid white pictograms, not stroked line drawings. */
+.apr-zones-switcher__icon svg { fill: #fff; stroke: none; stroke-width: 0; width: 28px; height: 28px; }
