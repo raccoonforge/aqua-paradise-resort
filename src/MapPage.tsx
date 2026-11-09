@@ -10,7 +10,7 @@ type Route = { segments: Segment[]; minutes: number; walkMetres: number; explana
 const ZONES: readonly Node[] = [
   { id: 'paradise-boulevard', name: 'Paradise Boulevard', x: 48.5, y: 80.2, color: '#14b8a6', desc: 'Входная зона и главная аллея' },
   { id: 'paradise-market', name: 'Paradise Market', x: 47.8, y: 73.0, color: '#f59e0b', desc: 'Торгово-ресторанный квартал' },
-  { id: 'eden-gardens', name: 'Eden Gardens', x: 47.2, y: 57.0, color: '#22c55e', desc: 'Ботанический сад и зона отдыха' },
+  { id: 'eden-gardens', name: 'Eden Gardens', x: 49.0, y: 52.0, color: '#22c55e', desc: 'Ботанический сад и зона отдыха' },
   { id: 'little-paradise', name: 'Little Paradise', x: 68.2, y: 64.2, color: '#f472b6', desc: 'Детская зона' },
   { id: 'serenity-spa', name: 'Serenity Spa', x: 31.2, y: 64.7, color: '#a855f7', desc: 'Зона спокойного отдыха' },
   { id: 'adrenaline-peak', name: 'Adrenaline Peak', x: 49.7, y: 30.1, color: '#ef4444', desc: 'Экстремальные аттракционы' },
