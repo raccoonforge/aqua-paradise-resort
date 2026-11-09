@@ -1139,3 +1139,14 @@ body {
   filter: none !important;
 }
 .apr-site-header__inner,.apr-site-nav,.apr-brand { background: transparent !important; box-shadow: none !important; backdrop-filter: none !important; }
+
+/* Disappearing Header: visible at top and when scrolling upward, compact menu while scrolling down. */
+.apr-site-header { transition: transform .34s cubic-bezier(.22,1,.36,1) !important; will-change: transform; }
+.apr-site-header--hidden { transform: translateY(-110%); pointer-events: none; }
+.apr-header-quick-menu { position: fixed; z-index: 75; top: 17px; right: clamp(20px,3vw,44px); width: 46px; height: 46px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px; border-radius: 50%; border: 1px solid rgba(239,207,150,.68); background: #103a40; box-shadow: 0 8px 22px rgba(0,20,25,.16); opacity: 0; visibility: hidden; transform: translateY(-8px); pointer-events: none; transition: opacity .25s ease,visibility .25s ease,transform .25s ease,background .2s ease; }
+.apr-header-quick-menu span { width: 17px; height: 1.5px; background: #efcf96; border-radius: 2px; }
+.apr-header-quick-menu--visible { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
+.apr-header-quick-menu:hover { background: #18515a; }
+.apr-header-quick-menu:focus-visible { outline: 2px solid #efcf96; outline-offset: 3px; }
+@media(max-width:639px) { .apr-header-quick-menu { top: 12px; right: 16px; width: 42px; height: 42px; } }
+@media(prefers-reduced-motion:reduce) { .apr-site-header,.apr-header-quick-menu { transition: none !important; } }
