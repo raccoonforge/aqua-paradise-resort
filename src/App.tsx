@@ -371,7 +371,7 @@ const PlannerTeaser = () => {
 type HeaderIconName = 'compass' | 'slide' | 'family' | 'route' | 'shuttle' | 'shield' | 'help';
 const HeaderIcon = ({ name }: { name: HeaderIconName }) => {
   const paths: Record<HeaderIconName, ReactNode> = {
-    compass: <><circle cx="12" cy="12" r="9"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/><path d="m12 5 2.3 7-2.3 2.3L9.7 12z"/><path d="M7 18c2-1.4 3.5-1.4 5.5 0"/></>,
+    compass: <><circle cx="12" cy="12" r="9"/><path d="M12 1.5v3m0 15v3M1.5 12h3m15 0h3"/><path d="m12 5.5 2.3 4.2 4.2 2.3-4.2 2.3-2.3 4.2-2.3-4.2-4.2-2.3 4.2-2.3z"/><circle cx="12" cy="12" r="1.4"/></>,
     slide: <><path d="M4 7h9l-4.5-3zM6 7v12M12 7v3"/><path d="M12 10c5 0 9 1.5 8 4s-5 3.1-9 4.1S5 20 4 21"/><path d="M12 12c4.3 0 6.7 1 6 2.1s-5.1 2.6-8.3 3.6S5.7 19.2 5 20"/><path d="M2 22c2-1 3-1 5 0s3 1 5 0"/></>,
     family: <><circle cx="8" cy="7" r="3"/><circle cx="17" cy="9" r="2.5"/><circle cx="12.5" cy="15" r="2"/><path d="M2.5 20v-3c0-3.4 2.1-5.2 5.5-5.2 2.2 0 3.6.7 4.5 2"/><path d="M17 14c3 0 4.5 1.7 4.5 5v1M8.5 22v-1.5c0-2.2 1.6-3.5 4-3.5s4 1.3 4 3.5V22"/></>,
     route: <><path d="M4 18c4-5 7-1 11-6 2-2.5 3-4.5 5-6" strokeDasharray="2 2"/><path d="M7 18c0 2-3 4-3 4s-3-2-3-4a3 3 0 0 1 6 0ZM23 5c0 2-3 4-3 4s-3-2-3-4a3 3 0 0 1 6 0Z" transform="translate(0 -1)"/></>,
