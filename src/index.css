@@ -1299,3 +1299,13 @@ body {
 .apr-site-header--light-page .apr-nav-dropdown[open] > summary { color: #006b7e !important; }
 .apr-site-header--light-page .apr-nav-link::after { background: #ad874e; }
 .apr-site-header--light-page .apr-brand__emblem { filter: brightness(.83) saturate(1.15); }
+
+/* Light-page navigation: understated hover, never a dark pill on ivory. */
+.apr-site-header--light-page .apr-nav-link:hover,
+.apr-site-header--light-page .apr-nav-link:focus-visible,
+.apr-site-header--light-page .apr-nav-dropdown[open] > .apr-nav-link {
+  background: rgba(20,92,103,.055) !important;
+  color: #155965 !important;
+  box-shadow: none !important;
+}
+.apr-site-header--light-page .apr-nav-link::after { background: #b48b50 !important; }
