@@ -1083,3 +1083,8 @@ body {
 .apr-nav-dropdown__panel button:hover,.apr-nav-dropdown__panel button:focus-visible { background: rgba(239,207,150,.1); }
 .apr-header-tickets { min-height: 42px; white-space: nowrap; }
 @media(prefers-reduced-motion:reduce) { .apr-nav-link::after,.apr-nav-dropdown__panel button { transition: none; } }
+
+/* Precise, lightweight chevrons instead of font-dependent arrow glyphs. */
+.apr-site-nav .apr-nav-chevron { display: inline-block; width: 7px; height: 7px; margin-left: 3px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .22s ease; flex-shrink: 0; }
+.apr-site-nav .apr-nav-dropdown[open] > summary .apr-nav-chevron { transform: translateY(2px) rotate(225deg); }
+@media(prefers-reduced-motion:reduce) { .apr-site-nav .apr-nav-chevron { transition: none; } }
