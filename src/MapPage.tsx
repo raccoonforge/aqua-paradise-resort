@@ -28,7 +28,7 @@ const routePath = (a:Node,b:Node,mode:TravelMode) => {
     const start=Math.atan2(ay,ax),end=Math.atan2(by,bx);
     const sweep=(end-start+Math.PI*2)%(Math.PI*2);
     const mid=start+sweep/2;
-    const rx=Math.max(20,Math.hypot(ax,bx)*.75),ry=Math.max(22,Math.hypot(ay,by)*.75);
+    const rx=Math.max(20,(Math.abs(ax)+Math.abs(bx))*.65),ry=Math.max(22,(Math.abs(ay)+Math.abs(by))*.65);
     return `M ${a.x} ${a.y} Q ${cx+Math.cos(mid)*rx} ${cy+Math.sin(mid)*ry} ${b.x} ${b.y}`;
   }
   return `M ${a.x} ${a.y} Q ${(a.x+b.x)/2-dy*.12} ${(a.y+b.y)/2+dx*.12} ${b.x} ${b.y}`;
@@ -221,7 +221,7 @@ export default function MapPage() {
     if (from === to) { setError('Начальная и конечная точки совпадают.'); return; }
     const result = mode === 'walk' ? shortestWalk(from, to, false) : loopRoute(from, to, false);
     if (!result) { setError('Для выбранных точек нет подтверждённого демонстрационного перехода. Выберите другие точки или способ передвижения.'); return; }
-    setError(''); setRoute(result); setPanelOpen(true);
+    setError(''); setRoute(result); setPanelOpen(true); resetView();
   };
   const resetView = () => { setZoom(1); setPan({ x: 0, y: 0 }); };
   const focusZone = (id:string) => { const zone=nodeById(id); if(!zone) return; setSelected(id);setPanelOpen(true);setZoom(1.25);setPan({x:(50-zone.x)*artWidth*.008,y:(50-zone.y)*artHeight*.008}); };
@@ -302,7 +302,7 @@ useEffect(() => {
           <button type="button" onClick={resetView} className="rounded-xl bg-white px-3 py-2 min-h-11 text-xs font-semibold shadow-lg focus-visible:outline-2 focus-visible:outline-teal-500">Весь остров</button>
           {route && <button type="button" onClick={resetRoute} className="rounded-xl bg-red-600 text-white px-3 py-2 min-h-11 text-xs font-semibold shadow-lg focus-visible:outline-2 focus-visible:outline-teal-500">Сброс маршрута</button>}
         </div>
-        {route && <div className="absolute left-3 bottom-3 z-20 bg-white/95 shadow-sm rounded-lg px-3 py-2 text-xs text-slate-700 max-w-[64%]">Схема: <span style={{color:'#b58b50'}}>━ пешком</span> · <span style={{color:'#2c9aa0'}}>┄ Paradise Loop</span></div>}
+        {route && <div className="absolute left-3 bottom-3 z-20 bg-white/95 shadow-sm rounded-lg px-3 py-2 text-xs text-slate-700 max-w-[64%]">Условный маршрут: <span style={{color:'#b58b50'}}>━ пешком</span> · <span style={{color:'#2c9aa0'}}>┄ Paradise Loop</span></div>}
       </section>
 
       <aside className={`apr-map-panel z-40 shadow-xl flex flex-col md:w-[30%] md:h-full min-w-0 ${panelOpen ? 'absolute inset-x-0 bottom-0 h-[55dvh] rounded-t-2xl md:static md:rounded-none' : 'hidden md:flex'}`} aria-label="Каталог и маршруты острова">
