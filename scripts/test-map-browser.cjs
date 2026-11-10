@@ -17,8 +17,17 @@ const fs = require("node:fs");
     const url =
       process.env.MAP_TEST_URL ||
       "http://localhost:5173/aqua-paradise-resort/#/map";
-    for (const width of [360, 390, 768, 1280, 1440, 1920]) {
-      await page.setViewportSize({ width, height: 900 });
+    for (const [width, height] of [
+      [360, 900],
+      [390, 900],
+      [768, 900],
+      [1280, 900],
+      [1440, 900],
+      [1920, 900],
+      [844, 390],
+      [390, 600],
+    ]) {
+      await page.setViewportSize({ width, height });
       await page.goto(url);
       await page.reload();
       await page.locator(".pm-world img").waitFor();
@@ -76,7 +85,9 @@ const fs = require("node:fs");
           .innerText()
           .then((t) => t.includes("Посадка") && t.includes("Выход")),
       );
-      await page.screenshot({ path: `work/map-qa/route-${width}.png` });
+      await page.screenshot({
+        path: `work/map-qa/route-${width}x${height}.png`,
+      });
       await page
         .locator(".pm-result")
         .getByRole("button", { name: "Сбросить маршрут" })
@@ -120,7 +131,7 @@ const fs = require("node:fs");
       );
       await page.getByRole("button", { name: "Показать весь остров" }).click();
       console.log(
-        `PASS ${width}px: fit, no overflow, search/categories, detail, hotel walking, shuttle boarding/exit, reset, same endpoints, keyboard, anchored wheel`,
+        `PASS ${width}x${height}: fit, no overflow, search/categories, detail, hotel walking, shuttle boarding/exit, reset, same endpoints, keyboard, anchored wheel`,
       );
     }
     // Real touch events through Chromium's input pipeline.

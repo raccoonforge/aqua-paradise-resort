@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(320px, 30%);
   height: calc(100dvh - 78px);
-  min-height: 560px;
+  min-height: 0;
   position: relative;
   color: #193e38;
   background: #0b6872;
@@ -739,4 +739,10 @@
 
 .pm-world > img {
   clip-path: inset(0 20% 0 0);
+}
+
+@media (max-height: 550px) {
+  .pm-brand {
+    display: none;
+  }
 }
