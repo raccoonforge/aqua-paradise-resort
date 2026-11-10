@@ -1513,3 +1513,16 @@ body {
  .apr-map-stage .apr-map-notice { font-size:10px; max-width:66%; }
  .apr-map-panel { max-height:72dvh; }
 }
+
+/* Resort illustration: art, labels, routes and markers share one coordinate system. */
+.apr-map-stage { background:#084c5d !important; }
+.apr-map-artwork,.apr-map-route-overlay { display:block; position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+.apr-map-place-labels { position:absolute !important; inset:0 !important; z-index:21; pointer-events:none; }
+.apr-map-place-label { position:absolute !important; display:block !important; width:max-content; max-width:140px; transform:translate(-50%,22px) !important; background:#073c47 !important; color:#fff5da !important; border:1px solid #cfa66d !important; border-radius:18px !important; box-shadow:0 3px 0 #092e37,0 6px 18px #092e3766 !important; padding:5px 10px !important; font:600 11px/1.25 Manrope,sans-serif !important; letter-spacing:0 !important; text-align:center; }
+.apr-map-pin { z-index:22 !important; }
+.apr-map-pin[aria-pressed="true"] { z-index:31 !important; }
+.apr-map-pin__dot { width:19px !important; height:19px !important; background:#0b515b !important; border:3px solid #f9e9c9 !important; box-shadow:0 0 0 1px #cfa66d,0 4px 11px #082f3f99 !important; }
+.apr-map-pin[aria-pressed="true"] .apr-map-pin__dot { background:#d9a85d !important; box-shadow:0 0 0 4px #fff7df,0 0 0 6px #b98a48 !important; }
+.apr-map-route-overlay { z-index:15; }
+.apr-map-gateway { z-index:24 !important; }
+@media(max-width:767px) { .apr-map-place-label { font-size:9px !important; max-width:90px; padding:3px 6px !important; transform:translate(-50%,18px) !important; } }
