@@ -1,3 +1,5 @@
+> **Current direction:** the new user-approved orthographic SVG direction for `/map` supersedes the raster/isometric asset requirements below. See [Luxury Minimalist Cartography](luxury-cartography.md). This earlier production pack is retained as design history.
+
 # Aqua Paradise — premium island map production pack
 
 **Stage:** asset-and-implementation contract. **Purpose:** replace the current miniature-looking SVG illustration with a premium, architecturally credible, zoomable island map; keep existing React interactions. Design source: [map specification](../pages/map.md). Geography: [land-use v0.4](../data/island-map-landuse-v0.4.json).

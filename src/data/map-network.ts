@@ -1,4 +1,5 @@
 import { details } from "../components/map/destinations";
+import island from "./island-map-v0.4.json" with { type: "json" };
 export type Point = readonly [number, number];
 export type Mode = "walk" | "shuttle";
 export type Place = {
@@ -9,19 +10,10 @@ export type Place = {
   point: Point;
   link?: string;
 };
-// Registration: normalized illustration coordinates, x/1536 and y/1024.
-// This is an authored resort plan, not a surveyed geographic/GPS map.
-const anchors: [string, number, number][] = [
-  ["paradise-boulevard", 42, 79],
-  ["paradise-market", 43, 63],
-  ["eden-gardens", 43, 43],
-  ["little-paradise", 65, 63],
-  ["serenity-spa", 17, 55],
-  ["pirates-cove", 68, 39],
-  ["atlantis-realm", 17, 32],
-  ["adrenaline-peak", 47, 14],
-  ["ocean-bay", 67, 15],
-  ["grand-hotel", 23, 16],
+/** Orthographic, isotropic v0.4 projection. East is right, north is up. */
+export const projectPlan = ([x, y]: readonly number[]): Point => [
+  50 + x * 0.028,
+  48 - y * 0.028,
 ];
 export const categories: Record<string, string> = {
   all: "Все места",
@@ -29,35 +21,38 @@ export const categories: Record<string, string> = {
   hotel: "Отель",
   transport: "Транспорт",
 };
-export const places: Place[] = anchors.map(([id, x, y], i) => ({
-  id,
-  point: [x, y],
+export const places: Place[] = island.pins.map((pin, i) => ({
+  id: i === 8 ? "ocean-bay" : i === 9 ? "grand-hotel" : pin.id,
   name: details[i].name,
   description: details[i].description,
+  point: projectPlan(pin.point),
   category: i === 9 ? "hotel" : "zones",
-  link: i === 9 ? "#/hotel" : `#/zones?zone=${id}`,
+  link:
+    i === 9
+      ? "#/hotel"
+      : `#/zones?zone=${pin.id === "ocean-bay-onshore" ? "ocean-bay" : pin.id}`,
 }));
 places.push(
   {
     id: "gateway",
     name: "Главный вход",
     category: "transport",
-    description: "Входная площадь Paradise Boulevard.",
-    point: [42, 86],
+    description: "Южная входная площадь Paradise Boulevard.",
+    point: [50, 90],
   },
   {
     id: "cable",
     name: "Ocean Wings · канатная дорога",
     category: "transport",
-    description: "Станция прибытия с материка.",
-    point: [29, 78],
+    description: "Станция прибытия с материка у южного входа.",
+    point: [43, 88],
   },
   {
     id: "jetty",
     name: "Морской причал",
     category: "transport",
-    description: "Прибытие на паромах и катерах.",
-    point: [33, 90],
+    description: "Прибытие на паромах и катерах. Пешеходный доступ по причалу.",
+    point: [57, 94],
   },
 );
 export type Edge = {
@@ -69,22 +64,6 @@ export type Edge = {
 };
 export const edges: Edge[] = [];
 const positions = new Map<string, Point>(places.map((p) => [p.id, p.point]));
-// Route endpoints are public entrances, separate from the building-centred label pins.
-const entrances: Record<string, Point> = {
-  "paradise-boulevard": [42, 83],
-  "paradise-market": [43, 69],
-  "eden-gardens": [43, 51],
-  "little-paradise": [58, 64],
-  "serenity-spa": [23, 53],
-  "pirates-cove": [60, 48],
-  "atlantis-realm": [24, 38],
-  "adrenaline-peak": [45, 23],
-  "ocean-bay": [58, 23],
-  "grand-hotel": [35, 18],
-  cable: [29, 80],
-  jetty: [33, 89],
-};
-for (const [id, p] of Object.entries(entrances)) positions.set(id, p);
 function connect(
   from: string,
   to: string,
@@ -95,22 +74,20 @@ function connect(
   const weight = points
     .slice(1)
     .reduce(
-      (sum, p, i) =>
-        sum + Math.hypot((p[0] - points[i][0]) * 1.5, p[1] - points[i][1]),
+      (sum, p, i) => sum + Math.hypot(p[0] - points[i][0], p[1] - points[i][1]),
       0,
     );
   edges.push({ from, to, points, mode, weight });
 }
-// Road junctions are also actual boarding nodes. One geometry feeds roads and routing.
 const stops: [string, string, Point][] = [
-  ["south", "Paradise Boulevard", [56.5, 71]],
-  ["market", "Paradise Market", [54, 53]],
-  ["pirate", "Pirate’s Cove", [56.5, 32.5]],
-  ["ocean", "Ocean Bay", [56.5, 21.5]],
-  ["peak", "Adrenaline Peak", [36, 20.5]],
-  ["atlantis", "Atlantis Realm", [24, 40]],
-  ["gardens", "Eden Gardens", [29.3, 52.5]],
-  ["spa", "Serenity Spa", [28, 70.5]],
+  ["south", "Paradise Boulevard", [53, 81]],
+  ["market", "Paradise Market", [57, 71]],
+  ["pirate", "Pirate’s Cove", [71, 47]],
+  ["ocean", "Ocean Bay", [66, 29]],
+  ["peak", "Adrenaline Peak", [49, 32]],
+  ["atlantis", "Atlantis Realm", [26, 46]],
+  ["gardens", "Eden Gardens", [40, 58]],
+  ["spa", "Serenity Spa", [31, 69]],
 ];
 for (const [id, name, point] of stops) {
   const key = `stop:${id}`;
@@ -126,62 +103,43 @@ for (const [id, name, point] of stops) {
 }
 const bends: Point[][] = [
   [
-    [55, 69],
-    [54, 65],
-    [53, 62],
-    [52, 59],
-    [52, 56],
+    [57, 78],
+    [60, 76],
   ],
   [
-    [52, 51],
-    [54, 48],
-    [54, 46],
-    [53, 43],
-    [54, 40],
-    [54, 36],
+    [64, 69],
+    [71, 66],
+    [75, 59],
+    [75, 53],
   ],
   [
-    [54, 30],
-    [57, 28],
-    [61, 26],
-    [60, 24],
+    [73, 40],
+    [72, 34],
   ],
   [
-    [52, 23],
-    [47, 23],
-    [43, 23],
-    [39, 21],
+    [61, 29],
+    [56, 32],
   ],
   [
-    [35, 24],
-    [36, 27],
-    [33, 29],
-    [30, 30],
-    [29, 33],
-    [28, 36],
-    [25, 37],
+    [41, 33],
+    [34, 34],
+    [28, 33],
+    [23, 36],
+    [23, 41],
   ],
   [
-    [24, 43],
-    [26, 47],
-    [29, 50],
+    [28, 51],
+    [32, 55],
+    [36, 57],
   ],
   [
-    [30, 56],
-    [30, 60],
-    [28, 64],
-    [26, 67],
-    [26, 69],
+    [36, 62],
+    [33, 66],
   ],
   [
-    [28, 73],
-    [32, 72],
-    [35, 71],
-    [39, 70],
-    [43, 69],
-    [48, 70],
-    [52, 72],
-    [55, 72],
+    [36, 75],
+    [41, 80],
+    [47, 82],
   ],
 ];
 for (let i = 0; i < stops.length; i++) {
@@ -190,72 +148,32 @@ for (let i = 0; i < stops.length; i++) {
   connect(a, b, bends[i]);
   connect(a, b, bends[i], "shuttle");
 }
-connect("gateway", "paradise-boulevard");
-connect("gateway", "cable", [
-  [38, 85],
-  [34, 83],
-  [31, 82],
+connect("gateway", "paradise-boulevard", [[49, 85]]);
+connect("gateway", "cable", [[46, 89]]);
+connect("gateway", "jetty", [[55, 92]]);
+connect("paradise-boulevard", "stop:south");
+connect("paradise-boulevard", "paradise-market", [[48, 77]]);
+connect("paradise-market", "eden-gardens", [
+  [48, 67],
+  [47, 62],
 ]);
-connect("gateway", "jetty", [
-  [38, 88],
-  [35, 88],
-]);
-connect("paradise-boulevard", "stop:south", [
-  [46, 82],
-  [49, 79],
-  [52, 76],
-  [55, 74],
-]);
-connect("paradise-boulevard", "stop:spa", [
-  [38, 82],
-  [35, 80],
-  [32, 77],
-  [29, 74],
-]);
-connect("paradise-market", "stop:market", [
-  [48, 70],
-  [52, 72],
-  [55, 72],
-  [55, 69],
-  [54, 65],
-  [53, 62],
-  [52, 59],
-  [52, 56],
-]);
-connect("eden-gardens", "stop:gardens", [
-  [39, 52],
-  [36, 54],
-  [33, 55],
-  [30, 54],
-]);
-connect("eden-gardens", "stop:pirate", [
-  [48, 52],
-  [52, 51],
-  [54, 48],
-  [54, 45],
-  [53, 43],
-  [54, 39],
-  [54, 35],
-]);
-connect("serenity-spa", "stop:gardens", [[26, 53]]);
-connect("atlantis-realm", "stop:atlantis");
-connect("adrenaline-peak", "stop:peak", [
-  [41, 23],
-  [38, 22],
-]);
-connect("ocean-bay", "stop:ocean", [[57, 23]]);
-connect("pirates-cove", "stop:market", [
-  [57, 49],
-  [54, 48],
-  [52, 51],
-]);
+connect("paradise-market", "stop:market", [[52, 73]]);
+connect("eden-gardens", "stop:gardens", [[44, 58]]);
+connect("serenity-spa", "stop:spa", [[30, 66]]);
+connect("atlantis-realm", "stop:atlantis", [[28, 43]]);
+connect("adrenaline-peak", "stop:peak", [[49, 29]]);
+connect("ocean-bay", "stop:ocean", [[64, 24]]);
+connect("pirates-cove", "stop:pirate", [[68, 45]]);
 connect("little-paradise", "stop:market", [
-  [56, 61],
-  [54, 58],
-  [52, 56],
+  [63, 65],
+  [60, 68],
 ]);
-// Hotel access terminates at reception; no public road through the villa campus.
-connect("grand-hotel", "stop:peak");
+// Hotel access terminates at its reception plaza. No route crosses private villas.
+connect("grand-hotel", "stop:peak", [
+  [34, 29],
+  [37, 31],
+  [42, 32],
+]);
 export type Route = { edges: Edge[]; transfers: number; fallback: boolean };
 export function findRoute(from: string, to: string, mode: Mode): Route | null {
   if (!positions.has(from) || !positions.has(to)) return null;
@@ -326,5 +244,23 @@ export function findRoute(from: string, to: string, mode: Mode): Route | null {
     fallback: false,
   };
 }
-export const pathData = (points: readonly Point[]) =>
-  points.map(([x, y], i) => `${i ? "L" : "M"}${x},${y}`).join(" ");
+/** Round junction corners; roads and route highlights always use this same path. */
+export const pathData = (points: readonly Point[]) => {
+  if (!points.length) return "";
+  let d = `M${points[0][0]},${points[0][1]}`;
+  for (let i = 1; i < points.length - 1; i++) {
+    const a = points[i - 1],
+      b = points[i],
+      c = points[i + 1];
+    const before = Math.hypot(b[0] - a[0], b[1] - a[1]),
+      after = Math.hypot(c[0] - b[0], c[1] - b[1]);
+    const r = Math.min(0.65, before / 3, after / 3);
+    const x = b[0] + ((a[0] - b[0]) * r) / before,
+      y = b[1] + ((a[1] - b[1]) * r) / before;
+    const u = b[0] + ((c[0] - b[0]) * r) / after,
+      v = b[1] + ((c[1] - b[1]) * r) / after;
+    d += ` L${x},${y} Q${b[0]},${b[1]} ${u},${v}`;
+  }
+  const last = points.at(-1)!;
+  return points.length > 1 ? d + ` L${last[0]},${last[1]}` : d;
+};

@@ -1,3 +1,5 @@
+> Historical illustrated-map implementation. The current native SVG implementation is documented in [Luxury Minimalist Cartography](luxury-cartography.md).
+
 # Interactive illustrated map — implementation and QA
 
 This `/map` implementation supersedes the old PNG-as-interface experiment on `feat/premium-redesign`. Existing blueprints and canonical v0.4 planning datasets are preserved. This page uses an illustrated visitor plan rather than projecting the v0.4 land-use grid onto a different-shaped painting.

@@ -6,9 +6,14 @@ import { pathToFileURL } from "node:url";
 import ts from "typescript";
 const temp = mkdtempSync(join(tmpdir(), "aqua-map-test-"));
 try {
+  writeFileSync(
+    join(temp, "island-map-v0.4.json"),
+    readFileSync(new URL("../src/data/island-map-v0.4.json", import.meta.url)),
+  );
   for (const [input, output] of [
     ["src/components/map/destinations.ts", "destinations.js"],
     ["src/data/map-network.ts", "network.js"],
+    ["src/data/map-plan.ts", "plan.js"],
   ]) {
     const source = readFileSync(
       new URL("../" + input, import.meta.url),
@@ -22,7 +27,7 @@ try {
       ts.transpileModule(source, {
         compilerOptions: {
           target: ts.ScriptTarget.ES2022,
-          module: ts.ModuleKind.ES2022,
+          module: ts.ModuleKind.ESNext,
         },
       }).outputText,
     );
@@ -30,6 +35,52 @@ try {
   const { places, edges, findRoute } = await import(
     pathToFileURL(join(temp, "network.js")).href
   );
+  const canonical = JSON.parse(
+    readFileSync(
+      new URL("../docs/data/island-map-markers-v0.4.json", import.meta.url),
+      "utf8",
+    ),
+  );
+  for (let i = 0; i < 10; i++)
+    assert.deepEqual(
+      places[i].point,
+      [
+        50 + canonical.pins[i].point[0] * 0.028,
+        48 - canonical.pins[i].point[1] * 0.028,
+      ],
+      "Canonical orthographic pin projection",
+    );
+  const { footprints, pools } = await import(
+    pathToFileURL(join(temp, "plan.js")).href
+  );
+  // Dense clearance sampling, including the road stroke's half-width.
+  for (const edge of edges.filter((e) => e.mode === "walk"))
+    for (let i = 1; i < edge.points.length; i++) {
+      const a = edge.points[i - 1],
+        b = edge.points[i],
+        steps = Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1]) / 0.08);
+      for (let k = 0; k <= steps; k++) {
+        const x = a[0] + ((b[0] - a[0]) * k) / steps,
+          y = a[1] + ((b[1] - a[1]) * k) / steps;
+        for (const r of footprints)
+          assert(
+            !(
+              x > r.x - 0.48 &&
+              x < r.x + r.w + 0.48 &&
+              y > r.y - 0.48 &&
+              y < r.y + r.h + 0.48
+            ),
+            `Building clearance: ${edge.from} → ${edge.to}, (${x},${y})`,
+          );
+        for (const p of pools)
+          assert(
+            ((x - p.x) / (p.rx + 0.48)) ** 2 +
+              ((y - p.y) / (p.ry + 0.48)) ** 2 >
+              1,
+            `Water clearance: ${edge.from} → ${edge.to}`,
+          );
+      }
+    }
   const known = new Set(places.map((p) => p.id));
   const stationNames = places
     .filter((p) => p.id.startsWith("stop:"))
@@ -55,7 +106,9 @@ try {
     assert(known.has(e.from) && known.has(e.to));
     assert(e.weight > 0);
     assert(e.points.length >= 2);
-    assert(e.points.every(([x, y]) => x >= 0 && x <= 80 && y >= 0 && y <= 100));
+    assert(
+      e.points.every(([x, y]) => x >= 0 && x <= 100 && y >= 0 && y <= 100),
+    );
     if (e.mode === "shuttle")
       assert(e.from.startsWith("stop:") && e.to.startsWith("stop:"));
   }

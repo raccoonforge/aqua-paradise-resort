@@ -1,20 +1,20 @@
 import { useEffect, useMemo, useRef, useState, type PointerEvent } from "react";
 import {
   categories,
-  edges,
   findRoute,
-  pathData,
   places,
   type Mode,
   type Place,
   type Route,
 } from "./data/map-network";
 import "./components/map/premium-map.css";
+import MapArtwork from "./components/map/MapArtwork";
+import MapRouteLayer from "./components/map/MapRouteLayer";
+import MapObjectsLayer from "./components/map/MapObjectsLayer";
 
 type View = { x: number; y: number; scale: number };
 const initial: View = { x: 0, y: 0, scale: 1 };
 const limit = (n: number, a: number, b: number) => Math.max(a, Math.min(b, n));
-const base = `${import.meta.env.BASE_URL}map/island.webp`;
 const getPlace = (id: string) => places.find((p) => p.id === id)!;
 function Endpoint({
   label,
@@ -57,15 +57,9 @@ function PlaceDetails({
       <button className="pm-back" onClick={onBack}>
         ← Назад к объектам
       </button>
-      <div
-        className="pm-detail-image"
-        role="img"
-        aria-label={`Фрагмент карты: ${place.name}`}
-        style={{
-          backgroundImage: `url('${base}')`,
-          backgroundPosition: `${place.point[0]}% ${place.point[1]}%`,
-        }}
-      />
+      <div className="pm-detail-image">
+        <MapArtwork focus={place.point} />
+      </div>
       <p className="pm-eyebrow">{categories[place.category]}</p>
       <h2>{place.name}</h2>
       <p>{place.description}</p>
@@ -88,8 +82,7 @@ export default function MapPage() {
     [mode, setMode] = useState<Mode>("walk"),
     [route, setRoute] = useState<Route | null>(null),
     [message, setMessage] = useState("");
-  const [stops, setStops] = useState(false),
-    [artFailed, setArtFailed] = useState(false);
+  const [stops, setStops] = useState(false);
   const viewport = useRef<HTMLDivElement>(null),
     world = useRef<HTMLDivElement>(null),
     panelBody = useRef<HTMLDivElement>(null),
@@ -259,7 +252,7 @@ export default function MapPage() {
       height = world.current?.offsetHeight ?? 0;
     apply({
       scale: 1.65,
-      x: (40 - p.point[0]) * width * 0.020625,
+      x: (50 - p.point[0]) * width * 0.0165,
       y: (50 - p.point[1]) * height * 0.0165,
     });
   };
@@ -293,7 +286,7 @@ export default function MapPage() {
       >
         <div className="pm-brand">
           <span>AQUA PARADISE</span>
-          <small>ВАШ ОСТРОВ ОТКРЫТИЙ</small>
+          <small>PRIVATE ISLAND · GRAND ATLAS</small>
         </div>
         <div
           ref={viewport}
@@ -355,77 +348,10 @@ export default function MapPage() {
               transform: `translate(calc(-50% + ${view.x}px),calc(-50% + ${view.y}px)) scale(${view.scale})`,
             }}
           >
-            <img
-              src={base}
-              alt="Тропический остров: отель на северо-западе, горный парк на севере, сады в центре, вход и причал на юге"
-              draggable={false}
-              onError={() => setArtFailed(true)}
-            />
-            {artFailed && (
-              <div className="pm-art-error" role="alert">
-                Иллюстрация недоступна. Воспользуйтесь каталогом и описанием
-                маршрута.
-              </div>
-            )}
-            <svg
-              className="pm-roads"
-              viewBox="0 0 80 100"
-              preserveAspectRatio="none"
-              aria-hidden="true"
-            >
-              {stops &&
-                edges
-                  .filter((e) => e.mode === "shuttle")
-                  .map((e, i) => (
-                    <path
-                      key={i}
-                      d={pathData(e.points)}
-                      fill="none"
-                      stroke="#0d6670"
-                      strokeWidth=".3"
-                      strokeDasharray=".7 .5"
-                    />
-                  ))}
-              {route?.edges.map((e, i) => (
-                <g key={i}>
-                  <path
-                    d={pathData(e.points)}
-                    fill="none"
-                    stroke="#103d42"
-                    strokeWidth=".66"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d={pathData(e.points)}
-                    fill="none"
-                    stroke={e.mode === "walk" ? "#ffe5a3" : "#56f0e0"}
-                    strokeWidth=".36"
-                    strokeDasharray={e.mode === "shuttle" ? "1 .5" : undefined}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </g>
-              ))}
-              {route &&
-                route.edges.length > 0 &&
-                [
-                  route.edges[0].points[0],
-                  route.edges.at(-1)!.points.at(-1)!,
-                ].map(([x, y], i) => (
-                  <circle
-                    key={i}
-                    cx={x}
-                    cy={y}
-                    r=".65"
-                    fill="#fff2bd"
-                    stroke="#15463e"
-                    strokeWidth=".25"
-                  />
-                ))}
-            </svg>
-            {places
-              .filter(
+            <MapArtwork />
+            <MapRouteLayer route={route} stops={stops} />
+            <MapObjectsLayer
+              places={places.filter(
                 (p) =>
                   (matching.has(p.id) || routePins.has(p.id)) &&
                   (!p.id.startsWith("stop:") ||
@@ -434,36 +360,36 @@ export default function MapPage() {
                     !!query ||
                     view.scale > 1.8 ||
                     routePins.has(p.id)),
-              )
-              .map((p) => (
-                <button
-                  className={`pm-pin ${p.category === "transport" ? "pm-pin-transport" : ""} ${selected === p.id ? "is-selected" : ""}`}
-                  key={p.id}
-                  style={{
-                    left: `${p.point[0] / 0.8}%`,
-                    top: `${p.point[1]}%`,
-                    transform: `translate(-50%,-50%) scale(${1 / view.scale})`,
-                  }}
-                  aria-label={`Показать ${p.name}`}
-                  aria-pressed={selected === p.id}
-                  onClick={() => choose(p.id)}
-                >
-                  <span>
-                    {p.id.startsWith("stop:")
-                      ? "S"
-                      : p.id === "jetty"
-                        ? "М"
-                        : p.id === "cable"
-                          ? "К"
-                          : p.id === "gateway"
-                            ? "В"
-                            : String(places.indexOf(p) + 1).padStart(2, "0")}
-                  </span>
-                  <b>{p.name}</b>
-                </button>
-              ))}
+              )}
+              selected={selected}
+              scale={view.scale}
+              onChoose={choose}
+            />
           </div>
         </div>
+        <svg
+          className="pm-orientation"
+          viewBox="0 0 24 42"
+          role="img"
+          aria-label="Север вверху"
+        >
+          <text
+            x="12"
+            y="8"
+            textAnchor="middle"
+            fill="currentColor"
+            fontSize="7"
+            fontFamily="Manrope,sans-serif"
+          >
+            N
+          </text>
+          <path
+            d="M12 35V16M8 23L12 16L16 23"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth=".8"
+          />
+        </svg>
         <div className="pm-controls">
           <button
             aria-label="Приблизить"
@@ -500,7 +426,7 @@ export default function MapPage() {
           {route && <button onClick={clear}>Сбросить маршрут ×</button>}
         </div>
         <p className="pm-map-note">
-          План курорта · не GPS-навигация
+          План острова · вид сверху
           <span>Перетаскивайте · Ctrl + колесо — масштаб</span>
         </p>
       </section>
@@ -715,7 +641,7 @@ export default function MapPage() {
             </section>
           )}
           <footer className="pm-panel-footer">
-            TROPICAL LUXURY · ENDLESS DISCOVERY
+            AQUA PARADISE · THE ISLAND COLLECTION
           </footer>
         </div>
       </aside>

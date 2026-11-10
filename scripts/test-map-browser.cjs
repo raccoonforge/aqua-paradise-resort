@@ -30,11 +30,9 @@ const fs = require("node:fs");
       await page.setViewportSize({ width, height });
       await page.goto(url);
       await page.reload();
-      await page.locator(".pm-world img").waitFor();
+      await page.locator(".pm-world .pm-base").waitFor();
       await page.evaluate(() => document.fonts.ready);
-      await page.waitForFunction(
-        () => document.querySelector(".pm-world img").complete,
-      );
+
       const layout = await page.evaluate(() => {
         const map = document.querySelector(".pm-map").getBoundingClientRect(),
           world = document.querySelector(".pm-world").getBoundingClientRect();
@@ -43,16 +41,76 @@ const fs = require("node:fs");
           width: innerWidth,
           map: map.toJSON(),
           world: world.toJSON(),
-          image: document.querySelector(".pm-world img").naturalWidth,
+          vector: !!document.querySelector(
+            ".pm-world svg [data-layer=geography]",
+          ),
+          raster: document.querySelectorAll(".pm-page img,.pm-page svg image")
+            .length,
         };
       });
       assert(layout.scroll <= width, `Horizontal overflow ${width}`);
-      assert(layout.image > 0);
+      assert(layout.vector);
+      assert.equal(
+        layout.raster,
+        0,
+        "No raster backgrounds or SVG image embeds",
+      );
       assert(
         layout.world.top >= layout.map.top - 1 &&
           layout.world.bottom <= layout.map.bottom + 1,
         `Clipped base at ${width}`,
       );
+      const clearance = await page.evaluate(() => {
+        const svg = document.querySelector(".pm-world .pm-base"),
+          land = svg.querySelector("[data-coast]");
+        const buildings = [
+          ...svg.querySelectorAll('[data-obstacle="building"]'),
+        ].map((r) => ({
+          x: +r.getAttribute("x"),
+          y: +r.getAttribute("y"),
+          w: +r.getAttribute("width"),
+          h: +r.getAttribute("height"),
+        }));
+        const water = [...svg.querySelectorAll('[data-obstacle="water"]')].map(
+          (r) => ({
+            x: +r.getAttribute("cx"),
+            y: +r.getAttribute("cy"),
+            rx: +r.getAttribute("rx"),
+            ry: +r.getAttribute("ry"),
+          }),
+        );
+        const failures = [];
+        for (const group of svg.querySelectorAll("[data-road]")) {
+          const path = group.querySelector("path"),
+            length = path.getTotalLength();
+          for (let d = 0; d <= length; d += 0.12) {
+            const p = path.getPointAtLength(d);
+            if (!group.hasAttribute("data-pier") && !land.isPointInFill(p))
+              failures.push(`Outside land ${p.x},${p.y}`);
+            if (
+              buildings.some(
+                (r) =>
+                  p.x > r.x - 0.47 &&
+                  p.x < r.x + r.w + 0.47 &&
+                  p.y > r.y - 0.47 &&
+                  p.y < r.y + r.h + 0.47,
+              )
+            )
+              failures.push("Building collision");
+            if (
+              water.some(
+                (r) =>
+                  ((p.x - r.x) / (r.rx + 0.47)) ** 2 +
+                    ((p.y - r.y) / (r.ry + 0.47)) ** 2 <=
+                  1,
+              )
+            )
+              failures.push("Water collision");
+          }
+        }
+        return failures.slice(0, 5);
+      });
+      assert.deepEqual(clearance, [], "Rendered SVG road clearance");
       if (width < 768) await page.locator(".pm-sheet-toggle").click();
       const search = page.getByRole("searchbox");
       await search.fill("транспорт");

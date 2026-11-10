@@ -33,7 +33,7 @@
   position: relative;
   min-width: 0;
   overflow: hidden;
-  background: radial-gradient(ellipse, #419b9c, #075765);
+  background: #153847;
 }
 .pm-brand {
   position: absolute;
@@ -74,18 +74,11 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  width: min(100%, 120cqh);
-  aspect-ratio: 6/5;
+  width: min(100%, 100cqh);
+  aspect-ratio: 1;
   transform-origin: center;
 }
-.pm-world > img {
-  position: absolute;
-  width: 125%;
-  max-width: none;
-  height: 100%;
-  object-fit: fill;
-  pointer-events: none;
-}
+
 .pm-roads {
   position: absolute;
   inset: 0;
@@ -483,13 +476,7 @@
 .pm-sheet-toggle {
   display: none;
 }
-.pm-art-error {
-  position: absolute;
-  inset: 20%;
-  background: #fff4de;
-  padding: 20px;
-  font-size: 14px;
-}
+
 @media (min-width: 1600px) {
   .pm-pin b {
     font-size: 12px;
@@ -535,7 +522,7 @@
     min-height: 0;
   }
   .pm-world {
-    width: min(100%, 120cqh);
+    width: min(100%, 100cqh);
   }
   .pm-brand {
     top: 12px;
@@ -725,7 +712,7 @@
     bottom: 30px;
   }
   .pm-world {
-    width: min(100%, 120cqh);
+    width: min(100%, 100cqh);
   }
 }
 @media (max-width: 767px) and (max-height: 550px) {
@@ -735,10 +722,6 @@
   .pm-legend {
     display: none;
   }
-}
-
-.pm-world > img {
-  clip-path: inset(0 20% 0 0);
 }
 
 @media (max-height: 550px) {
@@ -767,6 +750,210 @@
 }
 @media (max-height: 550px) {
   .pm-legend {
+    display: none;
+  }
+}
+
+/* Luxury Minimalist Cartography — original orthographic vector edition. */
+.pm-page {
+  background: #153847;
+  color: #263f38;
+}
+.pm-map {
+  background: #153847;
+}
+.pm-world {
+  width: min(100%, 100cqh);
+  aspect-ratio: 1;
+}
+.pm-base {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.pm-brand {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: #dfcfaa;
+}
+.pm-brand span {
+  font-size: 20px;
+  letter-spacing: 0.16em;
+}
+.pm-brand small {
+  color: #90a6a7;
+  font-size: 7px;
+  letter-spacing: 0.19em;
+}
+.pm-pin {
+  color: #2b493f;
+}
+.pm-pin > span {
+  width: 25px;
+  height: 25px;
+  border: 1px solid #b4a079;
+  background: #faf6e9;
+  color: #3a5148;
+  box-shadow: none;
+  font-size: 9px;
+}
+.pm-pin b {
+  top: 34px;
+  background: #f6f1e4e8;
+  color: #344c41;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border: 1px solid #d0c6ac66;
+  border-radius: 2px;
+  max-width: 145px;
+}
+.pm-pin.is-selected > span {
+  color: #fff8e7;
+  background: #31584d;
+  border-color: #dac69d;
+  box-shadow: 0 0 0 4px #b8a37355;
+}
+.pm-pin-transport > span {
+  width: 22px;
+  height: 22px;
+  font-size: 8px;
+  border-radius: 5px;
+  background: #d8e3da;
+}
+.pm-controls {
+  background: #f4efe2;
+  border: 1px solid #bca77f;
+  box-shadow: none;
+  border-radius: 3px;
+}
+.pm-controls button {
+  color: #304f48;
+}
+.pm-controls output {
+  color: #6c7769;
+}
+.pm-legend {
+  color: #c9c5af;
+  background: #153847e8;
+  border: 1px solid #6d7f7c66;
+  border-radius: 2px;
+}
+.pm-legend span:nth-child(2) {
+  color: #aec7c6;
+}
+.pm-map-note {
+  color: #8fa5a7;
+  font-size: 8px;
+  letter-spacing: 0.06em;
+}
+.pm-panel {
+  background: #f6f2e9;
+  border-left-color: #d3c9b2;
+}
+.pm-panel h1 {
+  font-size: 40px;
+  font-weight: 400;
+}
+.pm-detail-image {
+  height: 180px;
+  position: relative;
+  overflow: hidden;
+  background: #153847;
+  border: 1px solid #d5c9ac;
+  border-radius: 2px;
+}
+.pm-detail-plan {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.pm-catalog strong {
+  font-size: 20px;
+  font-weight: 500;
+}
+.pm-list-icon {
+  border: 1px solid #d5c9ac;
+  background: transparent;
+}
+.pm-primary {
+  background: #2c5145;
+  border-color: #a18a5b;
+  border-radius: 2px;
+  box-shadow: none;
+}
+.pm-panel-footer {
+  line-height: 1.6;
+}
+@media (max-width: 767px) {
+  .pm-world {
+    width: min(100%, 100cqh);
+  }
+  .pm-brand span {
+    font-size: 15px;
+  }
+  .pm-pin > span {
+    width: 22px;
+    height: 22px;
+    font-size: 8px;
+  }
+  .pm-pin b {
+    font-size: 12px;
+  }
+  .pm-pin-transport > span {
+    width: 19px;
+    height: 19px;
+    font-size: 7px;
+  }
+  .pm-detail-image {
+    height: 150px;
+  }
+  .pm-panel h1 {
+    font-size: 34px;
+  }
+  .pm-sheet-toggle {
+    background: #f6f2e9;
+  }
+}
+@container (max-width:600px) {
+  .pm-pin b {
+    display: none;
+  }
+  .pm-pin.is-selected b,
+  .pm-pin:focus-visible b {
+    display: block;
+  }
+}
+.pm-objects {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.pm-objects > button {
+  pointer-events: auto;
+}
+
+.pm-orientation {
+  position: absolute;
+  left: 24px;
+  bottom: 94px;
+  width: 24px;
+  height: 42px;
+  color: #b7bda9;
+  pointer-events: none;
+}
+@media (max-width: 767px) {
+  .pm-orientation {
+    left: 14px;
+    bottom: 86px;
+  }
+}
+@media (max-height: 550px) {
+  .pm-orientation {
     display: none;
   }
 }
