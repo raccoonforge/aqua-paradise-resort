@@ -746,3 +746,27 @@
     display: none;
   }
 }
+
+@media (max-width: 767px) and (max-height: 700px) {
+  .pm-brand {
+    display: none;
+  }
+  .pm-controls {
+    width: 222px;
+    top: 8px;
+  }
+  .pm-viewport {
+    inset: 56px 0 28px;
+  }
+  .pm-panel.is-expanded {
+    flex-basis: 42%;
+  }
+  .pm-legend {
+    display: none;
+  }
+}
+@media (max-height: 550px) {
+  .pm-legend {
+    display: none;
+  }
+}

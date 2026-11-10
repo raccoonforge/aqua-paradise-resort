@@ -116,6 +116,18 @@ export default function MapPage() {
     [query, category],
   );
   const matching = new Set(matched.map((p) => p.id));
+  // At overview scale, label boarding/exit only; intermediate stops remain
+  // available in instructions, the catalogue, the stop layer and detail zoom.
+  const routePins = new Set(route ? [from, to] : []);
+  route?.edges.forEach((edge, index, all) => {
+    if (edge.mode !== "shuttle") return;
+    if (all[index - 1]?.mode !== "shuttle") routePins.add(edge.from);
+    if (all[index + 1]?.mode !== "shuttle") routePins.add(edge.to);
+    if (stops || view.scale > 1.8) {
+      routePins.add(edge.from);
+      routePins.add(edge.to);
+    }
+  });
   const apply = (v: View) => {
     const rect = viewport.current?.getBoundingClientRect();
     const w = world.current;
@@ -415,16 +427,13 @@ export default function MapPage() {
             {places
               .filter(
                 (p) =>
-                  (matching.has(p.id) ||
-                    route?.edges.some(
-                      (e) => e.from === p.id || e.to === p.id,
-                    )) &&
+                  (matching.has(p.id) || routePins.has(p.id)) &&
                   (!p.id.startsWith("stop:") ||
                     stops ||
                     category === "transport" ||
                     !!query ||
                     view.scale > 1.8 ||
-                    route?.edges.some((e) => e.from === p.id || e.to === p.id)),
+                    routePins.has(p.id)),
               )
               .map((p) => (
                 <button
