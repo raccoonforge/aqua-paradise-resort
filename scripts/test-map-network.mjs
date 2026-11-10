@@ -14,14 +14,17 @@ try {
     ["src/components/map/destinations.ts", "destinations.js"],
     ["src/data/map-network.ts", "network.js"],
     ["src/data/map-plan.ts", "plan.js"],
+    ["src/data/map-detail-plan.ts", "detail.js"],
+    ["src/data/map-landscape.ts", "landscape.js"],
   ]) {
-    const source = readFileSync(
-      new URL("../" + input, import.meta.url),
-      "utf8",
-    ).replace(
-      /(["'])\.\.\/components\/map\/destinations\1/,
-      '"./destinations.js"',
-    );
+    const source = readFileSync(new URL("../" + input, import.meta.url), "utf8")
+      .replace(
+        /(["'])\.\.\/components\/map\/destinations\1/,
+        '"./destinations.js"',
+      )
+      .replace(/(["'])\.\/map-network\1/g, '"./network.js"')
+      .replace(/(["'])\.\/map-plan\1/g, '"./plan.js"')
+      .replace(/(["'])\.\/map-detail-plan\1/g, '"./detail.js"');
     writeFileSync(
       join(temp, output),
       ts.transpileModule(source, {
@@ -32,7 +35,7 @@ try {
       }).outputText,
     );
   }
-  const { places, edges, findRoute } = await import(
+  const { places, edges, findRoute, estateEdges, estateNodes } = await import(
     pathToFileURL(join(temp, "network.js")).href
   );
   const canonical = JSON.parse(
@@ -50,11 +53,54 @@ try {
       ],
       "Canonical orthographic pin projection",
     );
-  const { footprints, pools } = await import(
-    pathToFileURL(join(temp, "plan.js")).href
+  const original = await import(pathToFileURL(join(temp, "plan.js")).href);
+  const detail = await import(pathToFileURL(join(temp, "detail.js")).href);
+  const landscape = await import(
+    pathToFileURL(join(temp, "landscape.js")).href
   );
+  const footprints = [...original.footprints, ...detail.detailBuildings],
+    pools = [...original.pools, ...detail.detailPools];
+  console.log(
+    "DETAIL COUNTS",
+    Object.fromEntries(
+      detail.detailDistricts.map((d) => [
+        d,
+        {
+          buildings: detail.detailBuildings.filter((b) => b.district === d)
+            .length,
+          pools: detail.detailPools.filter((p) => p.district === d).length,
+        },
+      ]),
+    ),
+    "trees",
+    landscape.treeCount,
+    "palms",
+    landscape.palmCount,
+  );
+  assert(
+    detail.detailBuildings.length >= 75,
+    "Substantial architectural detail",
+  );
+  for (const d of detail.detailDistricts)
+    assert(
+      detail.detailBuildings.filter((b) => b.district === d).length >= 4,
+      "District missing detail: " + d,
+    );
+  assert(
+    landscape.treeCount > 300 && landscape.treeCount < 1800,
+    "Bounded diverse canopy density",
+  );
+  for (const e of estateEdges) {
+    assert.deepEqual(e.points[0], estateNodes[e.from]);
+    assert.deepEqual(e.points.at(-1), estateNodes[e.to]);
+    assert.equal(e.access, "hotel-guests");
+  }
+
   // Dense clearance sampling, including the road stroke's half-width.
-  for (const edge of edges.filter((e) => e.mode === "walk"))
+  for (const edge of [
+    ...edges.filter((e) => e.mode === "walk"),
+    ...estateEdges,
+  ])
     for (let i = 1; i < edge.points.length; i++) {
       const a = edge.points[i - 1],
         b = edge.points[i],
@@ -81,6 +127,30 @@ try {
           );
       }
     }
+  const fixedStops = {
+    "stop:south": [53, 81],
+    "stop:market": [57, 71],
+    "stop:pirate": [71, 47],
+    "stop:ocean": [66, 29],
+    "stop:peak": [49, 32],
+    "stop:atlantis": [26, 46],
+    "stop:gardens": [40, 58],
+    "stop:spa": [31, 69],
+    gateway: [50, 90],
+    cable: [43, 88],
+    jetty: [57, 94],
+  };
+  for (const [id, point] of Object.entries(fixedStops))
+    assert.deepEqual(
+      places.find((p) => p.id === id).point,
+      point,
+      "Existing infrastructure must not move",
+    );
+  assert.equal(
+    findRoute("gateway", "westVilla", "walk"),
+    null,
+    "Private estate nodes must never enter public routing",
+  );
   const known = new Set(places.map((p) => p.id));
   const stationNames = places
     .filter((p) => p.id.startsWith("stop:"))

@@ -40,3 +40,7 @@ Mouse drag, anchored Ctrl/Meta-wheel, two-finger pinch, single-finger pan, cance
 Whole-project lint still reports the existing six errors in the unchanged Planner/Tickets/Zones pages and one App warning. Those pages are outside this task. The historical v0.3 validator still targets an archived dataset; active v0.4 checks and the new rendered-plan checks are the current acceptance suite.
 
 The existing branch preview workflow builds production from `main` and the new map under `/preview/`. No other website page or `main` source is edited. This environment's network policy blocks direct requests to the public GitHub Pages host; local production-browser checks and GitHub Actions deployment status are reported separately.
+
+## Architectural detailing revision
+
+The same approved plan now has district-specific compounds, pools, private gardens, dense varied forest canopy and secondary circulation. Sources, access rules, preserved coordinates and measured mobile-emulation performance are recorded in [Masterplan detailing](masterplan-detailing.md). This remains the same orthographic SVG map and interactive UI.

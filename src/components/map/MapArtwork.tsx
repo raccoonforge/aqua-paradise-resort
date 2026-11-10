@@ -1,6 +1,15 @@
-import { useId } from "react";
+import { memo, useId } from "react";
 import { coastPath, footprints, groves, pools } from "../../data/map-plan";
-import { edges, pathData, places, type Point } from "../../data/map-network";
+import {
+  edges,
+  estateEdges,
+  pathData,
+  places,
+  type Point,
+} from "../../data/map-network";
+
+import ResortDistrictDetails from "./ResortDistrictDetails";
+import ResortLandscapeLayer from "./ResortLandscapeLayer";
 
 /** Original vector plan. No raster images, perspective transforms or image fills. */
 export function GeographyLayer({ clipId }: { clipId: string }) {
@@ -31,17 +40,10 @@ export function GeographyLayer({ clipId }: { clipId: string }) {
           <path
             key={i}
             d={d}
-            fill={i % 3 === 0 ? "#b1bda5" : "#c2cbb4"}
-            stroke="#9da98f"
-            strokeWidth=".12"
+            fill={i % 3 === 0 ? "#c7d0b9" : "#d1d7c3"}
+            stroke="none"
           />
         ))}
-        <path
-          d="M38 37Q46 34 52 39Q59 36 63 39M40 40Q47 37 53 42Q58 39 62 41M36 65Q39 63 41 66"
-          fill="none"
-          stroke="#a2af94"
-          strokeWidth=".15"
-        />
         <path
           d="M73 18Q69 21 70 25Q71 29 77 30"
           fill="none"
@@ -106,20 +108,32 @@ export function InfrastructureLayer() {
         stroke="#f4eddd"
         strokeWidth="1.2"
       />
-      {edges
-        .filter((e) => e.mode === "walk")
-        .map((e, i) => (
+      {[...edges.filter((e) => e.mode === "walk"), ...estateEdges].map(
+        (e, i) => (
           <g
             key={i}
             data-road="true"
+            data-access={"access" in e ? e.access : "public"}
+            data-secondary={
+              "secondary" in e && e.secondary ? "true" : undefined
+            }
             data-pier={
               e.from === "jetty" || e.to === "jetty" ? "true" : undefined
             }
           >
-            <path d={pathData(e.points)} stroke="#b6b39b" strokeWidth=".95" />
-            <path d={pathData(e.points)} stroke="#fcf8ed" strokeWidth=".65" />
+            <path
+              d={pathData(e.points)}
+              stroke="#b6b39b"
+              strokeWidth={"access" in e ? 0.5 : e.secondary ? 0.68 : 0.95}
+            />
+            <path
+              d={pathData(e.points)}
+              stroke="#fcf8ed"
+              strokeWidth={"access" in e ? 0.28 : e.secondary ? 0.44 : 0.65}
+            />
           </g>
-        ))}
+        ),
+      )}
       <path
         d="M43 88L29 106M42.5 87.6L28.5 105.6"
         stroke="#bca777"
@@ -207,7 +221,7 @@ export function ArchitectureLayer() {
     </g>
   );
 }
-export default function MapArtwork({ focus }: { focus?: Point }) {
+function MapArtwork({ focus }: { focus?: Point }) {
   const id = useId().replaceAll(":", "");
   return (
     <svg
@@ -229,8 +243,14 @@ export default function MapArtwork({ focus }: { focus?: Point }) {
         </clipPath>
       </defs>
       <GeographyLayer clipId={id} />
+      <ResortLandscapeLayer clipId={id} />
       <InfrastructureLayer />
       <ArchitectureLayer />
+      <g clipPath={`url(#${id})`}>
+        <ResortDistrictDetails />
+      </g>
     </svg>
   );
 }
+
+export default memo(MapArtwork);

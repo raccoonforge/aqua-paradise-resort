@@ -344,6 +344,7 @@ export default function MapPage() {
           <div
             ref={world}
             className="pm-world"
+            data-detail={view.scale > 1.4 ? "close" : "overview"}
             style={{
               transform: `translate(calc(-50% + ${view.x}px),calc(-50% + ${view.y}px)) scale(${view.scale})`,
             }}

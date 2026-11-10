@@ -61,6 +61,7 @@ export type Edge = {
   mode: Mode;
   points: Point[];
   weight: number;
+  secondary?: boolean;
 };
 export const edges: Edge[] = [];
 const positions = new Map<string, Point>(places.map((p) => [p.id, p.point]));
@@ -174,6 +175,122 @@ connect("grand-hotel", "stop:peak", [
   [37, 31],
   [42, 32],
 ]);
+// Secondary public promenades are real graph edges, not decorative shortcuts.
+// Original anchors, primary approaches and all eight shuttle stops stay unchanged.
+function connectSecondary(from: string, to: string, via: Point[]) {
+  connect(from, to, via);
+  edges.at(-1)!.secondary = true;
+}
+connectSecondary("eden-gardens", "stop:peak", [
+  [44, 56],
+  [41, 54],
+  [40.5, 50],
+  [40, 46],
+  [43, 43],
+  [45, 38],
+]);
+connectSecondary("atlantis-realm", "stop:gardens", [
+  [35, 43],
+  [36, 46],
+  [34, 51],
+  [35, 54],
+]);
+connectSecondary("serenity-spa", "stop:gardens", [
+  [30, 61],
+  [30, 57],
+  [34, 59],
+]);
+connectSecondary("little-paradise", "stop:pirate", [
+  [65.5, 62],
+  [65.5, 58],
+  [68, 54],
+  [70, 50],
+]);
+connectSecondary("paradise-market", "stop:spa", [
+  [46.2, 75.3],
+  [41, 75.5],
+  [37, 73],
+  [34, 71],
+]);
+connectSecondary("ocean-bay", "stop:ocean", [
+  [68, 20],
+  [69, 22],
+  [68, 25],
+]);
+connectSecondary("pirates-cove", "stop:pirate", [
+  [70, 42],
+  [70.5, 44],
+]);
+connectSecondary("adrenaline-peak", "stop:peak", [
+  [48, 26],
+  [46, 28],
+  [46, 30],
+]);
+
+/** Guest-only circulation is explicitly modelled and excluded from public routing. */
+export const estateNodes: Record<string, Point> = {
+  reception: places.find((p) => p.id === "grand-hotel")!.point,
+  courtyard: [34, 21.8],
+  eastGarden: [41.5, 24.5],
+  eastVilla: [42, 28.5],
+  poolCourt: [32.5, 26.8],
+  westGarden: [27.5, 25.2],
+  westVilla: [24.5, 28.5],
+};
+const estateLinks: [string, string, Point[]][] = [
+  ["reception", "courtyard", [[35.5, 22.2]]],
+  [
+    "reception",
+    "eastVilla",
+    [
+      [36, 27.5],
+      [38, 28.5],
+    ],
+  ],
+  ["eastGarden", "eastVilla", [[42.5, 26]]],
+  [
+    "reception",
+    "poolCourt",
+    [
+      [33.6, 24.4],
+      [33, 25.5],
+    ],
+  ],
+  [
+    "poolCourt",
+    "westGarden",
+    [
+      [31.5, 27.3],
+      [29.5, 27],
+      [27.8, 26.5],
+    ],
+  ],
+  [
+    "westGarden",
+    "westVilla",
+    [
+      [27.5, 26.2],
+      [27, 27.5],
+    ],
+  ],
+];
+export const estateEdges = estateLinks.map(([from, to, via]) => {
+  const points = [estateNodes[from], ...via, estateNodes[to]];
+  return {
+    from,
+    to,
+    mode: "walk" as const,
+    access: "hotel-guests" as const,
+    points,
+    weight: points
+      .slice(1)
+      .reduce(
+        (sum, p, i) =>
+          sum + Math.hypot(p[0] - points[i][0], p[1] - points[i][1]),
+        0,
+      ),
+  };
+});
 export type Route = { edges: Edge[]; transfers: number; fallback: boolean };
 export function findRoute(from: string, to: string, mode: Mode): Route | null {
   if (!positions.has(from) || !positions.has(to)) return null;

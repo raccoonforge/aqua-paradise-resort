@@ -957,3 +957,12 @@
     display: none;
   }
 }
+
+/* Masterplan micro-detail is revealed on zoom; the major district masses remain visible. */
+.pm-world[data-detail="overview"] .pm-fine-detail {
+  display: none;
+}
+.pm-base [data-layer="landscape-detail"],
+.pm-detail-plan [data-layer="landscape-detail"] {
+  pointer-events: none;
+}

@@ -108,9 +108,35 @@ const fs = require("node:fs");
               failures.push("Water collision");
           }
         }
+        for (const rect of svg.querySelectorAll("[data-detail-building]")) {
+          const x = +rect.getAttribute("x"),
+            y = +rect.getAttribute("y"),
+            w = +rect.getAttribute("width"),
+            h = +rect.getAttribute("height");
+          for (const [cx, cy] of [
+            [x, y],
+            [x + w, y],
+            [x, y + h],
+            [x + w, y + h],
+          ])
+            if (!land.isPointInFill(new DOMPoint(cx, cy)))
+              failures.push(`Building outside shore: ${x},${y}`);
+        }
         return failures.slice(0, 5);
       });
       assert.deepEqual(clearance, [], "Rendered SVG road clearance");
+      assert.equal(
+        await page.locator(".pm-base [data-district]").count(),
+        10,
+        "Every district receives architectural detailing",
+      );
+      assert(
+        (await page.locator(".pm-base [data-detail-building]").count()) >= 75,
+      );
+      assert(
+        (await page.locator(".pm-base *").count()) < 1800,
+        "Bound SVG element count",
+      );
       if (width < 768) await page.locator(".pm-sheet-toggle").click();
       const search = page.getByRole("searchbox");
       await search.fill("транспорт");
@@ -183,6 +209,12 @@ const fs = require("node:fs");
       await page.keyboard.down("Control");
       await page.mouse.wheel(0, -100);
       await page.keyboard.up("Control");
+      await page.waitForFunction(
+        () =>
+          document.querySelector(".pm-controls output").textContent !== "100%",
+        {},
+        { timeout: 3000 },
+      );
       assert.notEqual(
         await page.locator(".pm-controls output").innerText(),
         "100%",
