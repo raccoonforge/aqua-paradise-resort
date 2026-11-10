@@ -1,3 +1,4 @@
+import islandLanduse from './data/island-map-v0.4.json';
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react';
 
 type TravelMode = 'walk' | 'shuttle';
@@ -19,6 +20,9 @@ const ZONES: readonly Node[] = [
   { id: 'ocean-bay', name: 'Ocean Bay', x: 68.2, y: 25.0, color: '#0ea5e9', desc: 'Пляж и морские развлечения' },
   { id: 'grand-hotel', name: 'Paradise Grand Hotel', x: 33.1, y: 27.0, color: '#64748b', desc: 'Гостиничный комплекс; маршрут к отелю уточняется' },
 ];
+// Упрощённая 2D-картография на базе существующего геоплана, без 3D-ассетов.
+const LAND_COLORS = ['#e6d2a5','#d9c49d','#7da58a','#b3cf9d','#9fbdb0','#c4ad83','#9ab5ae','#809a77','#efd7a9','#c5c3b1','#b9b8a2','#648c73'];
+const landRect = ([x,y,t,n]: number[]) => ({ x:50+x/34, y:50-(y+20)/38, width:n*20/34+0.07, height:20/38+0.07, fill:LAND_COLORS[t] });
 const ENTRY = { id: 'gateway', name: 'Транспортный узел / Главный вход', x: 48.5, y: 82.0, color: '#0f766e' };
 const ENTRY_OBJECTS = [
   { name: 'Канатная дорога Ocean Wings', desc: 'Положение отдельной станции на финальной карте уточняется.' },
@@ -249,16 +253,20 @@ useEffect(() => {
   return (
     <main className="apr-map-page h-[calc(100dvh-64px)] min-h-[520px] flex flex-col md:flex-row bg-slate-100 overflow-hidden">
       <section ref={mapRef} aria-label="Схематическая карта острова" className="apr-map-stage relative flex-1 min-h-0 md:w-[70%] overflow-hidden touch-none" onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={onPointerUp}>
-        <div className="absolute inset-0 opacity-25 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#64748b 1px, transparent 1px)', backgroundSize: '40px 40px' }} aria-hidden="true" />
+        <div className="absolute inset-0 pointer-events-none" style={{background:"radial-gradient(ellipse at 45% 35%, #5aa6a8 0%, #237a82 58%, #11525c 100%)"}} aria-hidden="true" />
         <div className="absolute inset-0" style={{ transform: `translate(${pan.x}px,${pan.y}px) scale(${zoom})`, transformOrigin: 'center' }}>
           <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs><filter id="apr-land-soften" x="-3%" y="-3%" width="106%" height="106%"><feGaussianBlur stdDeviation=".25" /></filter></defs>
+            <g opacity=".25" transform="translate(.65 .75)" filter="url(#apr-land-soften)">{islandLanduse.runs.map((run,i)=>{const r=landRect(run);return <rect key={'shadow-'+i} {...r} fill="#083e45" />;})}</g>
+            <g filter="url(#apr-land-soften)">{islandLanduse.runs.map((run,i)=>{const r=landRect(run);return <rect key={'land-'+i} {...r} />;})}</g>
+            <g opacity=".3" fill="none" stroke="#f7f0d8" strokeWidth=".17"><path d="M 47 80 Q 48 73 48 66 T 49 52 Q 36 56 31 65 M 49 52 Q 58 54 68 64 M 49 52 Q 58 44 70 45 Q 71 33 68 25 M 49 52 Q 49 39 50 30 M 49 52 Q 37 45 29 45 Q 30 35 33 27" /></g>
             {/* Дорожная сеть ещё не утверждена: не изображаем прямые линии как реальные дорожки. */}
             {drawSegments.map((s,i) => { const a=nodeById(s.from)!; const b=nodeById(s.to)!; const bend = (i%2===0?1:-1)*Math.min(7,Math.hypot(b.x-a.x,b.y-a.y)*0.18); const mx=(a.x+b.x)/2-(b.y-a.y)/Math.max(1,Math.hypot(b.x-a.x,b.y-a.y))*bend; const my=(a.y+b.y)/2+(b.x-a.x)/Math.max(1,Math.hypot(b.x-a.x,b.y-a.y))*bend; return <path key={`${i}-${s.from}`} d={`M ${a.x} ${a.y} Q ${mx} ${my} ${b.x} ${b.y}`} fill="none" stroke={s.mode === 'shuttle' ? '#2c9aa0' : '#c69b5c'} strokeWidth="1.1" strokeLinecap="round" strokeDasharray={s.mode === 'shuttle' ? '2 1.3' : undefined} />; })}
           </svg>
           {ZONES.filter(() => category !== 'transport').map(z => <button key={z.id} type="button" onClick={() => {setSelected(z.id); setPanelOpen(true);}} aria-pressed={selected===z.id} aria-label={`Показать ${z.name}`} className={`apr-map-pin absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 rounded-full focus-visible:outline-4 focus-visible:outline-teal-600 ${selected===z.id ? 'z-30' : 'z-20'}`} style={{left:`${z.x}%`,top:`${z.y}%`}}><span className="apr-map-pin__dot" /><span className="sr-only">{z.name}</span></button>)}
           {showEntry && <button type="button" aria-label="Главный вход и транспортный узел" onClick={()=>{setSelected('gateway');setPanelOpen(true);}} className="apr-map-gateway absolute -translate-x-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-teal-800 text-white border-2 border-white shadow-lg focus-visible:outline-4 focus-visible:outline-teal-400" style={{left:`${ENTRY.x}%`,top:`${ENTRY.y}%`}}>⇅</button>}
         </div>
-        <div className="apr-map-notice absolute top-3 left-3 max-w-[70%] pointer-events-none rounded-lg px-3 py-2 text-xs shadow-sm">Эскиз острова · метки по геоплану v0.4</div>
+        <div className="apr-map-notice absolute top-3 left-3 max-w-[70%] pointer-events-none rounded-lg px-3 py-2 text-xs shadow-sm">AQUA PARADISE · интерактивная схема острова</div>
         <div className="absolute top-3 right-3 flex gap-2 z-40">
           <button type="button" aria-label="Открыть панель поиска и маршрутов" className="md:hidden w-11 h-11 rounded-xl bg-white text-teal-800 shadow-lg font-bold focus-visible:outline-2 focus-visible:outline-teal-500" onClick={()=>setPanelOpen(v=>!v)}>☰</button>
           <button type="button" aria-label="Показать управление картой" aria-expanded={controlsOpen} className="md:hidden w-11 h-11 rounded-xl bg-white text-slate-700 shadow-lg focus-visible:outline-2 focus-visible:outline-teal-500" onClick={()=>setControlsOpen(v=>!v)}>⚙</button>
