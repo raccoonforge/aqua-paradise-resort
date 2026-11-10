@@ -1539,3 +1539,11 @@ body {
 .apr-map-pin--artwork:hover,.apr-map-pin--artwork:focus-visible,.apr-map-pin--artwork[aria-pressed="true"] { outline:2px solid #f4d492!important; outline-offset:2px; background:rgba(7,52,58,.18)!important; }
 .apr-map-gateway--artwork { opacity:0; }
 .apr-map-gateway--artwork:focus-visible { opacity:1; }
+
+/* Accessible overlay for the eight Paradise Loop stop symbols already printed on the artwork. */
+.apr-map-stop-highlight { position:absolute; z-index:18; width:21px; height:21px; transform:translate(-50%,-50%); border:2px solid #fff2c7; border-radius:50%; background:rgba(15,83,90,.42); box-shadow:0 0 0 4px rgba(16,204,200,.24); pointer-events:none; }
+.apr-map-stage .apr-map-pin--artwork { cursor:pointer; }
+@media (max-width:767px) {
+  .apr-map-stage .apr-map-pin--artwork { width:94px!important; height:44px!important; }
+  .apr-map-stage .apr-map-notice { max-width:55%; }
+}
