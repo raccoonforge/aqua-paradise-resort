@@ -32,3 +32,7 @@ Pointer capture handles mouse/touch pan, two-finger pinch anchors to the moving 
 Whole-project ESLint currently reports six existing errors in PlannerPage, TicketsPage and ZonesPage, plus one App warning. These unrelated pages were left unchanged as requested. Map-scoped lint must pass. Preview publication is handled by the existing branch workflow; a successful source push alone does not prove deployment succeeded.
 
 The archived v0.3 validator `validate-landuse-grid.mjs` still refers to its pre-archive path and cannot run unchanged; running against the archived file also reports its known fragmented legacy zones. The active v0.4 validations above are used for current planning geometry. No historical dataset was rewritten to mask that failure.
+
+## Verification outcome — 2026-11-10
+
+Clean dependency installation, TypeScript, production build, map-scoped ESLint, four active v0.4 validators, 840 graph combinations and all six browser widths passed. Chromium scenarios also passed real pinch/pan, mouse drag suppression, direct marker selection, keyboard controls, reduced motion and runtime-error checks. Full-project lint retains the six pre-existing errors and one warning described above. Other pages and `main` were not edited. The existing preview workflow successfully built production and preview and deployed them after the code push. Direct requests to `raccoonforge.github.io` are denied by this environment's network policy, so live-host visual verification is not claimed; browser verification used the local application.

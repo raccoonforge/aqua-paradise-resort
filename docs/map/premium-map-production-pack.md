@@ -66,3 +66,7 @@ All images should be original/commissioned/licensed with provenance, image alt s
 ## Honest readiness
 
 **Existing:** layout, interactions, illustrated SVG fallback, canonical v0.4 district geometry and pins. **Missing:** high-quality production art, district detail tiles, calibrated art/map registration, actual transportation polylines and mobile/browser performance signoff. Do not describe the current generated SVG as photorealistic 3D.
+
+## Implemented visitor map (2026-11-10)
+
+The live `/map` page now uses a clean, edited illustration and a registered visitor-plan graph, not the original PNG's baked UI or the old SVG fallback. See [implementation, provenance and QA](map-implementation.md). Browser checks cover six viewport widths and real touch input. This completes the interactive visitor-map implementation; it does **not** claim delivery of the separate 4096px layered architectural master/detail-tile asset package described above. The current optimized source is 1536 × 1024 and its coordinates do not carry a surveyed metric scale.
