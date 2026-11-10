@@ -172,7 +172,6 @@ export default function MapPage() {
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
   const [mode, setMode] = useState<TravelMode>('walk');
-  const [slow, setSlow] = useState(false);
   const [route, setRoute] = useState<Route | null>(null);
   const [error, setError] = useState('');
   const [panelOpen, setPanelOpen] = useState(false);
@@ -192,7 +191,7 @@ export default function MapPage() {
     setRoute(null);
     if (!from || !to) { setError('Выберите обе точки маршрута.'); return; }
     if (from === to) { setError('Начальная и конечная точки совпадают.'); return; }
-    const result = mode === 'walk' ? shortestWalk(from, to, slow) : loopRoute(from, to, slow);
+    const result = mode === 'walk' ? shortestWalk(from, to, false) : loopRoute(from, to, false);
     if (!result) { setError('Для выбранных точек нет подтверждённого демонстрационного перехода. Выберите другие точки или способ передвижения.'); return; }
     setError(''); setRoute(result); setPanelOpen(true);
   };
@@ -245,7 +244,7 @@ useEffect(() => {
     element.removeEventListener('wheel', handleWheel);
   };
 }, []);
-  // Маршрутные линии — только иллюстративное отображение сегментов на старых якорях карты.
+  // Маршрутные линии — условные связи между зонами, не реальные дорожки.
   const drawSegments = route?.segments.filter(s => nodeById(s.from) && nodeById(s.to)) ?? [];
   return (
     <main className="apr-map-page h-[calc(100dvh-64px)] min-h-[520px] flex flex-col md:flex-row bg-slate-100 overflow-hidden">
@@ -254,7 +253,7 @@ useEffect(() => {
         <div className="absolute inset-0" style={{ transform: `translate(${pan.x}px,${pan.y}px) scale(${zoom})`, transformOrigin: 'center' }}>
           <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
             {/* Дорожная сеть ещё не утверждена: не изображаем прямые линии как реальные дорожки. */}
-            {drawSegments.map((s,i) => { const a=nodeById(s.from)!; const b=nodeById(s.to)!; return <line key={`${i}-${s.from}`} x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke={s.mode === 'shuttle' ? '#d97706' : '#0d9488'} strokeWidth="0.9" strokeDasharray={s.mode === 'shuttle' ? '1.5 1' : undefined} />; })}
+            {drawSegments.map((s,i) => { const a=nodeById(s.from)!; const b=nodeById(s.to)!; const bend = (i%2===0?1:-1)*Math.min(7,Math.hypot(b.x-a.x,b.y-a.y)*0.18); const mx=(a.x+b.x)/2-(b.y-a.y)/Math.max(1,Math.hypot(b.x-a.x,b.y-a.y))*bend; const my=(a.y+b.y)/2+(b.x-a.x)/Math.max(1,Math.hypot(b.x-a.x,b.y-a.y))*bend; return <path key={`${i}-${s.from}`} d={`M ${a.x} ${a.y} Q ${mx} ${my} ${b.x} ${b.y}`} fill="none" stroke={s.mode === 'shuttle' ? '#2c9aa0' : '#c69b5c'} strokeWidth="1.1" strokeLinecap="round" strokeDasharray={s.mode === 'shuttle' ? '2 1.3' : undefined} />; })}
           </svg>
           {ZONES.filter(() => category !== 'transport').map(z => <button key={z.id} type="button" onClick={() => {setSelected(z.id); setPanelOpen(true);}} aria-pressed={selected===z.id} aria-label={`Показать ${z.name}`} className={`apr-map-pin absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 rounded-full focus-visible:outline-4 focus-visible:outline-teal-600 ${selected===z.id ? 'z-30' : 'z-20'}`} style={{left:`${z.x}%`,top:`${z.y}%`}}><span className="apr-map-pin__dot" /><span className="sr-only">{z.name}</span></button>)}
           {showEntry && <button type="button" aria-label="Главный вход и транспортный узел" onClick={()=>{setSelected('gateway');setPanelOpen(true);}} className="apr-map-gateway absolute -translate-x-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-teal-800 text-white border-2 border-white shadow-lg focus-visible:outline-4 focus-visible:outline-teal-400" style={{left:`${ENTRY.x}%`,top:`${ENTRY.y}%`}}>⇅</button>}
@@ -272,7 +271,7 @@ useEffect(() => {
           <button type="button" onClick={resetView} className="rounded-xl bg-white px-3 py-2 min-h-11 text-xs font-semibold shadow-lg focus-visible:outline-2 focus-visible:outline-teal-500">Весь остров</button>
           {route && <button type="button" onClick={resetRoute} className="rounded-xl bg-red-600 text-white px-3 py-2 min-h-11 text-xs font-semibold shadow-lg focus-visible:outline-2 focus-visible:outline-teal-500">Сброс маршрута</button>}
         </div>
-        {route && <div className="absolute left-3 bottom-3 z-20 bg-white/95 shadow-sm rounded-lg px-3 py-2 text-xs text-slate-700 max-w-[64%]">Маршрут: <span className="text-teal-700">━ пешком</span> · <span className="text-amber-700">┄ Paradise Loop</span></div>}
+        {route && <div className="absolute left-3 bottom-3 z-20 bg-white/95 shadow-sm rounded-lg px-3 py-2 text-xs text-slate-700 max-w-[64%]">Схема: <span style={{color:'#b58b50'}}>━ пешком</span> · <span style={{color:'#2c9aa0'}}>┄ Paradise Loop</span></div>}
       </section>
 
       <aside className={`apr-map-panel z-40 shadow-xl flex flex-col md:w-[30%] md:h-full min-w-0 ${panelOpen ? 'absolute inset-x-0 bottom-0 h-[55dvh] rounded-t-2xl md:static md:rounded-none' : 'hidden md:flex'}`} aria-label="Каталог и маршруты острова">
@@ -300,16 +299,15 @@ useEffect(() => {
             </> : null}
           </section>}
           {!selected && <section><h2 className="font-semibold text-sm text-slate-700 mb-3">Объекты ({filtered.length + (showEntry?1:0)})</h2>{showEntry && <button type="button" onClick={()=>setSelected('gateway')} className="w-full text-left p-3 rounded-lg border mb-2 hover:bg-slate-50 text-sm">⇅ {ENTRY.name}</button>}{filtered.map(z=><button type="button" key={z.id} onClick={()=>setSelected(z.id)} className="w-full text-left p-3 rounded-lg border mb-2 hover:bg-slate-50"><span className="font-medium text-sm">{z.name}</span><span className="block text-xs text-slate-500">{z.desc}</span></button>)}{filtered.length===0 && !showEntry && <p className="text-sm text-slate-500">Объекты не найдены.</p>}</section>}
-          <section className="apr-map-route border-t border-slate-200 pt-4" aria-label="Построение маршрута"><h2 className="font-semibold text-slate-900 mb-1">Маршрут по острову</h2><p className="apr-map-route__note text-xs text-slate-500 mb-3">Время и расстояния демонстрационные. Линии на карте схематичны; маршрут до отеля пока не утверждён.</p>
+          <section className="apr-map-route border-t border-slate-200 pt-4" aria-label="Построение маршрута"><h2 className="font-semibold text-slate-900 mb-1">Маршрут по острову</h2><p className="apr-map-route__note text-xs text-slate-500 mb-3">Маршруты показаны условно, без расстояний и времени в пути. Маршрут до отеля пока не предусмотрен.</p>
             <label className="block text-sm mb-1" htmlFor="route-from">Откуда</label>
             <ZoneDropdown id="route-from" value={from} onChange={value=>{setFrom(value);setRoute(null);}} />
             <label className="block text-sm mb-1" htmlFor="route-to">Куда</label>
             <ZoneDropdown id="route-to" value={to} onChange={value=>{setTo(value);setRoute(null);}} />
             <fieldset className="mb-3"><legend className="text-sm mb-1">Способ передвижения</legend><div className="flex gap-3 flex-wrap"><label className="text-sm"><input type="radio" name="map-mode" checked={mode==='walk'} onChange={()=>{setMode('walk');setRoute(null);}} /> Пешком</label><label className="text-sm"><input type="radio" name="map-mode" checked={mode==='shuttle'} onChange={()=>{setMode('shuttle');setRoute(null);}} /> Paradise Loop</label></div></fieldset>
-            <label className="text-sm flex items-center gap-2 mb-3"><input type="checkbox" checked={slow} onChange={e=>{setSlow(e.target.checked);setRoute(null);}} /> Медленный темп (3 км/ч)</label>
             <button type="button" disabled={!from||!to} onClick={buildRoute} className="apr-map-route__submit w-full text-white py-3 disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-teal-500">Построить маршрут</button>
             {error && <p role="alert" className="mt-3 p-3 rounded-lg bg-red-50 text-red-700 text-sm">{error}</p>}
-            {route && <div className="apr-map-route__result mt-3 p-3 border text-sm"><p className="apr-map-route__summary font-semibold">Ориентировочно {route.minutes} мин · пешком {route.walkMetres} м</p><ol className="mt-2 space-y-2 list-decimal list-inside">{route.segments.map((s,i)=><li key={i}><span className="font-medium">{s.mode==='walk'?'Пешком':'Paradise Loop'}:</span> {label(s.from)} → {label(s.to)}{s.mode==='walk'?` (${s.distance} м)`:` (${s.direction})`}</li>)}</ol>{route.explanation && <p className="text-xs mt-3 text-slate-600">{route.explanation}</p>}<button type="button" className="apr-map-route__reset mt-3 underline" onClick={resetRoute}>Сбросить маршрут</button></div>}
+            {route && <div className="apr-map-route__result mt-3 p-3 border text-sm"><p className="apr-map-route__summary font-semibold">Схематичный маршрут · {route.segments.length} участков</p><ol className="mt-2 space-y-2 list-decimal list-inside">{route.segments.map((s,i)=><li key={i}><span className="font-medium">{s.mode==='walk'?'Пешком':'Paradise Loop'}:</span> {label(s.from)} → {label(s.to)}{s.mode==='shuttle'?` (${s.direction})`:''}</li>)}</ol><p className="text-xs mt-3 text-slate-600">Демонстрационная схема, не навигация по реальным дорожкам.</p><button type="button" className="apr-map-route__reset mt-3 underline" onClick={resetRoute}>Сбросить маршрут</button></div>}
           </section>
         </div>
       </aside>
