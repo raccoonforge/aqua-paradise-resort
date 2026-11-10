@@ -1,4 +1,3 @@
-import ResortIllustration from './components/map/ResortIllustration';
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react';
 
 type TravelMode = 'walk' | 'shuttle';
@@ -253,12 +252,12 @@ useEffect(() => {
       <section ref={mapRef} aria-label="Схематическая карта острова" className="apr-map-stage relative flex-1 min-h-0 md:w-[70%] overflow-hidden touch-none" onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={onPointerUp}>
         <div className="absolute inset-0 pointer-events-none" style={{background:"radial-gradient(ellipse at 45% 35%, #5aa6a8 0%, #237a82 58%, #11525c 100%)"}} aria-hidden="true" />
         <div className="absolute inset-0" style={{ transform: `translate(${pan.x}px,${pan.y}px) scale(${zoom})`, transformOrigin: 'center' }}>
-          <ResortIllustration />
+          <img className="apr-map-final-image" src={`${import.meta.env.BASE_URL}Карта%20тропического%20курорта%20Парадайс.png`} alt="" draggable={false} />
           <svg className="absolute inset-0 w-full h-full pointer-events-none apr-map-route-overlay" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
             {drawSegments.map((segment,i)=>{const a=nodeById(segment.from)!;const b=nodeById(segment.to)!;const d=routePath(a,b,i);const color=segment.mode==='shuttle'?'#36e3e0':'#ffda82';return <g key={i}><path d={d} fill="none" stroke="#073c48" strokeOpacity=".8" strokeWidth="2.4" strokeLinecap="round"/><path d={d} fill="none" stroke={color} strokeWidth="1.2" strokeDasharray={segment.mode==='shuttle'?'2 1.2':undefined} strokeLinecap="round"/></g>;})}
             {route && [from,to].map(id=>{const n=nodeById(id);return n?<circle key={id} cx={n.x} cy={n.y} r="2.4" fill="none" stroke="#fff4cf" strokeWidth=".65"/>:null;})}
           </svg>
-          <div className="apr-map-place-labels" aria-hidden="true">{ZONES.filter(z => category!=='transport' && (search.trim()==='' || z.name.toLowerCase().includes(search.trim().toLowerCase()))).map(z=><span key={z.id} className="apr-map-place-label" style={{left:`${z.x}%`,top:`${z.y}%`}}>{z.name}</span>)}</div>
+          <div className="apr-map-place-labels apr-map-place-labels--overlay" aria-hidden="true">{ZONES.filter(z => category!=='transport' && (search.trim()==='' || z.name.toLowerCase().includes(search.trim().toLowerCase()))).map(z=><span key={z.id} className="apr-map-place-label" style={{left:`${z.x}%`,top:`${z.y}%`}}>{z.name}</span>)}</div>
           {ZONES.filter(z => category !== 'transport' && (search.trim()==='' || z.name.toLowerCase().includes(search.trim().toLowerCase()))).map(z => <button key={z.id} type="button" onClick={() => {setSelected(z.id); setPanelOpen(true);}} aria-pressed={selected===z.id} aria-label={`Показать ${z.name}`} className={`apr-map-pin absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 rounded-full focus-visible:outline-4 focus-visible:outline-teal-600 ${selected===z.id ? 'z-30' : 'z-20'}`} style={{left:`${z.x}%`,top:`${z.y}%`}}><span className="apr-map-pin__dot" /><span className="sr-only">{z.name}</span></button>)}
           {showEntry && <button type="button" aria-label="Главный вход и транспортный узел" onClick={()=>{setSelected('gateway');setPanelOpen(true);}} className="apr-map-gateway absolute -translate-x-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-teal-800 text-white border-2 border-white shadow-lg focus-visible:outline-4 focus-visible:outline-teal-400" style={{left:`${ENTRY.x}%`,top:`${ENTRY.y}%`}}>⇅</button>}
         </div>
