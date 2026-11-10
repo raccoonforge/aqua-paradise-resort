@@ -20,18 +20,35 @@ const ZONES: readonly Node[] = [
   { id: 'grand-hotel', name: 'Paradise Grand Hotel', x: 29, y: 15, color: '#64748b', desc: 'Гостиничный комплекс; маршрут к отелю уточняется' },
 ];
 // Route strokes are schematic: they do not claim to trace surveyed footpaths.
+// Coordinates refer to the illustrated island only (0–100), not real-world GPS.
+// Curves follow the visible corridors as a schematic overlay; they are not survey-grade navigation.
+const WALK_WAYS: Record<string, [number,number][]> = {
+  'paradise-boulevard|paradise-market': [[55,74],[54,69],[55,62]],
+  'paradise-market|eden-gardens': [[55,62],[56,55],[55,48],[55,40]],
+  'eden-gardens|serenity-spa': [[55,40],[49,47],[43,53],[36,55],[26,56]],
+  'serenity-spa|ocean-bay': [[26,56],[37,50],[47,43],[60,34],[73,25],[88,15]],
+  'ocean-bay|adrenaline-peak': [[88,15],[78,13],[69,13],[58,15]],
+  'adrenaline-peak|atlantis-realm': [[58,15],[48,20],[36,26],[24,31]],
+  'atlantis-realm|pirates-cove': [[24,31],[36,34],[50,36],[67,37],[85,38]],
+  'pirates-cove|paradise-boulevard': [[85,38],[76,49],[72,58],[70,68],[63,74],[56,74]],
+  'eden-gardens|little-paradise': [[55,40],[64,46],[72,54],[84,61]],
+};
+const LOOP_STOPS: Record<string,[number,number]> = {
+  'paradise-boulevard':[73,71], 'paradise-market':[69,53],
+  'eden-gardens':[73,33], 'serenity-spa':[36,71],
+  'ocean-bay':[73,21], 'adrenaline-peak':[46,21],
+  'atlantis-realm':[31,40], 'pirates-cove':[73,33],
+};
+const LOOP_RING: [number,number][] = [[73,71],[69,53],[73,33],[73,21],[46,21],[31,40],[38,52],[36,71],[54,77],[73,71]];
+const polyline = (points:readonly [number,number][]) => points.map(([x,y],i)=>`${i?'L':'M'} ${x} ${y}`).join(' ');
 const routePath = (a:Node,b:Node,mode:TravelMode) => {
-  const dx=b.x-a.x,dy=b.y-a.y;
-  if(mode==='shuttle') {
-    const cx=49,cy=51;
-    const ax=a.x-cx,ay=a.y-cy,bx=b.x-cx,by=b.y-cy;
-    const start=Math.atan2(ay,ax),end=Math.atan2(by,bx);
-    const sweep=(end-start+Math.PI*2)%(Math.PI*2);
-    const mid=start+sweep/2;
-    const rx=Math.max(20,(Math.abs(ax)+Math.abs(bx))*.65),ry=Math.max(22,(Math.abs(ay)+Math.abs(by))*.65);
-    return `M ${a.x} ${a.y} Q ${cx+Math.cos(mid)*rx} ${cy+Math.sin(mid)*ry} ${b.x} ${b.y}`;
+  if (mode==='walk') {
+    const forward = WALK_WAYS[`${a.id}|${b.id}`];
+    const backward = WALK_WAYS[`${b.id}|${a.id}`];
+    return polyline(forward ?? backward?.slice().reverse() ?? [[a.x,a.y],[b.x,b.y]]);
   }
-  return `M ${a.x} ${a.y} Q ${(a.x+b.x)/2-dy*.12} ${(a.y+b.y)/2+dx*.12} ${b.x} ${b.y}`;
+  const first=LOOP_STOPS[a.id] ?? [a.x,a.y],last=LOOP_STOPS[b.id] ?? [b.x,b.y];
+  return polyline([first,last] as [number,number][]);
 };
 const ENTRY = { id: 'gateway', name: 'Транспортный узел / Главный вход', x: 55, y: 87, color: '#0f766e' };
 const ENTRY_OBJECTS = [
@@ -283,6 +300,7 @@ useEffect(() => {
         <div className="absolute left-1/2 top-1/2" style={{ width: artWidth, height: artHeight, transform: `translate(calc(-50% + ${pan.x}px), calc(-50% + ${pan.y}px)) scale(${zoom})`, transformOrigin: 'center' }}>
           <img className="apr-map-final-image" src={`${import.meta.env.BASE_URL}Карта%20тропического%20курорта%20Парадайс.png`} alt="Иллюстрированная карта острова Aqua Paradise" draggable={false} onLoad={e => { const image=e.currentTarget; if(image.naturalWidth && image.naturalHeight) setImageRatio((image.naturalWidth * .775)/image.naturalHeight); }} />
           <svg className="absolute inset-0 w-full h-full pointer-events-none apr-map-route-overlay" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            {route?.segments.some(s=>s.mode==='shuttle') && <path d={polyline(LOOP_RING)} fill="none" stroke="#50f1e5" strokeWidth=".55" strokeOpacity=".65" strokeDasharray="1.1 1.1" />}
             {drawSegments.map((segment,i)=>{const a=nodeById(segment.from)!;const b=nodeById(segment.to)!;const d=routePath(a,b,segment.mode);const color=segment.mode==='shuttle'?'#36e3e0':'#ffda82';return <g key={i}><path d={d} fill="none" stroke="#073c48" strokeOpacity=".8" strokeWidth="2.4" strokeLinecap="round"/><path d={d} fill="none" stroke={color} strokeWidth="1.2" strokeDasharray={segment.mode==='shuttle'?'2 1.2':undefined} strokeLinecap="round"/></g>;})}
             {route && [from,to].map(id=>{const n=nodeById(id);return n?<circle key={id} cx={n.x} cy={n.y} r="2.4" fill="none" stroke="#fff4cf" strokeWidth=".65"/>:null;})}
           </svg>
