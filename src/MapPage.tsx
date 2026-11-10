@@ -199,7 +199,7 @@ export default function MapPage() {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState<Category>('all');
   const [zoom, setZoom] = useState(1);
-  const [imageRatio, setImageRatio] = useState(1.16);
+  const [imageRatio, setImageRatio] = useState(1190 / 1024);
   const [stageSize, setStageSize] = useState({ width: 1000, height: 700 });
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [from, setFrom] = useState('');
@@ -209,9 +209,9 @@ export default function MapPage() {
   const [error, setError] = useState('');
   const [panelOpen, setPanelOpen] = useState(false);
   const [controlsOpen, setControlsOpen] = useState(false);
-  const [showStops, setShowStops] = useState(false);
+  const [showStops, setShowStops] = useState(true);
   const mapRef = useRef<HTMLDivElement>(null);
-  const artWidth = stageSize.width < 700 ? Math.max(stageSize.width, stageSize.height * imageRatio) : Math.min(stageSize.width, stageSize.height * imageRatio);
+  const artWidth = Math.min(stageSize.width, stageSize.height * imageRatio);
   const artHeight = artWidth / imageRatio;
   const gestures = useRef(new Map<number, { x: number; y: number }>());
   const moving = useRef<{ x: number; y: number; originX: number; originY: number } | null>(null);
@@ -227,12 +227,12 @@ export default function MapPage() {
     return () => observer.disconnect();
   }, []);
 
-  const filtered = useMemo(() => ZONES.filter(z => (category !== 'transport') && z.name.toLowerCase().includes(search.trim().toLowerCase())), [search, category]);
+  const filtered = useMemo(() => ZONES.filter(z => (category !== 'transport') && `${z.name} ${z.desc}`.toLowerCase().includes(search.trim().toLowerCase())), [search, category]);
   const showEntry = category !== 'zones' && (search.trim() === '' || `${ENTRY.name} ${ENTRY_OBJECTS.map(o => o.name).join(' ')}`.toLowerCase().includes(search.trim().toLowerCase()));
   const selectedNode = nodeById(selected ?? '');
   const label = (id: string) => nodeById(id)?.name ?? id;
   const resetRoute = () => { setFrom(''); setTo(''); setRoute(null); setError(''); };
-  const resetAll = () => { setSearch(''); setCategory('all'); setSelected(null); setPanelOpen(false); resetRoute(); };
+  const resetAll = () => { setSearch(''); setCategory('all'); setSelected(null); setPanelOpen(false); resetRoute(); resetView(); };
   const buildRoute = () => {
     setRoute(null);
     if (!from || !to) { setError('Выберите обе точки маршрута.'); return; }
