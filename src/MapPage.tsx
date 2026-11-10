@@ -1,4 +1,4 @@
-import islandLanduse from './data/island-map-v0.4.json';
+import ResortIllustration from './components/map/ResortIllustration';
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react';
 
 type TravelMode = 'walk' | 'shuttle';
@@ -20,10 +20,6 @@ const ZONES: readonly Node[] = [
   { id: 'ocean-bay', name: 'Ocean Bay', x: 68.2, y: 25.0, color: '#0ea5e9', desc: 'Пляж и морские развлечения' },
   { id: 'grand-hotel', name: 'Paradise Grand Hotel', x: 33.1, y: 27.0, color: '#64748b', desc: 'Гостиничный комплекс; маршрут к отелю уточняется' },
 ];
-// Упрощённая 2D-картография на базе существующего геоплана, без 3D-ассетов.
-const LAND_COLORS = ['#e6d2a5','#d9c49d','#7da58a','#b3cf9d','#9fbdb0','#c4ad83','#9ab5ae','#809a77','#efd7a9','#c5c3b1','#b9b8a2','#648c73'];
-const landRect = ([x,y,t,n]: number[]) => ({ x:50+x/34, y:50-(y+20)/38, width:n*20/34+0.07, height:20/38+0.07, fill:LAND_COLORS[t] });
-const COASTAL_DECOR = Array.from({length:32},(_,i)=>({x:9+(i*37%83),y:12+(i*29%77),size: .3+(i%3)*.12}));
 const routePath = (a:Node,b:Node,i:number) => { const dx=b.x-a.x,dy=b.y-a.y,len=Math.max(1,Math.hypot(dx,dy));const bend=(i%2===0?1:-1)*Math.min(7,len*.18);return `M ${a.x} ${a.y} Q ${(a.x+b.x)/2-dy/len*bend} ${(a.y+b.y)/2+dx/len*bend} ${b.x} ${b.y}`; };
 const ENTRY = { id: 'gateway', name: 'Транспортный узел / Главный вход', x: 48.5, y: 82.0, color: '#0f766e' };
 const ENTRY_OBJECTS = [
@@ -257,27 +253,11 @@ useEffect(() => {
       <section ref={mapRef} aria-label="Схематическая карта острова" className="apr-map-stage relative flex-1 min-h-0 md:w-[70%] overflow-hidden touch-none" onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={onPointerUp}>
         <div className="absolute inset-0 pointer-events-none" style={{background:"radial-gradient(ellipse at 45% 35%, #5aa6a8 0%, #237a82 58%, #11525c 100%)"}} aria-hidden="true" />
         <div className="absolute inset-0" style={{ transform: `translate(${pan.x}px,${pan.y}px) scale(${zoom})`, transformOrigin: 'center' }}>
-          <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-            <defs>
-              <filter id="apr-land-soften" x="-3%" y="-3%" width="106%" height="106%"><feGaussianBlur stdDeviation=".22"/></filter>
-              <linearGradient id="apr-sea-glow" x1="0" x2="1" y1="0" y2="1"><stop stopColor="#a8d4c5" stopOpacity=".28"/><stop offset="1" stopColor="#164e5b" stopOpacity="0"/></linearGradient>
-              <pattern id="apr-sea-lines" width="9" height="8" patternUnits="userSpaceOnUse"><path d="M 0 5 Q 2 3 4 5 T 8 5" fill="none" stroke="#dbefdf" strokeOpacity=".14" strokeWidth=".18"/></pattern>
-            </defs>
-            <rect width="100" height="100" fill="url(#apr-sea-glow)"/>
-            <rect width="100" height="100" fill="url(#apr-sea-lines)"/>
-            <g opacity=".26" transform="translate(.8 .9)" filter="url(#apr-land-soften)">{islandLanduse.runs.map((run,i)=><rect key={'shadow-'+i} {...landRect(run)} fill="#092f38"/>)}</g>
-            <g filter="url(#apr-land-soften)">{islandLanduse.runs.map((run,i)=><rect key={'land-'+i} {...landRect(run)}/>)}</g>
-            <g opacity=".17" stroke="#fff7e8" fill="none" strokeWidth=".18">{COASTAL_DECOR.map((d,i)=><circle key={i} cx={d.x} cy={d.y} r={d.size*2}/>)}</g>
-            <g fill="none" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M 48.5 80.2 Q 47 76 47.8 73 Q 47 61 49 52 Q 39 57 31.2 64.7 M 49 52 Q 59 55 68.2 64.2 M 49 52 Q 59 48 70 44.6 Q 73 35 68.2 25 M 49 52 Q 50 41 49.7 30.1 M 49 52 Q 38 46 28.8 45.1 Q 28 35 33.1 27" stroke="#174b4d" strokeOpacity=".3" strokeWidth="1.2"/>
-              <path d="M 48.5 80.2 Q 47 76 47.8 73 Q 47 61 49 52 Q 39 57 31.2 64.7 M 49 52 Q 59 55 68.2 64.2 M 49 52 Q 59 48 70 44.6 Q 73 35 68.2 25 M 49 52 Q 50 41 49.7 30.1 M 49 52 Q 38 46 28.8 45.1 Q 28 35 33.1 27" stroke="#fff7df" strokeOpacity=".9" strokeWidth=".48" strokeDasharray="1 .55"/>
-              <path d="M 48.5 80.2 Q 42 76 47.8 73 Q 56 65 49 52 Q 37 56 31.2 64.7 Q 24 54 28.8 45.1 Q 35 30 49.7 30.1 Q 60 29 68.2 25 Q 74 34 70 44.6 Q 73 54 68.2 64.2 Q 59 76 48.5 80.2" stroke="#135963" strokeWidth="1.7" strokeOpacity=".35"/>
-              <path d="M 48.5 80.2 Q 42 76 47.8 73 Q 56 65 49 52 Q 37 56 31.2 64.7 Q 24 54 28.8 45.1 Q 35 30 49.7 30.1 Q 60 29 68.2 25 Q 74 34 70 44.6 Q 73 54 68.2 64.2 Q 59 76 48.5 80.2" stroke="#d9e5c8" strokeWidth=".55" strokeDasharray="1.4 1.2" strokeOpacity=".9"/>
-            </g>
-            <g>{drawSegments.map((segment,i)=>{const a=nodeById(segment.from)!;const b=nodeById(segment.to)!;const d=routePath(a,b,i);const color=segment.mode==='shuttle'?'#1b8b95':'#c69b5c';return <g key={i}><path d={d} fill="none" stroke="#fff9e8" strokeWidth="2.2" strokeLinecap="round"/><path d={d} fill="none" stroke={color} strokeWidth="1.2" strokeDasharray={segment.mode==='shuttle'?'2 1.2':undefined} strokeLinecap="round"/></g>;})}</g>
-            {route && <g>{[from,to].map(id=>{const n=nodeById(id);return n?<circle key={id} cx={n.x} cy={n.y} r="2.6" fill="none" stroke="#fffaf0" strokeWidth=".65" opacity=".9"/>:null;})}</g>}
+          <ResortIllustration />
+          <svg className="absolute inset-0 w-full h-full pointer-events-none apr-map-route-overlay" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            {drawSegments.map((segment,i)=>{const a=nodeById(segment.from)!;const b=nodeById(segment.to)!;const d=routePath(a,b,i);const color=segment.mode==='shuttle'?'#36e3e0':'#ffda82';return <g key={i}><path d={d} fill="none" stroke="#073c48" strokeOpacity=".8" strokeWidth="2.4" strokeLinecap="round"/><path d={d} fill="none" stroke={color} strokeWidth="1.2" strokeDasharray={segment.mode==='shuttle'?'2 1.2':undefined} strokeLinecap="round"/></g>;})}
+            {route && [from,to].map(id=>{const n=nodeById(id);return n?<circle key={id} cx={n.x} cy={n.y} r="2.4" fill="none" stroke="#fff4cf" strokeWidth=".65"/>:null;})}
           </svg>
-
           <div className="apr-map-place-labels" aria-hidden="true">{ZONES.filter(z => category!=='transport' && (search.trim()==='' || z.name.toLowerCase().includes(search.trim().toLowerCase()))).map(z=><span key={z.id} className="apr-map-place-label" style={{left:`${z.x}%`,top:`${z.y}%`}}>{z.name}</span>)}</div>
           {ZONES.filter(z => category !== 'transport' && (search.trim()==='' || z.name.toLowerCase().includes(search.trim().toLowerCase()))).map(z => <button key={z.id} type="button" onClick={() => {setSelected(z.id); setPanelOpen(true);}} aria-pressed={selected===z.id} aria-label={`Показать ${z.name}`} className={`apr-map-pin absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 rounded-full focus-visible:outline-4 focus-visible:outline-teal-600 ${selected===z.id ? 'z-30' : 'z-20'}`} style={{left:`${z.x}%`,top:`${z.y}%`}}><span className="apr-map-pin__dot" /><span className="sr-only">{z.name}</span></button>)}
           {showEntry && <button type="button" aria-label="Главный вход и транспортный узел" onClick={()=>{setSelected('gateway');setPanelOpen(true);}} className="apr-map-gateway absolute -translate-x-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-teal-800 text-white border-2 border-white shadow-lg focus-visible:outline-4 focus-visible:outline-teal-400" style={{left:`${ENTRY.x}%`,top:`${ENTRY.y}%`}}>⇅</button>}
