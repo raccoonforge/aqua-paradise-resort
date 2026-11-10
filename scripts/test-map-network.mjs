@@ -31,6 +31,24 @@ try {
     pathToFileURL(join(temp, "network.js")).href
   );
   const known = new Set(places.map((p) => p.id));
+  const stationNames = places
+    .filter((p) => p.id.startsWith("stop:"))
+    .map((p) => p.name.replace("Paradise Loop · ", ""))
+    .sort();
+  assert.deepEqual(
+    stationNames,
+    [
+      "Paradise Boulevard",
+      "Paradise Market",
+      "Eden Gardens",
+      "Serenity Spa",
+      "Ocean Bay",
+      "Adrenaline Peak",
+      "Atlantis Realm",
+      "Pirate’s Cove",
+    ].sort(),
+    "Eight documented stations, with no invented duplicate central station",
+  );
   assert.equal(known.size, places.length);
   assert.equal(places.filter((p) => p.category === "zones").length, 9);
   for (const e of edges) {

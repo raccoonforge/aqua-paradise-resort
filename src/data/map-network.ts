@@ -105,12 +105,12 @@ function connect(
 const stops: [string, string, Point][] = [
   ["south", "Paradise Boulevard", [56.5, 71]],
   ["market", "Paradise Market", [54, 53]],
-  ["gardens", "Eden Gardens", [56.5, 32.5]],
+  ["pirate", "Pirate’s Cove", [56.5, 32.5]],
   ["ocean", "Ocean Bay", [56.5, 21.5]],
   ["peak", "Adrenaline Peak", [36, 20.5]],
   ["atlantis", "Atlantis Realm", [24, 40]],
-  ["spa", "Serenity Spa", [29.3, 52.5]],
-  ["west", "Paradise Loop Central Station", [28, 70.5]],
+  ["gardens", "Eden Gardens", [29.3, 52.5]],
+  ["spa", "Serenity Spa", [28, 70.5]],
 ];
 for (const [id, name, point] of stops) {
   const key = `stop:${id}`;
@@ -206,7 +206,7 @@ connect("paradise-boulevard", "stop:south", [
   [52, 76],
   [55, 74],
 ]);
-connect("paradise-boulevard", "stop:west", [
+connect("paradise-boulevard", "stop:spa", [
   [38, 82],
   [35, 80],
   [32, 77],
@@ -222,13 +222,13 @@ connect("paradise-market", "stop:market", [
   [52, 59],
   [52, 56],
 ]);
-connect("eden-gardens", "stop:spa", [
+connect("eden-gardens", "stop:gardens", [
   [39, 52],
   [36, 54],
   [33, 55],
   [30, 54],
 ]);
-connect("eden-gardens", "stop:gardens", [
+connect("eden-gardens", "stop:pirate", [
   [48, 52],
   [52, 51],
   [54, 48],
@@ -237,7 +237,7 @@ connect("eden-gardens", "stop:gardens", [
   [54, 39],
   [54, 35],
 ]);
-connect("serenity-spa", "stop:spa", [[26, 53]]);
+connect("serenity-spa", "stop:gardens", [[26, 53]]);
 connect("atlantis-realm", "stop:atlantis");
 connect("adrenaline-peak", "stop:peak", [
   [41, 23],
