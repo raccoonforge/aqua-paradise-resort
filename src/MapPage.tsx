@@ -8,7 +8,7 @@ type Route = { segments: Segment[]; minutes: number; walkMetres: number; explana
 
 // Позиции меток пересчитаны из docs/data/island-map-markers-v0.4.json в процентные координаты временного полотна. Не GPS.
 const ZONES: readonly Node[] = [
-  { id: 'paradise-boulevard', name: 'Paradise Boulevard', x: 43, y: 74, color: '#14b8a6', desc: 'Входная зона и главная аллея' },
+  { id: 'paradise-boulevard', name: 'Paradise Boulevard', x: 56, y: 74, color: '#14b8a6', desc: 'Входная зона и главная аллея' },
   { id: 'paradise-market', name: 'Paradise Market', x: 55, y: 62, color: '#f59e0b', desc: 'Торгово-ресторанный квартал' },
   { id: 'eden-gardens', name: 'Eden Gardens', x: 55, y: 40, color: '#22c55e', desc: 'Ботанический сад и зона отдыха' },
   { id: 'little-paradise', name: 'Little Paradise', x: 84, y: 61, color: '#f472b6', desc: 'Детская зона' },
@@ -33,7 +33,7 @@ const routePath = (a:Node,b:Node,mode:TravelMode) => {
   }
   return `M ${a.x} ${a.y} Q ${(a.x+b.x)/2-dy*.12} ${(a.y+b.y)/2+dx*.12} ${b.x} ${b.y}`;
 };
-const ENTRY = { id: 'gateway', name: 'Транспортный узел / Главный вход', x: 43, y: 87, color: '#0f766e' };
+const ENTRY = { id: 'gateway', name: 'Транспортный узел / Главный вход', x: 55, y: 87, color: '#0f766e' };
 const ENTRY_OBJECTS = [
   { name: 'Канатная дорога Ocean Wings', desc: 'Положение отдельной станции на финальной карте уточняется.' },
   { name: 'Морской причал', desc: 'Положение отдельного причала на финальной карте уточняется.' },
@@ -192,8 +192,9 @@ export default function MapPage() {
   const [error, setError] = useState('');
   const [panelOpen, setPanelOpen] = useState(false);
   const [controlsOpen, setControlsOpen] = useState(false);
+  const [showStops, setShowStops] = useState(false);
   const mapRef = useRef<HTMLDivElement>(null);
-  const artWidth = Math.min(stageSize.width, stageSize.height * imageRatio);
+  const artWidth = stageSize.width < 700 ? Math.max(stageSize.width, stageSize.height * imageRatio) : Math.min(stageSize.width, stageSize.height * imageRatio);
   const artHeight = artWidth / imageRatio;
   const gestures = useRef(new Map<number, { x: number; y: number }>());
   const moving = useRef<{ x: number; y: number; originX: number; originY: number } | null>(null);
@@ -224,7 +225,7 @@ export default function MapPage() {
     setError(''); setRoute(result); setPanelOpen(true); resetView();
   };
   const resetView = () => { setZoom(1); setPan({ x: 0, y: 0 }); };
-  const focusZone = (id:string) => { const zone=nodeById(id); if(!zone) return; setSelected(id);setPanelOpen(true);setZoom(1.25);setPan({x:(50-zone.x)*artWidth*.008,y:(50-zone.y)*artHeight*.008}); };
+  const focusZone = (id:string) => { const zone=nodeById(id); if(!zone) return; setSelected(id);setPanelOpen(true);setZoom(1.25);setPan({x:(50-zone.x)*artWidth*.0125,y:(50-zone.y)*artHeight*.0125}); };
   const onPointerDown = (e: PointerEvent<HTMLDivElement>) => {
     if ((e.target as HTMLElement).closest('button, input, select')) return;
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
@@ -285,6 +286,10 @@ useEffect(() => {
             {drawSegments.map((segment,i)=>{const a=nodeById(segment.from)!;const b=nodeById(segment.to)!;const d=routePath(a,b,segment.mode);const color=segment.mode==='shuttle'?'#36e3e0':'#ffda82';return <g key={i}><path d={d} fill="none" stroke="#073c48" strokeOpacity=".8" strokeWidth="2.4" strokeLinecap="round"/><path d={d} fill="none" stroke={color} strokeWidth="1.2" strokeDasharray={segment.mode==='shuttle'?'2 1.2':undefined} strokeLinecap="round"/></g>;})}
             {route && [from,to].map(id=>{const n=nodeById(id);return n?<circle key={id} cx={n.x} cy={n.y} r="2.4" fill="none" stroke="#fff4cf" strokeWidth=".65"/>:null;})}
           </svg>
+          {showStops && [
+            [46.4,21.0],[72.9,21.5],[72.8,33.1],[69.4,52.8],
+            [73.2,71.0],[36.1,71.0],[37.8,52.1],[31.0,40.2],
+          ].map(([x,y],i)=><span key={i} className="apr-map-stop-highlight" style={{left:`${x}%`,top:`${y}%`}} title="Остановка Paradise Loop" aria-label="Остановка Paradise Loop" />)}
           <div className="apr-map-place-labels apr-map-place-labels--overlay" aria-hidden="true">{ZONES.filter(z => category!=='transport' && (search.trim()==='' || z.name.toLowerCase().includes(search.trim().toLowerCase()))).map(z=><span key={z.id} className="apr-map-place-label" style={{left:`${z.x}%`,top:`${z.y}%`}}>{z.name}</span>)}</div>
           {ZONES.filter(z => category !== 'transport' && (search.trim()==='' || z.name.toLowerCase().includes(search.trim().toLowerCase()))).map(z => <button key={z.id} type="button" onClick={() => focusZone(z.id)} aria-pressed={selected===z.id} aria-label={`Показать ${z.name}`} className={`apr-map-pin apr-map-pin--artwork absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 rounded-full focus-visible:outline-4 focus-visible:outline-teal-600 ${selected===z.id ? 'z-30' : 'z-20'}`} style={{left:`${z.x}%`,top:`${z.y}%`}}><span className="apr-map-pin__dot" /><span className="sr-only">{z.name}</span></button>)}
           {showEntry && <button type="button" aria-label="Главный вход и транспортный узел" onClick={()=>{setSelected('gateway');setPanelOpen(true);setZoom(1.2);}} className="apr-map-gateway apr-map-gateway--artwork absolute -translate-x-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-teal-800 text-white border-2 border-white shadow-lg focus-visible:outline-4 focus-visible:outline-teal-400" style={{left:`${ENTRY.x}%`,top:`${ENTRY.y}%`}}>⇅</button>}
@@ -299,6 +304,7 @@ useEffect(() => {
             <button type="button" aria-label="Приблизить" disabled={zoom>=1.8} onClick={()=>setZoom(v=>clamp(v+0.2,0.6,1.8))} className="w-11 h-11 font-bold text-xl disabled:opacity-40 hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-teal-500">+</button>
             <button type="button" aria-label="Отдалить" disabled={zoom<=0.6} onClick={()=>setZoom(v=>clamp(v-0.2,0.6,1.8))} className="w-11 h-11 font-bold text-xl disabled:opacity-40 hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-teal-500">−</button>
           </div>
+          <button type="button" aria-pressed={showStops} onClick={()=>setShowStops(v=>!v)} className="rounded-xl bg-white px-3 py-2 min-h-11 text-xs font-semibold shadow-lg focus-visible:outline-2 focus-visible:outline-teal-500">Остановки Loop</button>
           <button type="button" onClick={resetView} className="rounded-xl bg-white px-3 py-2 min-h-11 text-xs font-semibold shadow-lg focus-visible:outline-2 focus-visible:outline-teal-500">Весь остров</button>
           {route && <button type="button" onClick={resetRoute} className="rounded-xl bg-red-600 text-white px-3 py-2 min-h-11 text-xs font-semibold shadow-lg focus-visible:outline-2 focus-visible:outline-teal-500">Сброс маршрута</button>}
         </div>
