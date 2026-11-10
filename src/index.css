@@ -1526,3 +1526,7 @@ body {
 .apr-map-route-overlay { z-index:15; }
 .apr-map-gateway { z-index:24 !important; }
 @media(max-width:767px) { .apr-map-place-label { font-size:9px !important; max-width:90px; padding:3px 6px !important; transform:translate(-50%,18px) !important; } }
+
+/* Uploaded resort artwork is the single map background; overlays preserve matching coordinates. */
+.apr-map-final-image { position:absolute; inset:0; display:block; width:100%; height:100%; object-fit:fill; pointer-events:none; user-select:none; }
+.apr-map-place-labels--overlay .apr-map-place-label { display:none !important; }
