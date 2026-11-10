@@ -19,7 +19,20 @@ const ZONES: readonly Node[] = [
   { id: 'ocean-bay', name: 'Ocean Bay', x: 68.2, y: 25.0, color: '#0ea5e9', desc: 'Пляж и морские развлечения' },
   { id: 'grand-hotel', name: 'Paradise Grand Hotel', x: 33.1, y: 27.0, color: '#64748b', desc: 'Гостиничный комплекс; маршрут к отелю уточняется' },
 ];
-const routePath = (a:Node,b:Node,i:number) => { const dx=b.x-a.x,dy=b.y-a.y,len=Math.max(1,Math.hypot(dx,dy));const bend=(i%2===0?1:-1)*Math.min(7,len*.18);return `M ${a.x} ${a.y} Q ${(a.x+b.x)/2-dy/len*bend} ${(a.y+b.y)/2+dx/len*bend} ${b.x} ${b.y}`; };
+// Route strokes are schematic: they do not claim to trace surveyed footpaths.
+const routePath = (a:Node,b:Node,mode:TravelMode) => {
+  const dx=b.x-a.x,dy=b.y-a.y;
+  if(mode==='shuttle') {
+    const cx=49,cy=51;
+    const ax=a.x-cx,ay=a.y-cy,bx=b.x-cx,by=b.y-cy;
+    const start=Math.atan2(ay,ax),end=Math.atan2(by,bx);
+    const sweep=(end-start+Math.PI*2)%(Math.PI*2);
+    const mid=start+sweep/2;
+    const rx=Math.max(20,Math.hypot(ax,bx)*.75),ry=Math.max(22,Math.hypot(ay,by)*.75);
+    return `M ${a.x} ${a.y} Q ${cx+Math.cos(mid)*rx} ${cy+Math.sin(mid)*ry} ${b.x} ${b.y}`;
+  }
+  return `M ${a.x} ${a.y} Q ${(a.x+b.x)/2-dy*.12} ${(a.y+b.y)/2+dx*.12} ${b.x} ${b.y}`;
+};
 const ENTRY = { id: 'gateway', name: 'Транспортный узел / Главный вход', x: 48.5, y: 82.0, color: '#0f766e' };
 const ENTRY_OBJECTS = [
   { name: 'Канатная дорога Ocean Wings', desc: 'Положение отдельной станции на финальной карте уточняется.' },
@@ -169,6 +182,8 @@ export default function MapPage() {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState<Category>('all');
   const [zoom, setZoom] = useState(1);
+  const [imageRatio, setImageRatio] = useState(1.4);
+  const [stageSize, setStageSize] = useState({ width: 1000, height: 700 });
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
@@ -178,9 +193,21 @@ export default function MapPage() {
   const [panelOpen, setPanelOpen] = useState(false);
   const [controlsOpen, setControlsOpen] = useState(false);
   const mapRef = useRef<HTMLDivElement>(null);
+  const artWidth = Math.min(stageSize.width, stageSize.height * imageRatio);
+  const artHeight = artWidth / imageRatio;
   const gestures = useRef(new Map<number, { x: number; y: number }>());
   const moving = useRef<{ x: number; y: number; originX: number; originY: number } | null>(null);
   const pinching = useRef<{ distance: number; zoom: number } | null>(null);
+
+  useEffect(() => {
+    const element = mapRef.current;
+    if (!element) return;
+    const observer = new ResizeObserver(([entry]) => {
+      if (entry) setStageSize({ width: entry.contentRect.width, height: entry.contentRect.height });
+    });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
 
   const filtered = useMemo(() => ZONES.filter(z => (category !== 'transport') && z.name.toLowerCase().includes(search.trim().toLowerCase())), [search, category]);
   const showEntry = category !== 'zones' && (search.trim() === '' || `${ENTRY.name} ${ENTRY_OBJECTS.map(o => o.name).join(' ')}`.toLowerCase().includes(search.trim().toLowerCase()));
@@ -197,6 +224,7 @@ export default function MapPage() {
     setError(''); setRoute(result); setPanelOpen(true);
   };
   const resetView = () => { setZoom(1); setPan({ x: 0, y: 0 }); };
+  const focusZone = (id:string) => { const zone=nodeById(id); if(!zone) return; setSelected(id);setPanelOpen(true);setZoom(1.25);setPan({x:(50-zone.x)*artWidth*.008,y:(50-zone.y)*artHeight*.008}); };
   const onPointerDown = (e: PointerEvent<HTMLDivElement>) => {
     if ((e.target as HTMLElement).closest('button, input, select')) return;
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
@@ -251,15 +279,15 @@ useEffect(() => {
     <main className="apr-map-page h-[calc(100dvh-64px)] min-h-[520px] flex flex-col md:flex-row bg-slate-100 overflow-hidden">
       <section ref={mapRef} aria-label="Схематическая карта острова" className="apr-map-stage relative flex-1 min-h-0 md:w-[70%] overflow-hidden touch-none" onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={onPointerUp}>
         <div className="absolute inset-0 pointer-events-none" style={{background:"radial-gradient(ellipse at 45% 35%, #5aa6a8 0%, #237a82 58%, #11525c 100%)"}} aria-hidden="true" />
-        <div className="absolute inset-0" style={{ transform: `translate(${pan.x}px,${pan.y}px) scale(${zoom})`, transformOrigin: 'center' }}>
-          <img className="apr-map-final-image" src={`${import.meta.env.BASE_URL}Карта%20тропического%20курорта%20Парадайс.png`} alt="" draggable={false} />
+        <div className="absolute left-1/2 top-1/2" style={{ width: artWidth, height: artHeight, transform: `translate(calc(-50% + ${pan.x}px), calc(-50% + ${pan.y}px)) scale(${zoom})`, transformOrigin: 'center' }}>
+          <img className="apr-map-final-image" src={`${import.meta.env.BASE_URL}Карта%20тропического%20курорта%20Парадайс.png`} alt="Иллюстрированная карта острова Aqua Paradise" draggable={false} onLoad={e => { const image=e.currentTarget; if(image.naturalWidth && image.naturalHeight) setImageRatio(image.naturalWidth/image.naturalHeight); }} />
           <svg className="absolute inset-0 w-full h-full pointer-events-none apr-map-route-overlay" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-            {drawSegments.map((segment,i)=>{const a=nodeById(segment.from)!;const b=nodeById(segment.to)!;const d=routePath(a,b,i);const color=segment.mode==='shuttle'?'#36e3e0':'#ffda82';return <g key={i}><path d={d} fill="none" stroke="#073c48" strokeOpacity=".8" strokeWidth="2.4" strokeLinecap="round"/><path d={d} fill="none" stroke={color} strokeWidth="1.2" strokeDasharray={segment.mode==='shuttle'?'2 1.2':undefined} strokeLinecap="round"/></g>;})}
+            {drawSegments.map((segment,i)=>{const a=nodeById(segment.from)!;const b=nodeById(segment.to)!;const d=routePath(a,b,segment.mode);const color=segment.mode==='shuttle'?'#36e3e0':'#ffda82';return <g key={i}><path d={d} fill="none" stroke="#073c48" strokeOpacity=".8" strokeWidth="2.4" strokeLinecap="round"/><path d={d} fill="none" stroke={color} strokeWidth="1.2" strokeDasharray={segment.mode==='shuttle'?'2 1.2':undefined} strokeLinecap="round"/></g>;})}
             {route && [from,to].map(id=>{const n=nodeById(id);return n?<circle key={id} cx={n.x} cy={n.y} r="2.4" fill="none" stroke="#fff4cf" strokeWidth=".65"/>:null;})}
           </svg>
           <div className="apr-map-place-labels apr-map-place-labels--overlay" aria-hidden="true">{ZONES.filter(z => category!=='transport' && (search.trim()==='' || z.name.toLowerCase().includes(search.trim().toLowerCase()))).map(z=><span key={z.id} className="apr-map-place-label" style={{left:`${z.x}%`,top:`${z.y}%`}}>{z.name}</span>)}</div>
-          {ZONES.filter(z => category !== 'transport' && (search.trim()==='' || z.name.toLowerCase().includes(search.trim().toLowerCase()))).map(z => <button key={z.id} type="button" onClick={() => {setSelected(z.id); setPanelOpen(true);}} aria-pressed={selected===z.id} aria-label={`Показать ${z.name}`} className={`apr-map-pin absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 rounded-full focus-visible:outline-4 focus-visible:outline-teal-600 ${selected===z.id ? 'z-30' : 'z-20'}`} style={{left:`${z.x}%`,top:`${z.y}%`}}><span className="apr-map-pin__dot" /><span className="sr-only">{z.name}</span></button>)}
-          {showEntry && <button type="button" aria-label="Главный вход и транспортный узел" onClick={()=>{setSelected('gateway');setPanelOpen(true);}} className="apr-map-gateway absolute -translate-x-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-teal-800 text-white border-2 border-white shadow-lg focus-visible:outline-4 focus-visible:outline-teal-400" style={{left:`${ENTRY.x}%`,top:`${ENTRY.y}%`}}>⇅</button>}
+          {ZONES.filter(z => category !== 'transport' && (search.trim()==='' || z.name.toLowerCase().includes(search.trim().toLowerCase()))).map(z => <button key={z.id} type="button" onClick={() => focusZone(z.id)} aria-pressed={selected===z.id} aria-label={`Показать ${z.name}`} className={`apr-map-pin absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 rounded-full focus-visible:outline-4 focus-visible:outline-teal-600 ${selected===z.id ? 'z-30' : 'z-20'}`} style={{left:`${z.x}%`,top:`${z.y}%`}}><span className="apr-map-pin__dot" /><span className="sr-only">{z.name}</span></button>)}
+          {showEntry && <button type="button" aria-label="Главный вход и транспортный узел" onClick={()=>{setSelected('gateway');setPanelOpen(true);setZoom(1.2);}} className="apr-map-gateway absolute -translate-x-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-teal-800 text-white border-2 border-white shadow-lg focus-visible:outline-4 focus-visible:outline-teal-400" style={{left:`${ENTRY.x}%`,top:`${ENTRY.y}%`}}>⇅</button>}
         </div>
         <div className="apr-map-notice absolute top-3 left-3 max-w-[70%] pointer-events-none rounded-lg px-3 py-2 text-xs shadow-sm">AQUA PARADISE <span aria-hidden="true">✦</span> КАРТА ОСТРОВА</div>
         <div className="absolute top-3 right-3 flex gap-2 z-40">
@@ -301,7 +329,7 @@ useEffect(() => {
               </div>
             </> : null}
           </section>}
-          {!selected && <section><h2 className="font-semibold text-sm text-slate-700 mb-3">Объекты ({filtered.length + (showEntry?1:0)})</h2>{showEntry && <button type="button" onClick={()=>setSelected('gateway')} className="w-full text-left p-3 rounded-lg border mb-2 hover:bg-slate-50 text-sm">⇅ {ENTRY.name}</button>}{filtered.map(z=><button type="button" key={z.id} onClick={()=>setSelected(z.id)} className="w-full text-left p-3 rounded-lg border mb-2 hover:bg-slate-50"><span className="font-medium text-sm">{z.name}</span><span className="block text-xs text-slate-500">{z.desc}</span></button>)}{filtered.length===0 && !showEntry && <p className="text-sm text-slate-500">Объекты не найдены.</p>}</section>}
+          {!selected && <section><h2 className="font-semibold text-sm text-slate-700 mb-3">Объекты ({filtered.length + (showEntry?1:0)})</h2>{showEntry && <button type="button" onClick={()=>setSelected('gateway')} className="w-full text-left p-3 rounded-lg border mb-2 hover:bg-slate-50 text-sm">⇅ {ENTRY.name}</button>}{filtered.map(z=><button type="button" key={z.id} onClick={()=>focusZone(z.id)} className="w-full text-left p-3 rounded-lg border mb-2 hover:bg-slate-50"><span className="font-medium text-sm">{z.name}</span><span className="block text-xs text-slate-500">{z.desc}</span></button>)}{filtered.length===0 && !showEntry && <p className="text-sm text-slate-500">Объекты не найдены.</p>}</section>}
           <section className="apr-map-route border-t border-slate-200 pt-4" aria-label="Построение маршрута"><h2 className="font-semibold text-slate-900 mb-1">Маршрут по острову</h2><p className="apr-map-route__note text-xs text-slate-500 mb-3">Маршруты показаны условно, без расстояний и времени в пути. Маршрут до отеля пока не предусмотрен.</p>
             <label className="block text-sm mb-1" htmlFor="route-from">Откуда</label>
             <ZoneDropdown id="route-from" value={from} onChange={value=>{setFrom(value);setRoute(null);}} />
