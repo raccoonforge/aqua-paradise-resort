@@ -910,12 +910,6 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
             )}
 
             </div>{/* ← КОНЕЦ printRef */}
-              
-            <div className="mt-12 text-center print:hidden">
-              <button onClick={() => window.location.hash = '#/map'} className="bg-white border border-gray-200 text-gray-800 px-8 py-3 rounded-full font-medium hover:bg-gray-50 transition shadow-sm">
-                Посмотреть маршрут на карте
-              </button>
-            </div>
           </div>
         )}
       </div>
