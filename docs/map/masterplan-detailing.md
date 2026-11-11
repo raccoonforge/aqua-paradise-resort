@@ -1,3 +1,5 @@
+> Superseded by [Luxury Resort Navigation Map](luxury-cartography.md#navigation-revision--2026-11-11). This architectural detailing document is retained as implementation history; decorative architecture and landscape layers are no longer rendered.
+
 > Historical density/detailing baseline. The current artistic direction is [Luxury Botanical Resort Cartography](luxury-cartography.md#botanical-artistic-revision--2026-11-11): fewer, larger botanical silhouettes and stronger district composition supersede the former canopy-count aesthetic. Technical geography and circulation remain valid.
 
 # Luxury Architectural Resort Masterplan — detailing revision

@@ -227,6 +227,65 @@ connectSecondary("adrenaline-peak", "stop:peak", [
   [46, 30],
 ]);
 
+/** The entrance alley crosses the western loop corridor at grade. Connect that
+ * physical junction in the walking graph; it is not an extra stop or catalogue POI. */
+const westApproach = edges.find(
+  (e) => e.mode === "walk" && e.from === "stop:spa" && e.to === "stop:south",
+)!;
+const entranceApproach = edges.find(
+  (e) =>
+    e.mode === "walk" && e.from === "gateway" && e.to === "paradise-boulevard",
+)!;
+const cross2 = (a: Point, b: Point) => a[0] * b[1] - a[1] * b[0];
+const ja = westApproach.points.at(-2)!,
+  jb = westApproach.points.at(-1)!,
+  jc = entranceApproach.points.at(-2)!,
+  jd = entranceApproach.points.at(-1)!;
+const jr: Point = [jb[0] - ja[0], jb[1] - ja[1]],
+  js: Point = [jd[0] - jc[0], jd[1] - jc[1]],
+  jq: Point = [jc[0] - ja[0], jc[1] - ja[1]];
+const jt = cross2(jq, js) / cross2(jr, js);
+const arrivalJunction: Place = {
+  id: "junction:arrival",
+  name: "Перекрёсток входной аллеи",
+  category: "junction",
+  description: "Пешеходное пересечение у Paradise Boulevard.",
+  point: [ja[0] + jr[0] * jt, ja[1] + jr[1] * jt],
+};
+export const junctionNodes: readonly Place[] = [arrivalJunction];
+positions.set(arrivalJunction.id, arrivalJunction.point);
+for (const original of [westApproach, entranceApproach]) {
+  const cut = original.points.length - 2;
+  const parts = [
+    {
+      from: original.from,
+      to: arrivalJunction.id,
+      points: [...original.points.slice(0, cut + 1), arrivalJunction.point],
+    },
+    {
+      from: arrivalJunction.id,
+      to: original.to,
+      points: [arrivalJunction.point, original.points.at(-1)!],
+    },
+  ];
+  edges.splice(
+    edges.indexOf(original),
+    1,
+    ...parts.map((part) => ({
+      ...original,
+      ...part,
+      weight: part.points
+        .slice(1)
+        .reduce(
+          (sum, p, i) =>
+            sum +
+            Math.hypot(p[0] - part.points[i][0], p[1] - part.points[i][1]),
+          0,
+        ),
+    })),
+  );
+}
+
 /** Guest-only circulation is explicitly modelled and excluded from public routing. */
 export const estateNodes: Record<string, Point> = {
   reception: places.find((p) => p.id === "grand-hotel")!.point,

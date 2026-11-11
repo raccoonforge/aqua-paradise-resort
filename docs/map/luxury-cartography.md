@@ -1,6 +1,6 @@
-# Aqua Paradise — Luxury Botanical Resort Cartography
+# Aqua Paradise — Luxury Resort Navigation Map
 
-Current `/map` artistic direction, 2026-11-11. The orthographic technical foundation remains intact; the former engineering-style visual treatment is superseded. This explicitly supersedes the earlier isometric/raster art direction for this page. The older production pack and illustrated implementation notes are retained as history.
+Historical artistic direction, superseded by the navigation revision below, 2026-11-11. The orthographic technical foundation remains intact; the former engineering-style visual treatment is superseded. This explicitly supersedes the earlier isometric/raster art direction for this page. The older production pack and illustrated implementation notes are retained as history.
 
 ## Identity and geography
 
@@ -60,3 +60,16 @@ Implementation changes stay in the existing artwork, landscape, district, marker
 Verification: TypeScript, scoped ESLint, production preview build, all 840 route combinations, four v0.4 checks, and eight Chromium viewport configurations against both dev and production. Rendered road/building/water/shore clearance, gestures, keyboard, search, cards, filters, reset and stop selection remain covered. Tests now verify ten distinct district signatures and garden estates and bounded botanical variety instead of enforcing hundreds of tree dots.
 
 Local production profiling at 390×844, device scale 2 and CPU throttling ×4 observed about **16.7 ms p95** during pan, **7 MiB JS heap**, **1,346 SVG descendants** and **zero mutations inside the memoized artwork** during zoom/pan. These describe that emulation run, not every physical phone. Existing full-project lint failures on unchanged pages remain outside this map change. Public GitHub Pages publication is verified through its deployment workflow; live-host visual checking is restricted by this environment's network policy.
+
+
+## Navigation revision — 2026-11-11
+
+The current direction is **Luxury Resort Navigation Map**. Earlier architectural and botanical treatments above are retained as history; their decorative layers are no longer rendered. Ten simple outlined territories represent the nine documented zones and hotel, each with a thematic icon and readable name. Coastline, original anchors, entrance, jetty, cable terminal and all eight shuttle stops retain their coordinates. Only three major water bodies remain as geographic context. No raster backgrounds, decorative buildings, trees or botanical ornaments are rendered.
+
+`navigationZones` in `map-plan.ts` supplies territory geometry. `MapArtwork` separates geography and infrastructure; `MapObjectsLayer` renders accessible object controls; `MapRouteLayer` separates the reference transport line and selected route. Public pedestrian roads and highlighted paths use the same graph edges and path generator. Private hotel paths are excluded from the visitor network. A calculated entrance-alley intersection splits both crossing pedestrian edges at their exact shared point; it is a routing junction, not a new searchable place or shuttle stop.
+
+The champagne Paradise Loop and eight stops are visible initially and can be toggled together. Selected routes are thicker than ordinary roads, with A/B flags, boarding and alighting labels, and explicit walking/shuttle instructions. Reset clears the selected route while retaining the reference network. Equal, unknown and unavailable endpoints have explicit messages. Routes show no invented metric distance or ETA.
+
+Catalogue filters remain intact; the routing view restores geographic context so filtered-out zones do not disappear during navigation. Mobile labels use deliberate placements, and the expanded guide reserves map space for gestures and controls. Territory taps, keyboard controls, mouse drag, anchored wheel zoom, touch pan/pinch and reset remain available.
+
+Verification: TypeScript, scoped ESLint, production build, 840 public endpoint/mode route combinations, topology/obstacle checks, and production Chromium scenarios at eight desktop/tablet/phone viewport sizes. Browser assertions verify territory-anchor containment, the eight-stop toggle, filters, details, walking and shuttle routes, boarding/alighting, reset, invalid/equal endpoints, gestures and absence of overflow/runtime errors. The production performance check uses a mobile viewport with 4× CPU throttling and requires fewer than 200 base SVG nodes, no static-geometry mutations while panning/zooming, p95 frame intervals below 70 ms and JavaScript heap below 80 MiB.

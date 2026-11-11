@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState, type PointerEvent } from "react";
 import {
   categories,
   findRoute,
+  junctionNodes,
   places,
   type Mode,
   type Place,
@@ -10,12 +11,13 @@ import {
 import "./components/map/premium-map.css";
 import MapArtwork from "./components/map/MapArtwork";
 import MapRouteLayer from "./components/map/MapRouteLayer";
-import MapObjectsLayer from "./components/map/MapObjectsLayer";
+import MapObjectsLayer, { AtlasGlyph } from "./components/map/MapObjectsLayer";
 
 type View = { x: number; y: number; scale: number };
 const initial: View = { x: 0, y: 0, scale: 1 };
 const limit = (n: number, a: number, b: number) => Math.max(a, Math.min(b, n));
-const getPlace = (id: string) => places.find((p) => p.id === id)!;
+const getPlace = (id: string) =>
+  [...places, ...junctionNodes].find((p) => p.id === id)!;
 function Endpoint({
   label,
   value,
@@ -58,7 +60,7 @@ function PlaceDetails({
         ← Назад к объектам
       </button>
       <div className="pm-detail-image">
-        <MapArtwork focus={place.point} />
+        <MapArtwork focus={place.point} selected={place.id} />
       </div>
       <p className="pm-eyebrow">{categories[place.category]}</p>
       <h2>{place.name}</h2>
@@ -82,7 +84,7 @@ export default function MapPage() {
     [mode, setMode] = useState<Mode>("walk"),
     [route, setRoute] = useState<Route | null>(null),
     [message, setMessage] = useState("");
-  const [stops, setStops] = useState(false);
+  const [stops, setStops] = useState(true);
   const viewport = useRef<HTMLDivElement>(null),
     world = useRef<HTMLDivElement>(null),
     panelBody = useRef<HTMLDivElement>(null),
@@ -111,11 +113,19 @@ export default function MapPage() {
   const matching = new Set(matched.map((p) => p.id));
   // At overview scale, label boarding/exit only; intermediate stops remain
   // available in instructions, the catalogue, the stop layer and detail zoom.
+  const boarding = new Set<string>(),
+    alighting = new Set<string>();
   const routePins = new Set(route ? [from, to] : []);
   route?.edges.forEach((edge, index, all) => {
     if (edge.mode !== "shuttle") return;
-    if (all[index - 1]?.mode !== "shuttle") routePins.add(edge.from);
-    if (all[index + 1]?.mode !== "shuttle") routePins.add(edge.to);
+    if (all[index - 1]?.mode !== "shuttle") {
+      routePins.add(edge.from);
+      boarding.add(edge.from);
+    }
+    if (all[index + 1]?.mode !== "shuttle") {
+      routePins.add(edge.to);
+      alighting.add(edge.to);
+    }
     if (stops || view.scale > 1.8) {
       routePins.add(edge.from);
       routePins.add(edge.to);
@@ -279,14 +289,14 @@ export default function MapPage() {
     apply(initial);
   };
   return (
-    <main className="pm-page">
+    <main className={`pm-page ${expanded ? "pm-page--sheet-open" : ""}`}>
       <section
         className="pm-map"
         aria-label="Интерактивная карта Aqua Paradise"
       >
         <div className="pm-brand">
           <span>AQUA PARADISE</span>
-          <small>BOTANICAL ISLAND ATLAS</small>
+          <small>ISLAND NAVIGATION</small>
         </div>
         <div
           ref={viewport}
@@ -294,6 +304,10 @@ export default function MapPage() {
           tabIndex={0}
           role="group"
           aria-label="Карта: стрелки — перемещение; плюс и минус — масштаб; Home — весь остров"
+          onClick={(e) => {
+            const territory = (e.target as Element).closest("[data-territory]");
+            if (territory) choose(territory.getAttribute("data-territory")!);
+          }}
           onPointerDown={down}
           onPointerMove={move}
           onPointerUp={end}
@@ -349,12 +363,14 @@ export default function MapPage() {
               transform: `translate(calc(-50% + ${view.x}px),calc(-50% + ${view.y}px)) scale(${view.scale})`,
             }}
           >
-            <MapArtwork />
+            <MapArtwork selected={selected} />
             <MapRouteLayer route={route} stops={stops} />
             <MapObjectsLayer
               places={places.filter(
                 (p) =>
-                  (matching.has(p.id) || routePins.has(p.id)) &&
+                  (tab === "route" ||
+                    matching.has(p.id) ||
+                    routePins.has(p.id)) &&
                   (!p.id.startsWith("stop:") ||
                     stops ||
                     category === "transport" ||
@@ -365,6 +381,10 @@ export default function MapPage() {
               selected={selected}
               scale={view.scale}
               onChoose={choose}
+              from={route?.edges.length ? from : undefined}
+              to={route?.edges.length ? to : undefined}
+              boarding={boarding}
+              alighting={alighting}
             />
           </div>
         </div>
@@ -414,20 +434,26 @@ export default function MapPage() {
             ⌖
           </button>
           <button
-            aria-label="Остановки Paradise Loop"
+            aria-label="Линия и остановки Paradise Loop"
             aria-pressed={stops}
             onClick={() => setStops(!stops)}
           >
-            ▣
+            <AtlasGlyph id="stop:legend" />
           </button>
         </div>
         <div className="pm-legend">
-          <span>━━ Пешком</span>
-          <span>┄ Paradise Loop · бесплатно</span>
+          <span>
+            <i className="pm-key-walk" />
+            Пешком
+          </span>
+          <span>
+            <i className="pm-key-loop" />
+            Paradise Loop · бесплатно
+          </span>
           {route && <button onClick={clear}>Сбросить маршрут ×</button>}
         </div>
         <p className="pm-map-note">
-          План острова · вид сверху
+          9 зон · отель · 8 остановок
           <span>Перетаскивайте · Ctrl + колесо — масштаб</span>
         </p>
       </section>
@@ -457,16 +483,16 @@ export default function MapPage() {
           <header>
             <p className="pm-eyebrow">ISLAND CONCIERGE</p>
             <h1>
-              Найдите свой рай<span>.</span>
+              Карта острова<span>.</span>
             </h1>
-            <p>Девять миров. Один незабываемый остров.</p>
+            <p>Выберите место или постройте маршрут.</p>
           </header>
           <nav className="pm-tabs" aria-label="Режим путеводителя">
             <button
               aria-pressed={tab === "places"}
               onClick={() => setTab("places")}
             >
-              Исследовать
+              Места
             </button>
             <button
               aria-pressed={tab === "route"}
@@ -603,9 +629,11 @@ export default function MapPage() {
               {route && route.edges.length > 0 && (
                 <div className="pm-result" role="status">
                   <strong>
-                    {mode === "walk"
-                      ? "Пешеходный маршрут"
-                      : "Paradise Loop + пешком"}
+                    {route.edges.some((e) => e.mode === "shuttle")
+                      ? route.edges.some((e) => e.mode === "walk")
+                        ? "Paradise Loop + пешком"
+                        : "Paradise Loop"
+                      : "Пешеходный маршрут"}
                   </strong>
                   <p>
                     Пересадки: {route.transfers}. Посадка и выход указаны ниже.
@@ -624,7 +652,12 @@ export default function MapPage() {
                           )}
                         {e.mode === "shuttle" &&
                           route.edges[i + 1]?.mode !== "shuttle" && (
-                            <em>Выход · далее пешком, если требуется</em>
+                            <em>
+                              Высадка
+                              {route.edges[i + 1]?.mode === "walk"
+                                ? " · далее пешком"
+                                : ""}
+                            </em>
                           )}
                       </li>
                     ))}
@@ -635,9 +668,9 @@ export default function MapPage() {
                 </div>
               )}
               <p className="pm-disclaimer">
-                Маршрут по авторскому плану курорта. Геодезического масштаба и
-                подтверждённого расписания нет: расстояния и время не
-                рассчитываются. На месте следуйте указателям.
+                Маршрут проходит по обозначенным дорожкам. Paradise Loop —
+                бесплатный электрошаттл; на карте отмечены остановки посадки и
+                высадки.
               </p>
             </section>
           )}

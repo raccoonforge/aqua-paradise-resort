@@ -23,15 +23,17 @@ const assert = require("node:assert/strict");
         "http://localhost:5173/aqua-paradise-resort/#/map",
     );
     await page.evaluate(() => document.fonts.ready);
-    await page.locator(".pm-base [data-tree-count]").waitFor();
+    await page.locator(".pm-base [data-territory]").first().waitFor();
     const scene = await page.evaluate(() => ({
       nodes: document.querySelectorAll(".pm-base *").length,
-      trees: +document.querySelector("[data-tree-count]").dataset.treeCount,
-      palms: +document.querySelector("[data-palm-count]").dataset.palmCount,
+      territories: document.querySelectorAll(".pm-base [data-territory]")
+        .length,
+      stops: document.querySelectorAll('.pm-objects [data-place^="stop:"]')
+        .length,
     }));
-    assert(scene.nodes < 1800);
-    assert(scene.trees > 50 && scene.trees < 250);
-    assert(scene.palms > 25);
+    assert(scene.nodes < 200);
+    assert.equal(scene.territories, 10);
+    assert.equal(scene.stops, 8);
     // Zoom changes only a wrapper transform and detail visibility; the static SVG is memoized.
     const root = await page.locator(".pm-base").elementHandle();
     await page.evaluate((el) => {

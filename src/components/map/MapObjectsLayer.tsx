@@ -1,5 +1,5 @@
 import { type Place } from "../../data/map-network";
-function AtlasGlyph({ id }: { id: string }) {
+export function AtlasGlyph({ id }: { id: string }) {
   const paths: Record<string, string> = {
     "grand-hotel": "M4 20V8h16v12M8 8V4h8v4M9 20v-5h6v5M7 11h1m3 0h2m3 0h1",
     "adrenaline-peak": "M2 20L9 5l5 10 3-6 5 11M6 12l3 1 2-2",
@@ -38,23 +38,32 @@ export default function MapObjectsLayer({
   selected,
   scale,
   onChoose,
+  from,
+  to,
+  boarding,
+  alighting,
 }: {
   places: Place[];
   selected: string | null;
   scale: number;
   onChoose: (id: string) => void;
+  from?: string;
+  to?: string;
+  boarding?: Set<string>;
+  alighting?: Set<string>;
 }) {
   return (
     <div className="pm-objects" data-layer="objects">
       {places.map((p) => (
         <button
           key={p.id}
-          className={`pm-pin ${p.category === "transport" ? "pm-pin-transport" : ""} ${selected === p.id ? "is-selected" : ""}`}
+          className={`pm-pin ${p.category === "transport" ? "pm-pin-transport" : ""} ${selected === p.id ? "is-selected" : ""} ${boarding?.has(p.id) ? "is-boarding" : ""} ${alighting?.has(p.id) ? "is-alighting" : ""}`}
           style={{
             left: `${p.point[0]}%`,
             top: `${p.point[1]}%`,
             transform: `translate(-50%,-50%) scale(${1 / scale})`,
           }}
+          data-place={p.id}
           aria-label={`Показать ${p.name}`}
           aria-pressed={selected === p.id}
           onClick={() => onChoose(p.id)}
@@ -62,7 +71,26 @@ export default function MapObjectsLayer({
           <span>
             <AtlasGlyph id={p.id} />
           </span>
-          <b>{p.name}</b>
+          {from === p.id && (
+            <em className="pm-endpoint-flag" aria-hidden="true">
+              A
+            </em>
+          )}
+          {to === p.id && (
+            <em
+              className="pm-endpoint-flag pm-endpoint-flag--end"
+              aria-hidden="true"
+            >
+              B
+            </em>
+          )}
+          <b>
+            {boarding?.has(p.id)
+              ? "Посадка"
+              : alighting?.has(p.id)
+                ? "Высадка"
+                : p.name}
+          </b>
         </button>
       ))}
     </div>

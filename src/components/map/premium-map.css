@@ -1068,3 +1068,322 @@
     height: 14px;
   }
 }
+
+/* Luxury Resort Navigation Map: territories, walking corridors and a visible loop. */
+.pm-map,
+.pm-page,
+.pm-detail-image {
+  background: #153f46;
+}
+.pm-brand {
+  color: #eee5cb;
+}
+.pm-brand small {
+  color: #b4c8bd;
+}
+.pm-panel h1 {
+  font-size: 38px;
+}
+.pm-pin {
+  min-width: 28px;
+  width: 28px;
+  height: 28px;
+}
+.pm-pin > span {
+  width: 25px;
+  height: 25px;
+  border-radius: 6px;
+  background: #fff9e8;
+  border: 1px solid #78917b;
+  color: #365e4d;
+  box-shadow: none;
+}
+.pm-pin > span svg {
+  width: 18px;
+  height: 18px;
+}
+.pm-pin b {
+  top: 31px;
+  max-width: 148px;
+  font:
+    600 12px/1.25 Manrope,
+    sans-serif;
+  letter-spacing: -0.02em;
+  border: 1px solid #bdc7ad;
+  background: #f9f5e8f5;
+  border-radius: 4px;
+  padding: 3px 6px;
+  color: #274d3e;
+  text-shadow: none;
+}
+.pm-pin-transport {
+  min-width: 20px;
+  width: 20px;
+  height: 20px;
+}
+.pm-pin-transport > span {
+  width: 19px;
+  height: 19px;
+  border-radius: 5px;
+  background: #e8d4a4;
+  border-color: #496d5b;
+}
+.pm-pin-transport > span svg {
+  width: 14px;
+  height: 14px;
+}
+.pm-pin-transport b {
+  display: none;
+}
+.pm-pin-transport:hover b,
+.pm-pin-transport:focus-visible b,
+.pm-pin-transport.is-selected b {
+  display: block;
+}
+.pm-pin.is-boarding > span {
+  background: #315f4c;
+  color: #fff6df;
+  box-shadow: 0 0 0 3px #fcf7e4;
+}
+.pm-pin.is-alighting > span {
+  background: #d9b56d;
+  color: #243f35;
+  box-shadow: 0 0 0 3px #fcf7e4;
+}
+.pm-pin.is-boarding b,
+.pm-pin.is-alighting b {
+  display: block !important;
+  top: 24px;
+  font-size: 10px;
+}
+.pm-endpoint-flag {
+  position: absolute;
+  left: -8px;
+  top: -9px;
+  display: grid;
+  place-items: center;
+  min-width: 16px;
+  height: 16px;
+  background: #2b6451;
+  color: #fff7e7;
+  border: 1px solid #fff4d9;
+  border-radius: 4px;
+  font:
+    700 10px/1 Manrope,
+    sans-serif;
+  font-style: normal;
+  z-index: 4;
+  pointer-events: none;
+}
+.pm-endpoint-flag--end {
+  background: #dab66d;
+  color: #244236;
+}
+.pm-legend {
+  font-size: 11px;
+  background: #143e44f0;
+  border-color: #7d97866e;
+  color: #f1ead6;
+  gap: 14px;
+}
+.pm-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.pm-legend i {
+  display: inline-block;
+  width: 22px;
+  height: 4px;
+  flex: none;
+  border-radius: 1px;
+}
+.pm-key-walk {
+  background: #fff7e3;
+  border: 1px solid #96a588;
+}
+.pm-key-loop {
+  background: #d7b77a;
+  box-shadow: 0 0 0 1px #688474;
+}
+.pm-legend span:nth-child(2) {
+  color: #eddaad;
+}
+.pm-brand {
+  background: #153f46e8;
+  padding: 9px 12px;
+  border-radius: 4px;
+}
+@container (max-width:600px) {
+  .pm-pin:not(.pm-pin-transport) b {
+    display: block;
+    font-size: 10px;
+    max-width: 88px;
+    width: max-content;
+  }
+  .pm-pin:not(.pm-pin-transport) {
+    min-width: 24px;
+    width: 24px;
+    height: 24px;
+  }
+  .pm-pin:not(.pm-pin-transport) > span {
+    width: 22px;
+    height: 22px;
+  }
+  .pm-pin:not(.pm-pin-transport) > span svg {
+    width: 16px;
+    height: 16px;
+  }
+  .pm-pin-transport {
+    min-width: 18px;
+    width: 18px;
+    height: 18px;
+  }
+  .pm-pin-transport > span {
+    width: 17px;
+    height: 17px;
+  }
+  .pm-pin-transport > span svg {
+    width: 12px;
+    height: 12px;
+  }
+  .pm-pin[data-place="grand-hotel"] b,
+  .pm-pin[data-place="atlantis-realm"] b,
+  .pm-pin[data-place="serenity-spa"] b,
+  .pm-pin[data-place="paradise-market"] b,
+  .pm-pin[data-place="paradise-boulevard"] b {
+    left: auto;
+    right: calc(50% + 14px);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .pm-pin[data-place="ocean-bay"] b,
+  .pm-pin[data-place="pirates-cove"] b,
+  .pm-pin[data-place="little-paradise"] b,
+  .pm-pin[data-place="eden-gardens"] b {
+    left: calc(50% + 14px);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .pm-pin[data-place="pirates-cove"] b {
+    margin-top: -5px;
+  }
+  .pm-pin[data-place="adrenaline-peak"] b {
+    left: 50%;
+    top: auto;
+    bottom: calc(50% + 13px);
+    transform: translateX(-50%);
+  }
+}
+@container (max-height:280px) {
+  .pm-pin:not(.is-selected):not(.is-boarding):not(.is-alighting) b {
+    display: none;
+  }
+}
+@media (max-width: 767px) {
+  .pm-world {
+    width: min(118%, 100cqh);
+  }
+  .pm-legend {
+    display: flex;
+    left: 10px;
+    bottom: 30px;
+    padding: 5px 7px;
+    font-size: 9px;
+    gap: 9px;
+  }
+  .pm-legend i {
+    width: 18px;
+  }
+  .pm-brand {
+    max-width: 172px;
+    padding: 8px 10px;
+  }
+  .pm-brand span {
+    font-size: 14px;
+  }
+  .pm-controls {
+    border-radius: 5px;
+  }
+}
+@media (max-width: 767px) and (max-height: 700px) {
+  .pm-legend {
+    bottom: 8px;
+    font-size: 8px;
+  }
+  .pm-map-note {
+    display: none;
+  }
+  .pm-viewport {
+    bottom: 38px;
+  }
+}
+@media (min-width: 768px) and (max-height: 550px) {
+  .pm-legend {
+    display: flex;
+    font-size: 9px;
+    bottom: 28px;
+  }
+}
+@container (min-width:601px) {
+  .pm-pin[data-place="atlantis-realm"] b,
+  .pm-pin[data-place="pirates-cove"] b,
+  .pm-pin[data-place="serenity-spa"] b {
+    top: auto;
+    bottom: calc(50% + 17px);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+@media (max-width: 767px) {
+  .pm-panel.is-expanded {
+    flex-basis: 46%;
+  }
+  .pm-panel-body > header {
+    display: none;
+  }
+  .pm-panel-body {
+    padding-top: 0;
+  }
+  .pm-tabs {
+    margin-bottom: 12px;
+  }
+  .pm-page--sheet-open .pm-viewport {
+    inset: 56px 0 38px;
+  }
+  .pm-page--sheet-open .pm-brand,
+  .pm-page--sheet-open .pm-orientation,
+  .pm-page--sheet-open .pm-map-note {
+    display: none;
+  }
+  .pm-page--sheet-open .pm-controls {
+    width: 222px;
+    top: 8px;
+  }
+  .pm-page--sheet-open .pm-legend {
+    bottom: 8px;
+    font-size: 8px;
+  }
+  .pm-routing h2 {
+    font-size: 24px;
+    margin-top: 8px;
+  }
+  .pm-endpoint {
+    margin-top: 12px;
+  }
+}
+@media (max-width: 767px) and (max-height: 700px) {
+  .pm-panel.is-expanded {
+    flex-basis: 40%;
+  }
+}
+.pm-base [data-territory] {
+  pointer-events: visiblePainted;
+  cursor: pointer;
+}
+.pm-controls button svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin: auto;
+}

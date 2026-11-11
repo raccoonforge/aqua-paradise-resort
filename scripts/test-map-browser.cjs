@@ -126,31 +126,67 @@ const fs = require("node:fs");
       });
       assert.deepEqual(clearance, [], "Rendered SVG road clearance");
       assert.equal(
-        await page.locator(".pm-base [data-district]").count(),
+        await page.locator(".pm-base [data-territory]").count(),
         10,
-        "Every district receives architectural detailing",
+        "Ten clearly outlined navigation territories",
+      );
+      assert.equal(
+        await page
+          .locator(
+            '.pm-base [data-layer="architecture"],.pm-base [data-tree-count],.pm-base [data-layer="district-details"]',
+          )
+          .count(),
+        0,
+        "No architectural or botanical illustration layers",
       );
       assert(
-        (await page.locator(".pm-base [data-detail-building]").count()) >= 75,
-      );
-      assert(
-        (await page.locator(".pm-base *").count()) < 1800,
-        "Bound SVG element count",
+        (await page.locator(".pm-base *").count()) < 200,
+        "Small navigation scene",
       );
       assert.equal(
-        await page.locator(".pm-base [data-signature]").count(),
-        10,
-        "A distinct silhouette for each district",
+        await page.locator('.pm-objects [data-place^="stop:"]').count(),
+        8,
+        "All eight loop stops visible at overview",
       );
       assert.equal(
-        await page.locator(".pm-base [data-estate]").count(),
-        10,
-        "Coherent district garden grounds",
+        await page.locator('[data-loop="true"]').count(),
+        1,
+        "Loop is visible by default",
       );
+      assert.deepEqual(
+        await page.evaluate(() =>
+          [...document.querySelectorAll(".pm-base [data-territory]")]
+            .filter(
+              (p) =>
+                !p.isPointInFill(
+                  new DOMPoint(+p.dataset.anchorX, +p.dataset.anchorY),
+                ),
+            )
+            .map((p) => p.dataset.territory),
+        ),
+        [],
+        "Every place lies inside its own territory",
+      );
+      await page
+        .getByRole("button", {
+          name: "Линия и остановки Paradise Loop",
+          exact: true,
+        })
+        .click();
+      assert.equal(await page.locator('[data-loop="true"]').count(), 0);
       assert.equal(
-        await page.locator(".pm-base [data-natural-pond]").count(),
-        2,
-        "Organic garden shorelines retain conservative clearance envelopes",
+        await page.locator('.pm-objects [data-place^="stop:"]').count(),
+        0,
+      );
+      await page
+        .getByRole("button", {
+          name: "Линия и остановки Paradise Loop",
+          exact: true,
+        })
+        .click();
+      assert.equal(
+        await page.locator('.pm-objects [data-place^="stop:"]').count(),
+        8,
       );
       if (width < 768) await page.locator(".pm-sheet-toggle").click();
       const search = page.getByRole("searchbox");
@@ -182,7 +218,36 @@ const fs = require("node:fs");
         await page
           .locator(".pm-result")
           .innerText()
-          .then((t) => t.includes("Посадка") && t.includes("Выход")),
+          .then((t) => t.includes("Посадка") && t.includes("Высадка")),
+      );
+      assert.equal(
+        await page.locator(".pm-objects .is-boarding").count(),
+        1,
+        "Boarding stop is explicit",
+      );
+      assert.equal(
+        await page.locator(".pm-objects .is-alighting").count(),
+        1,
+        "Alighting stop is explicit",
+      );
+      assert.equal(
+        await page.locator(".pm-endpoint-flag").count(),
+        2,
+        "Route endpoints A/B",
+      );
+      assert.equal(
+        await page
+          .locator(".pm-objects .pm-pin:not(.pm-pin-transport)")
+          .count(),
+        10,
+        "Navigation keeps district orientation despite catalogue filters",
+      );
+      assert(
+        +(await page
+          .locator("[data-route-mode] path")
+          .nth(1)
+          .getAttribute("stroke-width")) > 1.12,
+        "Selected path is stronger than ordinary walking roads",
       );
       await page.screenshot({
         path: `work/map-qa/route-${width}x${height}.png`,
@@ -191,12 +256,42 @@ const fs = require("node:fs");
         .locator(".pm-result")
         .getByRole("button", { name: "Сбросить маршрут" })
         .click();
-      assert.equal(await page.locator(".pm-roads g").count(), 0);
+      assert.equal(
+        await page.locator(".pm-roads [data-route-mode]").count(),
+        0,
+      );
       await page.getByLabel("Куда", { exact: true }).selectOption("gateway");
       await page
         .getByRole("button", { name: "Построить маршрут", exact: true })
         .click();
       assert(await page.getByText("Вы уже в выбранном месте.").isVisible());
+      assert.equal(
+        await page.locator(".pm-endpoint-flag").count(),
+        0,
+        "Equal endpoints do not produce conflicting A/B flags",
+      );
+      await page.getByLabel("Куда", { exact: true }).evaluate((select) => {
+        const option = document.createElement("option");
+        option.value = "closed-test";
+        option.textContent = "Закрытая точка (проверка)";
+        select.append(option);
+      });
+      await page
+        .getByLabel("Куда", { exact: true })
+        .selectOption("closed-test");
+      await page
+        .getByRole("button", { name: "Построить маршрут", exact: true })
+        .click();
+      assert(
+        await page
+          .getByText("Связь между точками недоступна.", { exact: true })
+          .isVisible(),
+      );
+      assert.equal(
+        await page.locator(".pm-roads [data-route-mode]").count(),
+        0,
+        "Unavailable route leaves no stale line",
+      );
       if (width < 768) await page.locator(".pm-sheet-toggle").click();
       await page
         .getByRole("button", { name: "Приблизить", exact: true })
@@ -310,6 +405,14 @@ const fs = require("node:fs");
         .then((t) => t === "Eden Gardens"),
     );
     await page.screenshot({ path: "work/map-qa/mobile-detail.png" });
+    await page.getByRole("button", { name: "Показать весь остров" }).click();
+    const territoryPoint=await page.locator('.pm-base [data-territory="grand-hotel"]').evaluate(p=>{const q=new DOMPoint(27,25).matrixTransform(p.getScreenCTM());return {x:q.x,y:q.y};});
+    await page.mouse.click(territoryPoint.x,territoryPoint.y);
+    assert.equal(
+      await page.locator(".pm-details h2").innerText(),
+      "Paradise Grand Hotel",
+      "Territory tap selects its object",
+    );
     assert.deepEqual(errors, []);
     console.log(
       "PASS touch pinch/pan and reduced motion; no browser runtime errors",

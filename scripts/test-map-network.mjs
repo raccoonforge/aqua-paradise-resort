@@ -14,8 +14,6 @@ try {
     ["src/components/map/destinations.ts", "destinations.js"],
     ["src/data/map-network.ts", "network.js"],
     ["src/data/map-plan.ts", "plan.js"],
-    ["src/data/map-detail-plan.ts", "detail.js"],
-    ["src/data/map-landscape.ts", "landscape.js"],
   ]) {
     const source = readFileSync(new URL("../" + input, import.meta.url), "utf8")
       .replace(
@@ -35,9 +33,8 @@ try {
       }).outputText,
     );
   }
-  const { places, edges, findRoute, estateEdges, estateNodes } = await import(
-    pathToFileURL(join(temp, "network.js")).href
-  );
+  const { places, edges, findRoute, estateEdges, estateNodes, junctionNodes } =
+    await import(pathToFileURL(join(temp, "network.js")).href);
   const canonical = JSON.parse(
     readFileSync(
       new URL("../docs/data/island-map-markers-v0.4.json", import.meta.url),
@@ -54,41 +51,19 @@ try {
       "Canonical orthographic pin projection",
     );
   const original = await import(pathToFileURL(join(temp, "plan.js")).href);
-  const detail = await import(pathToFileURL(join(temp, "detail.js")).href);
-  const landscape = await import(
-    pathToFileURL(join(temp, "landscape.js")).href
-  );
-  const footprints = [...original.footprints, ...detail.detailBuildings],
-    pools = [...original.pools, ...detail.detailPools];
-  console.log(
-    "DETAIL COUNTS",
-    Object.fromEntries(
-      detail.detailDistricts.map((d) => [
-        d,
-        {
-          buildings: detail.detailBuildings.filter((b) => b.district === d)
-            .length,
-          pools: detail.detailPools.filter((p) => p.district === d).length,
-        },
-      ]),
-    ),
-    "trees",
-    landscape.treeCount,
-    "palms",
-    landscape.palmCount,
+  const footprints = original.footprints,
+    pools = original.pools;
+  assert.deepEqual(
+    original.navigationZones.map((z) => z.id).sort(),
+    places
+      .slice(0, 10)
+      .map((p) => p.id)
+      .sort(),
+    "Ten visitor territories correspond to real districts and hotel",
   );
   assert(
-    detail.detailBuildings.length >= 75,
-    "Substantial architectural detail",
-  );
-  for (const d of detail.detailDistricts)
-    assert(
-      detail.detailBuildings.filter((b) => b.district === d).length >= 4,
-      "District missing detail: " + d,
-    );
-  assert(
-    landscape.treeCount > 50 && landscape.treeCount < 250,
-    "Fewer, larger botanical silhouettes rather than canopy dots",
+    original.navigationZones.every((z) => z.d.endsWith("Z")),
+    "Closed territory contours",
   );
   for (const e of estateEdges) {
     assert.deepEqual(e.points[0], estateNodes[e.from]);
@@ -151,16 +126,7 @@ try {
     null,
     "Private estate nodes must never enter public routing",
   );
-  assert.equal(
-    landscape.forestBatches.length,
-    6,
-    "Six pigment batches for three botanical species",
-  );
-  assert(
-    landscape.forestBatches.every((b) => b.d && b.veins),
-    "Botanical leaf silhouettes and venation",
-  );
-  const known = new Set(places.map((p) => p.id));
+  const known = new Set([...places, ...junctionNodes].map((p) => p.id));
   const stationNames = places
     .filter((p) => p.id.startsWith("stop:"))
     .map((p) => p.name.replace("Paradise Loop · ", ""))
@@ -179,7 +145,7 @@ try {
     ].sort(),
     "Eight documented stations, with no invented duplicate central station",
   );
-  assert.equal(known.size, places.length);
+  assert.equal(known.size, places.length + junctionNodes.length);
   assert.equal(places.filter((p) => p.category === "zones").length, 9);
   for (const e of edges) {
     assert(known.has(e.from) && known.has(e.to));
@@ -197,6 +163,35 @@ try {
     1,
     "Hotel must be a terminal access, never a shortcut",
   );
+  assert(
+    findRoute("gateway", "stop:spa", "walk").edges.some(
+      (e) => e.from === "junction:arrival" || e.to === "junction:arrival",
+    ),
+    "Entrance intersection is routable without a loop detour",
+  );
+  const walking = edges.filter((e) => e.mode === "walk");
+  const cross = (a, b) => a[0] * b[1] - a[1] * b[0];
+  for (let i = 0; i < walking.length; i++)
+    for (let j = i + 1; j < walking.length; j++)
+      for (let a = 1; a < walking[i].points.length; a++)
+        for (let b = 1; b < walking[j].points.length; b++) {
+          const p = walking[i].points[a - 1],
+            q = walking[j].points[b - 1],
+            r = walking[i].points[a].map((x, k) => x - p[k]),
+            s = walking[j].points[b].map((x, k) => x - q[k]),
+            den = cross(r, s);
+          if (Math.abs(den) < 1e-8) continue;
+          const diff = q.map((x, k) => x - p[k]),
+            t = cross(diff, s) / den,
+            u = cross(diff, r) / den;
+          if (t > 1e-6 && t < 1 - 1e-6 && u > 1e-6 && u < 1 - 1e-6)
+            assert.fail(
+              "Unconnected walking crossing: " +
+                walking[i].from +
+                " / " +
+                walking[j].from,
+            );
+        }
   let cases = 0;
   for (const a of places)
     for (const b of places)

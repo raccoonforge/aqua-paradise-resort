@@ -66,3 +66,57 @@ export const groves = [
   "M33 77Q37 77 38 79Q41 80 41 83Q42 86 40 86Q37 85 36 83Q34 80 33 77Z",
   "M59 79Q63 76 65 77Q65 81 62 83Q61 86 58 87Q55 88 56 86Q56 82 59 79Z",
 ];
+
+/** Visitor navigation territories. Anchors and road geometry remain canonical. */
+export const navigationZones = [
+  {
+    id: "grand-hotel",
+    fill: "#dcd5be",
+    d: "M23 22Q29 16 38 18Q41 19 41 27L39 30Q30 33 24 29Z",
+  },
+  {
+    id: "adrenaline-peak",
+    fill: "#b1c09e",
+    d: "M43 22Q49 19 56 21L60 25L58 29Q51 31 44 28Z",
+  },
+  {
+    id: "ocean-bay",
+    fill: "#d0ddc3",
+    d: "M62 18Q69 15 75 19L74 27Q70 30 65 27Z",
+  },
+  {
+    id: "atlantis-realm",
+    fill: "#b6cec0",
+    d: "M25 36Q30 33 35 36L36 43Q33 47 26 46Z",
+  },
+  {
+    id: "eden-gardens",
+    fill: "#a8c1a7",
+    d: "M39 37Q49 33 60 37L62 44L59 54Q54 59 45 59L37 55L37 46Z",
+  },
+  {
+    id: "pirates-cove",
+    fill: "#b7cfc7",
+    d: "M65 37Q74 34 81 38L82 46L78 50L67 48L64 43Z",
+  },
+  {
+    id: "serenity-spa",
+    fill: "#c5d2b6",
+    d: "M24 58Q29 55 33 59L34 65L30 69Q24 69 23 65Z",
+  },
+  {
+    id: "little-paradise",
+    fill: "#cbd6ba",
+    d: "M60 57Q67 54 72 58L73 63L69 67L61 66L59 62Z",
+  },
+  {
+    id: "paradise-market",
+    fill: "#e0d2b2",
+    d: "M40 68Q47 65 54 68L56 73L53 77L43 77L39 73Z",
+  },
+  {
+    id: "paradise-boulevard",
+    fill: "#d5d2b8",
+    d: "M43 79Q49 77 54 80L55 86L52 89L46 88L42 84Z",
+  },
+] as const;

@@ -9,59 +9,54 @@ export default function MapRouteLayer({
   return (
     <svg
       className="pm-roads"
+      data-layer="transport-and-route"
       viewBox="0 0 100 100"
       preserveAspectRatio="none"
       aria-hidden="true"
     >
-      {stops &&
-        edges
-          .filter((e) => e.mode === "shuttle")
-          .map((e, i) => (
-            <path
-              key={i}
-              d={pathData(e.points)}
-              fill="none"
-              stroke="#0d6670"
-              strokeWidth=".3"
-              strokeDasharray=".7 .5"
-            />
-          ))}
+      {stops && (
+        <g
+          data-loop="true"
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          {edges
+            .filter((e) => e.mode === "shuttle")
+            .map((e, i) => (
+              <g key={i}>
+                <path
+                  d={pathData(e.points)}
+                  stroke="#4d6d61"
+                  strokeWidth=".68"
+                />
+                <path
+                  d={pathData(e.points)}
+                  stroke="#d7b77a"
+                  strokeWidth=".36"
+                />
+              </g>
+            ))}
+        </g>
+      )}
       {route?.edges.map((e, i) => (
-        <g key={i}>
+        <g
+          key={i}
+          data-route-mode={e.mode}
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d={pathData(e.points)} stroke="#fff9e8" strokeWidth="1.75" />
+          <path d={pathData(e.points)} stroke="#214d44" strokeWidth="1.35" />
           <path
             d={pathData(e.points)}
-            fill="none"
-            stroke="#103d42"
-            strokeWidth=".66"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d={pathData(e.points)}
-            fill="none"
-            stroke={e.mode === "walk" ? "#f5d58f" : "#447d86"}
-            strokeWidth=".36"
-            strokeDasharray={e.mode === "shuttle" ? "1 .5" : undefined}
-            strokeLinecap="round"
-            strokeLinejoin="round"
+            stroke={e.mode === "walk" ? "#f6eed5" : "#ecc67f"}
+            strokeWidth=".77"
+            strokeDasharray={e.mode === "walk" ? ".8 .45" : undefined}
           />
         </g>
       ))}
-      {route &&
-        route.edges.length > 0 &&
-        [route.edges[0].points[0], route.edges.at(-1)!.points.at(-1)!].map(
-          ([x, y], i) => (
-            <circle
-              key={i}
-              cx={x}
-              cy={y}
-              r=".65"
-              fill="#fff2bd"
-              stroke="#15463e"
-              strokeWidth=".25"
-            />
-          ),
-        )}
     </svg>
   );
 }
