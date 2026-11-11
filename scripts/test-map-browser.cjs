@@ -147,6 +147,11 @@ const fs = require("node:fs");
         10,
         "Coherent district garden grounds",
       );
+      assert.equal(
+        await page.locator(".pm-base [data-natural-pond]").count(),
+        2,
+        "Organic garden shorelines retain conservative clearance envelopes",
+      );
       if (width < 768) await page.locator(".pm-sheet-toggle").click();
       const search = page.getByRole("searchbox");
       await search.fill("транспорт");

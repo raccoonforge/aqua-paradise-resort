@@ -99,30 +99,53 @@ export function GeographyLayer({ clipId }: { clipId: string }) {
           strokeWidth=".7"
         />
         <BotanicalGrounds />
-        {pools.map((p, i) => (
-          <ellipse
-            data-obstacle="water"
-            key={i}
-            cx={p.x}
-            cy={p.y}
-            rx={p.rx}
-            ry={p.ry}
-            fill={
-              [
-                "#74a79c",
-                "#72a6a7",
-                "#65a19a",
-                "#82b09b",
-                "#86b89c",
-                "#8eb9a3",
-                "#88bcb1",
-                "#619c98",
-              ][i]
-            }
-            stroke="#f9f6ec"
-            strokeWidth=".22"
-          />
-        ))}
+        {pools.map((p, i) => {
+          const organic = i === 3 || i === 4;
+          const shoreline = `M${p.x - p.rx * 0.95} ${p.y - p.ry * 0.1} C${p.x - p.rx * 0.85} ${p.y - p.ry * 0.85} ${p.x + p.rx * 0.05} ${p.y - p.ry} ${p.x + p.rx * 0.55} ${p.y - p.ry * 0.7} C${p.x + p.rx * 0.95} ${p.y - p.ry * 0.5} ${p.x + p.rx} ${p.y + p.ry * 0.2} ${p.x + p.rx * 0.6} ${p.y + p.ry * 0.6} C${p.x + p.rx * 0.1} ${p.y + p.ry} ${p.x - p.rx * 0.5} ${p.y + p.ry * 0.8} ${p.x - p.rx * 0.75} ${p.y + p.ry * 0.45} Q${p.x - p.rx} ${p.y + p.ry * 0.2} ${p.x - p.rx * 0.95} ${p.y - p.ry * 0.1}Z`;
+          return (
+            <g key={i}>
+              {organic && (
+                <defs>
+                  <clipPath id={`${clipId}-pond-${i}`}>
+                    <path d={shoreline} />
+                  </clipPath>
+                </defs>
+              )}
+              {/* The physical ellipse remains a conservative clearance envelope; the garden shoreline is organic. */}
+              <ellipse
+                data-obstacle="water"
+                cx={p.x}
+                cy={p.y}
+                rx={p.rx}
+                ry={p.ry}
+                fill={
+                  [
+                    "#74a79c",
+                    "#72a6a7",
+                    "#65a19a",
+                    "#82b09b",
+                    "#86b89c",
+                    "#8eb9a3",
+                    "#88bcb1",
+                    "#619c98",
+                  ][i]
+                }
+                stroke="#f9f6ec"
+                strokeWidth=".22"
+                clipPath={organic ? `url(#${clipId}-pond-${i})` : undefined}
+              />
+              {organic && (
+                <path
+                  data-natural-pond="true"
+                  d={shoreline}
+                  fill="none"
+                  stroke="#e9ebd0"
+                  strokeWidth=".16"
+                />
+              )}
+            </g>
+          );
+        })}
         <path
           d="M49 48Q46 47 44 49Q43 52 46 53Q48 53 49 50Z"
           fill="#9cb894"
