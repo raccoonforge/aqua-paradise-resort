@@ -1,5 +1,4 @@
 import PlannerPage from './PlannerPage';
-import MapPage from './MapPage';
 import HotelPage from './HotelPage';
 import VisitPage from './VisitPage';
 import TicketsPage from './TicketsPage';
@@ -475,7 +474,6 @@ function App() {
         const attrParams = new URLSearchParams(queryString);
         return <AttractionsPage initialRide={attrParams.get('ride') || undefined} />;
       }
-      case '#/map': return <MapPage />;
       case '#/hotel': return <HotelPage />;
       case '#/visit': return <VisitPage />;
       case '#/tickets': return <TicketsPage />;
@@ -505,7 +503,6 @@ function App() {
                 <button onClick={() => navigate('#/attractions')}><HeaderIcon name="family" /><span><strong>Семейный отдых</strong><small>Развлечения для всей семьи</small></span></button>
               </div>
             </details>
-            <button type="button" className="apr-nav-link" onClick={() => navigate('#/map')}>Карта острова</button>
             <button type="button" className="apr-nav-link" onClick={() => navigate('#/hotel')}>Отель</button>
             <details className="apr-nav-dropdown">
               <summary className="apr-nav-link">Посещение <span className="apr-nav-chevron" aria-hidden="true" /></summary>
@@ -543,7 +540,6 @@ function App() {
             <nav aria-label="Мобильная навигация" className="apr-mobile-links">
               <button onClick={() => { navigate('#/'); setTimeout(() => document.getElementById('about')?.scrollIntoView(), 0); }}>О курорте</button>
               <details><summary>Развлечения <span className="apr-mobile-chevron" aria-hidden="true" /></summary><div className="apr-mobile-submenu"><button onClick={() => navigate('#/zones')}><HeaderIcon name="compass" />Тематические зоны</button><button onClick={() => navigate('#/attractions')}><HeaderIcon name="slide" />Аттракционы</button><button onClick={() => navigate('#/attractions')}><HeaderIcon name="family" />Семейный отдых</button></div></details>
-              <button onClick={() => navigate('#/map')}>Карта острова</button>
               <button onClick={() => navigate('#/hotel')}>Отель</button>
               <details><summary>Посещение <span className="apr-mobile-chevron" aria-hidden="true" /></summary><div className="apr-mobile-submenu"><button onClick={() => navigate('#/visit')}><HeaderIcon name="route" />Как добраться</button><button onClick={() => navigate('#/visit')}><HeaderIcon name="shuttle" />Транспорт на острове</button><button onClick={() => navigate('#/visit')}><HeaderIcon name="shield" />Правила и безопасность</button><button onClick={() => navigate('#/visit')}><HeaderIcon name="help" />FAQ</button></div></details>
             </nav>
@@ -580,7 +576,6 @@ function App() {
                 <button type="button" onClick={() => { navigate('#/'); setTimeout(() => document.getElementById('about')?.scrollIntoView({behavior:'smooth'}),0); }}>О курорте</button>
                 <button type="button" onClick={() => navigate('#/zones')}>Девять миров</button>
                 <button type="button" onClick={() => navigate('#/attractions')}>Аттракционы</button>
-                <button type="button" onClick={() => navigate('#/map')}>Карта острова</button>
               </div>
               <div>
                 <h3>Ваш отдых</h3>
