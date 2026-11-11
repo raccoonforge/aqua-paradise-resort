@@ -137,6 +137,16 @@ const fs = require("node:fs");
         (await page.locator(".pm-base *").count()) < 1800,
         "Bound SVG element count",
       );
+      assert.equal(
+        await page.locator(".pm-base [data-signature]").count(),
+        10,
+        "A distinct silhouette for each district",
+      );
+      assert.equal(
+        await page.locator(".pm-base [data-estate]").count(),
+        10,
+        "Coherent district garden grounds",
+      );
       if (width < 768) await page.locator(".pm-sheet-toggle").click();
       const search = page.getByRole("searchbox");
       await search.fill("транспорт");

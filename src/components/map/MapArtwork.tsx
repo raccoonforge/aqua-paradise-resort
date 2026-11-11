@@ -11,36 +11,78 @@ import {
 import ResortDistrictDetails from "./ResortDistrictDetails";
 import ResortLandscapeLayer from "./ResortLandscapeLayer";
 
+/** Botanical washes organise districts as coherent garden estates, not scattered plots. */
+function BotanicalGrounds() {
+  const districts = [
+    [
+      "hotel",
+      "#dedcc0",
+      "M23 22Q29 15 39 18Q43 20 43 28Q37 33 28 31Q22 29 23 22Z",
+    ],
+    [
+      "peak",
+      "#b8baa2",
+      "M40 22Q48 18 57 20Q63 24 60 28Q54 31 46 30Q39 28 40 22Z",
+    ],
+    ["ocean", "#eadcb3", "M63 16Q71 14 77 19L75 29Q69 30 64 25Z"],
+    [
+      "atlantis",
+      "#a9c5b4",
+      "M25 36Q31 32 36 37L37 43Q33 48 27 46Q24 42 25 36Z",
+    ],
+    [
+      "eden",
+      "#a6c4a8",
+      "M38 48Q46 43 53 47Q60 49 57 55Q52 59 45 57Q37 55 38 48Z",
+    ],
+    ["pirate", "#aec4b4", "M65 36Q76 32 82 38Q85 44 81 50Q72 53 66 47Z"],
+    ["spa", "#c2d0b2", "M23 57Q28 54 33 59Q36 66 30 69Q24 69 22 64Z"],
+    ["market", "#ddcca6", "M39 68Q46 64 55 68L57 74Q52 78 42 77Q38 74 39 68Z"],
+    ["little", "#cec6af", "M60 56Q68 52 73 58Q75 63 69 67Q61 68 59 62Z"],
+    ["boulevard", "#dedcc0", "M43 79Q49 76 55 80L56 88Q51 93 45 89Z"],
+  ];
+  return (
+    <g data-layer="botanical-estates">
+      {districts.map(([name, fill, d]) => (
+        <path key={name} data-estate={name} d={d} fill={fill} stroke="none" />
+      ))}
+      <g fill="none" stroke="#a6b68c" strokeWidth=".1">
+        <path d="M25 22Q29 19 33 21M25 29Q30 31 34 29M39 24Q41 25 40 28M23 60Q27 55 31 59M24 66Q28 68 31 66M40 69Q47 66 54 69M41 75Q48 77 54 74" />
+      </g>
+    </g>
+  );
+}
+
 /** Original vector plan. No raster images, perspective transforms or image fills. */
 export function GeographyLayer({ clipId }: { clipId: string }) {
   return (
     <g data-layer="geography">
-      <path d={coastPath} fill="none" stroke="#214b5b" strokeWidth="4" />
-      <path d={coastPath} fill="none" stroke="#315968" strokeWidth="1.6" />
+      <path d={coastPath} fill="none" stroke="#286264" strokeWidth="3" />
+      <path d={coastPath} fill="none" stroke="#558e83" strokeWidth="1.25" />
       <path
         d={coastPath}
         data-coast="true"
-        fill="#eee8d8"
-        stroke="#d0bf92"
+        fill="#becaa7"
+        stroke="#dbd1ad"
         strokeWidth=".18"
       />
       <g clipPath={`url(#${clipId})`}>
-        <path d={coastPath} fill="none" stroke="#dcd4b8" strokeWidth="1.8" />
+        <path d={coastPath} fill="none" stroke="#e5d5a9" strokeWidth="1.55" />
         <path
           d="M39 18Q49 10 60 18Q65 22 59 27Q50 21 42 28Q36 28 39 18Z"
-          fill="#d6d7c3"
+          fill="#a8b396"
         />
         <path
           d="M41 18Q50 13 58 18M42 20Q50 16 58 20M43 22Q50 19 57 22"
           fill="none"
-          stroke="#b6b99e"
+          stroke="#91a184"
           strokeWidth=".16"
         />
         {groves.map((d, i) => (
           <path
             key={i}
             d={d}
-            fill={i % 3 === 0 ? "#c7d0b9" : "#d1d7c3"}
+            fill={i % 3 === 0 ? "#93ae8b" : "#a1b891"}
             stroke="none"
           />
         ))}
@@ -56,6 +98,7 @@ export function GeographyLayer({ clipId }: { clipId: string }) {
           stroke="#f9f2df"
           strokeWidth=".7"
         />
+        <BotanicalGrounds />
         {pools.map((p, i) => (
           <ellipse
             data-obstacle="water"
@@ -64,15 +107,26 @@ export function GeographyLayer({ clipId }: { clipId: string }) {
             cy={p.y}
             rx={p.rx}
             ry={p.ry}
-            fill="#a7bec0"
+            fill={
+              [
+                "#74a79c",
+                "#72a6a7",
+                "#65a19a",
+                "#82b09b",
+                "#86b89c",
+                "#8eb9a3",
+                "#88bcb1",
+                "#619c98",
+              ][i]
+            }
             stroke="#f9f6ec"
-            strokeWidth=".35"
+            strokeWidth=".22"
           />
         ))}
         <path
           d="M49 48Q46 47 44 49Q43 52 46 53Q48 53 49 50Z"
-          fill="#d3d9bf"
-          stroke="#9fab91"
+          fill="#9cb894"
+          stroke="#779a7b"
           strokeWidth=".16"
         />
         <path
@@ -123,12 +177,12 @@ export function InfrastructureLayer() {
           >
             <path
               d={pathData(e.points)}
-              stroke="#b6b39b"
+              stroke="#9ead8b"
               strokeWidth={"access" in e ? 0.5 : e.secondary ? 0.68 : 0.95}
             />
             <path
               d={pathData(e.points)}
-              stroke="#fcf8ed"
+              stroke="#e9e6cf"
               strokeWidth={"access" in e ? 0.28 : e.secondary ? 0.44 : 0.65}
             />
           </g>
@@ -172,19 +226,27 @@ export function ArchitectureLayer() {
             width={b.w}
             height={b.h}
             rx=".12"
-            fill={b.kind === "hotel" ? "#e2d4b2" : "#f8f4e9"}
-            stroke="#9f987c"
+            fill={
+              b.kind === "hotel"
+                ? "#587667"
+                : b.x > 40 && b.x < 58 && b.y > 66 && b.y < 78
+                  ? "#b89d7c"
+                  : b.y > 35 && b.y < 46 && b.x < 38
+                    ? "#c9b885"
+                    : "#e8e4c9"
+            }
+            stroke="#8b946e"
             strokeWidth=".15"
           />
           <path
             d={`M${b.x + 0.25} ${b.y + b.h / 2}h${b.w - 0.5}`}
-            stroke="#c9bd9d"
+            stroke="#dad8b7"
             strokeWidth=".1"
           />
         </g>
       ))}
       {/* Flat architectural symbols: courts, colonnades, landscape pools and ride flumes. */}
-      <g fill="none" stroke="#8ca5a5" strokeWidth=".23">
+      <g fill="none" stroke="#608e8b" strokeWidth=".23">
         <path d="M44 22C40 24 43 27 46 27M46 21C43 23 47 25 46 27M53 20C58 19 60 23 57 25" />
         <path d="M65 59C62 57 64 55 66 57S69 56 70 58M67 61Q66 58 64 61" />
         <rect x="28.2" y="36.2" width="5.6" height="5.7" rx="1.8" />
@@ -194,14 +256,14 @@ export function ArchitectureLayer() {
           <rect key={i} x={28.8 + i * 1.2} y="36" width=".45" height=".55" />
         ))}
       </g>
-      <g stroke="#9e9274" strokeWidth=".14">
+      <g stroke="#8b795d" strokeWidth=".14">
         <path
           d="M76.8 40.3Q79.3 42.5 76.8 45.7Q74.8 43.1 76.8 40.3Z"
-          fill="#e3d6b5"
+          fill="#bb9974"
         />
         <path d="M76.8 41.1V44.8M75.8 42.5H77.8" fill="none" />
       </g>
-      <g fill="none" stroke="#a9b096" strokeWidth=".14">
+      <g fill="none" stroke="#b6ac7b" strokeWidth=".14">
         <circle cx="46.5" cy="85.7" r="1" />
         <circle cx="46.5" cy="85.7" r=".5" />
         <path d="M45 77h1.5M51 77h1.5M45 78h1.5M51 78h1.5" />
@@ -241,8 +303,22 @@ function MapArtwork({ focus }: { focus?: Point }) {
         <clipPath id={id}>
           <path d={coastPath} />
         </clipPath>
+        <pattern
+          id={`${id}-grain`}
+          patternUnits="userSpaceOnUse"
+          width="1.8"
+          height="1.6"
+        >
+          <path
+            d="M.15 .3h.16M1.1 1.2l.13-.05M.45 1.1h.08"
+            stroke="#f5efd9"
+            strokeWidth=".04"
+            opacity=".28"
+          />
+        </pattern>
       </defs>
       <GeographyLayer clipId={id} />
+      <path d={coastPath} fill={`url(#${id}-grain)`} pointerEvents="none" />
       <ResortLandscapeLayer clipId={id} />
       <InfrastructureLayer />
       <ArchitectureLayer />

@@ -87,8 +87,8 @@ try {
       "District missing detail: " + d,
     );
   assert(
-    landscape.treeCount > 300 && landscape.treeCount < 1800,
-    "Bounded diverse canopy density",
+    landscape.treeCount > 50 && landscape.treeCount < 250,
+    "Fewer, larger botanical silhouettes rather than canopy dots",
   );
   for (const e of estateEdges) {
     assert.deepEqual(e.points[0], estateNodes[e.from]);
@@ -150,6 +150,15 @@ try {
     findRoute("gateway", "westVilla", "walk"),
     null,
     "Private estate nodes must never enter public routing",
+  );
+  assert.equal(
+    landscape.forestBatches.length,
+    6,
+    "Six pigment batches for three botanical species",
+  );
+  assert(
+    landscape.forestBatches.every((b) => b.d && b.veins),
+    "Botanical leaf silhouettes and venation",
   );
   const known = new Set(places.map((p) => p.id));
   const stationNames = places

@@ -18,7 +18,7 @@ const districts: District[] = [
 ];
 function Roofs({ district }: { district: District }) {
   return (
-    <g data-district-buildings={district}>
+    <g className="pm-secondary-roofs" data-district-buildings={district}>
       {detailBuildings
         .filter((b) => b.district === district)
         .map((b, i) => (
@@ -32,15 +32,23 @@ function Roofs({ district }: { district: District }) {
               height={b.h}
               rx={b.roof === "spa" ? 0.2 : 0.06}
               fill={
-                b.roof === "glass"
-                  ? "#c3d3cd"
-                  : b.roof === "temple"
-                    ? "#d7cdb1"
-                    : b.roof === "villa"
-                      ? "#e4d9bd"
-                      : "#f4efdf"
+                district === "hotel"
+                  ? "#d9d1ac"
+                  : district === "atlantis"
+                    ? "#c2ac7b"
+                    : district === "market"
+                      ? "#b99b79"
+                      : district === "pirate"
+                        ? "#b7ac83"
+                        : district === "eden"
+                          ? "#a3bdb0"
+                          : district === "spa"
+                            ? "#e2dfc5"
+                            : district === "little"
+                              ? "#d8bca6"
+                              : "#d8d3b3"
               }
-              stroke="#a69c80"
+              stroke="#8e9271"
               strokeWidth=".08"
             />
             <path
@@ -110,7 +118,13 @@ function WaterGardens({ district }: { district: District }) {
               cy={p.y}
               rx={p.rx}
               ry={p.ry}
-              fill={district === "spa" ? "#b2c7bf" : "#a6bec0"}
+              fill={
+                district === "spa"
+                  ? "#93bda5"
+                  : district === "little"
+                    ? "#80b4ac"
+                    : "#70a79f"
+              }
               stroke="#fbf6e9"
               strokeWidth=".1"
             />
@@ -198,6 +212,95 @@ function CafeCourts() {
     </g>
   );
 }
+/** Hero silhouettes are legible at overview; secondary room-bay linework recedes. */
+function SignatureComplexes() {
+  return (
+    <g
+      data-layer="signature-complexes"
+      strokeLinejoin="round"
+      strokeLinecap="round"
+    >
+      <g data-signature="hotel" fill="none" stroke="#d9c594" strokeWidth=".16">
+        <path d="M28 21Q32 20.6 36.7 21.4Q40.9 22.7 40.7 27.7M27.4 29Q31.2 30.6 33 28.5" />
+        <path
+          d="M31.8 18.2H37.2M31.8 19.7H37.2M38.5 20.4V22.6"
+          stroke="#eae4c9"
+          strokeWidth=".14"
+        />
+      </g>
+      <g data-signature="peak" fill="none" stroke="#c8c7a5" strokeWidth=".12">
+        <path d="M40.7 20Q48 16.6 55.5 19M40.3 19.4Q48.5 15.9 56 18.4" />
+        <path
+          d="M43 24.5Q42.2 26.7 44 27M54 22Q57.6 20.4 58.4 23"
+          stroke="#eae4c9"
+          strokeWidth=".16"
+        />
+      </g>
+      <g data-signature="ocean" fill="none" stroke="#f1e8cd" strokeWidth=".14">
+        <path d="M75 16.9Q71 20.7 72 24.9Q73.2 27.5 77.8 28.2M75.7 17.3Q72 21 73 24.7Q74.6 26.9 78 27.4" />
+      </g>
+      <g
+        data-signature="atlantis"
+        fill="none"
+        stroke="#d8cc9d"
+        strokeWidth=".28"
+      >
+        <path d="M28.3 36.4H33.7V41.4H32.6M28.4 40.9V37.5" />
+        <path d="M29 37.1H33V40.7" stroke="#6b9a8e" strokeWidth=".12" />
+      </g>
+      <g
+        data-signature="eden"
+        fill="#c8dcc6"
+        stroke="#507e6c"
+        strokeWidth=".13"
+      >
+        <path d="M46.5 50.8Q42.2 51.3 43.7 47.8Q47 47.4 46.5 50.8Z" />
+        <path d="M46.5 50.8Q45.8 46.4 49 47.9Q49.8 51 46.5 50.8Z" />
+        <path d="M46.5 50.8Q50.8 50.5 49.1 53.4Q46 54 46.5 50.8Z" />
+        <path d="M46.5 50.8Q46.7 55 43.7 53.1Q43.2 50.3 46.5 50.8Z" />
+        <path
+          d="M43.7 47.8L49.1 53.4M49 47.9L43.7 53.1M44 49L48 52.8M47.8 48.1L44.3 52.9"
+          fill="none"
+          stroke="#f2f0cf"
+          strokeWidth=".1"
+        />
+        <circle cx="46.5" cy="50.8" r=".52" fill="#6b9b82" stroke="#e8d6a6" />
+      </g>
+      <g data-signature="pirate" fill="none" stroke="#ddc796" strokeWidth=".18">
+        <path d="M74.3 38.7H79.6V46.4H78.5M80.4 40.4V44.6" />
+        <path
+          d="M76.8 40.8V45M75.9 42.2H77.7M76 43.6H77.6"
+          stroke="#efe6c6"
+          strokeWidth=".11"
+        />
+      </g>
+      <g data-signature="spa" fill="none" stroke="#e7e4bf" strokeWidth=".18">
+        <ellipse cx="27" cy="62" rx="2.9" ry="2" />
+        <path d="M24 62Q24.5 58.7 28.2 59M25 64.1Q28.2 66 30 63.2" />
+      </g>
+      <g data-signature="market" fill="none" stroke="#eee2b8" strokeWidth=".18">
+        <path d="M39.8 68.6H45V72.6M40 73.3H44.8M50.7 68.4H54.9V71.1M52.4 75.4H55.4" />
+        <path
+          d="M40.6 69.4H44.2V72M51.4 69.2H54.1"
+          stroke="#9d8058"
+          strokeWidth=".1"
+        />
+      </g>
+      <g data-signature="little" fill="none" stroke="#e8d0ae" strokeWidth=".23">
+        <path d="M66.5 58.8Q68.3 56.2 70.7 58.9M67.6 61.2Q69.3 63.1 71 61M60.6 61.4Q62 63.4 63 61.4" />
+      </g>
+      <g
+        data-signature="boulevard"
+        fill="none"
+        stroke="#d5c28a"
+        strokeWidth=".16"
+      >
+        <path d="M44.6 83.3Q49 80.3 53.7 83.6M45.2 83.8Q49.3 81.3 53.2 84M47.3 89.5H48.5M51.5 89.5H52.7" />
+        <circle cx="46.5" cy="85.7" r="1.5" stroke="#e9d9ae" />
+      </g>
+    </g>
+  );
+}
 export default function ResortDistrictDetails() {
   return (
     <g
@@ -240,11 +343,11 @@ export default function ResortDistrictDetails() {
       >
         <path d="M42.9 21.4C40.5 22 41 25 43 25.8Q44.8 25.5 44 27M46.3 21.8C48.3 22 45.7 24 47.3 24M53 20.7C52 22 50 21.2 51.3 23.4M58 22.1C60.7 21.8 60.7 25.5 55.5 24" />
       </g>
-      <g fill="none" stroke="#839f9d" strokeWidth=".2">
+      <g fill="none" stroke="#4f8889" strokeWidth=".27">
         <path d="M42.9 21.4C40.5 22 41 25 43 25.8Q44.8 25.5 44 27M46.3 21.8C48.3 22 45.7 24 47.3 24M53 20.7C52 22 50 21.2 51.3 23.4M58 22.1C60.7 21.8 60.7 25.5 55.5 24" />
         <path
           d="M44.5 21.7C45.2 23.8 41.2 23.3 42 25.2M54.1 21.2C56.9 20.2 59.2 22 56 23.8"
-          stroke="#adb99f"
+          stroke="#b8a578"
           strokeWidth=".16"
         />
       </g>
@@ -297,7 +400,7 @@ export default function ResortDistrictDetails() {
       <g
         data-feature="pirate-harbour"
         fill="none"
-        stroke="#b4a27d"
+        stroke="#987d57"
         strokeWidth=".12"
       >
         <path d="M74 38.5H79.7V46.7H78.3M80.2 40H81.1V44.5M79.8 40.8H78.5M79.8 42H78.7M79.8 44H78.6" />
@@ -342,7 +445,7 @@ export default function ResortDistrictDetails() {
       <g
         data-feature="family-water-play"
         fill="none"
-        stroke="#91aaa6"
+        stroke="#a7826b"
         strokeWidth=".16"
       >
         <path d="M70.9 55.7C73.4 55 73.4 58.3 70.5 59.1M69 55.7C66.7 54.5 66.7 57.4 68.8 58.6M61 59.4Q59.6 60.5 61.5 61.5" />
@@ -363,6 +466,7 @@ export default function ResortDistrictDetails() {
         <circle className="pm-fine-detail" cx="46.5" cy="85.7" r=".27" />
       </g>
       <CafeCourts />
+      <SignatureComplexes />
     </g>
   );
 }

@@ -286,7 +286,7 @@ export default function MapPage() {
       >
         <div className="pm-brand">
           <span>AQUA PARADISE</span>
-          <small>PRIVATE ISLAND · GRAND ATLAS</small>
+          <small>BOTANICAL ISLAND ATLAS</small>
         </div>
         <div
           ref={viewport}

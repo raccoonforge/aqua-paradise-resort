@@ -30,7 +30,7 @@ const assert = require("node:assert/strict");
       palms: +document.querySelector("[data-palm-count]").dataset.palmCount,
     }));
     assert(scene.nodes < 1800);
-    assert(scene.trees > 300);
+    assert(scene.trees > 50 && scene.trees < 250);
     assert(scene.palms > 25);
     // Zoom changes only a wrapper transform and detail visibility; the static SVG is memoized.
     const root = await page.locator(".pm-base").elementHandle();

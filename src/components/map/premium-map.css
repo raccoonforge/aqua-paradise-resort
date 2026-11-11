@@ -966,3 +966,105 @@
 .pm-detail-plan [data-layer="landscape-detail"] {
   pointer-events: none;
 }
+
+/* Luxury Botanical Resort Cartography: pigment, botanical crests and unboxed atlas lettering. */
+.pm-map,
+.pm-page {
+  background: #15494c;
+}
+.pm-detail-image {
+  background: #15494c;
+}
+.pm-brand {
+  color: #e9d9b1;
+}
+.pm-brand small {
+  color: #aac4b5;
+}
+.pm-map-note {
+  color: #aac3b5;
+}
+.pm-legend {
+  background: #15494ce8;
+  border-color: #76988a70;
+  color: #e1e4ca;
+}
+.pm-controls {
+  background: #edf0dd;
+  border-color: #d1c49b;
+  border-radius: 10px;
+}
+.pm-pin > span {
+  width: 31px;
+  height: 31px;
+  background: #f1efd9;
+  color: #4f7561;
+  border: 1px solid #b7aa7a;
+  border-radius: 50%;
+  box-shadow: 0 1px 5px #2b56442a;
+}
+.pm-pin > span svg {
+  width: 20px;
+  height: 20px;
+}
+.pm-pin b {
+  top: 36px;
+  border: 0;
+  background: transparent;
+  padding: 0 5px;
+  box-shadow: none;
+  color: #274c3a;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.05;
+  text-shadow:
+    1px 0 #eef0d9,
+    -1px 0 #eef0d9,
+    0 1px #eef0d9,
+    0 -1px #eef0d9,
+    1px 1px #eef0d9,
+    -1px -1px #eef0d9;
+}
+.pm-pin.is-selected > span {
+  background: #315f4c;
+  color: #eee1b3;
+  border-color: #e5c788;
+  box-shadow: 0 0 0 4px #e4d6a969;
+}
+.pm-pin-transport > span {
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  background: #d7e1c8;
+}
+.pm-pin-transport > span svg {
+  width: 16px;
+  height: 16px;
+}
+.pm-world[data-detail="overview"] .pm-secondary-roofs {
+  opacity: 0.52;
+}
+.pm-world[data-detail="close"] .pm-secondary-roofs {
+  opacity: 0.9;
+}
+@media (max-width: 767px) {
+  .pm-pin > span {
+    width: 27px;
+    height: 27px;
+  }
+  .pm-pin > span svg {
+    width: 18px;
+    height: 18px;
+  }
+  .pm-pin b {
+    font-size: 13px;
+  }
+  .pm-pin-transport > span {
+    width: 21px;
+    height: 21px;
+  }
+  .pm-pin-transport > span svg {
+    width: 14px;
+    height: 14px;
+  }
+}

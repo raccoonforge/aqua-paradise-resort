@@ -1,3 +1,5 @@
+> Historical density/detailing baseline. The current artistic direction is [Luxury Botanical Resort Cartography](luxury-cartography.md#botanical-artistic-revision--2026-11-11): fewer, larger botanical silhouettes and stronger district composition supersede the former canopy-count aesthetic. Technical geography and circulation remain valid.
+
 # Luxury Architectural Resort Masterplan — detailing revision
 
 The approved 2D concept, original coastline, canonical ten location anchors, arrival points and eight Paradise Loop stops are retained. This revision enriches the existing map rather than replacing its geography or interface. Every addition remains native SVG, strictly in plan view, using the existing ivory/sand/sage/dark-ocean/champagne palette.

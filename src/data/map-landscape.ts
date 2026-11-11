@@ -19,52 +19,100 @@ function crown(x: number, y: number, r: number, lobes: number) {
   });
   return d + "Z";
 }
-export const forestBatches = ["#9eaf93", "#aab99e", "#93a88d", "#b5c1a6"].map(
-  (fill) => ({ fill, d: "", veins: "" }),
-);
-const occupied = new Map<string, { x: number; y: number; r: number }[]>();
+/** Three hand-drawn botanical languages, batched by pigment rather than repeated circles. */
+function botanical(
+  x: number,
+  y: number,
+  r: number,
+  species: number,
+  angle: number,
+) {
+  let d = "",
+    veins = "";
+  const turn = (u: number, v: number) => [
+    x + (u * Math.cos(angle) - v * Math.sin(angle)) * r,
+    y + (u * Math.sin(angle) + v * Math.cos(angle)) * r,
+  ];
+  const pt = (u: number, v: number) => turn(u, v).map(fmt).join(",");
+  if (species === 0) {
+    // Heliconia / banana: a curved stem with broad asymmetric leaves.
+    veins += `M${pt(-0.15, 0.8)}Q${pt(0.08, 0)} ${pt(0.1, -0.9)}`;
+    for (let j = 0; j < 5; j++) {
+      const side = j % 2 ? -1 : 1,
+        v = 0.55 - j * 0.3,
+        u = 0.08 - j * 0.025;
+      d += `M${pt(u, v)}C${pt(u + side * 0.8, v + 0.25)} ${pt(side * 0.95, v - 0.2)} ${pt(side * 0.72, v - 0.55)}Q${pt(side * 0.3, v - 0.5)} ${pt(u, v)}Z`;
+      veins += `M${pt(u, v)}Q${pt(side * 0.5, v - 0.12)} ${pt(side * 0.72, v - 0.55)}`;
+    }
+  } else if (species === 1) {
+    // Feather palm: tapered, separated fronds, never circular canopy dots.
+    for (let j = 0; j < 7; j++) {
+      const a = (j * Math.PI * 2) / 7 + 0.15,
+        tx = Math.cos(a),
+        ty = Math.sin(a);
+      d += `M${pt(0, 0)}Q${pt(tx * 0.5 - ty * 0.24, ty * 0.5 + tx * 0.24)} ${pt(tx, ty)}Q${pt(tx * 0.6 + ty * 0.1, ty * 0.6 - tx * 0.1)} ${pt(0, 0)}Z`;
+      veins += `M${pt(0, 0)}Q${pt(tx * 0.5, ty * 0.5)} ${pt(tx * 0.92, ty * 0.92)}`;
+    }
+  } else {
+    // Split philodendron leaves, a larger solid silhouette with incised margins.
+    for (let j = 0; j < 3; j++) {
+      const a = (j * Math.PI * 2) / 3;
+      const c = Math.cos(a),
+        t = Math.sin(a);
+      const leaf = (u: number, v: number) => pt(u * c - v * t, u * t + v * c);
+      d += `M${leaf(0, 0)}C${leaf(-0.65, -0.15)} ${leaf(-0.6, -0.7)} ${leaf(0, -1)}Q${leaf(0.7, -0.7)} ${leaf(0.58, -0.32)}L${leaf(0.32, -0.5)}L${leaf(0.43, -0.15)}L${leaf(0.14, -0.32)}L${leaf(0.25, 0.05)}Z`;
+      veins += `M${leaf(0, 0)}L${leaf(0, -0.88)}`;
+    }
+  }
+  return { d, veins };
+}
+export const forestBatches = [
+  "#6f8f73",
+  "#82a282",
+  "#537e70",
+  "#a6b68a",
+  "#52766b",
+  "#91ab86",
+].map((fill) => ({ fill, d: "", veins: "" }));
+const occupied: { x: number; y: number; r: number }[] = [];
 export let treeCount = 0;
 const clusters = [
-  [47, 16, 10, 3.7, 145],
-  [57, 17, 7, 3.5, 85],
-  [49, 40, 13, 7.6, 260],
-  [61, 52, 6, 4.5, 90],
-  [38, 67, 3.9, 5, 55],
-  [21.5, 35, 2.7, 5, 45],
-  [80, 55, 2.3, 8, 60],
-  [21, 51, 2.3, 5, 35],
-  [36, 81, 3, 2.7, 28],
-  [61, 82.3, 3.2, 3.5, 35],
-  [35, 48, 3.2, 5, 55],
-  [29, 56, 3, 2, 25],
+  [47, 16, 10, 3.7, 24],
+  [57, 17, 7, 3.5, 14],
+  [49, 40, 13, 7.6, 48],
+  [61, 52, 6, 4.5, 16],
+  [38, 67, 3.9, 5, 10],
+  [21.5, 35, 2.7, 5, 8],
+  [80, 55, 2.3, 8, 10],
+  [21, 51, 2.3, 5, 7],
+  [36, 81, 3, 2.7, 5],
+  [61, 82.3, 3.2, 3.5, 7],
+  [35, 48, 3.2, 5, 9],
+  [29, 56, 3, 2, 4],
 ];
-for (const [cx, cy, rx, ry, count] of clusters)
-  for (let i = 0; i < count * 3; i++) {
-    const angle = random() * Math.PI * 2,
+for (const [cx, cy, rx, ry, count] of clusters) {
+  let accepted = 0;
+  for (let i = 0; i < count * 14 && accepted < count; i++) {
+    const a = random() * Math.PI * 2,
       spread = Math.sqrt(random()),
-      x = cx + Math.cos(angle) * rx * spread,
-      y = cy + Math.sin(angle) * ry * spread,
-      r = 0.23 + random() * 0.37;
-    if (!freeLandscape(x, y, r)) continue;
-    let close = false;
-    for (let a = Math.floor(x) - 1; a <= Math.floor(x) + 1; a++)
-      for (let b = Math.floor(y) - 1; b <= Math.floor(y) + 1; b++)
-        if (
-          (occupied.get(`${a},${b}`) ?? []).some(
-            (p) => Math.hypot(p.x - x, p.y - y) < (p.r + r) * 0.8,
-          )
-        )
-          close = true;
-    if (close) continue;
-    const key = `${Math.floor(x)},${Math.floor(y)}`;
-    const cell = occupied.get(key) ?? [];
-    cell.push({ x, y, r });
-    occupied.set(key, cell);
-    const batch = forestBatches[Math.floor(random() * forestBatches.length)];
-    batch.d += crown(x, y, r, 5 + Math.floor(random() * 4));
-    batch.veins += `M${fmt(x - r * 0.22)},${fmt(y + r * 0.25)}q${fmt(r * 0.6)},${fmt(-r * 0.2)} ${fmt(r * 0.55)},${fmt(-r * 0.65)}`;
+      x = cx + Math.cos(a) * rx * spread,
+      y = cy + Math.sin(a) * ry * spread,
+      r = 0.78 + random() * 0.55;
+    if (
+      !freeLandscape(x, y, r * 0.82) ||
+      occupied.some((p) => Math.hypot(p.x - x, p.y - y) < (p.r + r) * 0.72)
+    )
+      continue;
+    occupied.push({ x, y, r });
+    const species = (treeCount + Math.floor(random() * 3)) % 3,
+      batch = forestBatches[(treeCount + species) % forestBatches.length];
+    const plant = botanical(x, y, r, species, random() * Math.PI * 2);
+    batch.d += plant.d;
+    batch.veins += plant.veins;
     treeCount++;
+    accepted++;
   }
+}
 function palm(x: number, y: number, r: number, turn: number) {
   let d = "";
   const count = 7;

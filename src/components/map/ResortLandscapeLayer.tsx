@@ -39,18 +39,17 @@ export default function ResortLandscapeLayer({ clipId }: { clipId: string }) {
       </g>
       {forestBatches.map((b, i) => (
         <g key={i}>
-          <path d={b.d} fill={b.fill} stroke="#81977e" strokeWidth=".035" />
+          <path d={b.d} fill={b.fill} stroke="#527565" strokeWidth=".035" />
           <path
-            className="pm-fine-detail"
             d={b.veins}
             fill="none"
-            stroke="#c9d0b5"
-            strokeWidth=".035"
-            opacity=".65"
+            stroke="#d7dfbd"
+            strokeWidth=".055"
+            opacity=".8"
           />
         </g>
       ))}
-      <path d={palmPath} fill="#829c84" stroke="#738f78" strokeWidth=".025" />
+      <path d={palmPath} fill="#467d69" stroke="#3d6e5a" strokeWidth=".025" />
       {flowerBeds.map((b, i) => (
         <g key={i}>
           <ellipse
