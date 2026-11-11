@@ -4,8 +4,7 @@ import aquaParadiseIcon from '../assets/aqua-paradise-icon.png'
 import aquaParadiseLogo from '../assets/aqua-paradise-logo.png'
 
 function Header() {
-  const onMap = window.location.pathname.replace(/\/$/, '') === '/map'
-  const homeAnchor = (anchor: string) => onMap ? '/' + anchor : anchor
+  const homeAnchor = (anchor: string) => anchor
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
@@ -32,8 +31,6 @@ function Header() {
           <a href={homeAnchor('#zones')} className="hover:text-cyan-700">
             Зоны острова
           </a>
-
-          <a href="/map" className="hover:text-cyan-700">Карта острова</a>
 
           <a href={homeAnchor('#planner')} className="hover:text-cyan-700">
             Планировщик
@@ -82,8 +79,6 @@ function Header() {
       >
         Зоны острова
       </a>
-
-      <a href="/map" onClick={() => setIsMenuOpen(false)} className="text-base font-medium text-slate-800 hover:text-cyan-700">Карта острова</a>
 
       <a
         href={homeAnchor('#planner')}
