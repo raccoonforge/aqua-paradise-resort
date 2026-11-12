@@ -1677,3 +1677,9 @@ body {
   .apr-visit-hero-copy { animation: none !important; }
   .apr-visit-nav-card, .apr-visit-arrival, .apr-visit-rule { transition: none !important; translate: none !important; }
 }
+
+/* Visit: bespoke fine-line icons, consistent with the illustrated zones navigation. */
+.apr-visit-nav-card > span:first-child { display:flex; align-items:center; justify-content:center; color:#a37e43; }
+.apr-visit-arrival-visual { color:#ead6ad; }
+.apr-visit-rule > span:first-child { flex:0 0 42px; color:#a37e43; }
+.apr-visit svg { display:block; }
