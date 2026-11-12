@@ -12,7 +12,7 @@ const transports = [
   { id: 'express', title: 'Экспресс-шаттлы', status: 'Платно', desc: 'Ускоренное перемещение', details: 'Сокращённые маршруты с меньшим количеством остановок. Тарифы и расписание уточняются.' },
   { id: 'buggy', title: 'Электробагги', status: 'По запросу', desc: 'Индивидуальный трансфер до 4 человек', details: 'Электрокар вместимостью до 4 человек для перемещения по острову. Условия заказа, стоимость и расписание уточняются.' },
   { id: 'accessible', title: 'Доступный трансфер', status: 'Бесплатно', desc: 'Помощь гостям с ограниченной мобильностью', details: 'Специальный транспорт для гостей, которым необходима помощь с передвижением.' },
-  { id: 'walk', title: 'Пешеходные маршруты', status: 'Бесплатно', desc: 'Благоустроенные дорожки', details: 'Затенённые прогулочные участки и зоны отдыха. Доступность отдельных участков для инвалидных колясок различается; подходящие переходы можно уточнить на карте.' },
+  { id: 'walk', title: 'Пешеходные маршруты', status: 'Бесплатно', desc: 'Благоустроенные дорожки', details: 'Затенённые прогулочные участки и зоны отдыха. Доступность отдельных участков для инвалидных колясок различается; подходящие переходы можно уточнить у персонала курорта.' },
 ];
 
 const faqs = [
@@ -52,39 +52,39 @@ export default function VisitPage() {
   };
 
   return (
-    <div className="bg-[#f8f9fa] min-h-screen">
-      <div className="relative h-[50vh] min-h-[350px] flex items-center justify-center bg-gradient-to-br from-teal-600 to-cyan-900 overflow-hidden">
-        <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]" aria-hidden="true" />
-        <div className="relative z-10 text-center px-4 max-w-3xl">
-          <h1 className="text-4xl md:text-5xl font-serif text-white mb-4">Ваше путешествие начинается здесь</h1>
-          <p className="text-lg text-teal-100">Всё, что нужно знать для комфортного и безопасного отдыха на острове.</p>
+    <div className="apr-visit min-h-screen">
+      <div className="apr-visit-hero relative min-h-[520px] flex items-center justify-center overflow-hidden px-5 py-28">
+        <div className="apr-visit-hero-frame" aria-hidden="true" />
+        <div className="apr-visit-hero-copy relative z-10 text-center px-4 max-w-4xl">
+          <p className="apr-visit-kicker mb-6">THE JOURNEY · AQUA PARADISE</p><h1 className="text-5xl md:text-7xl font-serif text-white mb-6">Ваше путешествие начинается здесь</h1>
+          <p className="text-lg text-white/75 max-w-xl mx-auto">Всё, что нужно знать для комфортного и безопасного отдыха на острове.</p>
         </div>
       </div>
 
-      <nav aria-label="Разделы страницы посещения" className="max-w-5xl mx-auto px-4 -mt-12 relative z-20 mb-16">
+      <nav aria-label="Разделы страницы посещения" className="apr-visit-nav max-w-6xl mx-auto px-5 -mt-12 relative z-20 mb-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {navigation.map(card => (
-            <button key={card.id} type="button" onClick={() => scrollToSection(card.id)} className="bg-white p-4 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all text-center group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 motion-reduce:transform-none">
-              <span className="block text-3xl mb-2 group-hover:scale-110 transition-transform motion-reduce:transform-none" aria-hidden="true">{card.icon}</span>
-              <span className="font-medium text-gray-900 text-sm">{card.title}</span>
+            <button key={card.id} type="button" onClick={() => scrollToSection(card.id)} className="apr-visit-nav-card p-6 text-center group focus-visible:outline-2 focus-visible:outline-offset-2">
+              <span className="block text-3xl mb-3" aria-hidden="true">{card.icon}</span>
+              <span className="font-semibold text-sm">{card.title}</span>
             </button>
           ))}
         </div>
       </nav>
 
-      <div className="max-w-5xl mx-auto px-4 pb-20 space-y-16">
-        <section id="arrival" className="scroll-mt-24">
-          <h2 className="text-3xl font-serif text-gray-900 mb-6">Как добраться</h2>
+      <div className="apr-visit-content max-w-6xl mx-auto px-5 pb-24 space-y-24">
+        <section id="arrival" className="apr-visit-section scroll-mt-24">
+          <h2 className="apr-visit-heading font-serif text-5xl md:text-6xl mb-8">Как добраться</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {arrivals.map(arr => {
               const expanded = activeArrival === arr.id;
               return (
-                <div key={arr.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition">
+                <div key={arr.id} className="apr-visit-arrival overflow-hidden">
                   <button type="button" aria-expanded={expanded} aria-controls={`arrival-details-${arr.id}`} onClick={() => setActiveArrival(expanded ? null : arr.id)} className="w-full text-left focus-visible:outline-4 focus-visible:outline-offset-[-4px] focus-visible:outline-teal-600 rounded-2xl">
-                    <span className="h-40 bg-gradient-to-br from-teal-100 to-cyan-200 flex items-center justify-center text-5xl" aria-hidden="true">{arr.icon}</span>
+                    <span className="apr-visit-arrival-visual h-48 flex items-center justify-center text-5xl" aria-hidden="true">{arr.icon}</span>
                     <span className="p-5 flex justify-between items-center gap-3">
                       <span>
-                        <span className="font-serif text-xl text-gray-900 block mb-1">{arr.title}</span>
+                        <span className="font-serif text-3xl block mb-1">{arr.title}</span>
                         <span className="text-sm text-gray-500 block">{arr.desc}</span>
                       </span>
                       <span className="text-teal-700 font-bold text-xl" aria-hidden="true">{expanded ? '−' : '+'}</span>
@@ -99,9 +99,9 @@ export default function VisitPage() {
           </div>
         </section>
 
-        <section id="transport" className="scroll-mt-24">
-          <h2 className="text-3xl font-serif text-gray-900 mb-6">Транспорт на острове</h2>
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <section id="transport" className="apr-visit-section scroll-mt-24">
+          <h2 className="apr-visit-heading font-serif text-5xl md:text-6xl mb-8">Транспорт на острове</h2>
+          <div className="apr-visit-accordion overflow-hidden">
             {transports.map((tr, index) => {
               const expanded = activeTransport === tr.id;
               return (
@@ -123,14 +123,14 @@ export default function VisitPage() {
           </div>
         </section>
 
-        <section id="rules" className="scroll-mt-24">
-          <h2 className="text-3xl font-serif text-gray-900 mb-6">Правила посещения</h2>
+        <section id="rules" className="apr-visit-section scroll-mt-24">
+          <h2 className="apr-visit-heading font-serif text-5xl md:text-6xl mb-8">Правила посещения</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {rules.map(rule => (
-              <div key={rule.title} className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex gap-4">
+              <div key={rule.title} className="apr-visit-rule p-7 flex gap-4">
                 <span className="text-2xl" aria-hidden="true">{rule.icon}</span>
                 <div>
-                  <h3 className="font-bold text-gray-900 mb-1">{rule.title}</h3>
+                  <h3 className="font-serif text-2xl mb-2">{rule.title}</h3>
                   <p className="text-sm text-gray-600 leading-relaxed">{rule.text}</p>
                 </div>
               </div>
@@ -139,9 +139,9 @@ export default function VisitPage() {
           <p className="text-xs text-gray-500 mt-4">Подробные ограничения по возрасту и росту для конкретных аттракционов смотрите в каталоге «Аттракционы».</p>
         </section>
 
-        <section id="faq" className="scroll-mt-24">
-          <h2 className="text-3xl font-serif text-gray-900 mb-6">Частые вопросы</h2>
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <section id="faq" className="apr-visit-section scroll-mt-24">
+          <h2 className="apr-visit-heading font-serif text-5xl md:text-6xl mb-8">Частые вопросы</h2>
+          <div className="apr-visit-accordion overflow-hidden">
             {faqs.map((faq, index) => {
               const expanded = activeFaq === index;
               return (
