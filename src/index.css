@@ -1547,3 +1547,21 @@ body {
   .apr-map-stage .apr-map-pin--artwork { width:94px!important; height:44px!important; }
   .apr-map-stage .apr-map-notice { max-width:55%; }
 }
+
+/* Hotel: restrained luxury motion; isolated from other pages. */
+@keyframes apr-hotel-rise { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes apr-hotel-soft-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+.apr-hotel-hero > * { animation: apr-hotel-rise 1.15s cubic-bezier(.22,1,.36,1) both; }
+.apr-hotel-hero > :nth-child(2) { animation-delay: .2s; }
+.apr-hotel-hero > :nth-child(3) { animation-delay: .42s; }
+.apr-hotel-hero > :nth-child(4) { animation-delay: .64s; }
+.apr-hotel-reveal { opacity: 0; transform: translateY(28px); transition: opacity .95s ease, transform 1.05s cubic-bezier(.22,1,.36,1); }
+.apr-hotel-reveal.is-visible { opacity: 1; transform: translateY(0); }
+.apr-hotel-experience { transition: filter .5s ease, scale .65s cubic-bezier(.22,1,.36,1), opacity .4s ease; }
+.apr-hotel-experience:hover { scale: 1.018; filter: brightness(1.08); }
+.apr-hotel-experience-detail { animation: apr-hotel-soft-in .6s ease both; }
+@media (prefers-reduced-motion: reduce) {
+  .apr-hotel-hero > *, .apr-hotel-experience-detail { animation: none !important; }
+  .apr-hotel-reveal { opacity: 1; transform: none; transition: none !important; }
+  .apr-hotel-experience, .apr-hotel-experience:hover { scale: 1; filter: none; transition: none !important; }
+}
