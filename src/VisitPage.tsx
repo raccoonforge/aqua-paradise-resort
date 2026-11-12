@@ -3,24 +3,28 @@ import { useState, type ReactNode } from 'react';
 type VisitIconName = 'compass' | 'shuttle' | 'clipboard' | 'help' | 'cable' | 'ferry' | 'boat' | 'yacht' | 'ticket' | 'family' | 'shield' | 'bag' | 'weather' | 'access';
 
 function VisitIcon({ name, size = 32 }: { name: string; size?: number }) {
-  const common = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.5, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
   const drawings: Record<VisitIconName, ReactNode> = {
-    compass: <><circle cx="24" cy="24" r="18"/><path d="m30 18-5 12-7 2 5-12z"/></>,
-    shuttle: <><path d="M10 33V15c0-4 3-7 7-7h14c4 0 7 3 7 7v18" strokeWidth="2.4"/><rect x="14" y="14" width="20" height="13" rx="2" strokeWidth="2.4"/><path d="M10 33h28M14 38h4m12 0h4M24 14v13" strokeWidth="2.4"/><circle cx="16" cy="33" r="2.5" fill="currentColor" stroke="none"/><circle cx="32" cy="33" r="2.5" fill="currentColor" stroke="none"/></>,
-    clipboard: <><rect x="10" y="10" width="28" height="33" rx="3"/><rect x="18" y="6" width="12" height="8" rx="2"/><path d="M17 25h14M17 32h10"/></>,
-    help: <><circle cx="24" cy="24" r="18"/><path d="M18 18a6 6 0 1 1 9 5c-3 2-3 3-3 6"/><circle cx="24" cy="35" r="1" fill="currentColor" stroke="none"/></>,
-    cable: <><path d="M5 10c13 6 25 6 38 0M24 14v7"/><rect x="13" y="21" width="22" height="16" rx="5"/><path d="M24 21v16M17 28h14"/></>,
-    ferry: <><path d="M5 31h38l-7 10H12L5 31z" fill="currentColor" fillOpacity=".22" strokeWidth="2.4"/><path d="M12 31V19h24v12M17 19v-7h14v7M17 25h5m5 0h5" strokeWidth="2.4"/><path d="M5 44q5-3 10 0t10 0t10 0t8 0" strokeWidth="2.2"/></>,
-    boat: <><path d="M4 32h40l-9 10H13L4 32z" fill="currentColor" fillOpacity=".24" strokeWidth="2.4"/><path d="M14 32l7-13h13l7 13M21 19v-6h10v6M11 45q6-3 12 0t12 0" strokeWidth="2.4"/><path d="M22 24h11" strokeWidth="2.4"/></>,
-    yacht: <><path d="M5 35h38l-8 9H14z" fill="currentColor" fillOpacity=".22" strokeWidth="2.4"/><path d="M23 5v30M27 10l14 23H27zM19 15 8 33h11z" strokeWidth="2.4"/><path d="M6 46q6-3 12 0t12 0t12 0" strokeWidth="2.2"/></>,
-    ticket: <><path d="M8 14h32v9a5 5 0 0 0 0 10v5H8v-5a5 5 0 0 0 0-10zM25 14v5m0 5v4m0 5v5"/></>,
-    family: <><circle cx="17" cy="17" r="6"/><circle cx="34" cy="19" r="5"/><path d="M5 39v-5c0-6 5-10 12-10s12 4 12 10v5M28 29c7-4 15 1 15 9v1M22 40h9"/></>,
-    shield: <><path d="M24 5 39 11v12c0 10-6 16-15 20C15 39 9 33 9 23V11zM17 24l5 5 10-11"/></>,
-    bag: <><rect x="10" y="15" width="28" height="27" rx="5"/><path d="M17 15v-4a7 7 0 0 1 14 0v4M17 26h14"/></>,
-    weather: <><circle cx="15" cy="15" r="7" strokeWidth="2.4"/><path d="M15 3v4M3 15h4M6.5 6.5l3 3M23.5 6.5l-3 3" strokeWidth="2.4"/><path d="M15 39h23a9 9 0 0 0 0-18 13 13 0 0 0-24 6 6 6 0 0 0 1 12z" fill="currentColor" fillOpacity=".14" strokeWidth="2.4"/></>,
-    access: <><circle cx="26" cy="7" r="4" fill="currentColor" stroke="none"/><path d="M26 15v12h11M26 18l-9 5M26 27l-5 11" strokeWidth="2.6"/><path d="M15 27a13 13 0 1 0 22 9M10 27h17" strokeWidth="2.6"/></>
+    compass: <><circle cx="24" cy="24" r="19"/><circle cx="24" cy="24" r="14" opacity=".35"/><path d="m31 16-5 11-10 5 5-11z" fill="url(#visitGold)"/><circle cx="24" cy="24" r="2" fill="#fff1cf" stroke="none"/></>,
+    shuttle: <><path d="M7 29V16Q7 9 16 9h17q8 0 8 8v14l-6 4H14z" fill="url(#visitGold)" strokeWidth="1.5"/><path d="M11 17q0-4 5-4h17q4 0 4 4v9H11z" fill="#133e47" stroke="#f2d7a1"/><path d="M24 13v13M12 30h25" stroke="#fff2d3"/><circle cx="16" cy="35" r="4" fill="#8e682d" stroke="#f4dcac"/><circle cx="33" cy="35" r="4" fill="#8e682d" stroke="#f4dcac"/></>,
+    clipboard: <><rect x="10" y="9" width="28" height="34" rx="3" fill="url(#visitGold)" strokeWidth="1.5"/><rect x="18" y="5" width="12" height="9" rx="2" fill="#f5e3bb"/><path d="M16 23l3 3 5-6M27 23h6M16 33l3 3 5-6M27 33h6" stroke="#71521f" strokeWidth="1.8"/></>,
+    help: <><circle cx="24" cy="24" r="19" fill="url(#visitGold)"/><path d="M17 19a7 7 0 1 1 11 6c-4 3-4 4-4 7" stroke="#6e501f" strokeWidth="2.4"/><circle cx="24" cy="38" r="2" fill="#6e501f" stroke="none"/></>,
+    cable: <><path d="M3 9q21 10 42 0M24 14v8" strokeWidth="2.2"/><path d="M13 22h22l3 5v9q0 5-5 5H15q-5 0-5-5v-9z" fill="url(#visitGold)" strokeWidth="1.6"/><path d="M15 27h18v9H15z" fill="#173e47" stroke="#f4dba7"/><path d="M24 27v9" stroke="#f4dba7"/></>,
+    ferry: <><path d="M5 31h38l-7 10H13z" fill="url(#visitGold)" strokeWidth="1.6"/><path d="M12 31V20h25v11M16 20v-6h17v6M21 14v-4h8v4" fill="#c39a51" strokeWidth="1.4"/><path d="M16 25h5m5 0h6" stroke="#fff1d0" strokeWidth="2.4"/><path d="M5 44q5-3 10 0t10 0t10 0t8 0" strokeWidth="1.6"/></>,
+    boat: <><path d="M3 32h42l-10 10H14z" fill="url(#visitGold)" strokeWidth="1.6"/><path d="M12 32q7-13 14-13h8l8 13z" fill="#d4af69" strokeWidth="1.4"/><path d="M18 29h19M26 19v-6h7v6" stroke="#fff1d0" strokeWidth="2"/><path d="M7 45q5-3 10 0t10 0t10 0" strokeWidth="1.6"/></>,
+    yacht: <><path d="M4 36h40l-9 8H13z" fill="url(#visitGold)" strokeWidth="1.6"/><path d="M24 5v31M27 9l15 25H27z" fill="url(#visitGold)" strokeWidth="1.3"/><path d="M20 15 8 34h12z" fill="#f0d79d" strokeWidth="1.3"/><path d="M7 46q6-3 12 0t12 0t11 0" strokeWidth="1.5"/></>,
+    ticket: <><path d="M7 13h34v10a5 5 0 0 0 0 10v5H7v-5a5 5 0 0 0 0-10z" fill="url(#visitGold)" strokeWidth="1.4"/><path d="M25 13v5m0 5v4m0 5v6" stroke="#77551d" strokeDasharray="2 3" strokeWidth="1.8"/><path d="m15 25 3 3 5-7" stroke="#77551d" strokeWidth="1.8"/></>,
+    family: <><circle cx="16" cy="15" r="6" fill="url(#visitGold)"/><circle cx="34" cy="18" r="5" fill="#e5c786"/><path d="M5 39v-6q0-10 11-10t11 10v6z" fill="url(#visitGold)"/><path d="M29 28q13-6 14 10v1H30" fill="#d3aa62"/><path d="M17 39h25" strokeWidth="1.4"/></>,
+    shield: <><path d="M24 4 40 11v12q0 13-16 21Q8 36 8 23V11z" fill="url(#visitGold)" strokeWidth="1.5"/><path d="m16 24 6 6 11-13" stroke="#74501b" strokeWidth="2.5"/></>,
+    bag: <><rect x="9" y="16" width="30" height="27" rx="4" fill="url(#visitGold)" strokeWidth="1.5"/><path d="M16 16v-5a8 8 0 0 1 16 0v5" strokeWidth="2"/><path d="M16 26h16M16 32h11" stroke="#79551f" strokeWidth="1.5"/></>,
+    weather: <><circle cx="16" cy="15" r="8" fill="url(#visitGold)"/><path d="M16 2v4M3 15h4M7 6l3 3M25 6l-3 3" strokeWidth="2"/><path d="M14 39h24a9 9 0 0 0 0-18 13 13 0 0 0-23 5 7 7 0 0 0-1 13z" fill="url(#visitGold)" strokeWidth="1.6"/></>,
+    access: <><circle cx="26" cy="8" r="4" fill="url(#visitGold)"/><path d="M26 15v13h12M26 18l-9 4M26 28l-6 11" strokeWidth="3"/><path d="M15 26a14 14 0 1 0 23 10M10 27h17" strokeWidth="2.8"/></>,
   };
-  return <svg width={size} height={size} viewBox="0 0 48 48" aria-hidden="true" focusable="false" {...common}>{drawings[name as VisitIconName] ?? drawings.compass}</svg>;
+  return (
+    <svg className="apr-visit-gold-icon" width={size} height={size} viewBox="0 0 48 48" fill="none" stroke="url(#visitGold)" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+      <defs><linearGradient id="visitGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#fff0c5"/><stop offset="45%" stopColor="#d6ad60"/><stop offset="100%" stopColor="#a87a35"/></linearGradient></defs>
+      {drawings[name as VisitIconName] ?? drawings.compass}
+    </svg>
+  );
 }
 
 const arrivals = [
