@@ -1780,3 +1780,46 @@ body {
   .apr-home .apr-attractions::after,
   .apr-home .apr-worlds::after { animation:none; }
 }
+
+/* Midnight Obsidian v2: actual visible caustic artwork above placeholder surfaces. */
+.apr-home .apr-hero::before,
+.apr-home .apr-about::before,
+.apr-home .apr-attractions::before,
+.apr-home .apr-planner::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221100%22%20height%3D%22720%22%20viewBox%3D%220%200%201100%20720%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20stop-color%3D%22%2332d7d3%22%20stop-opacity%3D%22.05%22%2F%3E%3Cstop%20offset%3D%22.52%22%20stop-color%3D%22%2331d3d4%22%20stop-opacity%3D%22.64%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23d8b276%22%20stop-opacity%3D%22.26%22%2F%3E%3C%2FlinearGradient%3E%3Cfilter%20id%3D%22b%22%3E%3CfeGaussianBlur%20stdDeviation%3D%222%22%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22url(%23g)%22%20stroke-width%3D%222.4%22%20filter%3D%22url(%23b)%22%3E%3Cpath%20d%3D%22M-90%20250%20C80%20120%20150%20370%20310%20225%20S560%2080%20710%20230%20970%20370%201200%20145%22%2F%3E%3Cpath%20d%3D%22M-90%20305%20C90%20165%20175%20410%20340%20255%20S590%20125%20750%20278%20990%20420%201200%20185%22%2F%3E%3Cpath%20d%3D%22M-90%20365%20C110%20220%20215%20455%20390%20310%20S645%20180%20805%20340%201040%20475%201200%20240%22%2F%3E%3Cpath%20d%3D%22M-90%20425%20C130%20280%20245%20500%20430%20360%20S700%20245%20860%20400%201070%20530%201200%20300%22%2F%3E%3Cpath%20d%3D%22M-90%20480%20C150%20330%20285%20555%20470%20415%20S740%20300%20900%20460%201100%20585%201200%20360%22%2F%3E%3Cpath%20d%3D%22M-90%20540%20C165%20395%20320%20605%20515%20475%20S800%20360%20950%20515%201130%20630%201200%20430%22%2F%3E%3C%2Fg%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23e9bb76%22%20stroke-opacity%3D%22.45%22%20stroke-width%3D%221.4%22%3E%3Cpath%20d%3D%22M-40%20285%20Q170%20160%20325%20300%20T710%20300%20T1170%20250%22%2F%3E%3Cpath%20d%3D%22M-40%20495%20Q180%20355%20360%20495%20T740%20490%20T1170%20440%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+  background-repeat:no-repeat;
+  background-position:center 70%;
+  background-size:cover;
+  opacity:.85;
+}
+.apr-home .apr-hero::before { background-position:center bottom; opacity:1; }
+.apr-home .apr-about::before { background-position:center 45%; opacity:.75; }
+.apr-home .apr-attractions::before { background-position:center 45%; opacity:.9; }
+.apr-home .apr-planner::before { background-position:center 50%; opacity:.55; }
+.apr-home .apr-hero > .apr-media {
+  background:radial-gradient(ellipse at 74% 25%,#12616b,#05212b 48%,#020e15 90%) !important;
+}
+.apr-home .apr-hero__veil { z-index:2; }
+.apr-home .apr-hero__content,
+.apr-home .apr-hero__scroll-cue { z-index:3; }
+.apr-home .apr-worlds__media.apr-media {
+  background-image:
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221100%22%20height%3D%22720%22%20viewBox%3D%220%200%201100%20720%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20stop-color%3D%22%2332d7d3%22%20stop-opacity%3D%22.05%22%2F%3E%3Cstop%20offset%3D%22.52%22%20stop-color%3D%22%2331d3d4%22%20stop-opacity%3D%22.64%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23d8b276%22%20stop-opacity%3D%22.26%22%2F%3E%3C%2FlinearGradient%3E%3Cfilter%20id%3D%22b%22%3E%3CfeGaussianBlur%20stdDeviation%3D%222%22%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22url(%23g)%22%20stroke-width%3D%222.4%22%20filter%3D%22url(%23b)%22%3E%3Cpath%20d%3D%22M-90%20250%20C80%20120%20150%20370%20310%20225%20S560%2080%20710%20230%20970%20370%201200%20145%22%2F%3E%3Cpath%20d%3D%22M-90%20305%20C90%20165%20175%20410%20340%20255%20S590%20125%20750%20278%20990%20420%201200%20185%22%2F%3E%3Cpath%20d%3D%22M-90%20365%20C110%20220%20215%20455%20390%20310%20S645%20180%20805%20340%201040%20475%201200%20240%22%2F%3E%3Cpath%20d%3D%22M-90%20425%20C130%20280%20245%20500%20430%20360%20S700%20245%20860%20400%201070%20530%201200%20300%22%2F%3E%3Cpath%20d%3D%22M-90%20480%20C150%20330%20285%20555%20470%20415%20S740%20300%20900%20460%201100%20585%201200%20360%22%2F%3E%3Cpath%20d%3D%22M-90%20540%20C165%20395%20320%20605%20515%20475%20S800%20360%20950%20515%201130%20630%201200%20430%22%2F%3E%3C%2Fg%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23e9bb76%22%20stroke-opacity%3D%22.45%22%20stroke-width%3D%221.4%22%3E%3Cpath%20d%3D%22M-40%20285%20Q170%20160%20325%20300%20T710%20300%20T1170%20250%22%2F%3E%3Cpath%20d%3D%22M-40%20495%20Q180%20355%20360%20495%20T740%20490%20T1170%20440%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"),
+    radial-gradient(ellipse at 75% 35%,#176873,transparent 58%),
+    linear-gradient(135deg,#03131b,#0b3540) !important;
+  background-size:cover,cover,cover;
+  background-position:center,center,center;
+}
+.apr-home .apr-worlds__shade {
+  background:linear-gradient(90deg,rgba(2,12,18,.9),rgba(3,19,26,.55) 55%,rgba(3,18,25,.45));
+}
+.apr-home .apr-about__scene,
+.apr-home .apr-attractions__intro,
+.apr-home .apr-attractions__gallery,
+.apr-home .apr-attractions__details,
+.apr-home .apr-planner__layout { position:relative; z-index:2; }
