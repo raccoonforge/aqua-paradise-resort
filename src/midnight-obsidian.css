@@ -1,26 +1,47 @@
-.apr-home,
-.apr-footer--midnight {
+.apr-shell--midnight {
   --midnight-abyss: #061317;
   --midnight-ivory: #f8eee0;
   --midnight-muted: #c2d4d2;
   --midnight-gold: #e6c791;
   background-color: var(--midnight-abyss);
+  /* One image spans the page shell, including the footer. */
+  background-image:
+    linear-gradient(180deg, #02090e9e, #02090e4f 14%, #06131745 56%, #06131795),
+    url('./assets/midnight/midnight-ocean.webp');
+  background-position: center top;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.apr-shell--midnight .apr-home,
+.apr-shell--midnight .apr-hero,
+.apr-shell--midnight .apr-about,
+.apr-shell--midnight .apr-attractions,
+.apr-shell--midnight .apr-worlds,
+.apr-shell--midnight .apr-worlds__frame,
+.apr-shell--midnight .apr-worlds__media.apr-media,
+.apr-shell--midnight .apr-planner,
+.apr-shell--midnight .apr-footer {
+  background: transparent;
+}
+
+.apr-shell--midnight .apr-footer {
+  border-color: transparent;
+}
+
+.apr-shell--midnight .apr-home {
   color: var(--midnight-ivory);
 }
 
 .apr-home .apr-hero {
   isolation: isolate;
-  background: var(--midnight-abyss) url('./assets/midnight/ocean-depth.webp') center / cover no-repeat;
 }
 
+.apr-home .apr-hero__veil,
+.apr-home .apr-attractions__glow,
+.apr-home .apr-worlds__shade,
 .apr-home .apr-hero > .apr-media {
   display: none;
-}
-
-.apr-home .apr-hero__veil {
-  background:
-    radial-gradient(ellipse at 50% 48%, #020b10b8 0%, #020b1052 47%, transparent 73%),
-    linear-gradient(180deg, #02090ee0, transparent 22%, transparent 75%, var(--midnight-abyss));
 }
 
 .apr-home .apr-hero__content .apr-eyebrow {
@@ -44,12 +65,6 @@
   background-color: #143238;
 }
 
-.apr-home .apr-about {
-  background:
-    linear-gradient(180deg, var(--midnight-abyss), transparent 19% 78%, var(--midnight-abyss)),
-    url('./assets/midnight/tropical-shadow.webp') center / cover no-repeat;
-}
-
 .apr-home .apr-about__frame {
   background: transparent;
   border: 0;
@@ -62,13 +77,6 @@
 
 .apr-home .apr-about__copy {
   text-shadow: 0 2px 20px #02090e;
-}
-
-.apr-home .apr-attractions {
-  background:
-    linear-gradient(180deg, var(--midnight-abyss), #06131712 25%, #06131736 65%, var(--midnight-abyss)),
-    radial-gradient(ellipse at 50% 42%, #031016c7, transparent 75%),
-    url('./assets/midnight/volcanic-shore.webp') 65% center / cover no-repeat;
 }
 
 .apr-home .apr-attractions__intro,
@@ -84,17 +92,6 @@
   background: #1b3b42;
 }
 
-.apr-home .apr-worlds,
-.apr-home .apr-worlds__frame {
-  background: var(--midnight-abyss);
-}
-
-.apr-home .apr-worlds__media.apr-media {
-  background:
-    radial-gradient(ellipse at 73% 48%, color-mix(in srgb, var(--world-tone), transparent 66%), transparent 68%),
-    url('./assets/midnight/liquid-obsidian.webp') center / cover no-repeat;
-}
-
 .apr-home .apr-worlds__media::before {
   display: none;
 }
@@ -106,15 +103,9 @@
   color: var(--midnight-ivory);
 }
 
-.apr-home .apr-worlds__shade {
-  background:
-    linear-gradient(180deg, var(--midnight-abyss), transparent 18% 77%, var(--midnight-abyss)),
-    linear-gradient(90deg, #051014e8 5%, #051014a8 38%, transparent 72%);
-}
-
 .apr-home .apr-worlds__dock {
-  background: #061317e8;
-  border-color: #e6c79142;
+  background: transparent;
+  border-color: transparent;
   backdrop-filter: none;
 }
 
@@ -125,10 +116,6 @@
 
 .apr-home .apr-planner {
   color: var(--midnight-ivory);
-  background:
-    linear-gradient(180deg, var(--midnight-abyss), #06131747 24% 65%, var(--midnight-abyss)),
-    linear-gradient(90deg, #06131775, transparent 70%),
-    url('./assets/midnight/ocean-depth.webp') right 66% / cover no-repeat;
 }
 
 .apr-home .apr-planner__intro {
@@ -186,25 +173,10 @@
   background: #668083;
 }
 
-.apr-footer--midnight {
-  background:
-    linear-gradient(180deg, var(--midnight-abyss), #061317c9 35%, #061317ed),
-    url('./assets/midnight/liquid-obsidian.webp') center 75% / cover no-repeat;
-}
-
 @media (max-width: 639px) {
-  .apr-home .apr-hero {
-    background-position: 60% center;
-  }
-
-  .apr-home .apr-hero__veil {
-    background:
-      radial-gradient(ellipse at center, #020b10c9, #020b104f 65%, transparent 89%),
-      linear-gradient(180deg, #02090ec9, transparent 18% 75%, var(--midnight-abyss));
-  }
-
-  .apr-home .apr-about {
-    background-position: center, 40% center;
+  .apr-shell--midnight {
+    background-position: center top, 64% top;
+    background-size: 100% 100%, 155% 100%;
   }
 
   .apr-home .apr-about__polaroid {
@@ -213,10 +185,6 @@
 
   .apr-home .apr-about__photo {
     height: min(33vw, 155px);
-  }
-
-  .apr-home .apr-worlds__shade {
-    background: linear-gradient(180deg, var(--midnight-abyss), #06131715 18%, #061317d9 45%, var(--midnight-abyss));
   }
 
   .apr-home .apr-worlds__media .apr-media__mark {
@@ -229,7 +197,7 @@
   .apr-home .apr-worlds__tab,
   .apr-home .apr-planner__choice,
   .apr-home .apr-planner__cta,
-  .apr-footer--midnight button::after {
+  .apr-shell--midnight .apr-footer button::after {
     transition: none;
   }
 }
