@@ -10,9 +10,9 @@ const visitIconFiles: Record<string, string> = {
   boat: 'speedboat',
   yacht: 'yacht',
   ticket: 'tickets',
-  family: 'planning',
+  family: 'rules',
   shield: 'safety',
-  bag: 'transport',
+  bag: 'rules',
   weather: 'weather',
   access: 'access',
 };
@@ -100,7 +100,7 @@ export default function VisitPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {navigation.map(card => (
             <button key={card.id} type="button" onClick={() => scrollToSection(card.id)} className="apr-visit-nav-card p-6 text-center group focus-visible:outline-2 focus-visible:outline-offset-2">
-              <span className="block text-3xl mb-3" aria-hidden="true"><VisitIcon name={card.icon} size={34} /></span>
+              <span className="flex justify-center items-center mb-3 min-h-[76px]" aria-hidden="true"><VisitIcon name={card.icon} size={70} /></span>
               <span className="font-semibold text-sm">{card.title}</span>
             </button>
           ))}
@@ -116,7 +116,7 @@ export default function VisitPage() {
               return (
                 <div key={arr.id} className="apr-visit-arrival overflow-hidden">
                   <button type="button" aria-expanded={expanded} aria-controls={`arrival-details-${arr.id}`} onClick={() => setActiveArrival(expanded ? null : arr.id)} className="w-full text-left focus-visible:outline-4 focus-visible:outline-offset-[-4px] focus-visible:outline-teal-600 rounded-2xl">
-                    <span className="apr-visit-arrival-visual h-48 flex items-center justify-center text-5xl" aria-hidden="true"><VisitIcon name={arr.icon} size={72} /></span>
+                    <span className="apr-visit-arrival-visual h-48 flex items-center justify-center text-5xl" aria-hidden="true"><VisitIcon name={arr.icon} size={150} /></span>
                     <span className="p-5 flex justify-between items-center gap-3">
                       <span>
                         <span className="font-serif text-3xl block mb-1">{arr.title}</span>
@@ -163,7 +163,7 @@ export default function VisitPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {rules.map(rule => (
               <div key={rule.title} className="apr-visit-rule p-7 flex gap-4">
-                <span className="text-2xl" aria-hidden="true"><VisitIcon name={rule.icon} size={36} /></span>
+                <span className="text-2xl" aria-hidden="true"><VisitIcon name={rule.icon} size={56} /></span>
                 <div>
                   <h3 className="font-serif text-2xl mb-2">{rule.title}</h3>
                   <p className="text-sm text-gray-600 leading-relaxed">{rule.text}</p>
