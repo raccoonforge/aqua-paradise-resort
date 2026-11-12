@@ -1593,3 +1593,50 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .apr-home-reveal { opacity: 1; translate: none; transition: none !important; }
 }
+
+/* Zones and attractions: cinematic entrance, restrained hover and state transitions. */
+@keyframes apr-inner-arrive {
+  from { opacity: 0; translate: 0 22px; }
+  to { opacity: 1; translate: 0 0; }
+}
+.apr-zones-page .apr-zones-switcher,
+.apr-zones-page .apr-zones-visual,
+.apr-zones-page .apr-zones-intro,
+.apr-zones-page .apr-zones-detail-card,
+.apr-catalog .apr-catalog__intro,
+.apr-catalog .apr-catalog__filters,
+.apr-catalog .apr-catalog__results {
+  animation: apr-inner-arrive .95s cubic-bezier(.22,1,.36,1) both;
+}
+.apr-zones-page .apr-zones-visual,
+.apr-catalog .apr-catalog__filters { animation-delay: .12s; }
+.apr-zones-page .apr-zones-intro,
+.apr-catalog .apr-catalog__results { animation-delay: .24s; }
+.apr-zones-page .apr-zones-detail-card { animation-delay: .34s; }
+.apr-zones-page .apr-zones-panorama {
+  transition: filter .7s ease;
+}
+.apr-zones-page .apr-zones-panorama:hover { filter: brightness(1.07); }
+.apr-catalog .apr-catalog__card {
+  transition: translate .5s cubic-bezier(.22,1,.36,1), box-shadow .5s ease, filter .5s ease;
+}
+.apr-catalog .apr-catalog__card:hover { translate: 0 -5px; filter: brightness(1.045); }
+.apr-catalog .apr-catalog__grid > * {
+  animation: apr-inner-arrive .75s cubic-bezier(.22,1,.36,1) both;
+}
+.apr-catalog .apr-catalog__grid > :nth-child(3n + 2) { animation-delay: .07s; }
+.apr-catalog .apr-catalog__grid > :nth-child(3n + 3) { animation-delay: .14s; }
+@media (prefers-reduced-motion: reduce) {
+  .apr-zones-page .apr-zones-switcher,
+  .apr-zones-page .apr-zones-visual,
+  .apr-zones-page .apr-zones-intro,
+  .apr-zones-page .apr-zones-detail-card,
+  .apr-catalog .apr-catalog__intro,
+  .apr-catalog .apr-catalog__filters,
+  .apr-catalog .apr-catalog__results,
+  .apr-catalog .apr-catalog__grid > * { animation: none !important; }
+  .apr-catalog .apr-catalog__card,
+  .apr-catalog .apr-catalog__card:hover { translate: none; filter: none; transition: none !important; }
+  .apr-zones-page .apr-zones-panorama,
+  .apr-zones-page .apr-zones-panorama:hover { filter: none; transition: none !important; }
+}
