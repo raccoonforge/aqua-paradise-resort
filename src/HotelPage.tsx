@@ -35,6 +35,7 @@ const experiences = [
 ] as const;
 
 export default function HotelPage() {
+  const [activeCategory, setActiveCategory] = useState<Category>('rooms');
   const pageRef = useRef<HTMLElement>(null);
   useEffect(() => {
     const root = pageRef.current;
@@ -55,7 +56,7 @@ export default function HotelPage() {
     elements.forEach(el => observer.observe(el));
     return () => observer.disconnect();
   }, [activeCategory]);
-  const [activeCategory, setActiveCategory] = useState<Category>('rooms');
+
   const [expandedItemId, setExpandedItemId] = useState<string | null>(null);
   const [selectedExperience, setSelectedExperience] = useState<(typeof experiences)[number]['id']>('pool');
 
