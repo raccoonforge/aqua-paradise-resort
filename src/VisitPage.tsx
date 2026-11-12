@@ -10,9 +10,9 @@ const visitIconFiles: Record<string, string> = {
   boat: 'speedboat',
   yacht: 'yacht',
   ticket: 'tickets',
-  family: 'rules',
+  family: 'family',
   shield: 'safety',
-  bag: 'rules',
+  bag: 'lockers',
   weather: 'weather',
   access: 'access',
 };
