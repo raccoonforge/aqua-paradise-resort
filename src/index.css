@@ -1683,3 +1683,100 @@ body {
 .apr-visit-arrival-visual { color:#ead6ad; }
 .apr-visit-rule > span:first-child { flex:0 0 42px; color:#a37e43; }
 .apr-visit svg { display:block; }
+
+/* Midnight Obsidian — homepage-only live visual experiment. No external media. */
+.apr-home {
+  --midnight-abyss: #06171c;
+  --midnight-teal: #0b3540;
+  background: #06171c;
+  color: #f5ebd9;
+}
+.apr-home .apr-hero,
+.apr-home .apr-about,
+.apr-home .apr-attractions,
+.apr-home .apr-worlds,
+.apr-home .apr-planner {
+  position: relative;
+  isolation: isolate;
+}
+.apr-home .apr-hero {
+  background:
+    radial-gradient(ellipse at 76% 26%, rgba(18,139,151,.42), transparent 45%),
+    radial-gradient(ellipse at 24% 92%, rgba(18,119,128,.38), transparent 45%),
+    linear-gradient(148deg,#030d13 5%,#0a2934 53%,#03151b);
+}
+.apr-home .apr-hero__veil {
+  background:
+    linear-gradient(180deg,rgba(1,12,17,.38),rgba(2,17,23,.2) 42%,rgba(2,15,21,.84)),
+    repeating-radial-gradient(ellipse at 70% 90%,transparent 0 42px,rgba(54,202,205,.085) 44px 46px,transparent 48px 100px);
+}
+.apr-home .apr-about {
+  background:
+    radial-gradient(ellipse at 12% 22%,rgba(12,122,131,.34),transparent 48%),
+    radial-gradient(ellipse at 90% 72%,rgba(11,99,107,.36),transparent 47%),
+    repeating-radial-gradient(ellipse at 50% 110%,transparent 0 48px,rgba(58,178,179,.07) 49px 51px,transparent 52px 110px),
+    linear-gradient(145deg,#05151c,#0b3139 55%,#04161c);
+}
+.apr-home .apr-about__frame {
+  background: linear-gradient(150deg,rgba(2,18,25,.36),rgba(2,24,29,.08));
+}
+.apr-home .apr-attractions {
+  background:
+    radial-gradient(ellipse at 65% 15%,rgba(15,135,147,.3),transparent 42%),
+    repeating-radial-gradient(ellipse at 20% 110%,transparent 0 52px,rgba(60,186,194,.075) 54px 56px,transparent 58px 118px),
+    linear-gradient(160deg,#05171e,#0a3039 55%,#04161b);
+}
+.apr-home .apr-worlds {
+  background:
+    radial-gradient(ellipse at 85% 24%,rgba(11,130,140,.3),transparent 45%),
+    radial-gradient(ellipse at 12% 75%,rgba(28,98,107,.38),transparent 44%),
+    linear-gradient(135deg,#061820,#0c3540 55%,#05161c);
+}
+.apr-home .apr-planner {
+  background:
+    radial-gradient(ellipse at 75% 10%,rgba(22,138,145,.35),transparent 48%),
+    repeating-radial-gradient(ellipse at 50% 130%,transparent 0 55px,rgba(59,183,190,.06) 57px 59px,transparent 61px 128px),
+    linear-gradient(145deg,#04151c,#0b3540 55%,#04171e);
+}
+.apr-home .apr-hero::after,
+.apr-home .apr-about::after,
+.apr-home .apr-attractions::after,
+.apr-home .apr-worlds::after {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(38px,7vw,110px);
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 65% 9px at 52% 73%,rgba(229,182,106,.62),transparent 70%),
+    radial-gradient(ellipse 65% 32px at 55% 77%,rgba(36,194,195,.25),transparent 70%);
+  opacity: .8;
+}
+.apr-home .apr-hero > :not(.apr-media),
+.apr-home .apr-about > *,
+.apr-home .apr-attractions > *,
+.apr-home .apr-worlds > *,
+.apr-home .apr-planner > * { position: relative; z-index: 1; }
+.apr-home .apr-about__heading,
+.apr-home .apr-attractions__intro h2,
+.apr-home .apr-worlds__heading,
+.apr-home .apr-planner__intro h2 { color: #f3e3c4; }
+.apr-home .apr-about__description,
+.apr-home .apr-attractions__intro p,
+.apr-home .apr-worlds__lead,
+.apr-home .apr-planner__lead { color: #c4d8d5; }
+@media (max-width:639px) {
+  .apr-home .apr-hero::after,
+  .apr-home .apr-about::after,
+  .apr-home .apr-attractions::after,
+  .apr-home .apr-worlds::after { opacity:.55; height:48px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .apr-home .apr-hero::after,
+  .apr-home .apr-about::after,
+  .apr-home .apr-attractions::after,
+  .apr-home .apr-worlds::after { animation:none; }
+}
