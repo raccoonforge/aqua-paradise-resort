@@ -1,3 +1,4 @@
+import './midnight-obsidian.css';
 import PlannerPage from './PlannerPage';
 import HotelPage from './HotelPage';
 import VisitPage from './VisitPage';
@@ -9,6 +10,8 @@ import { ZONE_SLUGS, ATTRACTIONS } from './data/attractions';
 
 // TODO: Cinematic Intro — отложено (Visual Pending: нужны видео/3D-ассеты).
 // В Master Blueprint §4.1 описан спуск по горке; без медиа делаем только Hero.
+
+const preferredScrollBehavior = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth';
 
 // Visual-only slot: replace its contents with a real asset in the final media phase.
 type MediaPlaceholderProps = {
@@ -135,7 +138,7 @@ const NineWorlds = () => {
             <h3>{zone.name}</h3>
             <p>{zone.desc}</p>
             <div className="apr-worlds__actions">
-              <button type="button" className="apr-button apr-button--sand" onClick={() => { const slug = ZONE_SLUGS[zone.name]; if (slug) window.location.hash = `#/zones?zone=${slug}`; }}>Подробнее о зоне <span aria-hidden="true">↗</span></button>
+              <button type="button" className="apr-button apr-button--sand" onClick={() => { const slug = ZONE_SLUGS[zone.name]; if (slug) window.location.hash = `#/zones?zone=${slug}`; }}>Подробнее о зоне <span aria-hidden="true">↗︎</span></button>
               <button type="button" className="apr-button apr-button--outline" onClick={() => window.location.hash = '#/tickets'}>Выбрать билет</button>
             </div>
           </div>
@@ -176,10 +179,10 @@ const HomePage = () => (
           <button type="button"
             onClick={() => {
               const el = document.getElementById('about');
-              if (el) el.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+              if (el) el.scrollIntoView({ behavior: preferredScrollBehavior() });
             }}
             className="apr-button apr-button--sand">
-            Исследовать остров <span aria-hidden="true">↗</span>
+            Исследовать остров <span aria-hidden="true">↗︎</span>
           </button>
           <button type="button"
             onClick={() => window.location.hash = '#/planner'}
@@ -197,7 +200,7 @@ const HomePage = () => (
         aria-label="Прокрутить к разделу «О курорте»"
         onClick={() => {
           const el = document.getElementById('about');
-          if (el) el.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+          if (el) el.scrollIntoView({ behavior: preferredScrollBehavior() });
         }}
       >
         <svg viewBox="0 0 32 24" width="32" height="24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -206,8 +209,8 @@ const HomePage = () => (
       </button>
     </section>
     <AboutResort />
-    <NineWorlds />
     <AttractionsCarousel />
+    <NineWorlds />
     <PlannerTeaser />
   </div>
 );
@@ -254,7 +257,7 @@ const AttractionsCarousel = () => {
           {activeRide.minAge > 0 && <span>От {activeRide.minAge} лет</span>}
           {activeRide.minHeight !== null && <span>Рост от {activeRide.minHeight} см</span>}
         </div>
-        <button type="button" className="apr-button apr-button--sand" onClick={() => window.location.hash = '#/attractions'}>Подробнее об аттракционе <span aria-hidden="true">↗</span></button>
+        <button type="button" className="apr-button apr-button--sand" onClick={() => window.location.hash = '#/attractions'}>Подробнее об аттракционе <span aria-hidden="true">↗︎</span></button>
       </div>
     </section>
   );
@@ -360,7 +363,7 @@ const PlannerTeaser = () => {
           </div>
           {selected.length > 0 && !recommendation && <p className="apr-planner__notice">По выбранным интересам пока нет подходящих аттракционов.</p>}
           <p className="apr-planner__disclaimer">Это пример для вдохновения, а не гарантированное расписание.</p>
-          <button type="button" className="apr-planner__cta" onClick={handleOpenPlanner}>Составить полный маршрут <span aria-hidden="true">↗</span></button>
+          <button type="button" className="apr-planner__cta" onClick={handleOpenPlanner}>Составить полный маршрут <span aria-hidden="true">↗︎</span></button>
         </div>
       </div>
     </section>
@@ -569,7 +572,7 @@ function App() {
             <span className="apr-brand__name">Aqua Paradise<small>ISLAND RESORT</small></span>
           </button>
           <nav className="apr-site-nav" aria-label="Основная навигация">
-            <button type="button" className="apr-nav-link" onClick={() => { navigate('#/'); setTimeout(() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }), 0); }}>О курорте</button>
+            <button type="button" className="apr-nav-link" onClick={() => { navigate('#/'); setTimeout(() => document.getElementById('about')?.scrollIntoView({ behavior: preferredScrollBehavior() }), 0); }}>О курорте</button>
             <details className="apr-nav-dropdown">
               <summary className="apr-nav-link">Развлечения <span className="apr-nav-chevron" aria-hidden="true" /></summary>
               <div className="apr-nav-dropdown__panel">
@@ -590,7 +593,7 @@ function App() {
               </div>
             </details>
           </nav>
-          <button type="button" className="apr-button apr-button--sand apr-header-tickets" onClick={() => navigate('#/tickets')}>Билеты <span aria-hidden="true">↗</span></button>
+          <button type="button" className="apr-button apr-button--sand apr-header-tickets" onClick={() => navigate('#/tickets')}>Билеты <span aria-hidden="true">↗︎</span></button>
           <button ref={menuButtonRef} type="button" className="apr-menu-toggle" onClick={() => setIsMobileMenuOpen(true)} aria-label="Открыть меню" aria-expanded={isMobileMenuOpen} aria-controls="apr-mobile-menu">
             <span></span><span></span><span></span>
           </button>
@@ -620,7 +623,7 @@ function App() {
               <button onClick={() => navigate('#/hotel')}>Отель</button>
               <details><summary>Посещение <span className="apr-mobile-chevron" aria-hidden="true" /></summary><div className="apr-mobile-submenu"><button onClick={() => navigate('#/visit')}><HeaderIcon name="route" />Как добраться</button><button onClick={() => navigate('#/visit')}><HeaderIcon name="shuttle" />Транспорт на острове</button><button onClick={() => navigate('#/visit')}><HeaderIcon name="shield" />Правила и безопасность</button><button onClick={() => navigate('#/visit')}><HeaderIcon name="help" />FAQ</button></div></details>
             </nav>
-            <button type="button" className="apr-button apr-button--sand apr-mobile-tickets" onClick={() => navigate('#/tickets')}>Билеты ↗</button>
+            <button type="button" className="apr-button apr-button--sand apr-mobile-tickets" onClick={() => navigate('#/tickets')}>Билеты ↗︎</button>
           </aside>
         </div>
       )}
@@ -630,7 +633,7 @@ function App() {
       <button
         type="button"
         className={`apr-back-to-top${showBackToTop && !isMobileMenuOpen ? ' apr-back-to-top--visible' : ''}`}
-        onClick={() => window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })}
+        onClick={() => window.scrollTo({ top: 0, behavior: preferredScrollBehavior() })}
         aria-label="Вернуться наверх страницы"
         title="Наверх"
         tabIndex={showBackToTop && !isMobileMenuOpen ? 0 : -1}
@@ -639,7 +642,7 @@ function App() {
         <span aria-hidden="true">↑</span>
       </button>
 
-      <footer className="apr-footer" id="site-footer">
+      <footer className={`apr-footer${basePath === '#/' ? ' apr-footer--midnight' : ''}`} id="site-footer">
         <div className="apr-footer__inner">
           <div className="apr-footer__top">
             <div className="apr-footer__identity">
@@ -650,7 +653,7 @@ function App() {
             <nav className="apr-footer__nav" aria-label="Навигация в подвале">
               <div>
                 <h3>Исследовать</h3>
-                <button type="button" onClick={() => { navigate('#/'); setTimeout(() => document.getElementById('about')?.scrollIntoView({behavior:'smooth'}),0); }}>О курорте</button>
+                <button type="button" onClick={() => { navigate('#/'); setTimeout(() => document.getElementById('about')?.scrollIntoView({ behavior: preferredScrollBehavior() }), 0); }}>О курорте</button>
                 <button type="button" onClick={() => navigate('#/zones')}>Девять миров</button>
                 <button type="button" onClick={() => navigate('#/attractions')}>Аттракционы</button>
               </div>
@@ -667,7 +670,7 @@ function App() {
           <div className="apr-footer__bottom">
             <span>© {new Date().getFullYear()} Aqua Paradise · Концептуальный проект</span>
             <p>Вымышленный курорт. Цены и услуги демонстрационные. Бронирования и платежи не осуществляются.</p>
-            <button type="button" onClick={() => window.scrollTo({top:0,behavior:'smooth'})}>Наверх ↑</button>
+            <button type="button" onClick={() => window.scrollTo({ top: 0, behavior: preferredScrollBehavior() })}>Наверх ↑</button>
           </div>
         </div>
       </footer>

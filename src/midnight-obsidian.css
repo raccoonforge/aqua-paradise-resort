@@ -1,0 +1,241 @@
+.apr-home,
+.apr-footer--midnight {
+  --midnight-abyss: #061317;
+  --midnight-ivory: #f8eee0;
+  --midnight-muted: #c2d4d2;
+  --midnight-gold: #e6c791;
+  background-color: var(--midnight-abyss);
+  color: var(--midnight-ivory);
+}
+
+.apr-home .apr-hero {
+  isolation: isolate;
+  background: var(--midnight-abyss) url('./assets/midnight/ocean-depth.webp') center / cover no-repeat;
+}
+
+.apr-home .apr-hero > .apr-media {
+  display: none;
+}
+
+.apr-home .apr-hero__veil {
+  background:
+    radial-gradient(ellipse at 50% 48%, #020b10b8 0%, #020b1052 47%, transparent 73%),
+    linear-gradient(180deg, #02090ee0, transparent 22%, transparent 75%, var(--midnight-abyss));
+}
+
+.apr-home .apr-hero__content .apr-eyebrow {
+  color: var(--midnight-gold);
+}
+
+.apr-home .apr-hero__title {
+  color: var(--midnight-ivory);
+  text-shadow: 0 6px 32px #02090eb0;
+}
+
+.apr-home .apr-hero__accent {
+  background-image: linear-gradient(105deg, #fff1d1, #e8c282 62%, #d4a66a);
+}
+
+.apr-home .apr-hero__content .apr-button--outline {
+  background-color: #051216a6;
+}
+
+.apr-home .apr-hero__content .apr-button--outline:hover {
+  background-color: #143238;
+}
+
+.apr-home .apr-about {
+  background:
+    linear-gradient(180deg, var(--midnight-abyss), transparent 19% 78%, var(--midnight-abyss)),
+    url('./assets/midnight/tropical-shadow.webp') center / cover no-repeat;
+}
+
+.apr-home .apr-about__frame {
+  background: transparent;
+  border: 0;
+}
+
+.apr-home .apr-about__controls {
+  position: relative;
+  z-index: 1;
+}
+
+.apr-home .apr-about__copy {
+  text-shadow: 0 2px 20px #02090e;
+}
+
+.apr-home .apr-attractions {
+  background:
+    linear-gradient(180deg, var(--midnight-abyss), #06131712 25%, #06131736 65%, var(--midnight-abyss)),
+    radial-gradient(ellipse at 50% 42%, #031016c7, transparent 75%),
+    url('./assets/midnight/volcanic-shore.webp') 65% center / cover no-repeat;
+}
+
+.apr-home .apr-attractions__intro,
+.apr-home .apr-attractions__details {
+  text-shadow: 0 2px 16px #02090e;
+}
+
+.apr-home .apr-attractions__arrow {
+  background: #07171de8;
+}
+
+.apr-home .apr-attractions__arrow:hover {
+  background: #1b3b42;
+}
+
+.apr-home .apr-worlds,
+.apr-home .apr-worlds__frame {
+  background: var(--midnight-abyss);
+}
+
+.apr-home .apr-worlds__media.apr-media {
+  background:
+    radial-gradient(ellipse at 73% 48%, color-mix(in srgb, var(--world-tone), transparent 66%), transparent 68%),
+    url('./assets/midnight/liquid-obsidian.webp') center / cover no-repeat;
+}
+
+.apr-home .apr-worlds__media::before {
+  display: none;
+}
+
+.apr-home .apr-worlds__media .apr-media__mark {
+  padding: 12px 16px;
+  background: #061317c9;
+  border-radius: 6px;
+  color: var(--midnight-ivory);
+}
+
+.apr-home .apr-worlds__shade {
+  background:
+    linear-gradient(180deg, var(--midnight-abyss), transparent 18% 77%, var(--midnight-abyss)),
+    linear-gradient(90deg, #051014e8 5%, #051014a8 38%, transparent 72%);
+}
+
+.apr-home .apr-worlds__dock {
+  background: #061317e8;
+  border-color: #e6c79142;
+  backdrop-filter: none;
+}
+
+.apr-home .apr-worlds__thumb {
+  background-image: linear-gradient(#02090e29, #02090e66);
+  color: #fff5e5;
+}
+
+.apr-home .apr-planner {
+  color: var(--midnight-ivory);
+  background:
+    linear-gradient(180deg, var(--midnight-abyss), #06131747 24% 65%, var(--midnight-abyss)),
+    linear-gradient(90deg, #06131775, transparent 70%),
+    url('./assets/midnight/ocean-depth.webp') right 66% / cover no-repeat;
+}
+
+.apr-home .apr-planner__intro {
+  text-shadow: 0 2px 16px #02090e;
+}
+
+.apr-home .apr-planner__preview,
+.apr-home .apr-planner__choice,
+.apr-home .apr-planner__time-marker {
+  background: #0b2025;
+  border-color: #668083;
+  color: var(--midnight-ivory);
+}
+
+.apr-home .apr-planner__preview {
+  background: linear-gradient(148deg, #142d32, #081a20 75%);
+  border-color: #e6c7915e;
+  box-shadow: 0 18px 65px #0007;
+}
+
+.apr-home .apr-planner__choice:hover,
+.apr-home .apr-planner__choice.is-selected {
+  background: #18373d;
+  border-color: var(--midnight-gold);
+}
+
+.apr-home .apr-planner__choice:focus-visible,
+.apr-home .apr-planner__cta:focus-visible,
+.apr-home .apr-planner__reset:focus-visible {
+  outline: 2px solid var(--midnight-gold);
+  outline-offset: 3px;
+}
+
+.apr-home .apr-planner__eyebrow,
+.apr-home .apr-planner__intro h2 em,
+.apr-home .apr-planner__choice-index,
+.apr-home .apr-planner__preview-header,
+.apr-home .apr-planner__preview h3 em,
+.apr-home .apr-planner__time-marker,
+.apr-home .apr-planner__period,
+.apr-home .apr-planner__notice {
+  color: var(--midnight-gold);
+}
+
+.apr-home .apr-planner__lead,
+.apr-home .apr-planner__preview-badge,
+.apr-home .apr-planner__preview-lead,
+.apr-home .apr-planner__time-body small,
+.apr-home .apr-planner__disclaimer,
+.apr-home .apr-planner__reset {
+  color: var(--midnight-muted);
+}
+
+.apr-home .apr-planner__time:not(:last-child)::before {
+  background: #668083;
+}
+
+.apr-footer--midnight {
+  background:
+    linear-gradient(180deg, var(--midnight-abyss), #061317c9 35%, #061317ed),
+    url('./assets/midnight/liquid-obsidian.webp') center 75% / cover no-repeat;
+}
+
+@media (max-width: 639px) {
+  .apr-home .apr-hero {
+    background-position: 60% center;
+  }
+
+  .apr-home .apr-hero__veil {
+    background:
+      radial-gradient(ellipse at center, #020b10c9, #020b104f 65%, transparent 89%),
+      linear-gradient(180deg, #02090ec9, transparent 18% 75%, var(--midnight-abyss));
+  }
+
+  .apr-home .apr-about {
+    background-position: center, 40% center;
+  }
+
+  .apr-home .apr-about__polaroid {
+    width: min(46vw, 205px);
+  }
+
+  .apr-home .apr-about__photo {
+    height: min(33vw, 155px);
+  }
+
+  .apr-home .apr-worlds__shade {
+    background: linear-gradient(180deg, var(--midnight-abyss), #06131715 18%, #061317d9 45%, var(--midnight-abyss));
+  }
+
+  .apr-home .apr-worlds__media .apr-media__mark {
+    top: 15%;
+    opacity: .84;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .apr-home .apr-worlds__tab,
+  .apr-home .apr-planner__choice,
+  .apr-home .apr-planner__cta,
+  .apr-footer--midnight button::after {
+    transition: none;
+  }
+}
+
+@media (max-width: 360px) {
+  .apr-home .apr-hero__title {
+    font-size: 3rem;
+  }
+}
