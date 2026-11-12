@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 
 type VisitIconName = 'compass' | 'shuttle' | 'clipboard' | 'help' | 'cable' | 'ferry' | 'boat' | 'yacht' | 'ticket' | 'family' | 'shield' | 'bag' | 'weather' | 'access';
 
 function VisitIcon({ name, size = 32 }: { name: string; size?: number }) {
   const common = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.5, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
-  const drawings: Record<VisitIconName, React.ReactNode> = {
+  const drawings: Record<VisitIconName, ReactNode> = {
     compass: <><circle cx="24" cy="24" r="18"/><path d="m30 18-5 12-7 2 5-12z"/></>,
     shuttle: <><rect x="7" y="13" width="34" height="23" rx="5"/><path d="M12 22h24M18 13v9M30 13v9"/><circle cx="15" cy="37" r="3"/><circle cx="33" cy="37" r="3"/></>,
     clipboard: <><rect x="10" y="10" width="28" height="33" rx="3"/><rect x="18" y="6" width="12" height="8" rx="2"/><path d="M17 25h14M17 32h10"/></>,
