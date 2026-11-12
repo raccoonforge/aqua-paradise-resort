@@ -6,19 +6,19 @@ function VisitIcon({ name, size = 32 }: { name: string; size?: number }) {
   const common = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.5, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
   const drawings: Record<VisitIconName, ReactNode> = {
     compass: <><circle cx="24" cy="24" r="18"/><path d="m30 18-5 12-7 2 5-12z"/></>,
-    shuttle: <><rect x="8" y="11" width="32" height="25" rx="6"/><path d="M13 16h22v12H13zM24 16v12M13 36v3m22-3v3"/><circle cx="16" cy="35" r="2" fill="currentColor" stroke="none"/><circle cx="32" cy="35" r="2" fill="currentColor" stroke="none"/></>,
+    shuttle: <><path d="M10 33V15c0-4 3-7 7-7h14c4 0 7 3 7 7v18" strokeWidth="2.4"/><rect x="14" y="14" width="20" height="13" rx="2" strokeWidth="2.4"/><path d="M10 33h28M14 38h4m12 0h4M24 14v13" strokeWidth="2.4"/><circle cx="16" cy="33" r="2.5" fill="currentColor" stroke="none"/><circle cx="32" cy="33" r="2.5" fill="currentColor" stroke="none"/></>,
     clipboard: <><rect x="10" y="10" width="28" height="33" rx="3"/><rect x="18" y="6" width="12" height="8" rx="2"/><path d="M17 25h14M17 32h10"/></>,
     help: <><circle cx="24" cy="24" r="18"/><path d="M18 18a6 6 0 1 1 9 5c-3 2-3 3-3 6"/><circle cx="24" cy="35" r="1" fill="currentColor" stroke="none"/></>,
     cable: <><path d="M5 10c13 6 25 6 38 0M24 14v7"/><rect x="13" y="21" width="22" height="16" rx="5"/><path d="M24 21v16M17 28h14"/></>,
-    ferry: <><path d="M6 31h36l-6 10H13zM12 31V19h24v12M17 19v-6h14v6M16 24h5m6 0h5M5 44q5-4 10 0t10 0t10 0t9 0"/></>,
-    boat: <><path d="M5 33h38l-8 8H14zM15 33l5-12h13l8 12M23 21v-7h8v7M10 44q5-3 10 0t10 0t10 0"/></>,
-    yacht: <><path d="M6 35h37l-8 8H14zM23 8v27M26 11l13 22H26zM20 16 10 33h10zM7 46q5-3 10 0t10 0t10 0"/></>,
+    ferry: <><path d="M5 31h38l-7 10H12L5 31z" fill="currentColor" fillOpacity=".22" strokeWidth="2.4"/><path d="M12 31V19h24v12M17 19v-7h14v7M17 25h5m5 0h5" strokeWidth="2.4"/><path d="M5 44q5-3 10 0t10 0t10 0t8 0" strokeWidth="2.2"/></>,
+    boat: <><path d="M4 32h40l-9 10H13L4 32z" fill="currentColor" fillOpacity=".24" strokeWidth="2.4"/><path d="M14 32l7-13h13l7 13M21 19v-6h10v6M11 45q6-3 12 0t12 0" strokeWidth="2.4"/><path d="M22 24h11" strokeWidth="2.4"/></>,
+    yacht: <><path d="M5 35h38l-8 9H14z" fill="currentColor" fillOpacity=".22" strokeWidth="2.4"/><path d="M23 5v30M27 10l14 23H27zM19 15 8 33h11z" strokeWidth="2.4"/><path d="M6 46q6-3 12 0t12 0t12 0" strokeWidth="2.2"/></>,
     ticket: <><path d="M8 14h32v9a5 5 0 0 0 0 10v5H8v-5a5 5 0 0 0 0-10zM25 14v5m0 5v4m0 5v5"/></>,
     family: <><circle cx="17" cy="17" r="6"/><circle cx="34" cy="19" r="5"/><path d="M5 39v-5c0-6 5-10 12-10s12 4 12 10v5M28 29c7-4 15 1 15 9v1M22 40h9"/></>,
     shield: <><path d="M24 5 39 11v12c0 10-6 16-15 20C15 39 9 33 9 23V11zM17 24l5 5 10-11"/></>,
     bag: <><rect x="10" y="15" width="28" height="27" rx="5"/><path d="M17 15v-4a7 7 0 0 1 14 0v4M17 26h14"/></>,
-    weather: <><circle cx="16" cy="16" r="7"/><path d="M16 5v3M5 16h3M8 8l2 2M24 8l-2 2M14 38h24a8 8 0 0 0 0-16 12 12 0 0 0-22 5 6 6 0 0 0-2 11z"/></>,
-    access: <><circle cx="25" cy="9" r="4"/><path d="m17 19 9-3 7 5M26 16l-3 12h10M22 28l-5 10M14 27a14 14 0 1 0 21 9M10 28h13"/></>
+    weather: <><circle cx="15" cy="15" r="7" strokeWidth="2.4"/><path d="M15 3v4M3 15h4M6.5 6.5l3 3M23.5 6.5l-3 3" strokeWidth="2.4"/><path d="M15 39h23a9 9 0 0 0 0-18 13 13 0 0 0-24 6 6 6 0 0 0 1 12z" fill="currentColor" fillOpacity=".14" strokeWidth="2.4"/></>,
+    access: <><circle cx="26" cy="7" r="4" fill="currentColor" stroke="none"/><path d="M26 15v12h11M26 18l-9 5M26 27l-5 11" strokeWidth="2.6"/><path d="M15 27a13 13 0 1 0 22 9M10 27h17" strokeWidth="2.6"/></>
   };
   return <svg width={size} height={size} viewBox="0 0 48 48" aria-hidden="true" focusable="false" {...common}>{drawings[name as VisitIconName] ?? drawings.compass}</svg>;
 }
