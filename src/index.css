@@ -1565,3 +1565,17 @@ body {
   .apr-hotel-reveal { opacity: 1; transform: none; transition: none !important; }
   .apr-hotel-experience, .apr-hotel-experience:hover { scale: 1; filter: none; transition: none !important; }
 }
+
+/* Shared editorial motion for inner pages. Interactive forms remain unaffected. */
+.apr-main--inner .apr-page-reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity .95s ease, transform 1.05s cubic-bezier(.22,1,.36,1);
+}
+.apr-main--inner .apr-page-reveal.apr-page-reveal--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .apr-main--inner .apr-page-reveal { opacity: 1; transform: none; transition: none !important; }
+}
