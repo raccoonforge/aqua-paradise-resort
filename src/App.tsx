@@ -459,6 +459,46 @@ function App() {
     window.scrollTo(0, 0);
   }, [basePath]);
 
+  // Shared editorial reveals for inner pages; existing home/hotel animations remain untouched.
+  useEffect(() => {
+    if (basePath === '#/' || basePath === '#/hotel') return;
+    const root = document.querySelector<HTMLElement>('.apr-main--inner');
+    if (!root) return;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const observed = new WeakSet<Element>();
+    const observer = !reduceMotion && 'IntersectionObserver' in window
+      ? new IntersectionObserver(entries => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            entry.target.classList.add('apr-page-reveal--visible');
+            observer?.unobserve(entry.target);
+          }
+        }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' })
+      : null;
+    const register = () => {
+      // Animate editorial sections only, not inputs, tabs, cards or live calculator results.
+      const page = root.firstElementChild;
+      if (!page) return;
+      const sections = Array.from(page.querySelectorAll<HTMLElement>('section'));
+      for (const el of sections) {
+        if (observed.has(el) || el.closest('.apr-hotel')) continue;
+        // Avoid hiding an entire interactive application while its state updates.
+        if (el.querySelector('input, select, textarea, [role="dialog"]')) continue;
+        observed.add(el);
+        if (!observer || el.getBoundingClientRect().top < window.innerHeight * 0.9) {
+          el.classList.add('apr-page-reveal--visible');
+        } else {
+          el.classList.add('apr-page-reveal');
+          observer.observe(el);
+        }
+      }
+    };
+    register();
+    const mutations = new MutationObserver(register);
+    mutations.observe(root, { childList: true, subtree: true });
+    return () => { mutations.disconnect(); observer?.disconnect(); };
+  }, [basePath]);
+
   const renderPage = () => {
     const [base, queryString] = currentPath.split('?');
 
