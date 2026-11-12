@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 type Category = 'rooms' | 'suites' | 'villas';
 type RoomCategory = { id: string; name: string; desc: string; amenities: string[] };
@@ -35,6 +35,26 @@ const experiences = [
 ] as const;
 
 export default function HotelPage() {
+  const pageRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const root = pageRef.current;
+    if (!root) return;
+    const elements = Array.from(root.querySelectorAll<HTMLElement>('[data-hotel-reveal]'));
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+      elements.forEach(el => el.classList.add('is-visible'));
+      return;
+    }
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -24px 0px' });
+    elements.forEach(el => observer.observe(el));
+    return () => observer.disconnect();
+  }, [activeCategory]);
   const [activeCategory, setActiveCategory] = useState<Category>('rooms');
   const [expandedItemId, setExpandedItemId] = useState<string | null>(null);
   const [selectedExperience, setSelectedExperience] = useState<(typeof experiences)[number]['id']>('pool');
@@ -46,10 +66,10 @@ export default function HotelPage() {
   const currentExperience = experiences.find(item => item.id === selectedExperience) ?? experiences[0];
 
   return (
-    <main className="apr-hotel min-h-screen pb-24" style={{ background: 'var(--apr-pearl)', color: 'var(--apr-ink)' }}>
+    <main ref={pageRef} className="apr-hotel min-h-screen pb-24" style={{ background: 'var(--apr-pearl)', color: 'var(--apr-ink)' }}>
       <section className="relative isolate min-h-[570px] flex items-center justify-center overflow-hidden px-5 py-32 text-center text-white" style={{ background: 'radial-gradient(ellipse at 75% 15%, #397a79 0%, transparent 45%), linear-gradient(145deg, #123e47, #092b35 80%)' }}>
         <div aria-hidden="true" className="absolute inset-6 md:inset-12 border border-white/15 pointer-events-none" />
-        <div className="relative z-10 max-w-4xl">
+        <div className="relative z-10 max-w-4xl apr-hotel-hero">
           <p className="mb-7 text-xs font-semibold uppercase tracking-[.3em]" style={{ color: 'var(--apr-sand)' }}>Aqua Paradise · Paradise Grand Hotel &amp; Villas · 5★</p>
           <h1 className="font-serif text-6xl md:text-8xl leading-[.95] mb-8">Искусство <em className="font-normal" style={{ color: '#e7d7b3' }}>безупречного</em> отдыха</h1>
           <p className="mx-auto max-w-xl text-base md:text-lg leading-relaxed text-white/75">Пятизвёздочный премиальный комплекс на уединённом северо-западном побережье острова.</p>
@@ -59,12 +79,12 @@ export default function HotelPage() {
 
       <div className="mx-auto max-w-6xl px-5 md:px-8">
         <section aria-label="Каталог размещения" className="py-20 md:py-28">
-          <div className="text-center mb-12">
+          <div data-hotel-reveal className="text-center mb-12 apr-hotel-reveal">
             <p className="text-xs font-semibold tracking-[.3em] uppercase mb-4" style={{ color: 'var(--apr-lagoon)' }}>Ваше пространство у океана</p>
             <h2 className="font-serif text-5xl md:text-7xl mb-5">Искусство проживания</h2>
             <p className="max-w-xl mx-auto leading-relaxed" style={{ color: 'var(--apr-muted)' }}>От уютных номеров до приватных вилл — выберите пространство для своего идеального отдыха.</p>
           </div>
-          <div className="flex flex-wrap justify-center gap-3 mb-14" role="group" aria-label="Категория размещения">
+          <div data-hotel-reveal className="flex flex-wrap justify-center gap-3 mb-14 apr-hotel-reveal" role="group" aria-label="Категория размещения">
             {(['rooms', 'suites', 'villas'] as const).map(cat => (
               <button key={cat} type="button" onClick={() => changeCategory(cat)} aria-pressed={activeCategory === cat}
                 className="min-w-32 rounded-full px-7 py-3 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-4"
@@ -77,7 +97,7 @@ export default function HotelPage() {
             {categories[activeCategory].items.map((item, index) => {
               const expanded = expandedItemId === item.id;
               return (
-                <article key={item.id} className="grid lg:grid-cols-2 gap-8 md:gap-14 items-center">
+                <article key={item.id} data-hotel-reveal className="grid lg:grid-cols-2 gap-8 md:gap-14 items-center apr-hotel-reveal">
                   <div role="img" aria-label={`Место для будущей фотографии: ${item.name}`} className={`relative min-h-72 md:min-h-[420px] overflow-hidden flex items-center justify-center ${index % 2 ? 'lg:order-2' : ''}`}
                     style={{ background: 'linear-gradient(140deg, #376b72, #163d48 65%, #102f3b)' }}>
                     <div aria-hidden="true" className="absolute inset-4 border border-white/25" />
@@ -107,29 +127,29 @@ export default function HotelPage() {
 
       <section aria-labelledby="hotel-experiences" className="py-20 md:py-28 text-white" style={{ background: 'var(--apr-deep)' }}>
         <div className="mx-auto max-w-6xl px-5 md:px-8">
-          <div className="mb-12 md:flex justify-between items-end gap-10">
+          <div data-hotel-reveal className="mb-12 md:flex justify-between items-end gap-10 apr-hotel-reveal">
             <div><p className="text-xs uppercase tracking-[.3em] mb-4" style={{ color: 'var(--apr-sand)' }}>Beyond the room</p><h2 id="hotel-experiences" className="font-serif text-5xl md:text-7xl">Отдых и впечатления</h2></div>
             <p className="mt-5 md:mt-0 max-w-sm text-white/65 leading-relaxed">Пространства, созданные для неспешного отдыха и ярких моментов.</p>
           </div>
-          <div className="grid md:grid-cols-2 gap-4">
-            <button type="button" aria-pressed={selectedExperience === 'pool'} onClick={() => setSelectedExperience('pool')} className="relative min-h-80 md:min-h-[450px] p-8 text-left flex items-end transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-4"
+          <div data-hotel-reveal className="grid md:grid-cols-2 gap-4 apr-hotel-reveal">
+            <button type="button" aria-pressed={selectedExperience === 'pool'} onClick={() => setSelectedExperience('pool')} className="apr-hotel-experience relative min-h-80 md:min-h-[450px] p-8 text-left flex items-end transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-4"
               style={{ background: 'linear-gradient(145deg,#478c8d,#194e59)', outlineColor: '#e7d7b3', boxShadow: selectedExperience === 'pool' ? 'inset 0 0 0 2px #e7d7b3' : undefined }}>
               <span><span className="block text-xs tracking-[.22em] uppercase mb-4 text-white/65">Место для фото</span><strong className="font-serif text-4xl block">{experiences[0].title}</strong><span className="text-sm text-white/75">{experiences[0].subtitle}</span></span>
             </button>
             <div className="grid grid-rows-2 gap-4">
               {experiences.slice(1).map(item => <button key={item.id} type="button" aria-pressed={selectedExperience === item.id} onClick={() => setSelectedExperience(item.id)}
-                className="min-h-48 p-7 text-left flex items-end transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-4"
+                className="apr-hotel-experience min-h-48 p-7 text-left flex items-end transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-4"
                 style={{ background: 'linear-gradient(140deg,#315d64,#173a48)', outlineColor: '#e7d7b3', boxShadow: selectedExperience === item.id ? 'inset 0 0 0 2px #e7d7b3' : undefined }}>
                 <span><span className="block text-xs tracking-[.22em] uppercase mb-3 text-white/55">Место для фото</span><strong className="font-serif text-3xl block">{item.title}</strong><span className="text-sm text-white/75">{item.subtitle}</span></span>
               </button>)}
             </div>
           </div>
-          <div className="mt-7 border-t border-white/20 pt-7" aria-live="polite"><h3 className="font-serif text-3xl mb-2" style={{ color: 'var(--apr-sand)' }}>{currentExperience.title}</h3><p className="text-white/75 leading-relaxed">{currentExperience.details}</p></div>
+          <div key={selectedExperience} className="mt-7 border-t border-white/20 pt-7 apr-hotel-experience-detail" aria-live="polite"><h3 className="font-serif text-3xl mb-2" style={{ color: 'var(--apr-sand)' }}>{currentExperience.title}</h3><p className="text-white/75 leading-relaxed">{currentExperience.details}</p></div>
         </div>
       </section>
 
       <div className="mx-auto max-w-6xl px-5 md:px-8 py-20 md:py-28">
-        <div className="grid lg:grid-cols-2 gap-14 lg:gap-20">
+        <div data-hotel-reveal className="grid lg:grid-cols-2 gap-14 lg:gap-20 apr-hotel-reveal">
           <section aria-labelledby="hotel-dining">
             <p className="text-xs uppercase tracking-[.3em] mb-4" style={{ color: 'var(--apr-lagoon)' }}>Taste of paradise</p>
             <h2 id="hotel-dining" className="font-serif text-5xl md:text-6xl mb-8">Гастрономия</h2>
@@ -148,7 +168,7 @@ export default function HotelPage() {
             </div>
           </section>
         </div>
-        <section aria-labelledby="hotel-packages" className="mt-20 p-8 md:p-12" style={{ background: '#eae2d3' }}>
+        <section aria-labelledby="hotel-packages" data-hotel-reveal className="mt-20 p-8 md:p-12 apr-hotel-reveal" style={{ background: '#eae2d3' }}>
           <p className="text-xs uppercase tracking-[.3em] mb-4" style={{ color: 'var(--apr-lagoon)' }}>Curated stays</p>
           <h2 id="hotel-packages" className="font-serif text-4xl md:text-5xl mb-4">Пакеты проживания</h2>
           <p className="text-sm leading-7 mb-7 max-w-3xl"><strong>Предварительная концепция, не действующие предложения.</strong> Цены, состав пакетов и условия проживания не утверждены. Проживание не предполагает автоматического доступа ко всем платным услугам аквапарка.</p>
