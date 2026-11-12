@@ -1640,3 +1640,40 @@ body {
   .apr-zones-page .apr-zones-panorama,
   .apr-zones-page .apr-zones-panorama:hover { filter: none; transition: none !important; }
 }
+
+/* Visit — editorial resort styling; all interactions retain their existing state. */
+.apr-visit { background: var(--apr-pearl); color: var(--apr-ink); }
+.apr-visit-hero {
+  isolation: isolate;
+  background: radial-gradient(ellipse at 80% 10%, #347f83 0%, transparent 48%), linear-gradient(140deg, #174d55 0%, #092d38 85%);
+}
+.apr-visit-hero-frame { position:absolute; inset: 36px; border: 1px solid rgba(255,255,255,.17); pointer-events:none; }
+.apr-visit-kicker { font-size: .7rem; font-weight: 700; letter-spacing: .3em; color: #e7d7b3; }
+.apr-visit-hero-copy { animation: apr-hotel-rise 1.15s cubic-bezier(.22,1,.36,1) both; }
+.apr-visit-nav-card {
+  display:block; width:100%; min-height: 125px;
+  background: #f0e8d9; color: var(--apr-deep);
+  border: 1px solid #e1d4bf;
+  transition: background .4s ease, translate .45s cubic-bezier(.22,1,.36,1), box-shadow .4s ease;
+}
+.apr-visit-nav-card:hover { background: #e6d9c2; translate: 0 -5px; box-shadow: 0 12px 30px rgba(15,55,63,.12); }
+.apr-visit-nav-card:focus-visible { outline-color: var(--apr-lagoon); }
+.apr-visit-heading { color: var(--apr-deep); letter-spacing: -.025em; }
+.apr-visit-section { border-top: 1px solid #d7c9b5; padding-top: 32px; }
+.apr-visit-arrival, .apr-visit-rule, .apr-visit-accordion { background: #fffdf8; border: 1px solid #e2d8c8; }
+.apr-visit-arrival { transition: box-shadow .4s ease, translate .4s ease; }
+.apr-visit-arrival:hover { translate: 0 -3px; box-shadow: 0 15px 40px rgba(18,65,72,.1); }
+.apr-visit-arrival-visual { background: radial-gradient(ellipse at 75% 20%, #447e82, #164451 78%); }
+.apr-visit-arrival button, .apr-visit-accordion button { border-radius: 0; }
+.apr-visit-accordion button:hover { background: #f2ece2; }
+.apr-visit-accordion > div + div { border-color: #e2d8c8; }
+.apr-visit-rule { transition: background .35s ease; }
+.apr-visit-rule:hover { background: #f2ece2; }
+.apr-visit-content .text-teal-600, .apr-visit-content .text-teal-700 { color: var(--apr-lagoon); }
+.apr-visit-content .text-gray-900 { color: var(--apr-deep); }
+.apr-visit-content .text-gray-600, .apr-visit-content .text-gray-500 { color: var(--apr-muted); }
+.apr-visit-content .border-gray-100 { border-color: #e2d8c8; }
+@media (prefers-reduced-motion: reduce) {
+  .apr-visit-hero-copy { animation: none !important; }
+  .apr-visit-nav-card, .apr-visit-arrival, .apr-visit-rule { transition: none !important; translate: none !important; }
+}
