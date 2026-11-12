@@ -20,13 +20,14 @@
 .apr-shell--midnight .apr-worlds,
 .apr-shell--midnight .apr-worlds__frame,
 .apr-shell--midnight .apr-worlds__media.apr-media,
-.apr-shell--midnight .apr-planner,
-.apr-shell--midnight .apr-footer {
+.apr-shell--midnight .apr-planner {
   background: transparent;
 }
 
 .apr-shell--midnight .apr-footer {
-  border-color: transparent;
+  background: #06171cdb;
+  border-top-color: #e6c79166;
+  box-shadow: 0 -3px 14px #e6c79113;
 }
 
 .apr-shell--midnight .apr-home {
