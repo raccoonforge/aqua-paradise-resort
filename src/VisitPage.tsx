@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useState } from 'react';
 
 type VisitIconName = 'compass' | 'shuttle' | 'clipboard' | 'help' | 'cable' | 'ferry' | 'boat' | 'yacht' | 'ticket' | 'family' | 'shield' | 'bag' | 'weather' | 'access';
 
