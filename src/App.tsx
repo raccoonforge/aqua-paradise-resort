@@ -563,11 +563,11 @@ function App() {
     }
   };
 
-  const usesObsidianFooter = basePath === '#/' || basePath === '#/zones' || basePath === '#/attractions';
+  const usesObsidianTheme = basePath === '#/' || basePath === '#/zones' || basePath === '#/attractions' || basePath === '#/hotel';
 
   return (
-    <div className={`min-h-screen flex flex-col bg-[#f8f9fa] font-sans${basePath === '#/' ? ' apr-shell--midnight' : basePath === '#/zones' ? ' apr-shell--zones' : basePath === '#/attractions' ? ' apr-shell--attractions' : ''}`}>
-      <header className={`apr-site-header ${usesObsidianFooter ? '' : 'apr-site-header--light-page'} ${basePath === '#/' && !headerScrolled ? 'apr-site-header--hero' : 'apr-site-header--solid'} ${headerHidden && !isMobileMenuOpen ? 'apr-site-header--hidden' : ''}`}>
+    <div className={`min-h-screen flex flex-col bg-[#f8f9fa] font-sans${basePath === '#/' ? ' apr-shell--midnight' : basePath === '#/zones' ? ' apr-shell--zones' : basePath === '#/attractions' ? ' apr-shell--attractions' : basePath === '#/hotel' ? ' apr-shell--hotel' : ''}`}>
+      <header className={`apr-site-header ${usesObsidianTheme ? '' : 'apr-site-header--light-page'} ${basePath === '#/' && !headerScrolled ? 'apr-site-header--hero' : 'apr-site-header--solid'} ${headerHidden && !isMobileMenuOpen ? 'apr-site-header--hidden' : ''}`}>
         <div className="apr-site-header__inner">
           <button type="button" className="apr-brand" onClick={() => navigate('#/')} aria-label="Aqua Paradise — на главную">
             <ResortLogo />
@@ -644,7 +644,7 @@ function App() {
         <span aria-hidden="true">↑</span>
       </button>
 
-      <footer className={`apr-footer${usesObsidianFooter ? ' apr-footer--obsidian' : ''}`} id="site-footer">
+      <footer className={`apr-footer${usesObsidianTheme ? ' apr-footer--obsidian' : ''}`} id="site-footer">
         <div className="apr-footer__inner">
           <div className="apr-footer__top">
             <div className="apr-footer__identity">

@@ -1,0 +1,108 @@
+.apr-shell--hotel {
+  --hotel-ivory: #f8eee0;
+  --hotel-muted: #ded1c3;
+  --hotel-gold: #e6c791;
+  --hotel-line: #e6c7913d;
+  --hotel-panel: #14100ee6;
+  background-color: #100d0c;
+  background-image:
+    linear-gradient(180deg, #110d0b6b, #110d0b12 20%, #110d0b2b 85%, #110d0b32),
+    url('./assets/midnight/hotel-bronze.webp');
+  background-position: center top;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.apr-hotel {
+  color: var(--hotel-ivory);
+}
+
+.apr-hotel-opening {
+  min-height: clamp(520px, 68svh, 710px);
+  padding-block: 96px;
+  text-shadow: 0 3px 26px #070502d9;
+}
+
+.apr-hotel-title {
+  font-size: clamp(2.6rem, 7.5vw, 6rem);
+  text-wrap: balance;
+}
+
+.apr-hotel-gold {
+  color: var(--hotel-gold);
+}
+
+.apr-hotel-muted {
+  color: var(--hotel-muted);
+}
+
+.apr-hotel-room-copy,
+.apr-hotel-experience-detail,
+.apr-hotel-packages,
+.apr-hotel-amenities {
+  padding: clamp(20px, 3vw, 38px);
+  background: var(--hotel-panel);
+  border: 1px solid var(--hotel-line);
+  border-radius: 10px;
+}
+
+.apr-hotel-packages {
+  padding: clamp(24px, 4vw, 48px);
+}
+
+.apr-hotel-amenities {
+  padding: 18px;
+  background: #292019;
+}
+
+.apr-hotel-photo,
+.apr-hotel .apr-hotel-experience {
+  border: 1px solid var(--hotel-line);
+  border-radius: 10px;
+  background: #261d17de;
+}
+
+.apr-hotel .apr-hotel-experience[aria-pressed='true'] {
+  border-color: #e6c791a6;
+  background: #3c2d22ed;
+}
+
+.apr-hotel-rule {
+  background: #e6c79194;
+}
+
+.apr-hotel-service,
+.apr-hotel-amenity-toggle {
+  border-color: var(--hotel-line);
+}
+
+.apr-hotel-amenity-toggle {
+  color: var(--hotel-gold);
+}
+
+.apr-hotel-category {
+  border: 1px solid var(--hotel-line);
+  background: #201713e8;
+  color: var(--hotel-ivory);
+}
+
+.apr-hotel-category:hover {
+  border-color: var(--hotel-gold);
+}
+
+.apr-hotel-category[aria-pressed='true'] {
+  border-color: var(--hotel-gold);
+  background: var(--apr-gold-gradient);
+  color: #24170f;
+}
+
+.apr-hotel button:focus-visible {
+  outline-color: var(--hotel-gold);
+}
+
+@media (max-width: 767px) {
+  .apr-shell--hotel {
+    background-position: center, 55% top;
+    background-size: 100% 100%, 145% 100%;
+  }
+}
