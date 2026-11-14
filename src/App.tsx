@@ -564,7 +564,7 @@ function App() {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col bg-[#f8f9fa] font-sans${basePath === '#/' ? ' apr-shell--midnight' : ''}`}>
+    <div className={`min-h-screen flex flex-col bg-[#f8f9fa] font-sans${basePath === '#/' ? ' apr-shell--midnight' : basePath === '#/zones' ? ' apr-shell--zones' : ''}`}>
       <header className={`apr-site-header ${basePath !== '#/' && basePath !== '#/zones' ? 'apr-site-header--light-page' : ''} ${basePath === '#/' && !headerScrolled ? 'apr-site-header--hero' : 'apr-site-header--solid'} ${headerHidden && !isMobileMenuOpen ? 'apr-site-header--hidden' : ''}`}>
         <div className="apr-site-header__inner">
           <button type="button" className="apr-brand" onClick={() => navigate('#/')} aria-label="Aqua Paradise — на главную">
@@ -642,7 +642,7 @@ function App() {
         <span aria-hidden="true">↑</span>
       </button>
 
-      <footer className="apr-footer" id="site-footer">
+      <footer className={`apr-footer${basePath === '#/' || basePath === '#/zones' ? ' apr-footer--obsidian' : ''}`} id="site-footer">
         <div className="apr-footer__inner">
           <div className="apr-footer__top">
             <div className="apr-footer__identity">

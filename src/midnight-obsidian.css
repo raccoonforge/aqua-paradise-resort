@@ -24,7 +24,7 @@
   background: transparent;
 }
 
-.apr-shell--midnight .apr-footer {
+.apr-footer.apr-footer--obsidian {
   background: #06171cdb;
   border-top-color: #e6c79166;
   box-shadow: 0 -3px 14px #e6c79113;
@@ -198,7 +198,7 @@
   .apr-home .apr-worlds__tab,
   .apr-home .apr-planner__choice,
   .apr-home .apr-planner__cta,
-  .apr-shell--midnight .apr-footer button::after {
+  .apr-footer.apr-footer--obsidian button::after {
     transition: none;
   }
 }
