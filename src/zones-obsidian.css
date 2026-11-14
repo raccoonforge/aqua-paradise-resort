@@ -1,5 +1,11 @@
 .apr-shell--zones {
   background-color: #090f13;
+  background-position: center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-image:
+    linear-gradient(180deg, #070f15a6, #070f151a 24%, #070f154f 78%, #070f1580),
+    url('./assets/midnight/zones-obsidian.webp');
 }
 
 .apr-main--zones {
@@ -8,13 +14,6 @@
   --zones-gold: #e6c791;
   --zones-line: #e6c79139;
   --zones-surface: #0b2026d9;
-  background-color: #090f13;
-  background-position: center;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  background-image:
-    linear-gradient(180deg, #070f15a6, #070f151a 24%, #070f154f 78%, #070f1580),
-    url('./assets/midnight/zones-obsidian.webp');
 }
 
 .apr-main--zones .apr-zones-page,
@@ -136,7 +135,7 @@
 }
 
 @media (max-width: 900px) {
-  .apr-main--zones {
+  .apr-shell--zones {
     background-position: center, 54% top;
     background-size: 100% 100%, auto 100%;
   }
