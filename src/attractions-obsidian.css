@@ -1,0 +1,162 @@
+.apr-shell--attractions {
+  --catalog-ivory: #f8eee0;
+  --catalog-muted: #c5d5d3;
+  --catalog-gold: #e6c791;
+  --catalog-line: #e6c79145;
+  --catalog-panel: #081b21e8;
+  background-color: #07151a;
+  background-image:
+    linear-gradient(180deg, #061317b0, #06131724 19%, #06131738 80%, #06131756),
+    url('./assets/midnight/attractions-water.webp');
+  background-position: center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.apr-shell--attractions .apr-catalog {
+  background: transparent;
+  color: var(--catalog-ivory);
+  padding-top: clamp(46px, 6vw, 86px);
+  color-scheme: dark;
+}
+
+.apr-shell--attractions .apr-catalog__intro h1,
+.apr-shell--attractions .apr-catalog__card-title,
+.apr-shell--attractions .apr-catalog__modal-title,
+.apr-shell--attractions .apr-catalog__modal-facts > div > span:last-child,
+.apr-shell--attractions .apr-catalog .text-gray-900 {
+  color: var(--catalog-ivory);
+}
+
+.apr-shell--attractions .apr-catalog__intro p,
+.apr-shell--attractions .apr-catalog__modal-description,
+.apr-shell--attractions .apr-catalog__modal-safety,
+.apr-shell--attractions .apr-catalog :is(.text-gray-400, .text-gray-500, .text-gray-600, .text-gray-700) {
+  color: var(--catalog-muted);
+}
+
+.apr-shell--attractions .apr-catalog__intro {
+  text-shadow: 0 2px 20px #02090e;
+}
+
+.apr-shell--attractions :is(.apr-catalog__filters, .apr-catalog__card, .apr-catalog__empty) {
+  border-color: var(--catalog-line);
+  background: var(--catalog-panel);
+  border-radius: 10px;
+  box-shadow: 0 12px 32px #0005;
+}
+
+.apr-shell--attractions :is(.apr-catalog__filter-row input, .apr-catalog__filter-row select, .apr-catalog__measurements input) {
+  min-width: 0;
+  color: var(--catalog-ivory);
+  background: #10272f;
+  border-color: #648084;
+}
+
+.apr-shell--attractions .apr-catalog input::placeholder {
+  color: #aebfc0;
+}
+
+.apr-shell--attractions .apr-catalog__quick button[aria-pressed="false"],
+.apr-shell--attractions .apr-catalog__modal-facts > div,
+.apr-shell--attractions .apr-catalog__card-body > div:last-child span {
+  background: #112c33;
+  color: var(--catalog-muted);
+  border-color: var(--catalog-line);
+}
+
+.apr-shell--attractions .apr-catalog__quick button[aria-pressed="true"],
+.apr-shell--attractions .apr-catalog__more {
+  border-color: var(--catalog-gold);
+  background: #293834;
+  color: #fff1d2;
+}
+
+.apr-shell--attractions .apr-catalog__quick button:hover,
+.apr-shell--attractions .apr-catalog__more:hover,
+.apr-shell--attractions .apr-catalog__card:hover {
+  border-color: #e6c791a0;
+}
+
+.apr-shell--attractions .apr-catalog__measurements {
+  border-color: var(--catalog-line);
+}
+
+.apr-shell--attractions .apr-catalog__results strong,
+.apr-shell--attractions .apr-catalog__card-arrow,
+.apr-shell--attractions .apr-catalog__zone,
+.apr-shell--attractions .apr-catalog__modal-zone,
+.apr-shell--attractions .apr-catalog__modal-facts > div > span:first-child,
+.apr-shell--attractions .apr-catalog__modal-safety-title,
+.apr-shell--attractions .apr-catalog :is(.text-teal-600, .text-amber-700, .text-amber-800) {
+  color: var(--catalog-gold);
+}
+
+.apr-shell--attractions .apr-catalog :is(.bg-amber-50, .bg-amber-100) {
+  background: #31291d;
+  border-color: var(--catalog-line);
+}
+
+.apr-shell--attractions .apr-catalog__card-arrow {
+  border-color: var(--catalog-line);
+}
+
+.apr-shell--attractions .apr-catalog__photo,
+.apr-shell--attractions .apr-catalog__modal-photo {
+  background: linear-gradient(145deg, #183d47, #0d242c 80%);
+}
+
+.apr-shell--attractions .apr-catalog__card--restricted {
+  opacity: 1;
+}
+
+.apr-shell--attractions .apr-catalog__card--restricted .apr-catalog__photo {
+  background: #263335;
+}
+
+.apr-shell--attractions .apr-catalog__overlay {
+  z-index: 110;
+}
+
+.apr-shell--attractions .apr-catalog__modal,
+.apr-shell--attractions .apr-catalog__modal-close {
+  background: #0a1c22;
+  color: var(--catalog-ivory);
+  border-color: var(--catalog-line);
+}
+
+.apr-shell--attractions .apr-catalog__modal-close:hover,
+.apr-shell--attractions .apr-catalog__modal-safety {
+  background: #173038;
+}
+
+.apr-shell--attractions .apr-catalog :is(button, input, select):focus-visible {
+  outline: 2px solid var(--catalog-gold);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+@media (max-width: 767px) {
+  .apr-shell--attractions {
+    background-position: center, 56% top;
+    background-size: 100% 100%, 155% 100%;
+  }
+
+  .apr-shell--attractions .apr-catalog__intro h1 {
+    font-size: clamp(38px, 9.5vw, 51px);
+  }
+
+  .apr-shell--attractions .apr-catalog__filter-row select {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .apr-shell--attractions .apr-catalog *,
+  .apr-shell--attractions .apr-catalog *::before,
+  .apr-shell--attractions .apr-catalog *::after {
+    animation: none;
+    transition: none;
+  }
+}

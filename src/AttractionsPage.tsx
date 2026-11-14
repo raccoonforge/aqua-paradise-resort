@@ -1,3 +1,4 @@
+import './attractions-obsidian.css';
 import { useState, useMemo, useEffect } from 'react';
 import { useFocusTrap } from './hooks/useFocusTrap';
 import { ATTRACTIONS, type Attraction } from './data/attractions';
@@ -276,7 +277,7 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
 
         {/* Сетка */}
         {displayedAttractions.length === 0 && !showHiddenAnyway ? (
-          <div className="text-center py-20 bg-white rounded-2xl border border-gray-100">
+          <div className="apr-catalog__empty text-center py-20 bg-white rounded-2xl border border-gray-100">
             <p className="text-gray-500 text-lg mb-4">Ничего не найдено по вашему запросу.</p>
             <button
               onClick={resetFilters}
@@ -340,7 +341,7 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
           <div className="text-center mt-10">
             <button
               onClick={() => setVisibleCount(prev => prev + 12)}
-              className="bg-white border border-gray-200 text-gray-800 px-8 py-3 rounded-full font-medium hover:bg-gray-50 transition shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
+              className="apr-catalog__more bg-white border border-gray-200 text-gray-800 px-8 py-3 rounded-full font-medium hover:bg-gray-50 transition shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
             >
               Показать ещё
             </button>
@@ -352,7 +353,7 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
       {/* Модалка */}
       {activeRide && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+          className="apr-catalog__overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
           onClick={handleCloseRide}
         >
           <div
