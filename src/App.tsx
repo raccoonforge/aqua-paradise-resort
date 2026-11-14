@@ -565,7 +565,7 @@ function App() {
 
   return (
     <div className={`min-h-screen flex flex-col bg-[#f8f9fa] font-sans${basePath === '#/' ? ' apr-shell--midnight' : ''}`}>
-      <header className={`apr-site-header ${basePath !== '#/' ? 'apr-site-header--light-page' : ''} ${basePath === '#/' && !headerScrolled ? 'apr-site-header--hero' : 'apr-site-header--solid'} ${headerHidden && !isMobileMenuOpen ? 'apr-site-header--hidden' : ''}`}>
+      <header className={`apr-site-header ${basePath !== '#/' && basePath !== '#/zones' ? 'apr-site-header--light-page' : ''} ${basePath === '#/' && !headerScrolled ? 'apr-site-header--hero' : 'apr-site-header--solid'} ${headerHidden && !isMobileMenuOpen ? 'apr-site-header--hidden' : ''}`}>
         <div className="apr-site-header__inner">
           <button type="button" className="apr-brand" onClick={() => navigate('#/')} aria-label="Aqua Paradise — на главную">
             <ResortLogo />
@@ -628,7 +628,7 @@ function App() {
         </div>
       )}
 
-      <main className={`flex-grow ${basePath === '#/' ? 'apr-main--home' : 'apr-main--inner'}`}>{renderPage()}</main>
+      <main className={`flex-grow ${basePath === '#/' ? 'apr-main--home' : basePath === '#/zones' ? 'apr-main--inner apr-main--zones' : 'apr-main--inner'}`}>{renderPage()}</main>
 
       <button
         type="button"

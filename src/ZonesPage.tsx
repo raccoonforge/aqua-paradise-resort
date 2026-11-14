@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import './zones-obsidian.css';
+import { useEffect, useRef, useState } from 'react';
 import { ATTRACTIONS, ATTRACTION_IDS_BY_ZONE } from './data/attractions';
 
 type Tab = 'overview' | 'attractions' | 'infrastructure' | 'rules';
@@ -201,6 +202,21 @@ export default function ZonesPage({ initialZone, initialTab }: { initialZone?: s
     return () => window.removeEventListener('hashchange', syncFromHash);
   }, []);
 
+  const zoneTrack = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const track = zoneTrack.current;
+    const selected = track?.querySelector('[aria-current="page"]');
+    if (!track || !selected || track.scrollWidth <= track.clientWidth) return;
+
+    const trackBounds = track.getBoundingClientRect();
+    const buttonBounds = selected.getBoundingClientRect();
+    if (buttonBounds.left < trackBounds.left || buttonBounds.right > trackBounds.right) {
+      track.scrollLeft += buttonBounds.left - trackBounds.left
+        - (track.clientWidth - buttonBounds.width) / 2;
+    }
+  }, [activeZoneId]);
+
   const setSelection = (zoneId: string, tab: Tab) => {
     setActiveZoneId(zoneId);
     setActiveTab(tab);
@@ -223,10 +239,10 @@ export default function ZonesPage({ initialZone, initialTab }: { initialZone?: s
   ].filter(group => group.items && group.items.length > 0);
 
   return (
-    <div className="apr-zones-page min-h-screen pb-20">
+    <div className="apr-zones-page">
       <div className="apr-zones-switcher">
         <nav aria-label="Тематические зоны" className="apr-zones-switcher__inner">
-          <div className="apr-zones-switcher__track">
+          <div className="apr-zones-switcher__track" ref={zoneTrack}>
             {zonesData.map(zone => (
               <button
                 type="button" key={zone.id}
@@ -253,10 +269,10 @@ export default function ZonesPage({ initialZone, initialTab }: { initialZone?: s
         </nav>
       </div>
 
-      <main className="apr-zones-main">
+      <div className="apr-zones-main">
         <div className="apr-zones-layout">
           <div className="apr-zones-visual">
-            <div className="apr-zones-panorama" role="img" aria-label={`Место для будущей панорамной фотографии ${activeZone.name}`}><span className="apr-zones-panorama__eyebrow">AQUA PARADISE · THE NINE WORLDS</span><span className="apr-zones-panorama__frame" aria-hidden="true"><span className="apr-zones-panorama__horizon" /><span className="apr-zones-panorama__sun" /><span className="apr-zones-panorama__shore apr-zones-panorama__shore--far" /><span className="apr-zones-panorama__shore apr-zones-panorama__shore--near" /></span><span className="apr-zones-panorama__placeholder"><span className="apr-zones-panorama__label">ПАНОРАМНАЯ ФОТОГРАФИЯ · СКОРО</span><strong>{activeZone.name}</strong><span className="apr-zones-panorama__caption">Место для фотографии тематической зоны</span></span><span className="apr-zones-panorama__index">{String(zonesData.findIndex(zone => zone.id === activeZoneId) + 1).padStart(2, '0')} / 09</span></div>
+            <div className="apr-zones-panorama" role="img" aria-label={`Место для будущей панорамной фотографии ${activeZone.name}`}><span className="apr-zones-panorama__eyebrow">AQUA PARADISE · THE NINE WORLDS</span><span className="apr-zones-panorama__placeholder"><span className="apr-zones-panorama__label">ПАНОРАМНАЯ ФОТОГРАФИЯ · СКОРО</span><strong>{activeZone.name}</strong><span className="apr-zones-panorama__caption">Место для фотографии тематической зоны</span></span><span className="apr-zones-panorama__index">{String(zonesData.findIndex(zone => zone.id === activeZoneId) + 1).padStart(2, '0')} / 09</span></div>
 
           </div>
 
@@ -353,7 +369,7 @@ export default function ZonesPage({ initialZone, initialTab }: { initialZone?: s
             </div>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 }
