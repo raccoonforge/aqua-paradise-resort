@@ -1,3 +1,4 @@
+import './navigation-themes.css';
 import './midnight-obsidian.css';
 import PlannerPage from './PlannerPage';
 import HotelPage from './HotelPage';
@@ -565,8 +566,10 @@ function App() {
 
   const usesObsidianTheme = basePath === '#/' || basePath === '#/zones' || basePath === '#/attractions' || basePath === '#/hotel' || basePath === '#/tickets';
 
+  const navigationTheme = basePath === '#/hotel' ? 'warm' : usesObsidianTheme ? 'ocean' : undefined;
+
   return (
-    <div className={`min-h-screen flex flex-col bg-[#f8f9fa] font-sans${basePath === '#/' ? ' apr-shell--midnight' : basePath === '#/zones' ? ' apr-shell--zones' : basePath === '#/attractions' ? ' apr-shell--attractions' : basePath === '#/hotel' ? ' apr-shell--hotel' : basePath === '#/tickets' ? ' apr-shell--tickets' : ''}`}>
+    <div data-navigation-theme={navigationTheme} className={`min-h-screen flex flex-col bg-[#f8f9fa] font-sans${basePath === '#/' ? ' apr-shell--midnight' : basePath === '#/zones' ? ' apr-shell--zones' : basePath === '#/attractions' ? ' apr-shell--attractions' : basePath === '#/hotel' ? ' apr-shell--hotel' : basePath === '#/tickets' ? ' apr-shell--tickets' : ''}`}>
       <header className={`apr-site-header ${usesObsidianTheme ? '' : 'apr-site-header--light-page'} ${basePath === '#/' && !headerScrolled ? 'apr-site-header--hero' : 'apr-site-header--solid'} ${headerHidden && !isMobileMenuOpen ? 'apr-site-header--hidden' : ''}`}>
         <div className="apr-site-header__inner">
           <button type="button" className="apr-brand" onClick={() => navigate('#/')} aria-label="Aqua Paradise — на главную">

@@ -1,13 +1,5 @@
 .apr-shell--hotel {
   --apr-footer-surface: #14110fb8;
-  --apr-nav-surface: #101316;
-  --apr-nav-glass: #101316f5;
-  --apr-nav-hover: #24201d;
-  --apr-nav-item-hover: radial-gradient(ellipse at 24% 50%, #d9b97917, transparent 76%), #24201d;
-  --apr-nav-muted: #ded1c3;
-  --apr-nav-ticket-ink: #281b12;
-  --apr-nav-scrim: #100e0dc0;
-  --apr-drawer-light: #302822;
   --hotel-ivory: #f8eee0;
   --hotel-muted: #ded1c3;
   --hotel-gold: #e6c791;
@@ -114,16 +106,4 @@
     background-position: center, 55% top;
     background-size: 100% 100%, 145% 100%;
   }
-}
-
-.apr-shell--hotel .apr-site-nav .apr-nav-link:is(:hover, :focus-visible),
-.apr-shell--hotel .apr-site-nav .apr-nav-dropdown[open] > summary,
-.apr-shell--hotel .apr-mobile-links > details[open] > summary,
-.apr-shell--hotel .apr-mobile-links :is(button, summary):is(:hover, :focus-visible) {
-  color: #d9b979;
-}
-
-.apr-shell--hotel .apr-menu-toggle:is(:hover, :focus-visible) {
-  background: var(--apr-nav-hover);
-  border-color: #d9b979;
 }

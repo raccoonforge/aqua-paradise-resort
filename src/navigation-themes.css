@@ -1,0 +1,46 @@
+[data-navigation-theme] {
+  --apr-nav-gold: #d9b979;
+}
+
+[data-navigation-theme='ocean'] {
+  --apr-nav-surface: #09272d;
+  --apr-nav-hover: #123a3f;
+  --apr-nav-muted: #c6d6d6;
+  --apr-nav-ticket-ink: #17363a;
+  --apr-nav-scrim: #04191da6;
+  --apr-drawer-light: #203c42;
+}
+
+[data-navigation-theme='warm'] {
+  --apr-nav-surface: #101316;
+  --apr-nav-hover: #24201d;
+  --apr-nav-muted: #ded1c3;
+  --apr-nav-ticket-ink: #281b12;
+  --apr-nav-scrim: #100e0dc0;
+  --apr-drawer-light: #302822;
+  --apr-back-to-top-surface: #101316;
+  --apr-back-to-top-hover: #24201d;
+}
+
+[data-navigation-theme='ocean'].apr-shell--tickets {
+  --apr-back-to-top-surface: #101316;
+  --apr-back-to-top-hover: #24201d;
+}
+
+[data-navigation-theme] .apr-site-nav .apr-nav-link:is(:hover, :focus-visible),
+[data-navigation-theme] .apr-site-nav .apr-nav-dropdown[open] > summary,
+[data-navigation-theme] .apr-nav-dropdown__panel button:is(:hover, :focus-visible),
+[data-navigation-theme] .apr-mobile-links > details[open] > summary,
+[data-navigation-theme] .apr-mobile-links :is(button, summary):is(:hover, :focus-visible) {
+  color: var(--apr-nav-gold);
+}
+
+[data-navigation-theme] .apr-menu-toggle:is(:hover, :focus-visible) {
+  background: var(--apr-nav-hover);
+  border-color: var(--apr-nav-gold);
+}
+
+[data-navigation-theme] .apr-site-nav .apr-nav-link::after,
+[data-navigation-theme] .apr-header-quick-menu span {
+  background: var(--apr-nav-gold);
+}
