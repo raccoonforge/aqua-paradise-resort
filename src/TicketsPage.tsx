@@ -1,3 +1,4 @@
+import './tickets-obsidian.css';
 import { useState, useMemo, useEffect, useRef } from 'react';
 import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
 import { useFocusTrap } from './hooks/useFocusTrap';
@@ -224,16 +225,16 @@ export default function TicketsPage() {
   };
 
   return (
-    <div className="bg-[#f8f9fa] min-h-screen py-12">
+    <div className="apr-tickets min-h-screen">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="text-center mb-10">
+        <div className="apr-tickets__intro text-center mb-10">
           <h1 className="text-4xl md:text-5xl font-serif text-gray-900 mb-4">Билеты</h1>
           <p className="text-gray-600 max-w-2xl mx-auto">Спланируйте идеальный визит и рассчитайте стоимость заранее.</p>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="w-full lg:w-2/3 space-y-6">
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <div className="apr-tickets__panel bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
               <h2 className="text-xl font-serif text-gray-900 mb-4">1. Выберите дату</h2>
               <input
                 ref={dateInputRef}
@@ -254,7 +255,7 @@ export default function TicketsPage() {
               )}
             </div>
 
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <div className="apr-tickets__panel bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
               <h2 className="text-xl font-serif text-gray-900 mb-4">2. Выберите тариф</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {TARIFFS.map(tariff => {
@@ -269,7 +270,7 @@ export default function TicketsPage() {
                         if (tariff.id === 'premium') setHasPriority(false);
                       }}
                       aria-pressed={isSelected}
-                      className={`text-left p-4 rounded-2xl border-2 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 ${isSelected ? 'border-teal-600 bg-teal-50 shadow-md' : 'border-gray-200 hover:border-teal-300 bg-white'}`}
+                      className={`apr-tickets__tariff text-left p-4 rounded-2xl border-2 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 ${isSelected ? 'border-teal-600 bg-teal-50 shadow-md' : 'border-gray-200 hover:border-teal-300 bg-white'}`}
                     >
                       <div className="flex items-start justify-between mb-2">
                         <h3 className="font-serif text-lg text-gray-900 leading-tight">{tariff.name}</h3>
@@ -293,7 +294,7 @@ export default function TicketsPage() {
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <div className="apr-tickets__panel bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
               <h2 className="text-xl font-serif text-gray-900 mb-4">3. Состав группы (макс. 10 человек)</h2>
               <div className="space-y-3">
                 {([
@@ -303,7 +304,7 @@ export default function TicketsPage() {
                   ['child', 'Дети (4–12 лет)'],
                   ['infant', 'Младенцы (0–3 года)'],
                 ] as const).map(([key, label]) => (
-                  <div key={key} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                  <div key={key} className="apr-tickets__guest flex items-center justify-between p-3 bg-gray-50 rounded-xl">
                     <span className="text-gray-700 font-medium">{label}</span>
                     <div className="flex items-center gap-4">
                       <button type="button" onClick={() => updateGuest(key, -1)} aria-label={`Уменьшить количество: ${label}`} className="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500">−</button>
@@ -316,7 +317,7 @@ export default function TicketsPage() {
             </div>
 
             {ticketType !== 'evening' && (
-              <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+              <div className="apr-tickets__panel bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                 <h2 className="text-xl font-serif text-gray-900 mb-4">4. Дополнительные услуги</h2>
                 <div className="space-y-3">
                   <label className="flex items-center gap-4 p-4 border border-gray-100 rounded-xl cursor-pointer hover:bg-gray-50 focus-within:ring-2 focus-within:ring-teal-500">
@@ -343,18 +344,18 @@ export default function TicketsPage() {
           </div>
 
           <div className="w-full lg:w-1/3">
-            <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 sticky top-24">
+            <div className="apr-tickets__panel bg-white p-6 rounded-2xl shadow-lg border border-gray-100 sticky top-24">
               <h2 className="text-2xl font-serif text-gray-900 mb-6">Итого</h2>
               <div className="space-y-3 text-sm mb-6">
                 <div className="flex justify-between text-gray-600"><span>Билеты ({totalGuests} чел.)</span><span>${ticketsCost.toFixed(2)}</span></div>
                 {extrasCost > 0 && <div className="flex justify-between text-gray-600"><span>Доп. услуги</span><span>${extrasCost.toFixed(2)}</span></div>}
               </div>
               <div className="border-t border-gray-100 pt-4 mb-6">
-                <div className="flex justify-between items-center"><span className="text-lg font-medium text-gray-900">Итого</span><span className="text-3xl font-serif text-teal-700">${totalCost.toFixed(2)}</span></div>
+                <div className="flex justify-between items-center"><span className="text-lg font-medium text-gray-900">Итого</span><span className="apr-tickets__total text-3xl font-serif text-teal-700">${totalCost.toFixed(2)}</span></div>
               </div>
               {checkoutError && <div className="bg-red-50 text-red-700 p-3 rounded-lg text-sm mb-4 border border-red-200" role="alert">{checkoutError}</div>}
               {isAdultRequired && !checkoutError && <div className="bg-amber-50 text-amber-800 p-3 rounded-lg text-sm mb-4 border border-amber-200">Для посещения курорта гостям младше 18 лет необходим сопровождающий от 18 лет.</div>}
-              <button ref={checkoutButtonRef} type="button" onClick={handleCheckout} disabled={totalGuests === 0 || isAdultRequired} className="w-full bg-teal-600 text-white py-4 rounded-xl font-medium hover:bg-teal-700 transition disabled:opacity-50 disabled:cursor-not-allowed mb-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-300">Оформить билеты</button>
+              <button ref={checkoutButtonRef} type="button" onClick={handleCheckout} disabled={totalGuests === 0 || isAdultRequired} className="apr-tickets__checkout w-full bg-teal-600 text-white py-4 rounded-xl font-medium hover:bg-teal-700 transition disabled:opacity-50 disabled:cursor-not-allowed mb-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-300">Оформить билеты</button>
               <p className="text-xs text-center text-gray-400">Демонстрационный расчёт. Реальные платежи не проводятся.</p>
             </div>
           </div>
@@ -362,8 +363,8 @@ export default function TicketsPage() {
       </div>
 
       {showTicket && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={() => setShowTicket(false)}>
-          <div ref={ticketModalRef} role="dialog" aria-modal="true" aria-labelledby="ticket-modal-title" tabIndex={-1} className="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl relative outline-none max-h-[90vh] overflow-y-auto" onClick={event => event.stopPropagation()}>
+        <div className="apr-tickets__overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={() => setShowTicket(false)}>
+          <div ref={ticketModalRef} role="dialog" aria-modal="true" aria-labelledby="ticket-modal-title" tabIndex={-1} className="apr-tickets__dialog bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl relative outline-none max-h-[90vh] overflow-y-auto" onClick={event => event.stopPropagation()}>
             <button type="button" onClick={() => setShowTicket(false)} aria-label="Закрыть электронный билет" className="absolute top-4 right-4 z-10 bg-gray-100 p-2 rounded-full hover:bg-gray-200 transition text-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-500">✕</button>
             <div className="bg-teal-800 p-6 text-white text-center">
               <h2 id="ticket-modal-title" className="text-2xl font-serif mb-1">Aqua Paradise</h2>
