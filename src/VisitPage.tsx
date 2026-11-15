@@ -1,3 +1,4 @@
+import './visit-obsidian.css';
 import { useState } from 'react';
 
 const visitIconFiles: Record<string, string> = {
@@ -89,7 +90,6 @@ export default function VisitPage() {
   return (
     <div className="apr-visit min-h-screen">
       <div className="apr-visit-hero relative min-h-[520px] flex items-center justify-center overflow-hidden px-5 py-28">
-        <div className="apr-visit-hero-frame" aria-hidden="true" />
         <div className="apr-visit-hero-copy relative z-10 text-center px-4 max-w-4xl">
           <p className="apr-visit-kicker mb-6">THE JOURNEY · AQUA PARADISE</p><h1 className="text-5xl md:text-7xl font-serif text-white mb-6">Ваше путешествие начинается здесь</h1>
           <p className="text-lg text-white/75 max-w-xl mx-auto">Всё, что нужно знать для комфортного и безопасного отдыха на острове.</p>

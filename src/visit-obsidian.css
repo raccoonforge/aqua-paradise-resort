@@ -1,0 +1,110 @@
+.apr-shell--visit {
+  --apr-footer-surface: #101618bd;
+  --visit-ivory: #f8eee0;
+  --visit-muted: #cbd9d4;
+  --visit-gold: #e6c791;
+  --visit-line: #e6c7913d;
+  --visit-panel: #0b1b1de6;
+  background-color: #080f11;
+  background-image:
+    linear-gradient(180deg, #060a0d55, transparent 19% 92%, #060a0d22),
+    url('./assets/midnight/visit-tropical-evening.webp');
+  background-position: center top;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.apr-shell--visit .apr-visit,
+.apr-shell--visit .apr-visit-hero {
+  background: transparent;
+  color: var(--visit-ivory);
+}
+
+.apr-shell--visit .apr-visit-hero-copy,
+.apr-shell--visit .apr-visit-heading {
+  text-shadow: 0 2px 24px #020607;
+}
+
+.apr-shell--visit .apr-visit-heading,
+.apr-shell--visit .apr-visit-kicker,
+.apr-shell--visit .apr-visit-nav-card > span:first-child,
+.apr-shell--visit .apr-visit-rule > span:first-child,
+.apr-shell--visit .apr-visit-content :is(.text-teal-600, .text-teal-700) {
+  color: var(--visit-gold);
+}
+
+.apr-shell--visit .apr-visit-content .text-gray-900 {
+  color: var(--visit-ivory);
+}
+
+.apr-shell--visit .apr-visit-content :is(.text-gray-500, .text-gray-600) {
+  color: var(--visit-muted);
+}
+
+.apr-shell--visit :is(.apr-visit-nav-card, .apr-visit-arrival, .apr-visit-rule, .apr-visit-accordion) {
+  background: var(--visit-panel);
+  border: 1px solid var(--visit-line);
+  border-radius: 12px;
+  color: var(--visit-ivory);
+}
+
+.apr-shell--visit :is(.apr-visit-section, .apr-visit-content .border-gray-100, .apr-visit-accordion > div + div) {
+  border-color: var(--visit-line);
+}
+
+.apr-shell--visit .apr-visit-arrival-visual {
+  background: #15272a80;
+  border-bottom: 1px solid var(--visit-line);
+}
+
+.apr-shell--visit .apr-visit :is(.apr-visit-nav-card:hover, .apr-visit-rule:hover, .apr-visit-accordion button:hover, button[aria-expanded='true']) {
+  background: #263330c9;
+}
+
+.apr-shell--visit .apr-visit button:focus-visible {
+  outline-color: var(--visit-gold);
+}
+
+.apr-shell--visit .apr-visit-accordion :is(.bg-teal-100, .bg-gray-100, .bg-amber-100) {
+  background: #243433;
+  color: #ebdebf;
+}
+
+.apr-shell--visit .apr-visit-accordion .bg-amber-100 {
+  background: #3b3121;
+}
+
+@media (max-width: 767px) {
+  .apr-shell--visit {
+    background-position: center, 54% top;
+    background-size: 100% 100%, 130% 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .apr-shell--visit .apr-visit-hero-copy {
+    padding-inline: 0;
+  }
+
+  .apr-shell--visit .apr-visit-hero h1 {
+    font-size: clamp(2.55rem, 11vw, 3.1rem);
+    text-wrap: balance;
+  }
+
+  .apr-shell--visit .apr-visit-nav-card,
+  .apr-shell--visit .apr-visit-accordion button,
+  .apr-shell--visit .apr-visit-rule {
+    padding: 16px;
+  }
+
+  .apr-shell--visit .apr-visit-accordion button > span + span {
+    gap: 5px;
+    margin-inline-start: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .apr-shell--visit .apr-visit-accordion button {
+    transition: none;
+  }
+}
