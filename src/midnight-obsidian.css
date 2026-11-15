@@ -7,9 +7,10 @@
   /* One image spans the page shell, including the footer. */
   background-image:
     linear-gradient(180deg, #02090e9e, #02090e4f 14%, #06131745 56%, #06131795),
-    url('./assets/midnight/midnight-ocean.webp');
+    url('./assets/midnight/midnight-ocean-x4.webp');
   background-position: center top;
-  background-size: 100% 100%;
+  /* Stretch the tonal overlay only; keep the artwork proportional across the shell. */
+  background-size: 100% 100%, cover;
   background-repeat: no-repeat;
 }
 
@@ -175,11 +176,6 @@
 }
 
 @media (max-width: 639px) {
-  .apr-shell--midnight {
-    background-position: center top, 64% top;
-    background-size: 100% 100%, 155% 100%;
-  }
-
   .apr-home .apr-about__polaroid {
     width: min(46vw, 205px);
   }
