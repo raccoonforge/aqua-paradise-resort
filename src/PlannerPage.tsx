@@ -1,3 +1,4 @@
+import './planner-obsidian.css';
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { toPng } from 'html-to-image';
 import { useFocusTrap } from './hooks/useFocusTrap';
@@ -345,7 +346,7 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
     setImageGenerating(true);
     try {
       const dataUrl = await toPng(printRef.current, {
-        backgroundColor: '#f8f9fa',
+        backgroundColor: '#08191e',
         pixelRatio: 2,
         cacheBust: true,
         // Пропускаем элементы, которые нельзя рендерить
@@ -592,16 +593,16 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
   const dayEnd = 22;
 
   return (
-    <div className="bg-[#f8f9fa] min-h-screen py-12 print:py-0 print:min-h-0">
+    <div className="apr-itinerary min-h-screen py-12 print:py-0 print:min-h-0">
       <div className="max-w-5xl mx-auto px-4">
 
-        <div className="text-center mb-10">
+        <div className="apr-itinerary__intro text-center mb-10">
           <span className="text-teal-700 tracking-widest text-sm font-semibold uppercase mb-2 block">PLAN YOUR DAY</span>
           <h1 className="text-4xl md:text-5xl font-serif text-gray-900 mb-4">Планировщик посещения</h1>
           <p className="text-gray-600 max-w-2xl mx-auto">Составьте персональный маршрут, который подходит именно вам.</p>
         </div>
 
-        <div className={`bg-white rounded-3xl shadow-sm border border-gray-100 transition-all duration-500 overflow-hidden ${isGenerated ? 'max-h-20 opacity-50 hover:opacity-100 mb-6' : 'p-8 mb-8'}`}>
+        <div className={`apr-itinerary__form bg-white rounded-3xl shadow-sm border border-gray-100 transition-all duration-500 overflow-hidden ${isGenerated ? 'mb-6' : 'p-8 mb-8'}`}>
           {isGenerated ? (
             <div className="p-4 flex justify-between items-center print:hidden">
               <span className="text-gray-500 text-sm">Параметры скрыты для удобства просмотра</span>
@@ -611,12 +612,12 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
             <div className="animate-fade-in">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Дата посещения</label>
-                  <input type="date" min={todayLocal()} value={date} onChange={(e) => setDate(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500/50" />
+                  <label htmlFor="planner-date" className="block text-sm font-medium text-gray-700 mb-2">Дата посещения</label>
+                  <input id="planner-date" type="date" min={todayLocal()} value={date} onChange={(e) => setDate(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500/50" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Тип билета</label>
-                  <select value={ticketType} onChange={(e) => setTicketType(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500/50 bg-white">
+                  <label htmlFor="planner-ticket" className="block text-sm font-medium text-gray-700 mb-2">Тип билета</label>
+                  <select id="planner-ticket" value={ticketType} onChange={(e) => setTicketType(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500/50 bg-white">
                     <option value="day">Paradise Day Pass (10:00–22:00)</option>
                     <option value="premium">Paradise Premium Pass (10:00–22:00)</option>
                     <option value="evening">Paradise Evening Pass (17:00–22:00)</option>
@@ -627,7 +628,7 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
               <div className="mb-6 p-4 bg-gray-50 rounded-2xl border border-gray-100">
                 <div className="flex justify-between items-center mb-3 flex-wrap gap-2">
                   <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider">Состав группы ({guests.length}/10)</h3>
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2">
                     <button onClick={() => addGuest('adult')} className="text-xs bg-teal-600 text-white px-3 py-1.5 rounded-lg hover:bg-teal-700 transition">+ Взрослый (18+)</button>
                     <button onClick={() => addGuest('child')} className="text-xs bg-amber-500 text-white px-3 py-1.5 rounded-lg hover:bg-amber-600 transition">+ Ребёнок</button>
                   </div>
@@ -663,36 +664,36 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
               </div>
 
               <div className="mb-6 border-t border-gray-100 pt-4">
-                <button onClick={() => setShowAdvanced(!showAdvanced)} className="text-sm text-teal-600 font-medium hover:underline flex items-center gap-2">
+                <button aria-expanded={showAdvanced} onClick={() => setShowAdvanced(!showAdvanced)} className="text-sm text-teal-600 font-medium hover:underline flex items-center gap-2">
                   {showAdvanced ? 'Скрыть дополнительные настройки' : 'Дополнительные настройки (темп, транспорт, перерывы, приоритеты)'}
                 </button>
                 {showAdvanced && (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 animate-fade-in">
                     <div>
-                      <label className="block text-xs font-medium text-gray-500 mb-2">Темп отдыха</label>
-                      <select value={pace} onChange={(e) => setPace(e.target.value)} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm">
+                      <label htmlFor="planner-pace" className="block text-xs font-medium text-gray-500 mb-2">Темп отдыха</label>
+                      <select id="planner-pace" value={pace} onChange={(e) => setPace(e.target.value)} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm">
                         <option value="balanced">Сбалансированный (4 км/ч)</option>
                         <option value="calm">Спокойный (3 км/ч)</option>
                       </select>
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-gray-500 mb-2">Передвижение</label>
-                      <select value={transport} onChange={(e) => setTransport(e.target.value as TransportMode)} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm">
+                      <label htmlFor="planner-transport" className="block text-xs font-medium text-gray-500 mb-2">Передвижение</label>
+                      <select id="planner-transport" value={transport} onChange={(e) => setTransport(e.target.value as TransportMode)} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm">
                         <option value="auto">Оптимальный (сравнить время)</option>
                          <option value="walk">Преимущественно пешком</option>
                          <option value="shuttle">Предпочитать Paradise Loop</option>
                       </select>                     </div>
                      <div>
-                       <label className="block text-xs font-medium text-gray-500 mb-2">Доступность передвижения</label>
-                       <select value={mobility} onChange={e => setMobility(e.target.value as Mobility)} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm">
+                       <label htmlFor="planner-mobility" className="block text-xs font-medium text-gray-500 mb-2">Доступность передвижения</label>
+                       <select id="planner-mobility" value={mobility} onChange={e => setMobility(e.target.value as Mobility)} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm">
                          <option value="none">Без ограничений</option>
                          <option value="stroller">С детской коляской</option>
                          <option value="wheelchair">С инвалидной коляской</option>
                        </select>
                      </div>
                      <div>
-                       <label className="block text-xs font-medium text-gray-500 mb-2">Перерыв после каждых трёх остановок</label>
-                       <select value={breakMinutes} onChange={e => setBreakMinutes(Number(e.target.value))} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm">
+                       <label htmlFor="planner-break" className="block text-xs font-medium text-gray-500 mb-2">Перерыв после каждых трёх остановок</label>
+                       <select id="planner-break" value={breakMinutes} onChange={e => setBreakMinutes(Number(e.target.value))} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm">
                          <option value={0}>Без дополнительного перерыва</option>
                          <option value={15}>15 минут</option>
                          <option value={30}>30 минут</option>
@@ -790,7 +791,7 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
               )}
             </div>
 
-            <div ref={printRef} className="print-ref bg-[#f8f9fa]">
+            <div ref={printRef} className="print-ref apr-itinerary__schedule">
               {/* Заголовок для печати — виден только в print */}
               <div className="hidden print:block mb-4">
                 <h1 className="text-2xl font-serif text-gray-900">Aqua Paradise — Персональный маршрут</h1>
@@ -845,7 +846,7 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
                              <div className={`p-4 rounded-2xl shadow-sm border flex flex-wrap items-center justify-between gap-2 transition ${
                               isInaccessible ? 'bg-red-50/50 border-red-300' : 'bg-white border-gray-100 hover:shadow-md'
                             }`}>
-                              <div className="flex gap-4 items-center">
+                              <div className="flex min-w-0 gap-4 items-center">
                                 <div className={`w-12 h-12 rounded-lg flex-shrink-0 flex items-center justify-center text-xs ${
                                   isInaccessible ? 'bg-red-100 text-red-500' : 'bg-gray-100 text-gray-400'
                                 }`}>
@@ -916,7 +917,7 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
 
       {/* Пикер замены */}
       {replaceTarget && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={() => setReplaceTarget(null)}>           <div ref={replaceDialogRef} role="dialog" aria-modal="true" aria-labelledby="replace-dialog-title" tabIndex={-1} className="bg-white rounded-2xl w-full max-w-lg max-h-[80vh] overflow-hidden shadow-2xl outline-none" onClick={(e) => e.stopPropagation()}>
+        <div className="apr-itinerary__overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={() => setReplaceTarget(null)}>           <div ref={replaceDialogRef} role="dialog" aria-modal="true" aria-labelledby="replace-dialog-title" tabIndex={-1} className="bg-white rounded-2xl w-full max-w-lg max-h-[80vh] overflow-hidden shadow-2xl outline-none" onClick={(e) => e.stopPropagation()}>
             <div className="p-4 border-b border-gray-100 flex justify-between items-center">
               <h3 id="replace-dialog-title" className="font-medium text-gray-900">Заменить на...</h3>
               <button onClick={() => setReplaceTarget(null)} aria-label="Закрыть" className="text-gray-400 hover:text-gray-700 p-1">✕</button>
@@ -941,7 +942,7 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
             {/* Модалка ручного копирования (замена prompt) */}
       {manualLink !== null && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+          className="apr-itinerary__overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
           onClick={() => setManualLink(null)}
         >
           <div
