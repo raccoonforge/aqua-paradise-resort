@@ -44,3 +44,15 @@
 [data-navigation-theme] .apr-header-quick-menu span {
   background: var(--apr-nav-gold);
 }
+
+/* Current route in the mobile drawer; keep the approved tickets gradient. */
+[data-navigation-theme] .apr-mobile-links .apr-mobile-link--current {
+  color: var(--apr-nav-gold);
+  font-weight: 650;
+  box-shadow: inset 3px 0 0 var(--apr-nav-gold);
+  padding-left: 12px;
+}
+[data-navigation-theme] .apr-mobile-tickets[aria-current='page'] {
+  outline: 2px solid var(--apr-nav-gold);
+  outline-offset: 4px;
+}
