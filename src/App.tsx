@@ -403,6 +403,7 @@ function App() {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const [headerScrolled, setHeaderScrolled] = useState(() => window.scrollY > 36);
   const [showBackToTop, setShowBackToTop] = useState(() => window.scrollY > 350);
+  const [footerTopButtonVisible, setFooterTopButtonVisible] = useState(false);
   const [headerHidden, setHeaderHidden] = useState(false);
   const lastScrollY = useRef(window.scrollY);
   useEffect(() => {
@@ -461,6 +462,17 @@ function App() {
   const basePath = currentPath.split('?')[0];
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, [basePath]);
+
+  // Avoid covering the footer's own "Наверх" action with the floating control.
+  useEffect(() => {
+    const button = document.querySelector('.apr-footer__bottom button');
+    if (!button) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      setFooterTopButtonVisible(entry.isIntersecting);
+    }, { rootMargin: '0px 0px 76px 0px' });
+    observer.observe(button);
+    return () => observer.disconnect();
   }, [basePath]);
 
   // Shared editorial reveals for inner pages; existing home/hotel animations remain untouched.
@@ -564,6 +576,14 @@ function App() {
     }
   };
 
+  // Navigate to an existing section after React has rendered the destination route.
+  const navigateToVisitSection = (section: 'arrival' | 'transport' | 'rules' | 'faq') => {
+    navigate('#/visit');
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      document.getElementById(section)?.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'start' });
+    }));
+  };
+
   const usesObsidianTheme = basePath === '#/' || basePath === '#/zones' || basePath === '#/attractions' || basePath === '#/hotel' || basePath === '#/tickets' || basePath === '#/planner' || basePath === '#/visit';
 
   const navigationTheme = basePath === '#/hotel' || basePath === '#/visit' ? 'warm' : usesObsidianTheme ? 'ocean' : undefined;
@@ -591,10 +611,10 @@ function App() {
             <details className="apr-nav-dropdown">
               <summary className="apr-nav-link">Посещение <span className="apr-nav-chevron" aria-hidden="true" /></summary>
               <div className="apr-nav-dropdown__panel">
-                <button onClick={() => navigate('#/visit')}><HeaderIcon name="route" /><span><strong>Как добраться</strong><small>Путь на остров</small></span></button>
-                <button onClick={() => navigate('#/visit')}><HeaderIcon name="shuttle" /><span><strong>Транспорт</strong><small>Передвижение по курорту</small></span></button>
-                <button onClick={() => navigate('#/visit')}><HeaderIcon name="shield" /><span><strong>Правила и безопасность</strong><small>Комфортный отдых</small></span></button>
-                <button onClick={() => navigate('#/visit')}><HeaderIcon name="help" /><span><strong>FAQ</strong><small>Ответы на вопросы</small></span></button>
+                <button onClick={() => navigateToVisitSection('arrival')}><HeaderIcon name="route" /><span><strong>Как добраться</strong><small>Путь на остров</small></span></button>
+                <button onClick={() => navigateToVisitSection('transport')}><HeaderIcon name="shuttle" /><span><strong>Транспорт</strong><small>Передвижение по курорту</small></span></button>
+                <button onClick={() => navigateToVisitSection('rules')}><HeaderIcon name="shield" /><span><strong>Правила и безопасность</strong><small>Комфортный отдых</small></span></button>
+                <button onClick={() => navigateToVisitSection('faq')}><HeaderIcon name="help" /><span><strong>FAQ</strong><small>Ответы на вопросы</small></span></button>
               </div>
             </details>
           </nav>
@@ -623,12 +643,12 @@ function App() {
             <div className="apr-mobile-drawer__top"><span className="apr-mobile-drawer__brand"><ResortLogo /><span className="apr-brand__name">Aqua Paradise<small>ISLAND RESORT</small></span></span><button type="button" onClick={() => { setIsMobileMenuOpen(false); menuButtonRef.current?.focus(); }} aria-label="Закрыть меню">✕</button></div>
             <nav aria-label="Мобильная навигация" className="apr-mobile-links">
               <button onClick={() => { navigate('#/'); setTimeout(() => document.getElementById('about')?.scrollIntoView(), 0); }}>О курорте</button>
-              <details><summary>Развлечения <span className="apr-mobile-chevron" aria-hidden="true" /></summary><div className="apr-mobile-submenu"><button onClick={() => navigate('#/zones')}><HeaderIcon name="compass" />Тематические зоны</button><button onClick={() => navigate('#/attractions')}><HeaderIcon name="slide" />Аттракционы</button><button onClick={() => navigate('#/attractions')}><HeaderIcon name="family" />Семейный отдых</button></div></details>
-              <button onClick={() => navigate('#/planner')}>Планировщик</button>
-              <button onClick={() => navigate('#/hotel')}>Отель</button>
-              <details><summary>Посещение <span className="apr-mobile-chevron" aria-hidden="true" /></summary><div className="apr-mobile-submenu"><button onClick={() => navigate('#/visit')}><HeaderIcon name="route" />Как добраться</button><button onClick={() => navigate('#/visit')}><HeaderIcon name="shuttle" />Транспорт на острове</button><button onClick={() => navigate('#/visit')}><HeaderIcon name="shield" />Правила и безопасность</button><button onClick={() => navigate('#/visit')}><HeaderIcon name="help" />FAQ</button></div></details>
+              <details><summary>Развлечения <span className="apr-mobile-chevron" aria-hidden="true" /></summary><div className="apr-mobile-submenu"><button onClick={() => navigate('#/zones')} aria-current={basePath === '#/zones' ? 'page' : undefined} className={basePath === '#/zones' ? 'apr-mobile-link--current' : undefined}><HeaderIcon name="compass" />Тематические зоны</button><button onClick={() => navigate('#/attractions')} aria-current={basePath === '#/attractions' ? 'page' : undefined} className={basePath === '#/attractions' ? 'apr-mobile-link--current' : undefined}><HeaderIcon name="slide" />Аттракционы</button><button onClick={() => navigate('#/attractions')}><HeaderIcon name="family" />Семейный отдых</button></div></details>
+              <button onClick={() => navigate('#/planner')} aria-current={basePath === '#/planner' ? 'page' : undefined} className={basePath === '#/planner' ? 'apr-mobile-link--current' : undefined}>Планировщик</button>
+              <button onClick={() => navigate('#/hotel')} aria-current={basePath === '#/hotel' ? 'page' : undefined} className={basePath === '#/hotel' ? 'apr-mobile-link--current' : undefined}>Отель</button>
+              <details><summary>Посещение <span className="apr-mobile-chevron" aria-hidden="true" /></summary><div className="apr-mobile-submenu"><button onClick={() => navigateToVisitSection('arrival')}><HeaderIcon name="route" />Как добраться</button><button onClick={() => navigateToVisitSection('transport')}><HeaderIcon name="shuttle" />Транспорт на острове</button><button onClick={() => navigateToVisitSection('rules')}><HeaderIcon name="shield" />Правила и безопасность</button><button onClick={() => navigateToVisitSection('faq')}><HeaderIcon name="help" />FAQ</button></div></details>
             </nav>
-            <button type="button" className="apr-button apr-button--sand apr-mobile-tickets" onClick={() => navigate('#/tickets')}>Билеты ↗︎</button>
+            <button type="button" className="apr-button apr-button--sand apr-mobile-tickets" onClick={() => navigate('#/tickets')} aria-current={basePath === '#/tickets' ? 'page' : undefined}>Билеты ↗︎</button>
           </aside>
         </div>
       )}
@@ -637,12 +657,12 @@ function App() {
 
       <button
         type="button"
-        className={`apr-back-to-top${showBackToTop && !isMobileMenuOpen ? ' apr-back-to-top--visible' : ''}`}
+        className={`apr-back-to-top${showBackToTop && !isMobileMenuOpen && !footerTopButtonVisible ? ' apr-back-to-top--visible' : ''}`}
         onClick={() => window.scrollTo({ top: 0, behavior: preferredScrollBehavior() })}
         aria-label="Вернуться наверх страницы"
         title="Наверх"
-        tabIndex={showBackToTop && !isMobileMenuOpen ? 0 : -1}
-        aria-hidden={!showBackToTop || isMobileMenuOpen}
+        tabIndex={showBackToTop && !isMobileMenuOpen && !footerTopButtonVisible ? 0 : -1}
+        aria-hidden={!showBackToTop || isMobileMenuOpen || footerTopButtonVisible}
       >
         <span aria-hidden="true">↑</span>
       </button>
