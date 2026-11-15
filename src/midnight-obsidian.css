@@ -25,7 +25,7 @@
 }
 
 .apr-footer.apr-footer--obsidian {
-  background: #06171cdb;
+  background: var(--apr-footer-surface, #06171cdb);
   border-top-color: #e6c79166;
   box-shadow: 0 -3px 14px #e6c79113;
 }
