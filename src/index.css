@@ -1695,12 +1695,3 @@ body {
 .apr-visit-arrival-visual { color:#ead6ad; }
 .apr-visit-rule > span:first-child { flex:0 0 42px; color:#a37e43; }
 .apr-visit svg { display:block; }
-
-/* APR-VIS-002: keep fully revealed polaroids inside laptop viewports.
-   Preserve the approved fan layout and mobile transforms. */
-@media (min-width: 1101px) and (max-width: 1600px) {
-  .apr-about__polaroid--1 { --move-x: -165%; --move-y: -65%; }
-  .apr-about__polaroid--2 { --move-x: 65%; --move-y: -65%; }
-  .apr-about__polaroid--3 { --move-x: -165%; --move-y: 0%; }
-  .apr-about__polaroid--4 { --move-x: 65%; --move-y: 0%; }
-}
