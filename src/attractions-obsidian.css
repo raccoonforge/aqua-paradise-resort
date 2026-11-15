@@ -7,9 +7,9 @@
   background-color: #07151a;
   background-image:
     linear-gradient(180deg, #061317b0, #06131724 19%, #06131738 80%, #06131756),
-    url('./assets/midnight/attractions-water.webp');
+    url('./assets/midnight/attractions-water-x4.webp');
   background-position: center;
-  background-size: 100% 100%;
+  background-size: 100% 100%, cover;
   background-repeat: no-repeat;
 }
 
@@ -139,7 +139,6 @@
 @media (max-width: 767px) {
   .apr-shell--attractions {
     background-position: center, 56% top;
-    background-size: 100% 100%, 155% 100%;
   }
 
   .apr-shell--attractions .apr-catalog__intro h1 {

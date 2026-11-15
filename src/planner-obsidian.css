@@ -1,6 +1,6 @@
 .apr-shell--planner {
   --apr-footer-surface: #071419bc;
-  background: #071419 url('./assets/midnight/planner-obsidian.webp') center top / 100% 100% no-repeat;
+  background: #071419 url('./assets/midnight/planner-obsidian-x4.webp') center top / cover no-repeat;
 }
 
 .apr-itinerary__schedule {
@@ -141,7 +141,6 @@
   @media (max-width: 767px) {
     .apr-shell--planner {
       background-position: 55% top;
-      background-size: 145% 100%;
     }
 
     .apr-itinerary__form.p-8 {

@@ -6,7 +6,7 @@
   --tickets-line: #e6c79143;
   --tickets-panel: #081b22e0;
   background: #07151a
-    url('./assets/midnight/tickets-bubbles.webp') center top / 100% 100% no-repeat;
+    url('./assets/midnight/tickets-bubbles-x4.webp') center top / cover no-repeat;
 }
 
 .apr-tickets {
@@ -146,7 +146,6 @@
 @media (max-width: 767px) {
   .apr-shell--tickets {
     background-position: 55% top;
-    background-size: 145% 100%;
   }
 
   .apr-tickets__panel {
