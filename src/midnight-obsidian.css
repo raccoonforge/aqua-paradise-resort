@@ -8,9 +8,8 @@
   background-image:
     linear-gradient(180deg, #02090e9e, #02090e4f 14%, #06131745 56%, #06131795),
     url('./assets/midnight/midnight-ocean.webp');
-  /* Preserve image proportions instead of stretching it independently on both axes. */
-  background-position: center top, center top;
-  background-size: 100% 100%, cover;
+  background-position: center top;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
 }
 
@@ -178,7 +177,7 @@
 @media (max-width: 639px) {
   .apr-shell--midnight {
     background-position: center top, 64% top;
-    background-size: 100% 100%, cover;
+    background-size: 100% 100%, 155% 100%;
   }
 
   .apr-home .apr-about__polaroid {
