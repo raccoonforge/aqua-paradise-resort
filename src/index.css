@@ -532,7 +532,7 @@ body {
 }
 
 /* About Resort: polaroids uncover copy without moving it from its center. */
-.apr-about { background: radial-gradient(ellipse at 50% 40%, #164f56 0%, #103f46 55%, #092e36 100%); color: #f7f4ed; padding: 64px 16px 32px; overflow: hidden; }
+.apr-about { background: radial-gradient(ellipse at 50% 40%, #164f56 0%, #103f46 55%, #092e36 100%); color: #f7f4ed; padding: 64px 16px 32px; overflow: visible; }
 .apr-about__frame { max-width: 1500px; margin: auto; border: 1px solid rgba(225,204,159,.25); min-height: 750px; position: relative; }
 .apr-about__scene { min-height: 690px; position: relative; display: grid; place-items: center; isolation: isolate; }
 .apr-about__copy { width: min(620px, 54%); text-align: center; position: relative; z-index: 1; transition: opacity .85s ease; pointer-events: none; }
