@@ -27,7 +27,7 @@ export function HomeArtwork({ subject, label, className = '' }: { subject: strin
   const resource = resources[subject] ?? subject;
   const src = approvedArtwork[resource] ?? illustrations[`../assets/living-atlas/${resource}.svg`];
   if (!src) return <div className={`apr-atlas apr-atlas--empty ${className}`} aria-hidden="true" />;
-  return <div className={`apr-atlas ${className}`} data-atlas-subject={subject}>
+  return <div className={`apr-atlas ${className}`} data-atlas-subject={subject} data-art-approved={approvedArtwork[resource] ? "true" : undefined}>
     <img src={src} alt={label} width="640" height="480" loading="lazy" decoding="async" />
   </div>;
 }
