@@ -237,3 +237,47 @@
     font-size: 3rem;
   }
 }
+
+/* Nine Worlds immersive prototype: full-bleed photography, retaining the shared Obsidian backdrop outside the section. */
+.apr-home .apr-worlds { position: relative; background: transparent; }
+.apr-home .apr-worlds__frame { isolation: isolate; background: transparent; }
+.apr-home .apr-worlds__backdrops { position: absolute; inset: 0; z-index: -1; overflow: hidden; }
+.apr-home .apr-worlds__backdrop { position: absolute; inset: 0; opacity: 0; transition: opacity 850ms ease; pointer-events: none; }
+.apr-home .apr-worlds__backdrop.is-active { opacity: 1; }
+.apr-home .apr-worlds__backdrop .apr-atlas,
+.apr-home .apr-worlds__backdrop .apr-atlas img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.apr-home .apr-worlds__backdrop .apr-atlas img {
+  object-fit: cover;
+  object-position: center 48%;
+  filter: saturate(.83) contrast(1.08) brightness(.88);
+  transform: scale(1.025);
+}
+.apr-home .apr-worlds__shade {
+  display: block;
+  z-index: 0;
+  background:
+    linear-gradient(90deg, rgba(2, 13, 18, .88) 0%, rgba(2, 15, 19, .69) 30%, rgba(2, 15, 19, .18) 68%, rgba(2, 15, 19, .08) 100%),
+    linear-gradient(180deg, rgba(2, 13, 18, .33), transparent 22%, transparent 62%, rgba(2, 13, 18, .82) 100%);
+}
+.apr-home .apr-worlds__content { z-index: 1; align-items: flex-start; }
+.apr-home .apr-worlds__selected { position: relative; z-index: 1; }
+.apr-home .apr-worlds__dock {
+  z-index: 2;
+  background: linear-gradient(0deg, rgba(2, 14, 18, .82), rgba(2, 14, 18, .3));
+  backdrop-filter: blur(8px);
+}
+.apr-home .apr-worlds__thumb { position: relative; overflow: hidden; padding: 0; }
+.apr-home .apr-worlds__thumb .apr-atlas,
+.apr-home .apr-worlds__thumb .apr-atlas img { width: 100%; height: 100%; }
+.apr-home .apr-worlds__thumb .apr-atlas img { object-fit: cover; filter: saturate(.8) brightness(.8); }
+.apr-home .apr-worlds__tab.is-active .apr-worlds__thumb .apr-atlas img { filter: saturate(.96) brightness(1); }
+@media (max-width: 639px) {
+  .apr-home .apr-worlds__backdrop .apr-atlas img { object-position: 58% center; }
+  .apr-home .apr-worlds__shade {
+    background: linear-gradient(180deg, rgba(2, 13, 18, .16), rgba(2, 13, 18, .44) 28%, rgba(2, 13, 18, .87) 74%, rgba(2, 13, 18, .95));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .apr-home .apr-worlds__backdrop { transition: none; }
+  .apr-home .apr-worlds__backdrop .apr-atlas img { transform: none; }
+}
