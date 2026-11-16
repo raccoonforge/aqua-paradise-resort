@@ -20,3 +20,19 @@
 }
 /* Rotated polaroids retain their original transforms without widening the document. */
 .apr-home .apr-about { overflow-x: clip; }
+
+/* Approved ART-01–04: restrained Midnight Obsidian grading on the image only. */
+.apr-home .apr-atlas[data-art-approved="true"] img {
+  filter: saturate(.78) contrast(1.10) brightness(.90);
+}
+.apr-home .apr-atlas[data-art-approved="true"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: rgba(5, 35, 39, .17);
+}
+.apr-home button:hover .apr-atlas[data-art-approved="true"] img {
+  filter: saturate(.82) contrast(1.10) brightness(.96);
+}
