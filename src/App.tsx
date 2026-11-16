@@ -1,5 +1,6 @@
 import './navigation-themes.css';
 import './midnight-obsidian.css';
+import { HomeArtwork } from './components/HomeArtwork';
 import PlannerPage from './PlannerPage';
 import HotelPage from './HotelPage';
 import VisitPage from './VisitPage';
@@ -78,7 +79,7 @@ const AboutResort = () => {
                   disabled={!active}
                   aria-label={`Открыть фотографию ${index + 1} из ${photos.length}: ${photo.title}`}
                 >
-                  <MediaPlaceholder mediaId={photo.mediaId} label={photo.title} className="apr-about__photo" />
+                  <HomeArtwork subject={photo.mediaId.split('.').at(-1)!} label={photo.title} className="apr-about__photo" />
                   <span className="apr-about__photo-title">{photo.title}</span>
                   <span className="apr-about__photo-caption">{photo.text}</span>
                 </button>
@@ -120,13 +121,6 @@ const NineWorlds = () => {
   return (
     <section id="worlds" className="apr-worlds" aria-label="Девять миров Aqua Paradise">
       <div className="apr-worlds__frame" style={{ '--world-tone': zone.color } as CSSProperties}>
-        <div className="apr-worlds__backdrops" aria-hidden="true">
-          {zones.map((item, index) => (
-            <div key={item.name} className={`apr-worlds__backdrop ${index === activeZone ? 'is-active' : ''}`}>
-              <MediaPlaceholder mediaId={`home.zone.${ZONE_SLUGS[item.name]}`} label={item.name} className="apr-worlds__media" />
-            </div>
-          ))}
-        </div>
         <div className="apr-worlds__shade" aria-hidden="true" />
         <div className="apr-worlds__content">
           <div className="apr-worlds__intro">
@@ -135,6 +129,7 @@ const NineWorlds = () => {
             <p className="apr-worlds__lead">От тропических садов до затерянных цивилизаций — выбери свой мир приключений.</p>
           </div>
           <div className="apr-worlds__selected" key={zone.name}>
+            <HomeArtwork subject={ZONE_SLUGS[zone.name]} label={zone.name} className="apr-atlas--world" />
             <span className="apr-worlds__selected-kicker">СЕЙЧАС ВЫ В МИРЕ</span>
             <h3>{zone.name}</h3>
             <p>{zone.desc}</p>
@@ -241,7 +236,7 @@ const AttractionsCarousel = () => {
             const isActive = offset === 0;
             return (
               <button type="button" key={ride.id} className={`apr-attractions__card ${isActive ? 'is-active' : ''}`} style={{ '--card-offset': offset, '--card-depth': Math.abs(offset) } as CSSProperties} onClick={() => { if (!isActive) setActiveIndex(index); else window.location.hash = '#/attractions'; }} aria-label={`${ride.name}${isActive ? ', подробнее об аттракционах' : ', показать карточку'}`} aria-current={isActive ? 'true' : undefined} tabIndex={Math.abs(offset) > 1 ? -1 : 0}>
-                <MediaPlaceholder mediaId={`home.ride.${ride.id}`} label={ride.name} className="apr-attractions__photo" />
+                <HomeArtwork subject={ride.id} label={ride.name} className="apr-attractions__photo" />
                 <span className="apr-attractions__card-caption"><small>{ride.zone}</small><strong>{ride.name}</strong></span>
               </button>
             );
@@ -356,7 +351,7 @@ const PlannerTeaser = () => {
                     <small>{item?.zone ?? (selected.length ? 'Добавьте интересы для новых идей' : 'Ваше приключение ждёт')}</small>
                   </div>
                   <div className="apr-planner__time-media">
-                    <MediaPlaceholder mediaId={`home.planner.${['morning', 'afternoon', 'evening'][idx]}`} label={item?.name ?? period} />
+                    <HomeArtwork subject={item?.id ?? ''} label={item?.name ?? period} />
                   </div>
                 </div>
               );
