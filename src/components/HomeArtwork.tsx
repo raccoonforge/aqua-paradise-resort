@@ -7,6 +7,17 @@ const approvedArtwork: Record<string, string> = {
   'velocity-racers': new URL('../../docs/design/review/about-art-v1/ART-02-velocity-racers.png', import.meta.url).href,
   'emerald-walk': new URL('../../docs/design/review/about-art-v1/ART-03-emerald-walk.png', import.meta.url).href,
   'grand-infinity-pool': new URL('../../docs/design/review/about-art-v1/ART-04-grand-hotel.png', import.meta.url).href,
+  'tidal-kingdom': new URL('../../docs/design/review/remaining-art-v1/ART-05-tidal-kingdom.png', import.meta.url).href,
+  'stormbreaker': new URL('../../docs/design/review/remaining-art-v1/ART-06-stormbreaker.png', import.meta.url).href,
+  'rainbow-reef': new URL('../../docs/design/review/remaining-art-v1/ART-07-rainbow-reef.png', import.meta.url).href,
+  'lotus-thermal-pools': new URL('../../docs/design/review/remaining-art-v1/ART-08-lotus-thermal-pools.png', import.meta.url).href,
+  'sunset-market-square': new URL('../../docs/design/review/remaining-art-v1/ART-09-sunset-market-square.png', import.meta.url).href,
+  'palm-avenue': new URL('../../docs/design/review/remaining-art-v1/ART-10-palm-avenue.png', import.meta.url).href,
+  'skyfall': new URL('../../docs/design/review/skyfall-tidal-drop-v2/ART-11-skyfall-v2.png', import.meta.url).href,
+  'poseidons-descent': new URL('../../docs/design/review/remaining-art-v1/ART-12-poseidons-descent.png', import.meta.url).href,
+  'crystal-passage': new URL('../../docs/design/review/remaining-art-v1/ART-13-crystal-passage.png', import.meta.url).href,
+  'eagles-lookout': new URL('../../docs/design/review/remaining-art-v1/ART-14-eagles-lookout.png', import.meta.url).href,
+  'tidal-drop': new URL('../../docs/design/review/skyfall-tidal-drop-v2/ART-15-tidal-drop-v2.png', import.meta.url).href,
 };
 
 const resources: Record<string, string> = {
