@@ -121,6 +121,13 @@ const NineWorlds = () => {
   return (
     <section id="worlds" className="apr-worlds" aria-label="Девять миров Aqua Paradise">
       <div className="apr-worlds__frame" style={{ '--world-tone': zone.color } as CSSProperties}>
+        <div className="apr-worlds__backdrops" aria-hidden="true">
+          {zones.map((item, index) => (
+            <div key={item.name} className={`apr-worlds__backdrop ${activeZone === index ? 'is-active' : ''}`}>
+              <HomeArtwork subject={ZONE_SLUGS[item.name]} label="" className="apr-atlas--world-scene" />
+            </div>
+          ))}
+        </div>
         <div className="apr-worlds__shade" aria-hidden="true" />
         <div className="apr-worlds__content">
           <div className="apr-worlds__intro">
@@ -129,7 +136,7 @@ const NineWorlds = () => {
             <p className="apr-worlds__lead">От тропических садов до затерянных цивилизаций — выбери свой мир приключений.</p>
           </div>
           <div className="apr-worlds__selected" key={zone.name}>
-            <HomeArtwork subject={ZONE_SLUGS[zone.name]} label={zone.name} className="apr-atlas--world" />
+
             <span className="apr-worlds__selected-kicker">СЕЙЧАС ВЫ В МИРЕ</span>
             <h3>{zone.name}</h3>
             <p>{zone.desc}</p>
@@ -145,7 +152,7 @@ const NineWorlds = () => {
             <div className="apr-worlds__rail" role="group" aria-label="Выберите тематическую зону">
               {zones.map((item, index) => (
                 <button key={item.name} type="button" aria-pressed={activeZone === index} onClick={() => changeZone(index)} className={`apr-worlds__tab ${activeZone === index ? 'is-active' : ''}`}>
-                  <span className="apr-worlds__thumb" style={{ backgroundColor: item.color }}><span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span></span>
+                  <span className="apr-worlds__thumb" style={{ backgroundColor: item.color }}><HomeArtwork subject={ZONE_SLUGS[item.name]} label="" className="apr-atlas--world-thumb" /></span>
                   <span className="apr-worlds__tab-copy"><strong>{item.name}</strong><small>{item.tag}</small></span>
                 </button>
               ))}
