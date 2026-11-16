@@ -39,6 +39,39 @@
   isolation: isolate;
 }
 
+/* Ocean Bay artwork is confined to the Hero; the approved full-page backdrop remains untouched. */
+.apr-shell--midnight .apr-home .apr-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(90deg, rgba(2, 9, 14, .54), rgba(2, 9, 14, .25) 28%, rgba(2, 9, 14, .28) 72%, rgba(2, 9, 14, .56)),
+    linear-gradient(180deg, rgba(2, 9, 14, .48) 0%, rgba(2, 9, 14, .23) 24%, rgba(2, 9, 14, .34) 63%, rgba(6, 19, 23, .96) 100%),
+    url('./assets/ocean-bay-hero.webp');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 13%, black 65%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 13%, black 65%, transparent 100%);
+}
+
+.apr-shell--midnight .apr-home .apr-hero__content,
+.apr-shell--midnight .apr-home .apr-hero__scroll-cue {
+  z-index: 1;
+}
+
+@media (max-width: 639px) {
+  .apr-shell--midnight .apr-home .apr-hero::before {
+    background-position: 57% center;
+    background-image:
+      linear-gradient(90deg, rgba(2, 9, 14, .6), rgba(2, 9, 14, .35), rgba(2, 9, 14, .6)),
+      linear-gradient(180deg, rgba(2, 9, 14, .54), rgba(2, 9, 14, .3) 35%, rgba(6, 19, 23, .96)),
+      url('./assets/ocean-bay-hero.webp');
+  }
+}
+
 .apr-home .apr-hero__veil,
 .apr-home .apr-attractions__glow,
 .apr-home .apr-worlds__shade,
