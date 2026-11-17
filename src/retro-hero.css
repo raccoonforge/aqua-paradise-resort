@@ -1,0 +1,194 @@
+@font-face {
+  font-family: 'APR Poster';
+  src: url('./assets/retro/fonts/LibreBaskerville-Italic.ttf') format('truetype');
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'APR Script';
+  src: url('./assets/retro/fonts/Allura-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+.apr-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #003f3d;
+  color: #ffe8b1;
+  min-height: 56.25vw;
+}
+.apr-hero__art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: -2;
+}
+.apr-hero__content {
+  width: 52%;
+  padding: 8.4vw 0 9vw 4.4vw;
+}
+.apr-hero__title {
+  position: relative;
+  margin: 0;
+  font-family: 'APR Poster', Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  line-height: .94;
+  letter-spacing: -.065em;
+  transform: rotate(-8deg);
+  transform-origin: 50% 70%;
+  color: #ffe4a7;
+  -webkit-text-stroke: 1px #073d36;
+  paint-order: stroke fill;
+  text-shadow: 1px 2px #f6b260, 2px 3px #f57e49, 3px 4px #ef6b3b, 4px 5px #ef6b3b, 5px 6px #ef6b3b, 6px 7px #ef6b3b, 7px 8px #003c37, 8px 10px #003c37, 9px 12px #003c37;
+  animation: apr-print-in .85s both;
+}
+.apr-hero__title span { display: block; }
+.apr-hero__aqua { font-size: 10.5vw; padding-left: 5.3vw; }
+.apr-hero__paradise { font-size: 7.55vw; }
+.apr-hero__title::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 1%; right: 0; bottom: -1.4vw;
+  height: .8vw;
+  background: #fa6c3d;
+  border-bottom: .35vw solid #e5a03b;
+  transform: skewX(-40deg);
+  box-shadow: 0 .35vw #003c37;
+}
+.apr-hero__resort {
+  font: 400 8.9vw/.9 'APR Script', cursive;
+  color: #ff7041;
+  text-shadow: 2px 3px #003c37;
+  transform: rotate(-8deg);
+  text-align: right;
+  padding-right: 2.3vw;
+  margin-top: 1.4vw;
+  animation: apr-print-in 1s .12s both;
+}
+.apr-hero__tagline {
+  font: italic 700 clamp(20px, 2.25vw, 44px)/1.4 'APR Poster', Georgia, serif;
+  white-space: nowrap;
+  margin: 2.1vw 0 1.5vw;
+  text-shadow: 1px 2px #003e39;
+}
+.apr-hero__tagline::before { content: '—'; margin-right: .6em; font-weight: 400; }
+.apr-hero__actions { display: flex; gap: 1.2vw; animation: apr-rise .7s .25s both; }
+.apr-hero__button {
+  border: 1.5px solid #ffe4a7;
+  border-radius: 100px;
+  background: #003f3dc9;
+  color: #ffe8b1;
+  padding: .95em 1.6em;
+  font-size: clamp(14px, 1.1vw, 22px);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  cursor: pointer;
+  box-shadow: 0 3px #002f2d;
+  transition: transform .2s, background .2s, box-shadow .2s;
+}
+.apr-hero__button span { font-size: 1.5em; line-height: 1; }
+.apr-hero__button--primary { background: #fa693d; color: #fff3cf; }
+.apr-hero__button:hover { background: #12635b; transform: translateY(-3px); box-shadow: 0 6px #002f2d; }
+.apr-hero__button--primary:hover { background: #e9552e; }
+.apr-hero__button:active { transform: translateY(2px); box-shadow: none; }
+.apr-hero__button:focus-visible, .apr-header button:focus-visible { outline: 3px solid #ffce66; outline-offset: 5px; }
+.apr-hero__description { font-size: clamp(12px, .85vw, 16px); max-width: 38vw; margin-top: 1.4vw; line-height: 1.6; color: #ffe8b1; }
+.apr-header {
+  background: #003c39 !important;
+  color: #ffe8b1;
+  border-color: #e8c87d !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+.apr-header > div { max-width: none; padding-inline: 4.4vw; height: clamp(72px, 5.2vw, 100px); }
+.apr-header > div > div { color: #ffe8b1; font-family: 'APR Poster', Georgia, serif; font-weight: 700; }
+.apr-header nav { color: #ffe8b1; gap: clamp(12px, 1.7vw, 34px); font-size: clamp(13px, 1vw, 19px); }
+.apr-header button { color: #ffe8b1; }
+.apr-header button[aria-current='page'] { color: #ffd176; border-color: #ffd176; }
+.apr-header nav > button:last-child { background: #fa693d; border: 1px solid #ffe8b1; padding: .7em 1.5em; }
+.apr-header nav > button:hover { color: #ffbf64; }
+.apr-header nav > button:last-child:hover { color: #fff3cf; background: #e9552e; }
+@keyframes apr-print-in { from { opacity: 0; translate: -5px 8px; } to { opacity: 1; translate: 0 0; } }
+@keyframes apr-rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@media (min-width: 2000px) { .apr-hero { min-height: 1050px; } }
+@media (max-width: 1000px) and (min-width: 768px) {
+  .apr-header > div { padding-inline: 16px; }
+  .apr-header > div > div { font-size: 15px; }
+  .apr-header nav { gap: 10px; font-size: 11px; }
+  .apr-hero__content { padding-top: 11vw; padding-bottom: 8vw; width: 55%; }
+  .apr-hero__description { max-width: 43vw; }
+  .apr-hero__button { padding: .8em 1em; gap: .5em; font-size: 12px; }
+}
+@media (max-width: 767px) {
+  .apr-hero { min-height: 860px; }
+  .apr-hero__art { height: 53%; top: auto; object-position: 78% center; }
+  .apr-hero::after { content: ''; position: absolute; inset: 45% 0 auto; height: 90px; z-index: -1; background: linear-gradient(#003f3d, transparent); pointer-events: none; }
+  .apr-hero__content { width: 100%; padding: 45px 22px 420px; }
+  .apr-hero__aqua { font-size: 21vw; padding-left: 17vw; }
+  .apr-hero__paradise { font-size: 15.2vw; }
+  .apr-hero__title { text-shadow: 1px 2px #f6b260, 2px 3px #ef6b3b, 3px 4px #ef6b3b, 4px 6px #00302e; }
+  .apr-hero__title::after { bottom: -10px; height: 5px; border-bottom-width: 3px; }
+  .apr-hero__resort { font-size: 21vw; margin-top: 14px; padding-right: 7vw; }
+  .apr-hero__tagline { font-size: clamp(16px, 4.7vw, 30px); margin: 18px 0; text-align: center; }
+  .apr-hero__tagline::before { display: none; }
+  .apr-hero__actions { gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .apr-hero__button { font-size: 13px; padding: 13px 16px; gap: 8px; }
+  .apr-hero__description { max-width: 100%; text-align: center; font-size: 12px; margin-top: 18px; }
+  .apr-header > div { padding-inline: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .apr-hero *, .apr-hero *::after { animation: none; transition: none; }
+}
+
+.apr-hero__eyebrow { font-size: clamp(10px, .75vw, 14px); letter-spacing: .2em; margin-bottom: 1.6vw; }
+.apr-hero__signature { font-size: 10px; letter-spacing: .18em; margin-top: 12px; }
+@media (max-width: 767px) { .apr-hero__eyebrow { text-align: center; margin-bottom: 26px; } .apr-hero__signature { text-align: center; } }
+/* Second visual pass: preserve the panoramic ratio and give the lettering poster scale. */
+@media (min-width: 1001px) {
+  .apr-hero { height: 56.25vw; min-height: 0; }
+  .apr-hero__content { padding-top: 5.4vw; padding-bottom: 0; width: 54%; }
+  .apr-hero__aqua { font-size: 11.5vw; }
+  .apr-hero__paradise { font-size: 8.8vw; }
+  .apr-hero__resort { font-size: 10vw; margin-top: 1.7vw; padding-right: 3vw; }
+  .apr-hero__tagline { margin-top: 1.6vw; }
+  .apr-hero__description { max-width: 36vw; font-size: .8vw; }
+  .apr-header nav { flex: 1; justify-content: space-between; margin-left: 7vw; }
+}
+.apr-hero__resort { animation: apr-print-in 1s .12s both, apr-ink-drift 7s 1.2s ease-in-out infinite; transform-origin: right center; }
+@keyframes apr-ink-drift { 0%, 100% { rotate: 0deg; } 50% { rotate: -1deg; } }
+@media (min-width: 768px) and (max-width: 1000px) {
+  .apr-hero__content { padding-top: 5vw; width: 54%; padding-bottom: 4vw; }
+  .apr-hero__resort { padding-right: 7vw; font-size: 9vw; }
+  .apr-hero__description { max-width: 36vw; font-size: 11px; }
+  .apr-hero__tagline { font-size: 17px; }
+}
+@media (max-width: 767px) {
+  .apr-hero { min-height: 900px; }
+  .apr-hero__content { padding-top: 28px; padding-bottom: 370px; }
+  .apr-hero__art { height: 370px; object-position: right center; }
+  .apr-hero::after { inset: auto 0 310px; height: 60px; }
+  .apr-hero__resort { line-height: .65; margin-bottom: 24px; }
+  .apr-hero__signature { margin-bottom: 15px; }
+}
+@media (prefers-reduced-motion: reduce) { .apr-hero__resort { animation: none; } }
+
+.apr-brand { display: flex; align-items: center; gap: 10px; font: 700 clamp(17px, 1.35vw, 26px)/1 sans-serif; text-transform: uppercase; }
+.apr-brand small { display: block; font-size: .5em; letter-spacing: .32em; margin-top: 6px; color: #ffba58; }
+.apr-brand svg { flex-shrink: 0; }
+@media (min-width: 1001px) {
+  .apr-hero__resort { margin-top: -1.7vw; padding-right: 7vw; }
+  .apr-hero__description { font-size: clamp(12px, .8vw, 16px); text-shadow: 0 1px 3px #00312e, 0 0 5px #00312e; }
+}
+
+.apr-hero__filters { position: absolute; pointer-events: none; }
+.apr-hero__title { filter: url(#apr-print-grain); }
