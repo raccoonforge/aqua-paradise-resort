@@ -1,0 +1,5 @@
+Yellowtail Regular
+Copyright (c) 2011 by Brian J. Bonislawsky DBA Astigmatic (AOETI).
+Available under the Apache License, Version 2.0; see Yellowtail-LICENSE.txt.
+Source: https://github.com/google/fonts/tree/main/apache/yellowtail
+Font binary distributed without modification.
