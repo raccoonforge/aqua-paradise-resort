@@ -1,5 +1,3 @@
-import PosterTitle from './components/PosterTitle';
-import hibiscus from './assets/retro/hibiscus.webp';
 import './retro-hero.css';
 import riviera from './assets/retro/riviera.webp';
 import PlannerPage from './PlannerPage';
@@ -167,19 +165,18 @@ const HomePage = () => (
           <filter id="apr-print-grain" x="-5%" y="-5%" width="110%" height="115%">
             <feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="3" seed="8" result="noise" />
             <feColorMatrix in="noise" type="saturate" values="0" />
-            <feComponentTransfer><feFuncA type="linear" slope=".45" /></feComponentTransfer>
+            <feComponentTransfer><feFuncA type="linear" slope=".22" /></feComponentTransfer>
             <feComposite in2="SourceGraphic" operator="in" />
             <feBlend in="SourceGraphic" mode="multiply" />
           </filter>
         </defs>
       </svg>
       <img className="apr-hero__art" src={riviera} alt="" fetchPriority="high" />
-      <img className="apr-hero__flowers" src={hibiscus} alt="" aria-hidden="true" />
       <div className="apr-hero__content">
         <p className="apr-hero__eyebrow">WELCOME TO AQUA PARADISE</p>
         <h1 className="apr-hero__title" aria-label="Aqua Paradise">
-          <span className="sr-only">Aqua Paradise</span>
-          <PosterTitle />
+          <span className="apr-hero__aqua">AQUA</span>
+          <span className="apr-hero__paradise">PARADISE</span>
         </h1>
         <div className="apr-hero__resort" aria-hidden="true">Resort</div>
         <p className="apr-hero__tagline">Остров бесконечного лета</p>
@@ -458,15 +455,11 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="text-xl font-bold text-teal-900 cursor-pointer" onClick={() => navigate('#/')}>
             {basePath === '#/' ? <span className="apr-brand">
-              <svg width="100" height="80" viewBox="0 0 100 80" fill="none" aria-hidden="true">
-                <path d="M42 14C7 7-3 45 13 65C28 81 68 75 89 66" stroke="#ffe4a7" strokeWidth="1.3" />
-                <path d="M31 49A22 22 0 0 1 74 44" fill="#ffb64d" />
-                <path d="M57 60C64 46 68 28 65 17L70 17C74 34 67 52 63 61Z" fill="#ffb64d" />
-                <path d="M67 22C54 9 44 11 38 19C49 16 59 20 67 22ZM67 22C52-1 62-2 73 13L67 22ZM67 22C73 3 91 6 95 15C83 11 75 17 67 22ZM67 22C86 10 100 25 98 32C87 23 78 23 67 22ZM67 22C83 24 89 37 84 46C80 33 73 29 67 22ZM67 22C55 24 47 35 49 43C53 33 61 29 67 22Z" fill="#ffa943" />
-                <path d="M22 57C41 38 53 59 71 58C83 60 91 55 98 53C86 68 69 66 56 60C43 54 33 53 22 57Z" fill="#ffe4a7" />
-                <path d="M18 65C39 53 52 62 65 67C76 71 90 66 98 62C83 77 68 74 51 67C36 60 26 63 18 65Z" fill="#ffe4a7" />
-                <path d="M27 50C42 43 51 48 60 53" stroke="#003e39" strokeWidth="2" />
-                <path d="M39 47L52 33L48 49M70 28L68 44" stroke="#ffe4a7" strokeWidth="1.5" />
+              <svg width="56" height="52" viewBox="0 0 64 60" fill="none" aria-hidden="true">
+                <path d="M8 43a20 20 0 0 1 40-4" fill="#ffb84d" />
+                <path d="M30 44c6-12 7-26 5-32" stroke="#ffe4a7" strokeWidth="4" />
+                <path d="M35 14C23-2 9 9 8 17c11-7 18-5 27-3Zm0 0C36-3 55 1 59 12c-11-4-18-3-24 2Zm0 0C45 9 58 20 56 32c-6-10-12-14-21-18Zm0 0C20 10 15 24 17 33c5-10 11-16 18-19Z" fill="#ffb84d" />
+                <path d="M3 49c17-13 31 8 57-3M8 56c19-11 30 5 48-3" stroke="#ffe4a7" strokeWidth="3" />
               </svg>
               <span>Aqua<br />Paradise<small>Resort</small></span>
             </span> : '🌴 Aqua Paradise'}
