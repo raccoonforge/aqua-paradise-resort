@@ -177,41 +177,6 @@ const HomePage = () => (
         <h1 className="apr-hero__title" aria-label="Aqua Paradise">
           <span className="apr-hero__aqua">AQUA</span>
           <span className="apr-hero__paradise">PARADISE</span>
-          <svg
-    className="apr-hero__title-stripes"
-    viewBox="0 0 620 52"
-    aria-hidden="true"
-    focusable="false"
-  >
-    <path
-      d="M12 18 L608 6"
-      stroke="#0B3942"
-      strokeWidth="14"
-      strokeLinecap="round"
-      fill="none"
-    />
-    <path
-      d="M12 14 L608 2"
-      stroke="#F47A4A"
-      strokeWidth="9"
-      strokeLinecap="round"
-      fill="none"
-    />
-    <path
-      d="M34 39 L592 27"
-      stroke="#0B3942"
-      strokeWidth="6"
-      strokeLinecap="round"
-      fill="none"
-    />
-    <path
-      d="M34 36 L592 24"
-      stroke="#E3A84E"
-      strokeWidth="3.2"
-      strokeLinecap="round"
-      fill="none"
-    />
-  </svg>
         </h1>
         <div className="apr-hero__resort" aria-hidden="true">Resort</div>
         <p className="apr-hero__tagline">Остров бесконечного лета</p>
