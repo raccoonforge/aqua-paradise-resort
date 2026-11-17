@@ -221,7 +221,8 @@
   .apr-hero__aqua { font-size: 11.5vw; }
   .apr-hero__paradise { font-size: 8.8vw; }
   .apr-hero__resort { font-size: 10vw; margin-top: 1.7vw; padding-right: 3vw; }
-  .apr-hero__tagline { margin-top: 1.6vw; }
+  /* Open up breathing room below the approved poster lettering; buttons follow in normal flow. */
+  .apr-hero__tagline { margin-top: calc(1.6vw + 32px); }
   .apr-hero__description { max-width: 36vw; font-size: .8vw; }
   .apr-header nav { flex: 1; justify-content: space-between; margin-left: 7vw; }
 }
