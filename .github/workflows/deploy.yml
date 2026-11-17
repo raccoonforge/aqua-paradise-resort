@@ -3,41 +3,69 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 permissions:
   contents: read
   pages: write
   id-token: write
 
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
 jobs:
   build-and-deploy:
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout main site
         uses: actions/checkout@v4
+        with:
+          path: site
+
+      - name: Checkout new preview (PR #5)
+        uses: actions/checkout@v4
+        with:
+          ref: feat/retro-tropical-hero
+          path: preview-source
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Install dependencies
+      - name: Install main site dependencies
+        working-directory: site
         run: npm ci || npm install
 
-      - name: Build
+      - name: Build main site
+        working-directory: site
         run: npm run build
+
+      - name: Install preview site dependencies
+        working-directory: preview-source
+        run: npm ci || npm install
+
+      - name: Build preview with independent asset paths
+        working-directory: preview-source
+        run: npm run build -- --base=/aqua-paradise-resort/preview/
+
+      - name: Combine sites into one Pages artifact
+        run: |
+          mkdir -p site/dist/preview
+          cp -a preview-source/dist/. site/dist/preview/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      - name: Upload artifact
+      - name: Upload combined artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
+          path: './site/dist'
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy both sites to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
