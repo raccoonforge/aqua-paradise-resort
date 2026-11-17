@@ -165,7 +165,7 @@ const HomePage = () => (
           <filter id="apr-print-grain" x="-5%" y="-5%" width="110%" height="115%">
             <feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="3" seed="8" result="noise" />
             <feColorMatrix in="noise" type="saturate" values="0" />
-            <feComponentTransfer><feFuncA type="linear" slope=".22" /></feComponentTransfer>
+            <feComponentTransfer><feFuncA type="linear" slope=".31" /></feComponentTransfer>
             <feComposite in2="SourceGraphic" operator="in" />
             <feBlend in="SourceGraphic" mode="multiply" />
           </filter>
