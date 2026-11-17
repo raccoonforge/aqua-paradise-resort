@@ -217,11 +217,25 @@
 .apr-hero__description { font-size: clamp(12px, .85vw, 16px); max-width: 38vw; margin-top: 1.4vw; line-height: 1.6; color: #ffe8b1; }
 /* Retro Tropical Riviera masthead: understated framing around the hero poster. */
 .apr-header {
-  background: linear-gradient(180deg, #062f32 0%, #073b3c 100%) !important;
+  background: transparent !important;
   color: #fff0c8;
-  border-bottom: 1px solid #cda65e !important;
-  box-shadow: 0 2px 0 rgba(3, 28, 30, .55) !important;
+  border-bottom: 1px solid transparent !important;
+  box-shadow: none !important;
   backdrop-filter: none !important;
+  transition: background-color .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.apr-header--scrolled {
+  background: rgba(5, 45, 47, .97) !important;
+  border-bottom-color: rgba(226, 180, 107, .68) !important;
+  box-shadow: 0 2px 10px rgba(2, 26, 29, .3) !important;
+}
+/* Let the artwork pass underneath the transparent desktop masthead. */
+@media (min-width: 768px) {
+  .apr-header { margin-bottom: calc(-1 * clamp(72px, 5.2vw, 100px)); }
+}
+@media (max-width: 767px) {
+  /* Keep the existing mobile flow until mobile navigation is redesigned. */
+  .apr-header:not(.apr-header--scrolled) { background: #073b3c !important; }
 }
 .apr-header > div {
   max-width: none;
