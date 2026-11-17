@@ -52,7 +52,9 @@
 .apr-hero__title span {
   display: block;
   /* Sunlit cream ink becomes warmer and deeper toward the baseline. */
-  background-image: linear-gradient(to bottom, #fff3d2 0%, #ffe7b1 34%, #efc488 73%, #ce975f 100%);
+  background-image: linear-gradient(180deg, #fff9e6 0%, #ffebbc 25%, #e9b56e 62%, #aa672f 100%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -92,7 +94,9 @@
 .apr-hero__resort {
   font: 400 8.9vw/.9 'APR Script', cursive;
   color: #ff7041;
-  background-image: linear-gradient(to bottom, #ffaf78 0%, #ff8155 28%, #ec623f 65%, #b83f30 100%);
+  background-image: linear-gradient(180deg, #ffd0a1 0%, #ff9a6b 25%, #ef5b38 62%, #97291f 100%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
