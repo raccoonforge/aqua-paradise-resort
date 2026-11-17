@@ -67,13 +67,10 @@
   bottom: -1.2vw;
   height: .88vw;
   min-height: 9px;
-  background: radial-gradient(circle at center, rgba(5,54,52,.32) 0 .7px, transparent 1.25px) 0 0 / 13px 11px, linear-gradient(to bottom, #ffa16d 0%, #f76840 17%, #e84d2f 58%, #ad3027 100%);
-  background-blend-mode: multiply, normal;
-  clip-path: polygon(0 4%, 86% 0, 92% 7%, 97% 24%, 100% 50%, 97% 74%, 92% 91%, 86% 100%, 0 100%);
-  /* Colour holds to the S, then dissolves into the illustration. */
-  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 69%, rgba(0,0,0,.9) 76%, rgba(0,0,0,.6) 85%, rgba(0,0,0,.25) 93%, transparent 100%);
-  mask-image: linear-gradient(90deg, #000 0%, #000 69%, rgba(0,0,0,.9) 76%, rgba(0,0,0,.6) 85%, rgba(0,0,0,.25) 93%, transparent 100%);
-  filter: drop-shadow(1px 3px 0 #062a2f);
+  background: linear-gradient(to bottom, #ffa16d 0%, #f76840 17%, #e84d2f 58%, #ad3027 100%);
+  /* Full ink until near the S, then the physical stroke narrows to a point. */
+  clip-path: polygon(0 4%, 70% 0, 79% 7%, 87% 19%, 94% 33%, 100% 50%, 94% 67%, 87% 81%, 79% 93%, 70% 100%, 0 100%);
+  filter: url(#apr-print-wear) drop-shadow(1px 3px 0 #062a2f);
 }
 .apr-hero__title::before {
   left: 5%;
@@ -81,19 +78,16 @@
   bottom: -2.15vw;
   height: .58vw;
   min-height: 6px;
-  background: radial-gradient(circle at center, rgba(5,54,52,.25) 0 .65px, transparent 1.2px) 3px 2px / 14px 12px, linear-gradient(to bottom, #ffe08b 0%, #f6b83c 22%, #df8b21 66%, #995219 100%);
-  background-blend-mode: multiply, normal;
-  clip-path: polygon(0 5%, 84% 0, 91% 8%, 97% 28%, 100% 50%, 97% 72%, 91% 92%, 84% 100%, 0 100%);
-  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 67%, rgba(0,0,0,.9) 75%, rgba(0,0,0,.55) 85%, rgba(0,0,0,.2) 93%, transparent 100%);
-  mask-image: linear-gradient(90deg, #000 0%, #000 67%, rgba(0,0,0,.9) 75%, rgba(0,0,0,.55) 85%, rgba(0,0,0,.2) 93%, transparent 100%);
-  filter: drop-shadow(1px 2px 0 #073137);
+  background: linear-gradient(to bottom, #ffe08b 0%, #f6b83c 22%, #df8b21 66%, #995219 100%);
+  clip-path: polygon(0 5%, 68% 0, 78% 8%, 87% 21%, 94% 36%, 100% 50%, 94% 64%, 87% 79%, 78% 92%, 68% 100%, 0 100%);
+  filter: url(#apr-print-wear) drop-shadow(1px 2px 0 #073137);
 }
 .apr-hero__resort {
   font: 400 8.9vw/.9 'APR Script', cursive;
-  color: #f76840;
-  -webkit-text-stroke: clamp(2.7px, .27vw, 4.4px) #f76840;
+  color: #ff7041;
+  -webkit-text-stroke: clamp(2.7px, .27vw, 4.4px) #ff7041;
   paint-order: stroke fill;
-  text-shadow: 1px 1px #e84d2f, 2px 3px #0b3942, 4px 5px #04262d;
+  text-shadow: 1px 1px #dc6845, 2px 3px #0b3942, 4px 5px #04262d;
   transform: translateX(-4vw) rotate(-8deg);
   text-align: right;
   padding-right: 2.3vw;
@@ -221,4 +215,5 @@
 }
 
 .apr-hero__filters { position: absolute; pointer-events: none; }
-.apr-hero__title span { filter: url(#apr-print-grain); }
+.apr-hero__title span,
+.apr-hero__resort { filter: url(#apr-print-wear); }
