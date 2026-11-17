@@ -29,19 +29,25 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 66% 48%;
+  object-position: var(--world-desktop-position, 50% 48%);
   transform: scale(1.025);
   transition: transform 5s ease;
 }
 .apr-home .apr-worlds--immersive .apr-worlds__backdrop { transition: opacity .9s ease; }
+.apr-home .apr-worlds--immersive .apr-worlds__backdrop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--world-scene-shade);
+}
 .apr-home .apr-worlds--immersive .apr-worlds__backdrop.is-active .apr-worlds__panorama { transform: scale(1); }
 .apr-home .apr-worlds--immersive .apr-worlds__shade {
   display: block;
   z-index: 1;
   pointer-events: none;
-  background:
-    linear-gradient(90deg, #031419b8 0%, #03141980 26%, #03141926 52%, transparent 76%),
-    linear-gradient(180deg, #06131745, transparent 18%, transparent 66%, #06131759);
+  /* Per-world shade is inside each fading scene; this layer only softens edges. */
+  background: linear-gradient(180deg, #06131733, transparent 18%, transparent 75%, #06131733);
 }
 .apr-home .apr-worlds--immersive .apr-worlds__content {
   position: relative;
@@ -60,7 +66,10 @@
 .apr-home .apr-worlds--immersive .apr-worlds__heading {
   font-size: clamp(64px, 5.8vw, 94px);
   line-height: .92;
-  text-shadow: 0 3px 24px #020d1266;
+  text-shadow: 0 3px 24px #020d12b3;
+}
+.apr-home .apr-worlds--immersive .apr-worlds__heading em {
+  filter: drop-shadow(0 2px 5px #020d12b3);
 }
 .apr-home .apr-worlds--immersive .apr-worlds__lead {
   max-width: 465px;
@@ -147,8 +156,8 @@
   .apr-home .apr-worlds--immersive .apr-worlds__panorama {
     object-position: var(--world-mobile-position, 78% center);
   }
-  .apr-home .apr-worlds--immersive .apr-worlds__shade {
-    background: linear-gradient(180deg, #06131726, #0613170d 20%, #03141999 38%, #031419cc 64%, #06131766 88%, #06131780);
+  .apr-home .apr-worlds--immersive .apr-worlds__backdrop::after {
+    background: var(--world-scene-mobile-shade);
   }
   .apr-home .apr-worlds--immersive .apr-worlds__content {
     padding: 230px 24px 28px;

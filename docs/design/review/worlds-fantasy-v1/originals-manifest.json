@@ -1,0 +1,74 @@
+{
+  "atlantis-realm": {
+    "size": [
+      1672,
+      941
+    ],
+    "sha256": "85ffddcce935097db1955e450c9b3309b75ab09b73fa0630f0059254f94c0884",
+    "original": "originals/atlantis-realm-panorama.png"
+  },
+  "eden-gardens": {
+    "size": [
+      1672,
+      941
+    ],
+    "sha256": "2b67ac36ed8542f9a8acfed28e2d6b55bc93c1bde820a6cd77cb13ce30d5bbf4",
+    "original": "originals/eden-gardens-panorama.png"
+  },
+  "adrenaline-peak": {
+    "size": [
+      1672,
+      941
+    ],
+    "sha256": "71c06f5c1155f8b00a6b3c736652cc7a19b6f0dc403216cd8558ae14663198b4",
+    "original": "originals/adrenaline-peak-panorama.png"
+  },
+  "ocean-bay": {
+    "size": [
+      1672,
+      941
+    ],
+    "sha256": "f200994bf6809f72d2a9fdb1d43ca8558ce580ae6980339c6ba1ae1d7e97a760",
+    "original": "originals/ocean-bay-panorama.png"
+  },
+  "serenity-spa": {
+    "size": [
+      1672,
+      941
+    ],
+    "sha256": "0af72db1832e66461bd10c6204158e61d838a9079d6c7da7f42adf101a1ad068",
+    "original": "originals/serenity-spa-panorama.png"
+  },
+  "pirates-cove": {
+    "size": [
+      1672,
+      941
+    ],
+    "sha256": "a5a3167280615ba28478f738f6d3c8debf837209116afaab8af5d57450d6f477",
+    "original": "originals/pirates-cove-panorama.png"
+  },
+  "little-paradise": {
+    "size": [
+      1672,
+      941
+    ],
+    "sha256": "3ae1d2971a2dee272f2e3448b573777092af2a254ae46956a212d1428b12c3b7",
+    "original": "originals/little-paradise-panorama.png"
+  },
+  "paradise-market": {
+    "size": [
+      1672,
+      941
+    ],
+    "sha256": "7184db1c5d04b9a36c4e277aa79d2c1a80afe4f2252361d4cb40908af71143b6",
+    "original": "originals/paradise-market-panorama.png"
+  },
+  "paradise-boulevard": {
+    "size": [
+      1672,
+      941
+    ],
+    "sha256": "9aef01fc5e4a07a3ad6272f1d518d33e29b27f982681a14407052cb70f0c5584",
+    "original": "originals/paradise-boulevard-panorama.png"
+  }
+}

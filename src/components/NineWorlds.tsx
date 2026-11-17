@@ -2,12 +2,25 @@ import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent, ty
 import { ZONE_SLUGS } from '../data/attractions';
 import '../worlds-immersive.css';
 
-const panoramas = import.meta.glob('../assets/worlds/*-panorama.webp', { eager: true, query: '?url', import: 'default' }) as Record<string, string>;
-const sceneUrl = (slug: string) => panoramas[`../assets/worlds/${slug}-panorama.webp`];
-const mobilePositions: Record<string, string> = {
-  'adrenaline-peak': '65% center',
-  'ocean-bay': '48% center',
+const panoramas = import.meta.glob('../assets/worlds-fantasy/*-panorama.webp', { eager: true, query: '?url', import: 'default' }) as Record<string, string>;
+const sceneUrl = (slug: string) => panoramas[`../assets/worlds-fantasy/${slug}-panorama.webp`];
+const sceneArt: Record<string, { desktop: string; mobile: string; shade: string; mobileShade: string }> = {
+  'atlantis-realm': { desktop: '52% 48%', mobile: '56% center', shade: 'linear-gradient(92deg, #03131edf, #03131e8c 37%, #03131b26 65%, transparent 86%)', mobileShade: 'linear-gradient(180deg, #03131b14, #03131b14 22%, #03131e8c 39%, #03131edf 66%, #03131b66 89%, #03131b80)' },
+  'eden-gardens': { desktop: '54% 48%', mobile: '60% center', shade: 'linear-gradient(105deg, #031a19e0, #06211b8f 37%, #03131b26 65%, transparent 86%)', mobileShade: 'linear-gradient(180deg, #03131b14, #03131b14 22%, #06211b8f 39%, #031a19e0 66%, #03131b66 89%, #03131b80)' },
+  'adrenaline-peak': { desktop: '58% 46%', mobile: '65% center', shade: 'linear-gradient(82deg, #050f1ae6, #0c172c99 37%, #03131b26 65%, transparent 86%)', mobileShade: 'linear-gradient(180deg, #03131b14, #03131b14 22%, #0c172c99 39%, #050f1ae6 66%, #03131b66 89%, #03131b80)' },
+  'ocean-bay': { desktop: '55% 50%', mobile: '70% center', shade: 'linear-gradient(100deg, #061925e0, #07323b9e 37%, #03131b26 65%, transparent 86%)', mobileShade: 'linear-gradient(180deg, #03131b14, #03131b14 22%, #07323b9e 39%, #061925e0 66%, #03131b66 89%, #03131b80)' },
+  'serenity-spa': { desktop: '48% 48%', mobile: '35% center', shade: 'linear-gradient(96deg, #03131be0, #031b28c2 42%, #031b2840 68%, transparent 92%)', mobileShade: 'linear-gradient(180deg, #03131b14, #03131b14 22%, #061723cf 39%, #051622d6 66%, #03131b66 89%, #03131b80)' },
+  'pirates-cove': { desktop: '48% 48%', mobile: '47% center', shade: 'linear-gradient(86deg, #11191de0, #132a3099 37%, #03131b26 65%, transparent 86%)', mobileShade: 'linear-gradient(180deg, #03131b14, #03131b14 22%, #132a3099 39%, #11191de0 66%, #03131b66 89%, #03131b80)' },
+  'little-paradise': { desktop: '55% 48%', mobile: '62% center', shade: 'linear-gradient(102deg, #0b2032e8, #1839429e 37%, #03131b26 65%, transparent 86%)', mobileShade: 'linear-gradient(180deg, #03131b14, #03131b14 22%, #1839429e 39%, #0b2032e8 66%, #03131b66 89%, #03131b80)' },
+  'paradise-market': { desktop: '50% 48%', mobile: '56% center', shade: 'linear-gradient(90deg, #1a1519eb, #352423ad 37%, #03131b26 65%, transparent 86%)', mobileShade: 'linear-gradient(180deg, #03131b14, #03131b14 22%, #352423ad 39%, #1a1519eb 66%, #03131b66 89%, #03131b80)' },
+  'paradise-boulevard': { desktop: '50% 48%', mobile: '32% center', shade: 'linear-gradient(98deg, #051529e0, #19243899 37%, #03131b26 65%, transparent 86%)', mobileShade: 'linear-gradient(180deg, #03131b14, #03131b14 22%, #19243899 39%, #051529e0 66%, #03131b66 89%, #03131b80)' },
 };
+const sceneStyle = (slug: string): CSSProperties => ({
+  '--world-desktop-position': sceneArt[slug].desktop,
+  '--world-mobile-position': sceneArt[slug].mobile,
+  '--world-scene-shade': sceneArt[slug].shade,
+  '--world-scene-mobile-shade': sceneArt[slug].mobileShade,
+} as CSSProperties);
 const decoded = new Map<string, Promise<void>>();
 function decodeScene(src: string): Promise<void> {
   if (!src) return Promise.reject(new Error('Missing world panorama'));
@@ -99,7 +112,7 @@ export default function NineWorlds() {
       <div className="apr-worlds__frame" style={{ '--world-tone': zone.color } as CSSProperties}>
         <div className="apr-worlds__backdrops" aria-hidden="true">
           {zones.map((item, index) => (
-            <div key={item.name} className={`apr-worlds__backdrop ${activeZone === index ? 'is-active' : ''}`} data-world-scene={ZONE_SLUGS[item.name]} style={{ '--world-mobile-position': mobilePositions[ZONE_SLUGS[item.name]] ?? '78% center' } as CSSProperties}>
+            <div key={item.name} className={`apr-worlds__backdrop ${activeZone === index ? 'is-active' : ''}`} data-world-scene={ZONE_SLUGS[item.name]} style={sceneStyle(ZONE_SLUGS[item.name])}>
               <img className="apr-worlds__panorama" src={sceneUrl(ZONE_SLUGS[item.name])} alt="" width="1672" height="941" decoding="async" />
             </div>
           ))}
@@ -133,7 +146,7 @@ export default function NineWorlds() {
                 const itemSlug = ZONE_SLUGS[item.name];
                 return (
                   <button key={item.name} id={`world-tab-${itemSlug}`} type="button" role="tab" aria-selected={activeZone === index} aria-controls="worlds-panel" tabIndex={activeZone === index ? 0 : -1} data-world-index={index} onClick={() => { void changeZone(index); }} className={`apr-worlds__tab ${activeZone === index ? 'is-active' : ''}`}>
-                    <span className="apr-worlds__thumb" style={{ backgroundColor: item.color, '--world-mobile-position': mobilePositions[itemSlug] ?? '78% center' } as CSSProperties}><img src={sceneUrl(itemSlug)} alt="" width="1672" height="941" decoding="async" /></span>
+                    <span className="apr-worlds__thumb" style={{ backgroundColor: item.color, ...sceneStyle(itemSlug) }}><img src={sceneUrl(itemSlug)} alt="" width="1672" height="941" decoding="async" /></span>
                     <span className="apr-worlds__tab-copy"><strong>{item.name}</strong><small>{item.tag}</small></span>
                   </button>
                 );
