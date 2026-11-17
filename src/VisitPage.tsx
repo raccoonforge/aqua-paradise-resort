@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const arrivals = [
   { id: 'ocean-wings', title: 'Ocean Wings', icon: '🚠', desc: 'Панорамная канатная дорога', details: 'Самый живописный способ прибытия. Две ветки канатной дороги с панорамными кабинами, вид на океан и остров. Поездка зависит от погодных условий.' },
@@ -43,6 +43,17 @@ export default function VisitPage() {
   const [activeArrival, setActiveArrival] = useState<string | null>(null);
   const [activeTransport, setActiveTransport] = useState<string | null>(null);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
+
+  // Open the exact visit subsection selected from the main navigation.
+  useEffect(() => {
+    const section = new URLSearchParams(window.location.hash.split('?')[1] || '').get('section');
+    if (!section || !['arrival', 'transport', 'rules', 'faq'].includes(section)) return;
+    const frame = requestAnimationFrame(() => {
+      document.getElementById(section)?.scrollIntoView({ behavior: 'auto', block: 'start' });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
