@@ -215,21 +215,84 @@
   .apr-hero__button, .apr-hero__button::before, .apr-hero__button span { transition: none; }
 }
 .apr-hero__description { font-size: clamp(12px, .85vw, 16px); max-width: 38vw; margin-top: 1.4vw; line-height: 1.6; color: #ffe8b1; }
+/* Retro Tropical Riviera masthead: understated framing around the hero poster. */
 .apr-header {
-  background: #003c39 !important;
-  color: #ffe8b1;
-  border-color: #e8c87d !important;
-  box-shadow: none !important;
+  background: linear-gradient(180deg, #062f32 0%, #073b3c 100%) !important;
+  color: #fff0c8;
+  border-bottom: 1px solid #cda65e !important;
+  box-shadow: 0 2px 0 rgba(3, 28, 30, .55) !important;
   backdrop-filter: none !important;
 }
-.apr-header > div { max-width: none; padding-inline: 4.4vw; height: clamp(72px, 5.2vw, 100px); }
-.apr-header > div > div { color: #ffe8b1; font-family: 'APR Poster', Georgia, serif; font-weight: 700; }
-.apr-header nav { color: #ffe8b1; gap: clamp(12px, 1.7vw, 34px); font-size: clamp(13px, 1vw, 19px); }
-.apr-header button { color: #ffe8b1; }
-.apr-header button[aria-current='page'] { color: #ffd176; border-color: #ffd176; }
-.apr-header nav > button:last-child { background: #fa693d; border: 1px solid #ffe8b1; padding: .7em 1.5em; }
-.apr-header nav > button:hover { color: #ffbf64; }
-.apr-header nav > button:last-child:hover { color: #fff3cf; background: #e9552e; }
+.apr-header > div {
+  max-width: none;
+  padding-inline: 4.4vw;
+  height: clamp(72px, 5.2vw, 100px);
+}
+.apr-header > div > div {
+  color: #fff0c8;
+  font-family: 'APR Poster', Georgia, serif;
+  font-weight: 700;
+}
+.apr-header .apr-brand {
+  gap: 12px;
+  color: #fff1c6;
+  font-family: 'APR Poster', Georgia, serif;
+  font-size: clamp(15px, 1.15vw, 22px);
+  line-height: .99;
+  letter-spacing: -.035em;
+  text-shadow: 1px 2px #06292d;
+}
+.apr-header .apr-brand svg { width: clamp(46px, 3.65vw, 60px); height: auto; }
+.apr-header .apr-brand small {
+  color: #eda95a;
+  font-size: .55em;
+  letter-spacing: .22em;
+  margin-top: 5px;
+}
+.apr-header nav {
+  color: #ffebc2;
+  gap: clamp(11px, 1.55vw, 30px);
+  font-size: clamp(13px, .94vw, 18px);
+  font-weight: 600;
+}
+.apr-header nav > button:not(:last-child) {
+  color: #ffebc2;
+  border-radius: 0;
+  border-bottom: 1px solid transparent;
+  padding: .5em .12em;
+  text-shadow: 0 1px #05292b;
+  transition: color .2s ease, border-color .2s ease;
+}
+.apr-header nav > button:not(:last-child):hover,
+.apr-header nav > button:not(:last-child)[aria-current='page'] {
+  color: #ffd68a;
+  border-bottom-color: #d9ad69;
+}
+.apr-header nav > button:last-child {
+  color: #fff3d4;
+  background: linear-gradient(180deg, #ffa16d 0%, #f76840 20%, #e84d2f 62%, #ad3027 100%);
+  border: 1px solid #f2cb8e;
+  border-radius: 12px;
+  padding: .72em 1.45em;
+  box-shadow: 0 2px 0 #672e29;
+  font-weight: 700;
+  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+.apr-header nav > button:last-child:hover {
+  color: #fff9df;
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+  box-shadow: 0 3px 0 #672e29;
+}
+.apr-header nav > button:last-child:active { transform: translateY(1px); box-shadow: none; }
+.apr-header nav > button:focus-visible,
+.apr-header > div > div[role='button']:focus-visible {
+  outline: 2px solid #ffd48b;
+  outline-offset: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .apr-header nav > button { transition: none; }
+}
 @keyframes apr-print-in { from { opacity: 0; translate: -5px 8px; } to { opacity: 1; translate: 0 0; } }
 @keyframes apr-rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 @media (min-width: 2000px) { .apr-hero { min-height: 1050px; } }
