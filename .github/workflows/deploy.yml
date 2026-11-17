@@ -29,6 +29,7 @@ jobs:
 
       # Preview release: refined V1 lettering (branch stays unmerged).
       # Preview refresh: deep lagoon title shadow.
+      # Preview refresh: refined Resort ink and shadow.
       # Build preview from the current working branch without merging its design into main.
       - name: Checkout new preview (PR #5)
         uses: actions/checkout@v4
