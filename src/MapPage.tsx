@@ -194,7 +194,7 @@ useEffect(() => {
   // Маршрутные линии — только иллюстративное отображение сегментов на старых якорях карты.
   const drawSegments = route?.segments.filter(s => nodeById(s.from) && nodeById(s.to)) ?? [];
   return (
-    <main className="h-[calc(100dvh-64px)] min-h-[520px] flex flex-col md:flex-row bg-slate-100 overflow-hidden">
+    <div className="h-[calc(100dvh-64px)] min-h-[520px] flex flex-col md:flex-row bg-slate-100 overflow-hidden">
       <section ref={mapRef} aria-label="Схематическая карта острова" className="relative flex-1 min-h-0 md:w-[70%] overflow-hidden bg-slate-200 touch-none" onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={onPointerUp}>
         <div className="absolute inset-0 opacity-25 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#64748b 1px, transparent 1px)', backgroundSize: '40px 40px' }} aria-hidden="true" />
         <div className="absolute inset-0" style={{ transform: `translate(${pan.x}px,${pan.y}px) scale(${zoom})`, transformOrigin: 'center' }}>
@@ -241,6 +241,6 @@ useEffect(() => {
           </section>
         </div>
       </aside>
-    </main>
+    </div>
   );
 }

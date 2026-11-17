@@ -159,7 +159,7 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
   const activeRide = ATTRACTIONS.find(r => r.id === selectedRideId);
 
   return (
-    <div className="bg-[#f8f9fa] min-h-screen py-12">
+    <div className="catalog-page bg-[#f8f9fa] min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4">
 
         <div className="text-center mb-10">
@@ -294,9 +294,7 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
                 aria-label={`Открыть подробности: ${ride.name}`}
                 className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all cursor-pointer border border-gray-100 group text-left focus:outline-none focus-visible:ring-4 focus-visible:ring-teal-300"
               >
-                <div className="h-48 bg-gradient-to-br from-teal-100 to-cyan-200 flex items-center justify-center text-teal-800/50 font-serif text-lg group-hover:scale-105 transition-transform">
-                  [Фото: {ride.name}]
-                </div>
+                <div className="ride-specimen" data-level={ride.intensity}><span>{ride.intensity}</span><strong>{ride.minAge || "0"}<small>+ лет</small></strong><span>{ride.minHeight ? `от ${ride.minHeight} см` : "Без ограничения роста"} →</span></div>
                 <div className="p-5">
                   <span className="text-xs font-bold text-teal-600 tracking-wider uppercase mb-1 block">{ride.zone}</span>
                   <h3 className="text-xl font-serif text-gray-900 mb-2">{ride.name}</h3>
@@ -319,9 +317,7 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
                 aria-label={`Открыть подробности: ${ride.name} (скрыто по ограничениям: ${ride.reason})`}
                 className="bg-amber-50 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all cursor-pointer border border-amber-200 group text-left opacity-80 focus:outline-none focus-visible:ring-4 focus-visible:ring-amber-300"
               >
-                <div className="h-48 bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center text-amber-800/50 font-serif text-lg">
-                  [Фото: {ride.name}]
-                </div>
+                <div className="ride-specimen" data-level={ride.intensity}><span>{ride.intensity}</span><strong>{ride.minAge || "0"}<small>+ лет</small></strong><span>{ride.minHeight ? `от ${ride.minHeight} см` : "Без ограничения роста"} →</span></div>
                 <div className="p-5">
                   <span className="text-xs font-bold text-amber-700 tracking-wider uppercase mb-1 block">{ride.zone}</span>
                   <h3 className="text-xl font-serif text-gray-900 mb-2">{ride.name}</h3>
@@ -372,9 +368,7 @@ export default function AttractionsPage({ initialRide }: { initialRide?: string 
               ✕
             </button>
 
-            <div className="h-64 bg-gradient-to-br from-teal-200 to-cyan-400 flex items-center justify-center text-white text-2xl font-serif">
-              [Большое фото: {activeRide.name}]
-            </div>
+            <div className="ride-specimen large"><span>{activeRide.zone}</span><strong>{activeRide.intensity}</strong><span>Проверьте ограничения перед посещением</span></div>
 
             <div className="p-8">
               <span className="text-sm font-bold text-teal-600 tracking-wider uppercase mb-2 block">{activeRide.zone}</span>

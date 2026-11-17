@@ -46,9 +46,9 @@ export default function HotelPage() {
   const currentExperience = experiences.find(item => item.id === selectedExperience) ?? experiences[0];
 
   return (
-    <main className="bg-[#f8f9fa] min-h-screen pb-20">
+    <div className="hotel-page bg-[#f8f9fa] min-h-screen pb-20">
       <div className="relative h-[60vh] min-h-[400px] flex items-center justify-center bg-gradient-to-br from-gray-900 to-teal-900 overflow-hidden">
-        <div className="absolute inset-0 opacity-30 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]" aria-hidden="true" />
+
         <div className="relative z-10 text-center px-4 max-w-3xl">
           <span className="text-teal-300 tracking-widest text-sm font-semibold uppercase mb-4 block">Paradise Grand Hotel &amp; Villas · 5★</span>
           <h1 className="text-4xl md:text-6xl font-serif text-white mb-6">Искусство безупречного отдыха</h1>
@@ -71,7 +71,7 @@ export default function HotelPage() {
               const expanded = expandedItemId === item.id;
               return (
                 <article key={item.id} className="flex flex-col lg:flex-row gap-8 items-center">
-                  <div role="img" aria-label={`Будущая фотография: ${item.name}`} className="w-full lg:w-1/2 h-64 md:h-80 bg-gradient-to-br from-gray-200 to-gray-400 rounded-2xl flex items-center justify-center text-gray-600 shadow-inner">[Фото: {item.name}]</div>
+                  <div className="room-specimen"><span>PARADISE GRAND / COLLECTION</span><strong>{String(categories[activeCategory].items.indexOf(item) + 1).padStart(2, "0")}</strong><span>{item.amenities.slice(0, 3).join(" · ")}</span></div>
                   <div className="w-full lg:w-1/2 min-w-0">
                     <h2 className="text-3xl font-serif text-gray-900 mb-4">{item.name}</h2>
                     <p className="text-gray-600 text-lg mb-6">{item.desc}</p>
@@ -112,7 +112,7 @@ export default function HotelPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
           <section aria-labelledby="hotel-dining" className="bg-white p-7 md:p-8 rounded-3xl shadow-sm border border-gray-100">
             <h2 id="hotel-dining" className="text-2xl font-serif text-gray-900 mb-4">Гастрономия</h2>
-            <div role="img" aria-label="Место для фотографии Paradise Dining" className="h-48 bg-gray-200 rounded-xl mb-4 flex items-center justify-center text-gray-500">[Фото: Paradise Dining]</div>
+            <div className="dining-specimen">PARADISE DINING <span>Вкус островной жизни</span></div>
             <h3 className="font-semibold text-gray-900 mb-2">Paradise Dining</h3>
             <p className="text-gray-600 text-sm leading-relaxed mb-3">Гостиничная гастрономия: рестораны и бары курортного комплекса, обслуживание номеров и возможность отдыха с видом на океан.</p>
             <p className="text-gray-500 text-xs leading-relaxed">Конкретные рестораны, меню, стоимость, часы работы и порядок заказа пока не утверждены. Рестораны гостиницы не следует путать с заведениями Paradise Market.</p>
@@ -146,6 +146,6 @@ export default function HotelPage() {
           </ul>
         </section>
       </div>
-    </main>
+    </div>
   );
 }

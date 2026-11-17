@@ -154,7 +154,7 @@ export default function TicketsPage() {
     if (!showTicket && orderNumber) checkoutButtonRef.current?.focus();
   }, [showTicket, orderNumber]);
 
-  useEffect(() => { setCheckoutError(null); }, [visitDate, guests, ticketType]);
+  useEffect(() => { queueMicrotask(() => setCheckoutError(null)); }, [visitDate, guests, ticketType]);
 
   useEffect(() => {
     if (!easterEggOpen || !qrCanvasRef.current) return;
@@ -224,7 +224,7 @@ export default function TicketsPage() {
   };
 
   return (
-    <div className="bg-[#f8f9fa] min-h-screen py-12">
+    <div className="ticket-page bg-[#f8f9fa] min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-10">
           <h1 className="text-4xl md:text-5xl font-serif text-gray-900 mb-4">Билеты</h1>

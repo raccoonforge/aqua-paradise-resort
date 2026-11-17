@@ -52,9 +52,9 @@ export default function VisitPage() {
   };
 
   return (
-    <div className="bg-[#f8f9fa] min-h-screen">
+    <div className="visit-page bg-[#f8f9fa] min-h-screen">
       <div className="relative h-[50vh] min-h-[350px] flex items-center justify-center bg-gradient-to-br from-teal-600 to-cyan-900 overflow-hidden">
-        <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]" aria-hidden="true" />
+
         <div className="relative z-10 text-center px-4 max-w-3xl">
           <h1 className="text-4xl md:text-5xl font-serif text-white mb-4">Ваше путешествие начинается здесь</h1>
           <p className="text-lg text-teal-100">Всё, что нужно знать для комфортного и безопасного отдыха на острове.</p>
@@ -65,7 +65,7 @@ export default function VisitPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {navigation.map(card => (
             <button key={card.id} type="button" onClick={() => scrollToSection(card.id)} className="bg-white p-4 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all text-center group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 motion-reduce:transform-none">
-              <span className="block text-3xl mb-2 group-hover:scale-110 transition-transform motion-reduce:transform-none" aria-hidden="true">{card.icon}</span>
+              <span className="block text-3xl mb-2 group-hover:scale-110 transition-transform motion-reduce:transform-none" aria-hidden="true">{String(navigation.indexOf(card) + 1).padStart(2, "0")}</span>
               <span className="font-medium text-gray-900 text-sm">{card.title}</span>
             </button>
           ))}

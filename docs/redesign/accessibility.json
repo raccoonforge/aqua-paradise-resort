@@ -1,0 +1,34 @@
+[
+  {
+    "route": "home",
+    "violations": []
+  },
+  {
+    "route": "zones",
+    "violations": []
+  },
+  {
+    "route": "attractions",
+    "violations": []
+  },
+  {
+    "route": "hotel",
+    "violations": []
+  },
+  {
+    "route": "tickets",
+    "violations": []
+  },
+  {
+    "route": "planner",
+    "violations": []
+  },
+  {
+    "route": "visit",
+    "violations": []
+  },
+  {
+    "route": "map",
+    "violations": []
+  }
+]

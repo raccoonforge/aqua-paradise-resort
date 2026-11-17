@@ -1,0 +1,163 @@
+[
+  {
+    "name": "layout home 320",
+    "result": "PASS"
+  },
+  {
+    "name": "layout zones 320",
+    "result": "PASS"
+  },
+  {
+    "name": "layout attractions 320",
+    "result": "PASS"
+  },
+  {
+    "name": "layout hotel 320",
+    "result": "PASS"
+  },
+  {
+    "name": "layout tickets 320",
+    "result": "PASS"
+  },
+  {
+    "name": "layout planner 320",
+    "result": "PASS"
+  },
+  {
+    "name": "layout visit 320",
+    "result": "PASS"
+  },
+  {
+    "name": "layout map 320",
+    "result": "PASS"
+  },
+  {
+    "name": "layout home 375",
+    "result": "PASS"
+  },
+  {
+    "name": "layout zones 375",
+    "result": "PASS"
+  },
+  {
+    "name": "layout attractions 375",
+    "result": "PASS"
+  },
+  {
+    "name": "layout hotel 375",
+    "result": "PASS"
+  },
+  {
+    "name": "layout tickets 375",
+    "result": "PASS"
+  },
+  {
+    "name": "layout planner 375",
+    "result": "PASS"
+  },
+  {
+    "name": "layout visit 375",
+    "result": "PASS"
+  },
+  {
+    "name": "layout map 375",
+    "result": "PASS"
+  },
+  {
+    "name": "layout home 768",
+    "result": "PASS"
+  },
+  {
+    "name": "layout zones 768",
+    "result": "PASS"
+  },
+  {
+    "name": "layout attractions 768",
+    "result": "PASS"
+  },
+  {
+    "name": "layout hotel 768",
+    "result": "PASS"
+  },
+  {
+    "name": "layout tickets 768",
+    "result": "PASS"
+  },
+  {
+    "name": "layout planner 768",
+    "result": "PASS"
+  },
+  {
+    "name": "layout visit 768",
+    "result": "PASS"
+  },
+  {
+    "name": "layout map 768",
+    "result": "PASS"
+  },
+  {
+    "name": "layout home 1440",
+    "result": "PASS"
+  },
+  {
+    "name": "layout zones 1440",
+    "result": "PASS"
+  },
+  {
+    "name": "layout attractions 1440",
+    "result": "PASS"
+  },
+  {
+    "name": "layout hotel 1440",
+    "result": "PASS"
+  },
+  {
+    "name": "layout tickets 1440",
+    "result": "PASS"
+  },
+  {
+    "name": "layout planner 1440",
+    "result": "PASS"
+  },
+  {
+    "name": "layout visit 1440",
+    "result": "PASS"
+  },
+  {
+    "name": "layout map 1440",
+    "result": "PASS"
+  },
+  {
+    "name": "9 worlds and home planner handoff",
+    "result": "PASS"
+  },
+  {
+    "name": "catalog extreme + search + modal Escape",
+    "result": "PASS"
+  },
+  {
+    "name": "zone deep link + ride handoff",
+    "result": "PASS"
+  },
+  {
+    "name": "hotel categories and amenities",
+    "result": "PASS"
+  },
+  {
+    "name": "ticket calculator + demo checkout",
+    "result": "PASS"
+  },
+  {
+    "name": "planner generate reorder + share restore",
+    "result": "PASS"
+  },
+  {
+    "name": "mobile menu keyboard close + focus",
+    "result": "PASS"
+  },
+  {
+    "name": "browser runtime errors",
+    "result": "PASS",
+    "errors": []
+  }
+]

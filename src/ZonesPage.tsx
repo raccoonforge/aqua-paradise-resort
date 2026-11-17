@@ -207,7 +207,7 @@ export default function ZonesPage({ initialZone, initialTab }: { initialZone?: s
     const params = new URLSearchParams({ zone: zoneId });
     if (tab !== 'overview') params.set('tab', tab);
     const nextHash = `#/zones?${params.toString()}`;
-    if (window.location.hash !== nextHash) window.location.hash = nextHash;
+    if (window.location.hash !== nextHash) window.location.assign(nextHash);
   };
 
   const activeZone = zonesData.find(zone => zone.id === activeZoneId) ?? zonesData[8];
@@ -235,7 +235,7 @@ export default function ZonesPage({ initialZone, initialTab }: { initialZone?: s
                 aria-current={activeZoneId === zone.id ? 'page' : undefined}
                 className={`flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-lg border transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 ${activeZoneId === zone.id ? 'border-teal-500 bg-teal-50 text-teal-800 shadow-sm' : 'border-gray-200 hover:border-teal-300 text-gray-600 bg-white'}`}
               >
-                <span className="text-xl" aria-hidden="true">{zone.icon}</span>
+                <span className="text-xl" aria-hidden="true">{String(zonesData.indexOf(zone) + 1).padStart(2, "0")}</span>
                 <span className="text-sm font-medium whitespace-nowrap">{zone.name}</span>
               </button>
             ))}
@@ -243,12 +243,10 @@ export default function ZonesPage({ initialZone, initialTab }: { initialZone?: s
         </nav>
       </div>
 
-      <main className="max-w-7xl mx-auto px-4 mt-8">
+      <div className="max-w-7xl mx-auto px-4 mt-8">
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="w-full lg:w-[55%] flex flex-col gap-4">
-            <div className="w-full aspect-video bg-gradient-to-br from-teal-300 to-cyan-600 rounded-2xl shadow-lg flex items-center justify-center text-white text-xl font-serif text-center px-3">
-              [Панорама: {activeZone.name}]
-            </div>
+            <div className="zone-specimen"><span>АТЛАС ОСТРОВА / {String(zonesData.indexOf(activeZone) + 1).padStart(2, "0")}</span><strong>{activeZone.name}</strong><p>{activeZone.features.join(" / ")}</p><span>ЧАСЫ ПОСЕЩЕНИЯ · {activeZone.hours}</span></div>
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
               <h1 className="text-4xl font-serif text-gray-900 mb-3">{activeZone.name}</h1>
               <p className="text-xs text-teal-700 font-semibold mb-3">Часы работы зоны: {activeZone.hours}</p>
@@ -293,7 +291,6 @@ export default function ZonesPage({ initialZone, initialTab }: { initialZone?: s
                       <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Кому понравится</h2>
                       <p className="text-gray-700 bg-gray-50 p-4 rounded-xl border border-gray-100">{activeZone.likes}</p>
                     </div>
-                    <p className="text-xs text-gray-500">Иллюстрации зоны будут добавлены после утверждения визуальных материалов.</p>
                   </div>
                 )}
                 {activeTab === 'attractions' && (
@@ -306,7 +303,7 @@ export default function ZonesPage({ initialZone, initialTab }: { initialZone?: s
                             <div key={attraction.id} className="p-3 border border-gray-100 rounded-xl bg-gray-50/40">
                               <p className="font-medium text-gray-900">{attraction.name}</p>
                               <p className="text-xs text-gray-500 mt-1">{attraction.intensity} · от {attraction.minAge} лет{attraction.minHeight !== null ? ` · рост от ${attraction.minHeight} см` : ''}</p>
-                              <button type="button" onClick={() => { window.location.hash = `#/attractions?ride=${attraction.id}`; }} className="text-teal-700 hover:underline mt-2 text-sm focus-visible:outline-2 focus-visible:outline-teal-600">Подробнее</button>
+                              <button type="button" onClick={() => { window.location.hash = `#/attractions?ride=${attraction.id}`; }} aria-label={`Подробнее: ${attraction.name}`} className="text-teal-700 hover:underline mt-2 text-sm focus-visible:outline-2 focus-visible:outline-teal-600">Подробнее</button>
                             </div>
                           ))}
                         </div>
@@ -344,7 +341,7 @@ export default function ZonesPage({ initialZone, initialTab }: { initialZone?: s
             </div>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 }

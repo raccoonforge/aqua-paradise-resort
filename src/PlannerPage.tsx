@@ -249,40 +249,6 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
   // Модалка с ручным копированием (замена prompt)
   const [manualLink, setManualLink] = useState<string | null>(null);
 
-  // Чтение состояния из URL (APR-BUG-015 — share link)
-  useEffect(() => {
-    const hash = window.location.hash;
-    const qs = hash.split('?')[1] || '';
-    const params = new URLSearchParams(qs);
-    const stateParam = params.get('state');
-    if (!stateParam) return;
-    try {
-      const decoded = JSON.parse(base64DecodeUnicode(stateParam));
-      if (decoded.date) setDate(decoded.date);
-      if (decoded.ticketType) setTicketType(decoded.ticketType);
-      if (Array.isArray(decoded.interests)) setSelectedInterests(decoded.interests);
-      if (Array.isArray(decoded.guests)) setGuests(decoded.guests.map((g: any, i: number) => ({ id: `g${i}`, age: g.age, height: g.height })));      if (decoded.pace) setPace(decoded.pace);
-      if (['auto', 'walk', 'shuttle'].includes(decoded.transport)) setTransport(decoded.transport);
-      if (['none', 'stroller', 'wheelchair'].includes(decoded.mobility)) setMobility(decoded.mobility);
-      if ([0, 15, 30].includes(decoded.breakMinutes)) setBreakMinutes(decoded.breakMinutes);
-      if (Array.isArray(decoded.priorityZones)) setPriorityZones(decoded.priorityZones.filter((v: unknown) => typeof v === 'string'));
-      if (decoded.durationOverrides && typeof decoded.durationOverrides === 'object') setDurationOverrides(decoded.durationOverrides);
-      // План восстановим после короткой задержки — после установки всех параметров
-      if (Array.isArray(decoded.planIds) && decoded.planIds.length > 0) {
-        setTimeout(() => {
-          const attrs = decoded.planIds
-            .map((id: string) => ATTRACTIONS_DB.find(a => a.id === id))
-            .filter(Boolean) as Attraction[];
-          setIsGenerated(true);
-          rebuildPlan(attrs, []);
-        }, 50);
-      }
-    } catch {
-      // поврежлённая ссылка — игнорируем
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   // Безопасное base64-кодирование Unicode-строки
   const base64EncodeUnicode = (str: string): string => {
     const bytes = new TextEncoder().encode(str);
@@ -345,7 +311,7 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
     setImageGenerating(true);
     try {
       const dataUrl = await toPng(printRef.current, {
-        backgroundColor: '#f8f9fa',
+        backgroundColor: '#101e25',
         pixelRatio: 2,
         cacheBust: true,
         // Пропускаем элементы, которые нельзя рендерить
@@ -478,6 +444,48 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
     setHasConflicts(hasConflicts);
   };
 
+  const [restoreIds, setRestoreIds] = useState<string[] | null>(null);
+  // Чтение состояния из URL (APR-BUG-015 — share link)
+  useEffect(() => {
+    queueMicrotask(() => {
+    const hash = window.location.hash;
+    const qs = hash.split('?')[1] || '';
+    const params = new URLSearchParams(qs);
+    const stateParam = params.get('state');
+    if (!stateParam) return;
+    try {
+      const decoded = JSON.parse(base64DecodeUnicode(stateParam));
+      if (decoded.date) setDate(decoded.date);
+      if (decoded.ticketType) setTicketType(decoded.ticketType);
+      if (Array.isArray(decoded.interests)) setSelectedInterests(decoded.interests);
+      if (Array.isArray(decoded.guests)) setGuests(decoded.guests.map((g: { age: number; height: number }, i: number) => ({ id: `g${i}`, age: g.age, height: g.height })));      if (decoded.pace) setPace(decoded.pace);
+      if (['auto', 'walk', 'shuttle'].includes(decoded.transport)) setTransport(decoded.transport);
+      if (['none', 'stroller', 'wheelchair'].includes(decoded.mobility)) setMobility(decoded.mobility);
+      if ([0, 15, 30].includes(decoded.breakMinutes)) setBreakMinutes(decoded.breakMinutes);
+      if (Array.isArray(decoded.priorityZones)) setPriorityZones(decoded.priorityZones.filter((v: unknown) => typeof v === 'string'));
+      if (decoded.durationOverrides && typeof decoded.durationOverrides === 'object') setDurationOverrides(decoded.durationOverrides);
+      // Восстанавливаем остановки отдельным эффектом после применения параметров.
+      if (Array.isArray(decoded.planIds) && decoded.planIds.length > 0) {
+        setRestoreIds(decoded.planIds);
+      }
+    } catch {
+      // поврежлённая ссылка — игнорируем
+    }
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!restoreIds) return;
+    queueMicrotask(() => {
+      const attrs = restoreIds.map(id => ATTRACTIONS_DB.find(a => a.id === id)).filter(Boolean) as Attraction[];
+      setIsGenerated(true);
+      rebuildPlan(attrs, []);
+      setRestoreIds(null);
+    });
+    // Restore once after URL settings have committed, using the current schedule settings.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [restoreIds]);
+
   const generatePlan = () => {
     if (!date || selectedInterests.length === 0) { alert('Пожалуйста, выберите дату и хотя бы один интерес.'); return; }
     if (!isValidVisitDate(date)) { alert('Укажите корректную дату посещения.'); return; }
@@ -592,7 +600,7 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
   const dayEnd = 22;
 
   return (
-    <div className="bg-[#f8f9fa] min-h-screen py-12 print:py-0 print:min-h-0">
+    <div className="planner-page bg-[#f8f9fa] min-h-screen py-12 print:py-0 print:min-h-0">
       <div className="max-w-5xl mx-auto px-4">
 
         <div className="text-center mb-10">
@@ -612,11 +620,11 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Дата посещения</label>
-                  <input type="date" min={todayLocal()} value={date} onChange={(e) => setDate(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500/50" />
+                  <input aria-label="Дата посещения" type="date" min={todayLocal()} value={date} onChange={(e) => setDate(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500/50" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Тип билета</label>
-                  <select value={ticketType} onChange={(e) => setTicketType(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500/50 bg-white">
+                  <select aria-label="Тип билета" value={ticketType} onChange={(e) => setTicketType(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500/50 bg-white">
                     <option value="day">Paradise Day Pass (10:00–22:00)</option>
                     <option value="premium">Paradise Premium Pass (10:00–22:00)</option>
                     <option value="evening">Paradise Evening Pass (17:00–22:00)</option>
@@ -849,7 +857,7 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
                                 <div className={`w-12 h-12 rounded-lg flex-shrink-0 flex items-center justify-center text-xs ${
                                   isInaccessible ? 'bg-red-100 text-red-500' : 'bg-gray-100 text-gray-400'
                                 }`}>
-                                  {isInaccessible ? '⛔' : '[Ф]'}
+                                  {isInaccessible ? '!' : String(iIndex + 1).padStart(2, '0')}
                                 </div>
                                 <div>
                                   <h4 className="font-serif text-lg text-gray-900">{item.name}</h4>
@@ -872,7 +880,7 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
                                   )}
                                 </div>
                               </div>
-                              <div className="flex gap-1 flex-shrink-0">
+                              <div className="flex gap-1 flex-shrink-0 print:hidden">
                                 <button onClick={() => moveItem(pIndex, iIndex, 'up')} aria-label="Раньше" className="p-2 text-gray-500 hover:text-teal-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded">↑</button>
                                 <button onClick={() => moveItem(pIndex, iIndex, 'down')} aria-label="Позже" className="p-2 text-gray-500 hover:text-teal-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded">↓</button>
                                 <button onClick={() => openReplace(pIndex, iIndex)} aria-label={`Заменить ${item.name}`} className="p-2 text-gray-500 hover:text-amber-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 rounded" title="Заменить">↻</button>

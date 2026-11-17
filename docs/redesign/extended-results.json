@@ -1,0 +1,30 @@
+[
+  {
+    "name": "ticket date and adult guard",
+    "result": "PASS"
+  },
+  {
+    "name": "ticket tariff extra eligibility",
+    "result": "PASS"
+  },
+  {
+    "name": "planner share restores settings and stops",
+    "result": "PASS"
+  },
+  {
+    "name": "planner PNG download",
+    "result": "PASS"
+  },
+  {
+    "name": "planner print invocation",
+    "result": "PASS"
+  },
+  {
+    "name": "map search reset and zoom",
+    "result": "PASS"
+  },
+  {
+    "name": "attraction age restriction",
+    "result": "PASS"
+  }
+]
