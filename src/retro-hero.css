@@ -153,11 +153,18 @@
   filter: drop-shadow(0 1px 0 #073b3c);
 }
 .apr-hero__actions { display: flex; gap: 1.2vw; animation: apr-rise .7s .25s both; }
-/* Screen-printed Riviera buttons: warm ink highlights, dark extruded edge. */
+@media (min-width: 768px) {
+  /* Align the action row with the left edge of the tagline's ornament. */
+  .apr-hero__actions { margin-left: -2.6vw; }
+}
+/* Retro Poster: matte screen-print ink, narrow trim, subtle paper-worn texture.
+   The texture lives on the fill layer so the button labels remain crisp. */
 .apr-hero__button {
-  border: 2px solid #e8c780;
-  border-radius: 100px;
-  background: linear-gradient(180deg, #155b56 0%, #06423f 57%, #06312f 100%);
+  position: relative;
+  isolation: isolate;
+  border: 1.5px solid #e6c581;
+  border-radius: 13px;
+  background: #073b3c;
   color: #fff0c2;
   padding: .95em 1.6em;
   font-size: clamp(14px, 1.1vw, 22px);
@@ -168,32 +175,44 @@
   justify-content: center;
   gap: 1em;
   cursor: pointer;
-  box-shadow: inset 0 2px 0 rgba(255,241,192,.22), 0 4px 0 #062b30, 1px 6px 0 rgba(0,28,30,.4);
-  transition: transform .2s ease, background .2s ease, box-shadow .2s ease, border-color .2s ease;
+  box-shadow: 0 2px 0 #062b30;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.apr-hero__button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(180deg, #125d57 0%, #0a4945 42%, #063431 100%);
+  filter: url(#apr-print-wear);
+  transition: opacity .2s ease;
 }
 .apr-hero__button span { font-size: 1.5em; line-height: 1; transition: transform .2s ease; }
 .apr-hero__button--primary {
-  background: linear-gradient(180deg, #ff9760 0%, #f36d43 44%, #d74831 100%);
+  background: #ad3027;
   color: #fff3cf;
-  border-color: #ffe3a3;
-  box-shadow: inset 0 2px 0 rgba(255,239,191,.36), 0 4px 0 #823c2c, 1px 6px 0 rgba(0,28,30,.38);
+  border-color: #f3d19b;
+  box-shadow: 0 2px 0 #692e28;
+}
+.apr-hero__button--primary::before {
+  /* The exact same four ink stops as the Resort lettering. */
+  background: linear-gradient(180deg, #ffa16d 0%, #f76840 17%, #e84d2f 58%, #ad3027 100%);
 }
 .apr-hero__button:hover {
-  background: linear-gradient(180deg, #216f65 0%, #0d5149 60%, #073b38 100%);
-  border-color: #ffe5a8;
   transform: translateY(-2px);
-  box-shadow: inset 0 2px 0 rgba(255,241,192,.3), 0 6px 0 #062b30, 1px 8px 0 rgba(0,28,30,.4);
+  border-color: #ffe2a5;
+  box-shadow: 0 4px 0 #062b30;
 }
-.apr-hero__button--primary:hover {
-  background: linear-gradient(180deg, #ffaa6d 0%, #f67b4b 45%, #dc4d31 100%);
-  box-shadow: inset 0 2px 0 rgba(255,239,191,.42), 0 6px 0 #823c2c, 1px 8px 0 rgba(0,28,30,.38);
-}
+.apr-hero__button--primary:hover { box-shadow: 0 4px 0 #692e28; }
+.apr-hero__button:hover::before { opacity: .88; }
 .apr-hero__button:hover span { transform: translateX(3px); }
 .apr-hero__button:active,
-.apr-hero__button--primary:active { transform: translateY(3px); box-shadow: inset 0 1px 3px rgba(0,25,28,.2), 0 1px 0 #062b30; }
+.apr-hero__button--primary:active { transform: translateY(1px); box-shadow: 0 1px 0 #062b30; }
 .apr-hero__button:focus-visible, .apr-header button:focus-visible { outline: 3px solid #ffce66; outline-offset: 5px; }
 @media (prefers-reduced-motion: reduce) {
-  .apr-hero__button, .apr-hero__button span { transition: none; }
+  .apr-hero__button, .apr-hero__button::before, .apr-hero__button span { transition: none; }
 }
 .apr-hero__description { font-size: clamp(12px, .85vw, 16px); max-width: 38vw; margin-top: 1.4vw; line-height: 1.6; color: #ffe8b1; }
 .apr-header {
