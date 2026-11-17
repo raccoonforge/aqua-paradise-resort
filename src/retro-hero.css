@@ -265,7 +265,14 @@
   letter-spacing: -.035em;
   text-shadow: 0 2px 2px #042629, 0 0 9px rgba(1, 27, 29, .85);
 }
-.apr-header .apr-brand svg { width: clamp(46px, 3.65vw, 60px); height: auto; filter: drop-shadow(0 2px 2px #042629) drop-shadow(0 0 5px rgba(1, 27, 29, .65)); }
+.apr-header .apr-brand img {
+  display: block;
+  width: clamp(58px, 4.6vw, 80px);
+  height: auto;
+  max-height: calc(clamp(72px, 5.2vw, 100px) - 6px);
+  object-fit: contain;
+  filter: drop-shadow(0 2px 3px rgba(1, 27, 29, .88));
+}
 .apr-header .apr-brand small {
   color: #eda95a;
   font-size: .55em;
