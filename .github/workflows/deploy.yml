@@ -27,6 +27,7 @@ jobs:
           ref: main
           path: site
 
+      # Preview release: refined V1 lettering (branch stays unmerged).
       # Build preview from the current working branch without merging its design into main.
       - name: Checkout new preview (PR #5)
         uses: actions/checkout@v4
