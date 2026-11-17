@@ -315,6 +315,104 @@
   box-shadow: 0 3px 0 #672e29;
 }
 .apr-header nav > button:last-child:active { transform: translateY(1px); box-shadow: none; }
+
+/* Reference-inspired masthead: compact link groups and two illustrated flyout panels. */
+.apr-header .apr-header__navigation {
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(12px, 1.4vw, 26px);
+  flex: 1;
+  margin-left: clamp(26px, 4vw, 76px);
+}
+.apr-header__menu { position: relative; flex: 0 0 auto; }
+.apr-header .apr-header__navlink,
+.apr-header .apr-header__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #ffebc2;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  padding: .52em .08em;
+  background: transparent;
+  border-radius: 0;
+  white-space: nowrap;
+  text-shadow: 0 2px 2px #042629, 0 0 8px rgba(1, 27, 29, .88);
+  cursor: pointer;
+}
+.apr-header .apr-header__navlink:hover,
+.apr-header .apr-header__navlink[aria-current='page'],
+.apr-header .apr-header__trigger[aria-expanded='true'] {
+  color: #f1bc68;
+  border-bottom-color: #e4b66e;
+}
+.apr-header__chevron { font-size: 1.15em; display: inline-block; transform: translateY(-2px); }
+.apr-header .apr-header__tickets {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+.apr-header__dropdown {
+  position: absolute;
+  z-index: 70;
+  top: calc(100% + 8px);
+  left: -24px;
+  width: clamp(285px, 20vw, 342px);
+  padding: 11px;
+  border: 1px solid rgba(238, 198, 123, .48);
+  border-radius: 14px;
+  background: #072b2d;
+  box-shadow: 0 16px 32px rgba(0, 19, 22, .5);
+  color: #fff0d2;
+}
+.apr-header__dropdown::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -11px;
+  height: 12px;
+}
+.apr-header__dropdown-item {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 35px 1fr;
+  align-items: center;
+  gap: 11px;
+  padding: 13px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: #fff4d6;
+  text-align: left;
+  cursor: pointer;
+  text-shadow: none;
+}
+.apr-header__dropdown-item:hover,
+.apr-header__dropdown-item:focus-visible {
+  background: rgba(236, 174, 98, .13);
+  outline: none;
+}
+.apr-header__dropdown-item strong {
+  display: block;
+  font: 700 15px/1.25 Inter, sans-serif;
+  color: #fff4d6;
+}
+.apr-header__dropdown-item small {
+  display: block;
+  margin-top: 5px;
+  color: #b7d1cb;
+  font: 400 12px/1.3 Inter, sans-serif;
+}
+.apr-header__menu-icon {
+  color: #efc77c;
+  font: 600 25px/1 Georgia, serif;
+  text-align: center;
+}
+@media (min-width: 768px) and (max-width: 1100px) {
+  .apr-header .apr-header__navigation { gap: 10px; margin-left: 17px; font-size: 12px; }
+  .apr-header .apr-header__tickets { padding: .6em 1em; }
+}
+
 .apr-header nav > button:focus-visible,
 .apr-header > div > div[role='button']:focus-visible {
   outline: 2px solid #ffd48b;
