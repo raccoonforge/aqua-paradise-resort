@@ -28,6 +28,21 @@
   object-position: center;
   z-index: -2;
 }
+/* Original painted fronds overprint the top of AQUA, with no duplicated scenery.
+   The SVG uses the exact same image and cover alignment as the background. */
+.apr-hero__palm-foreground {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+@media (max-width: 767px) {
+  /* The mobile art is cropped to the bottom and has a different alignment. */
+  .apr-hero__palm-foreground { display: none; }
+}
 .apr-hero__content {
   width: 52%;
   padding: 8.4vw 0 9vw 4.4vw;
