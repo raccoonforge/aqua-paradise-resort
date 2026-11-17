@@ -27,6 +27,7 @@ jobs:
           ref: main
           path: site
 
+      # Build preview from the current working branch without merging its design into main.
       - name: Checkout new preview (PR #5)
         uses: actions/checkout@v4
         with:
