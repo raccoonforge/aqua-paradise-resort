@@ -176,6 +176,32 @@ const HomePage = () => (
         </defs>
       </svg>
       <img className="apr-hero__art" src={riviera} alt="" fetchPriority="high" />
+      {/* Reuse the SAME poster artwork for naturally aligned foreground palm fronds.
+          A warm-leaf chroma matte keeps the sky transparent instead of placing a cropped rectangle over the title. */}
+      <svg
+        className="apr-hero__palm-foreground"
+        viewBox="0 0 1672 941"
+        preserveAspectRatio="xMidYMid slice"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <defs>
+          <clipPath id="apr-palm-foreground-region">
+            <path d="M0 0 H620 L604 150 L490 225 L245 280 L0 310 Z" />
+          </clipPath>
+          <filter id="apr-palm-leaf-matte" x="0" y="0" width="1672" height="941" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+            <feColorMatrix type="matrix" in="SourceGraphic" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  1.45 1.35 -2.8 0 -.66" result="warmLeaves" />
+            <feComposite in="SourceGraphic" in2="warmLeaves" operator="in" />
+          </filter>
+        </defs>
+        <image
+          href={riviera}
+          x="0" y="0" width="1672" height="941"
+          preserveAspectRatio="none"
+          clipPath="url(#apr-palm-foreground-region)"
+          filter="url(#apr-palm-leaf-matte)"
+        />
+      </svg>
       <div className="apr-hero__content">
         <h1 className="apr-hero__title" aria-label="Aqua Paradise">
           <span className="apr-hero__aqua">AQUA</span>
