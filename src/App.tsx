@@ -482,7 +482,7 @@ function App() {
       }
       case '#/map': return <MapPage />;
       case '#/hotel': return <HotelPage />;
-      case '#/visit': return <VisitPage />;
+      case '#/visit': return <VisitPage key={currentPath} />;
       case '#/tickets': return <TicketsPage />;
       case '#/planner': {
         const plannerParams = new URLSearchParams(queryString);
