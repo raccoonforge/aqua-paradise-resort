@@ -217,8 +217,11 @@
 .apr-hero__description { font-size: clamp(12px, .85vw, 16px); max-width: 38vw; margin-top: 1.4vw; line-height: 1.6; color: #ffe8b1; }
 /* Retro Tropical Riviera masthead: understated framing around the hero poster. */
 .apr-header {
-  background: transparent !important;
+  /* Transparent artwork remains visible, with a soft top-only contrast veil. */
+  background: linear-gradient(180deg, rgba(1, 32, 34, .72) 0%, rgba(1, 36, 37, .36) 56%, rgba(1, 36, 37, 0) 100%) !important;
   color: #fff0c8;
+  border-top: 0 !important;
+  outline: 0;
   border-bottom: 1px solid transparent !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
@@ -260,9 +263,9 @@
   font-size: clamp(15px, 1.15vw, 22px);
   line-height: .99;
   letter-spacing: -.035em;
-  text-shadow: 1px 2px #06292d;
+  text-shadow: 0 2px 2px #042629, 0 0 9px rgba(1, 27, 29, .85);
 }
-.apr-header .apr-brand svg { width: clamp(46px, 3.65vw, 60px); height: auto; }
+.apr-header .apr-brand svg { width: clamp(46px, 3.65vw, 60px); height: auto; filter: drop-shadow(0 2px 2px #042629) drop-shadow(0 0 5px rgba(1, 27, 29, .65)); }
 .apr-header .apr-brand small {
   color: #eda95a;
   font-size: .55em;
@@ -280,7 +283,7 @@
   border-radius: 0;
   border-bottom: 1px solid transparent;
   padding: .5em .12em;
-  text-shadow: 0 1px #05292b;
+  text-shadow: 0 2px 2px #042629, 0 0 8px rgba(1, 27, 29, .88);
   transition: color .2s ease, border-color .2s ease;
 }
 .apr-header nav > button:not(:last-child):hover,
