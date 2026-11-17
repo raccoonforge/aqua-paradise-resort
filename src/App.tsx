@@ -1,5 +1,6 @@
 import './retro-hero.css';
 import riviera from './assets/retro/riviera.webp';
+import aprPalmLogo from './assets/retro/apr-palm-logo.svg';
 import PlannerPage from './PlannerPage';
 import MapPage from './MapPage';
 import HotelPage from './HotelPage';
@@ -489,15 +490,11 @@ function App() {
       <header className={`${basePath === '#/' ? `apr-header${isHeaderScrolled ? ' apr-header--scrolled' : ''} ` : ''}bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b border-gray-100`}>
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="text-xl font-bold text-teal-900 cursor-pointer" onClick={() => navigate('#/')}>
-            {basePath === '#/' ? <span className="apr-brand">
-              <svg width="56" height="52" viewBox="0 0 64 60" fill="none" aria-hidden="true">
-                <path d="M8 43a20 20 0 0 1 40-4" fill="#ffb84d" />
-                <path d="M30 44c6-12 7-26 5-32" stroke="#ffe4a7" strokeWidth="4" />
-                <path d="M35 14C23-2 9 9 8 17c11-7 18-5 27-3Zm0 0C36-3 55 1 59 12c-11-4-18-3-24 2Zm0 0C45 9 58 20 56 32c-6-10-12-14-21-18Zm0 0C20 10 15 24 17 33c5-10 11-16 18-19Z" fill="#ffb84d" />
-                <path d="M3 49c17-13 31 8 57-3M8 56c19-11 30 5 48-3" stroke="#ffe4a7" strokeWidth="3" />
-              </svg>
-              <span>Aqua<br />Paradise<small>Resort</small></span>
-            </span> : '🌴 Aqua Paradise'}
+            {basePath === '#/' ? (
+              <span className="apr-brand" title="Aqua Paradise Resort">
+                <img src={aprPalmLogo} alt="Aqua Paradise Resort" width="76" height="69" />
+              </span>
+            ) : '🌴 Aqua Paradise'}
           </div>
 
 <nav aria-label="Основная навигация" className="hidden md:flex gap-6 text-sm font-medium text-gray-600">
