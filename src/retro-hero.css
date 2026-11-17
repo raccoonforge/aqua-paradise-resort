@@ -66,7 +66,9 @@
 .apr-hero__resort {
   font: 400 8.9vw/.9 'APR Script', cursive;
   color: #ff7041;
-  text-shadow: 2px 3px #003c37;
+  -webkit-text-stroke: .65px #ff7041;
+  paint-order: stroke fill;
+  text-shadow: 1px 1px #dc6845, 2px 3px #0b3942, 4px 5px #04262d;
   transform: rotate(-8deg);
   text-align: right;
   padding-right: 2.3vw;
