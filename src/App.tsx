@@ -177,7 +177,6 @@ const HomePage = () => (
       </svg>
       <img className="apr-hero__art" src={riviera} alt="" fetchPriority="high" />
       <div className="apr-hero__content">
-        <p className="apr-hero__eyebrow">WELCOME TO AQUA PARADISE</p>
         <h1 className="apr-hero__title" aria-label="Aqua Paradise">
           <span className="apr-hero__aqua">AQUA</span>
           <span className="apr-hero__paradise">PARADISE</span>
@@ -196,8 +195,6 @@ const HomePage = () => (
             Спланировать отдых <span aria-hidden="true">→</span>
           </button>
         </div>
-        <p className="apr-hero__description">Девять уникальных миров. Один тропический остров. От безмятежных лагун до захватывающих приключений — здесь каждый найдёт свой рай.</p>
-        <p className="apr-hero__signature">OCEAN BAY · AQUA PARADISE</p>
       </div>
     </section>
     <AboutResort />
