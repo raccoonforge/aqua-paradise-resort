@@ -115,19 +115,15 @@
 .apr-hero__tagline {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   width: max-content;
-  max-width: calc(100vw - 8.8vw);
-  box-sizing: border-box;
-  padding: .2em .55em;
+  max-width: calc(100vw - 4vw);
   gap: clamp(9px, 1.1vw, 20px);
   font: italic 700 clamp(20px, 1.9vw, 40px)/1.4 'APR Poster', Georgia, serif;
   white-space: nowrap;
   flex-shrink: 0;
   color: #f6df9e;
-  background: #073b3c;
-  border-radius: 3px;
-  margin: 2.1vw 0 1.5vw;
+  margin: 2.1vw 0 1.5vw -2.6vw;
   text-shadow: 1px 1px #00312f;
 }
 .apr-hero__tagline::before,
@@ -202,7 +198,7 @@
   .apr-hero__title::before { bottom: -22px; min-height: 6px; }
   .apr-hero__title::after { bottom: -12px; min-height: 9px; }
   .apr-hero__resort { font-size: 21vw; margin-top: 14px; padding-right: 7vw; }
-  .apr-hero__tagline { font-size: clamp(12px, 3.8vw, 22px); max-width: 100%; padding: .45em .35em; margin: 18px auto; text-align: center; }
+  .apr-hero__tagline { font-size: clamp(12px, 3.8vw, 22px); max-width: 100%; margin: 18px auto; text-align: center; }
   .apr-hero__tagline { gap: 6px; }
   .apr-hero__tagline::before,
   .apr-hero__tagline::after { flex-basis: clamp(10px, 2.7vw, 17px); height: 2px; }
