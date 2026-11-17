@@ -169,8 +169,8 @@ const HomePage = () => (
             {/* A finer second pass adds scattered worn spots between the strokes. */}
             <feTurbulence type="fractalNoise" baseFrequency=".58 .68" numOctaves="2" seed="8" result="speckleNoise" />
             <feColorMatrix in="speckleNoise" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  10 0 0 0 -6.5" result="speckleMask" />
-            <feComposite in="scratchMask" in2="speckleMask" operator="arithmetic" k1="0" k2="1" k3=".45" k4="0" result="wearMask" />
-            <feComponentTransfer in="wearMask" result="softWear"><feFuncA type="linear" slope=".72" /></feComponentTransfer>
+            <feComposite in="scratchMask" in2="speckleMask" operator="arithmetic" k1="0" k2="1" k3=".35" k4="0" result="wearMask" />
+            <feComponentTransfer in="wearMask" result="softWear"><feFuncA type="linear" slope=".46" /></feComponentTransfer>
             <feComposite in="SourceGraphic" in2="softWear" operator="out" />
           </filter>
         </defs>
