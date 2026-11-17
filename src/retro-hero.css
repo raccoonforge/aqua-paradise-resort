@@ -49,7 +49,14 @@
   text-shadow: 1px 1px #efb57b, 2px 2px #c98d66, 3px 4px #11434a, 4px 5px #0b3942, 5px 6px #0b3942, 6px 7px #08333b, 8px 9px #062c34, 10px 11px #04252c;
   animation: apr-print-in .85s both;
 }
-.apr-hero__title span { display: block; }
+.apr-hero__title span {
+  display: block;
+  /* Sunlit cream ink becomes warmer and deeper toward the baseline. */
+  background-image: linear-gradient(to bottom, #fff3d2 0%, #ffe7b1 34%, #efc488 73%, #ce975f 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 .apr-hero__aqua { font-size: 10.5vw; padding-left: 5.3vw; }
 .apr-hero__paradise { font-size: 7.55vw; letter-spacing: -.065em; }
 /* Two vintage poster ribbons sit BELOW the lettering (the parent already tilts -7deg). */
@@ -85,7 +92,11 @@
 .apr-hero__resort {
   font: 400 8.9vw/.9 'APR Script', cursive;
   color: #ff7041;
-  -webkit-text-stroke: clamp(2.7px, .27vw, 4.4px) #ff7041;
+  background-image: linear-gradient(to bottom, #ffaf78 0%, #ff8155 28%, #ec623f 65%, #b83f30 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: clamp(2.7px, .27vw, 4.4px) #e96a47;
   paint-order: stroke fill;
   text-shadow: 1px 1px #dc6845, 2px 3px #0b3942, 4px 5px #04262d;
   transform: translateX(-4vw) rotate(-8deg);
