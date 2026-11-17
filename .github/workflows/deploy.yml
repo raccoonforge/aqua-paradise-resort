@@ -24,6 +24,7 @@ jobs:
       - name: Checkout main site
         uses: actions/checkout@v4
         with:
+          ref: main
           path: site
 
       - name: Checkout new preview (PR #5)
