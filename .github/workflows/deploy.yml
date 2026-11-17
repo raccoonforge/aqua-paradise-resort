@@ -26,11 +26,11 @@ jobs:
         with:
           path: site
 
-      - name: Checkout retro preview (PR #5)
+      - name: Checkout new preview (PR #5)
         uses: actions/checkout@v4
         with:
           ref: feat/retro-tropical-hero
-          path: retro
+          path: preview-source
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -45,18 +45,18 @@ jobs:
         working-directory: site
         run: npm run build
 
-      - name: Install retro site dependencies
-        working-directory: retro
+      - name: Install preview site dependencies
+        working-directory: preview-source
         run: npm ci || npm install
 
-      - name: Build retro preview with independent asset paths
-        working-directory: retro
-        run: npm run build -- --base=/aqua-paradise-resort/retro/
+      - name: Build preview with independent asset paths
+        working-directory: preview-source
+        run: npm run build -- --base=/aqua-paradise-resort/preview/
 
       - name: Combine sites into one Pages artifact
         run: |
-          mkdir -p site/dist/retro
-          cp -a retro/dist/. site/dist/retro/
+          mkdir -p site/dist/preview
+          cp -a preview-source/dist/. site/dist/preview/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
