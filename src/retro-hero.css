@@ -38,29 +38,30 @@
   font-family: 'APR Poster', Georgia, serif;
   font-style: italic;
   font-weight: 700;
-  line-height: .94;
-  letter-spacing: -.065em;
-  transform: rotate(-8deg);
+  line-height: .91;
+  letter-spacing: -.058em;
+  font-kerning: normal;
+  transform: rotate(-7deg);
   transform-origin: 50% 70%;
-  color: #ffe4a7;
+  color: #ffe6b2;
   -webkit-text-stroke: 1px #073d36;
   paint-order: stroke fill;
-  text-shadow: 1px 2px #f6b260, 2px 3px #f57e49, 3px 4px #ef6b3b, 4px 5px #ef6b3b, 5px 6px #ef6b3b, 6px 7px #ef6b3b, 7px 8px #003c37, 8px 10px #003c37, 9px 12px #003c37;
+  text-shadow: 1px 1px #ffc17c, 2px 2px #f6a163, 3px 4px #f2804c, 4px 5px #ec7041, 5px 6px #e9653b, 6px 7px #073d36, 8px 9px #073d36, 10px 11px #002d2b;
   animation: apr-print-in .85s both;
 }
 .apr-hero__title span { display: block; }
 .apr-hero__aqua { font-size: 10.5vw; padding-left: 5.3vw; }
-.apr-hero__paradise { font-size: 7.55vw; }
+.apr-hero__paradise { font-size: 7.55vw; letter-spacing: -.065em; }
 .apr-hero__title::after {
   content: '';
   display: block;
   position: absolute;
-  left: 1%; right: 0; bottom: -1.4vw;
-  height: .8vw;
-  background: #fa6c3d;
-  border-bottom: .35vw solid #e5a03b;
-  transform: skewX(-40deg);
-  box-shadow: 0 .35vw #003c37;
+  left: 2%; right: 2%; bottom: -1.05vw;
+  height: .47vw;
+  background: #fa7546;
+  border-bottom: .22vw solid #e5a03b;
+  transform: skewX(-36deg);
+  box-shadow: 0 .24vw #003c37;
 }
 .apr-hero__resort {
   font: 400 8.9vw/.9 'APR Script', cursive;
