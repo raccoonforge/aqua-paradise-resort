@@ -27,7 +27,7 @@ jobs:
           ref: main
           path: site
 
-      # Preview refresh: two-stroke poster flourish, 86e9f04.
+      # Preview refresh: restore original underline after SVG rejection.
       # Build preview from the current working branch without merging its design into main.
       - name: Checkout new preview (PR #5)
         uses: actions/checkout@v4
