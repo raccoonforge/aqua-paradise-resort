@@ -52,17 +52,33 @@
 .apr-hero__title span { display: block; }
 .apr-hero__aqua { font-size: 10.5vw; padding-left: 5.3vw; }
 .apr-hero__paradise { font-size: 7.55vw; letter-spacing: -.065em; }
-.apr-hero__title {
-  position: relative;
-}
-.apr-hero__title-stripes {
+/* Two vintage poster ribbons sit BELOW the lettering (the parent already tilts -7deg). */
+.apr-hero__title::after,
+.apr-hero__title::before {
+  content: '';
+  display: block;
   position: absolute;
-  left: 2%;
-  bottom: -1.2vw;
-  width: 96%;
-  height: auto;
-  overflow: visible;
   pointer-events: none;
+  transform: skewX(-30deg);
+}
+.apr-hero__title::after {
+  left: 2%;
+  width: 96%;
+  bottom: -1.05vw;
+  height: .48vw;
+  min-height: 5px;
+  background: #f47a4a;
+  clip-path: polygon(0 8%, 100% 0, 99% 62%, 0 100%);
+  box-shadow: 0 .18vw #073b3c;
+}
+.apr-hero__title::before {
+  left: 5%;
+  width: 90%;
+  bottom: -1.95vw;
+  height: .27vw;
+  min-height: 3px;
+  background: #e3a84e;
+  clip-path: polygon(0 12%, 100% 0, 98% 55%, 0 100%);
 }
 .apr-hero__resort {
   font: 400 8.9vw/.9 'APR Script', cursive;
@@ -141,7 +157,8 @@
   .apr-hero__aqua { font-size: 21vw; padding-left: 17vw; }
   .apr-hero__paradise { font-size: 15.2vw; }
   .apr-hero__title { text-shadow: 1px 1px #efb57b, 2px 2px #11434a, 3px 4px #0b3942, 4px 6px #04252c; }
-  .apr-hero__title::after { bottom: -10px; height: 5px; border-bottom-width: 3px; }
+  .apr-hero__title::before { bottom: -19px; min-height: 3px; }
+  .apr-hero__title::after { bottom: -10px; min-height: 5px; }
   .apr-hero__resort { font-size: 21vw; margin-top: 14px; padding-right: 7vw; }
   .apr-hero__tagline { font-size: clamp(16px, 4.7vw, 30px); margin: 18px 0; text-align: center; }
   .apr-hero__tagline::before { display: none; }
@@ -183,11 +200,7 @@
   .apr-hero::after { inset: auto 0 310px; height: 60px; }
   .apr-hero__resort { line-height: .65; margin-bottom: 24px; }
   .apr-hero__signature { margin-bottom: 15px; }
-  .apr-hero__title-stripes {
-    left: 3%;
-    width: 94%;
-    bottom: -10px;
-  }
+
 }
 @media (prefers-reduced-motion: reduce) { .apr-hero__resort { animation: none; } }
 
