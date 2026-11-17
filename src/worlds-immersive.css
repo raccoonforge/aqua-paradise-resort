@@ -1,0 +1,164 @@
+/* Scene-local layers: the shared Midnight Obsidian shell stays untouched. */
+.apr-home .apr-worlds--immersive {
+  min-height: 100svh;
+  padding: 0;
+  background: transparent;
+}
+.apr-home .apr-worlds--immersive .apr-worlds__frame {
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.apr-home .apr-worlds--immersive .apr-worlds__backdrops {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  mask-image: linear-gradient(180deg, transparent, #000 7%, #000 86%, transparent);
+}
+.apr-home .apr-worlds--immersive .apr-worlds__panorama {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 66% 48%;
+}
+.apr-home .apr-worlds--immersive .apr-worlds__shade {
+  display: block;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, #031419b8 0%, #03141980 26%, #03141926 52%, transparent 76%),
+    linear-gradient(180deg, #06131745, transparent 18%, transparent 66%, #061317a8);
+}
+.apr-home .apr-worlds--immersive .apr-worlds__content {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  width: min(100%, 1680px);
+  padding: clamp(90px, 11svh, 145px) clamp(28px, 6vw, 110px) 52px;
+  align-items: flex-start;
+  justify-content: center;
+  gap: clamp(26px, 4svh, 46px);
+}
+.apr-home .apr-worlds--immersive .apr-worlds__intro {
+  max-width: 555px;
+}
+.apr-home .apr-worlds--immersive .apr-worlds__heading {
+  font-size: clamp(64px, 5.8vw, 94px);
+  line-height: .92;
+  text-shadow: 0 3px 24px #020d1266;
+}
+.apr-home .apr-worlds--immersive .apr-worlds__lead {
+  max-width: 465px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #e4eeeb;
+}
+.apr-home .apr-worlds--immersive .apr-worlds__selected {
+  max-width: 495px;
+  min-height: 0;
+  padding-right: 0;
+}
+.apr-home .apr-worlds--immersive .apr-worlds__selected h3 {
+  font-size: clamp(42px, 3.6vw, 60px);
+}
+.apr-home .apr-worlds--immersive .apr-worlds__selected p {
+  max-width: 420px;
+  text-shadow: 0 2px 15px #020d1280;
+}
+.apr-home .apr-worlds--immersive .apr-worlds__dock {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  padding: 18px clamp(24px, 4vw, 76px) 22px;
+  background: linear-gradient(0deg, #061317e6, #0613178c);
+  border-top: 1px solid #e6c79133;
+  backdrop-filter: blur(12px);
+}
+.apr-home .apr-worlds--immersive .apr-worlds__thumb > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 78% center;
+}
+.apr-home .apr-worlds--immersive .apr-worlds__tab {
+  flex: 0 0 168px;
+  min-width: 0;
+}
+.apr-home .apr-worlds--immersive .apr-worlds__thumb {
+  width: 48px;
+  height: 52px;
+  flex: 0 0 48px;
+  border: 1px solid #e6c79133;
+  color: #e6c791;
+}
+.apr-home .apr-worlds--immersive .apr-worlds__rail {
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
+}
+.apr-home .apr-worlds--immersive .apr-worlds__dock-row {
+  /* Leave room for the site's existing floating “Наверх” control. */
+  padding-right: 58px;
+}
+@media (min-width: 640px) and (max-height: 780px) {
+  .apr-home .apr-worlds--immersive .apr-worlds__content {
+    padding-top: 72px;
+    padding-bottom: 30px;
+    gap: 24px;
+  }
+  .apr-home .apr-worlds--immersive .apr-worlds__heading { font-size: 64px; }
+}
+@media (max-width: 639px) {
+  .apr-home .apr-worlds--immersive .apr-worlds__frame {
+    min-height: max(820px, 100svh);
+  }
+  .apr-home .apr-worlds--immersive .apr-worlds__panorama {
+    object-position: 78% center;
+  }
+  .apr-home .apr-worlds--immersive .apr-worlds__shade {
+    background: linear-gradient(180deg, #06131726, #0613170d 20%, #03141999 38%, #031419d9 64%, #061317ed);
+  }
+  .apr-home .apr-worlds--immersive .apr-worlds__content {
+    padding: 230px 24px 28px;
+    justify-content: flex-end;
+    gap: 24px;
+  }
+  .apr-home .apr-worlds--immersive .apr-worlds__heading {
+    margin-top: 10px;
+    margin-bottom: 12px;
+    font-size: clamp(43px, 11vw, 64px);
+  }
+  .apr-home .apr-worlds--immersive .apr-worlds__eyebrow,
+  .apr-home .apr-worlds--immersive .apr-worlds__selected-kicker {
+    font-size: 9px;
+    letter-spacing: .2em;
+  }
+  .apr-home .apr-worlds--immersive .apr-worlds__lead {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .apr-home .apr-worlds--immersive .apr-worlds__selected h3 { font-size: 37px; }
+  .apr-home .apr-worlds--immersive .apr-worlds__selected p {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .apr-home .apr-worlds--immersive .apr-worlds__actions { margin-top: 16px; }
+  .apr-home .apr-worlds--immersive .apr-worlds__dock { padding: 12px 16px 16px; }
+  .apr-home .apr-worlds--immersive .apr-worlds__tab { flex-basis: 116px; }
+  .apr-home .apr-worlds--immersive .apr-worlds__thumb {
+    width: 100%;
+    height: 44px;
+    flex: 0 0 44px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .apr-home .apr-worlds--immersive .apr-worlds__rail { scroll-behavior: auto; }
+}

@@ -1,0 +1,352 @@
+{
+  "results": [
+    {
+      "viewport": 320,
+      "documentWidth": 320,
+      "section": {
+        "display": "block",
+        "position": "relative",
+        "zIndex": "auto",
+        "isolation": "auto",
+        "width": 320,
+        "height": 812
+      },
+      "frame": {
+        "display": "flex",
+        "position": "relative",
+        "zIndex": "auto",
+        "isolation": "isolate",
+        "width": 320,
+        "height": 830.53125
+      },
+      "backdrops": {
+        "display": "block",
+        "position": "absolute",
+        "zIndex": "0",
+        "isolation": "auto",
+        "width": 320,
+        "height": 830.53125
+      },
+      "shade": {
+        "display": "block",
+        "position": "absolute",
+        "zIndex": "1",
+        "isolation": "auto",
+        "width": 320,
+        "height": 830.53125
+      },
+      "content": {
+        "display": "flex",
+        "position": "relative",
+        "zIndex": "2",
+        "isolation": "auto",
+        "width": 320,
+        "height": 689.03125
+      },
+      "dock": {
+        "display": "block",
+        "position": "relative",
+        "zIndex": "3",
+        "isolation": "auto",
+        "width": 320,
+        "height": 141.5
+      },
+      "image": {
+        "complete": true,
+        "naturalWidth": 1672,
+        "naturalHeight": 941,
+        "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/atlantis-realm-panorama-BG94E0aw.webp",
+        "position": "78% 50%"
+      },
+      "sources": [
+        "http://127.0.0.1:4173/aqua-paradise-resort/assets/atlantis-realm-panorama-BG94E0aw.webp",
+        "http://127.0.0.1:4173/aqua-paradise-resort/assets/atlantis-realm-panorama-BG94E0aw.webp"
+      ],
+      "buttons": 9,
+      "rail": {
+        "width": 180,
+        "scrollWidth": 1120
+      },
+      "selectedText": "СЕЙЧАС ВЫ В МИРЕ\nAtlantis Realm\n\nЗатерянный мир древних руин, водных маршрутов и приключений среди морских легенд.\n\nПодробнее о зоне\n↗︎\nВыбрать билет"
+    },
+    {
+      "viewport": 390,
+      "documentWidth": 390,
+      "section": {
+        "display": "block",
+        "position": "relative",
+        "zIndex": "auto",
+        "isolation": "auto",
+        "width": 390,
+        "height": 844
+      },
+      "frame": {
+        "display": "flex",
+        "position": "relative",
+        "zIndex": "auto",
+        "isolation": "isolate",
+        "width": 390,
+        "height": 844
+      },
+      "backdrops": {
+        "display": "block",
+        "position": "absolute",
+        "zIndex": "0",
+        "isolation": "auto",
+        "width": 390,
+        "height": 844
+      },
+      "shade": {
+        "display": "block",
+        "position": "absolute",
+        "zIndex": "1",
+        "isolation": "auto",
+        "width": 390,
+        "height": 844
+      },
+      "content": {
+        "display": "flex",
+        "position": "relative",
+        "zIndex": "2",
+        "isolation": "auto",
+        "width": 390,
+        "height": 702.5
+      },
+      "dock": {
+        "display": "block",
+        "position": "relative",
+        "zIndex": "3",
+        "isolation": "auto",
+        "width": 390,
+        "height": 141.5
+      },
+      "image": {
+        "complete": true,
+        "naturalWidth": 1672,
+        "naturalHeight": 941,
+        "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/atlantis-realm-panorama-BG94E0aw.webp",
+        "position": "78% 50%"
+      },
+      "sources": [
+        "http://127.0.0.1:4173/aqua-paradise-resort/assets/atlantis-realm-panorama-BG94E0aw.webp",
+        "http://127.0.0.1:4173/aqua-paradise-resort/assets/atlantis-realm-panorama-BG94E0aw.webp"
+      ],
+      "buttons": 9,
+      "rail": {
+        "width": 250,
+        "scrollWidth": 1120
+      },
+      "selectedText": "СЕЙЧАС ВЫ В МИРЕ\nAtlantis Realm\n\nЗатерянный мир древних руин, водных маршрутов и приключений среди морских легенд.\n\nПодробнее о зоне\n↗︎\nВыбрать билет"
+    },
+    {
+      "viewport": 768,
+      "documentWidth": 768,
+      "section": {
+        "display": "block",
+        "position": "relative",
+        "zIndex": "auto",
+        "isolation": "auto",
+        "width": 768,
+        "height": 1024
+      },
+      "frame": {
+        "display": "flex",
+        "position": "relative",
+        "zIndex": "auto",
+        "isolation": "isolate",
+        "width": 768,
+        "height": 1024
+      },
+      "backdrops": {
+        "display": "block",
+        "position": "absolute",
+        "zIndex": "0",
+        "isolation": "auto",
+        "width": 768,
+        "height": 1024
+      },
+      "shade": {
+        "display": "block",
+        "position": "absolute",
+        "zIndex": "1",
+        "isolation": "auto",
+        "width": 768,
+        "height": 1024
+      },
+      "content": {
+        "display": "flex",
+        "position": "relative",
+        "zIndex": "2",
+        "isolation": "auto",
+        "width": 768,
+        "height": 882.5
+      },
+      "dock": {
+        "display": "block",
+        "position": "relative",
+        "zIndex": "3",
+        "isolation": "auto",
+        "width": 768,
+        "height": 141.5
+      },
+      "image": {
+        "complete": true,
+        "naturalWidth": 1672,
+        "naturalHeight": 941,
+        "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/atlantis-realm-panorama-BG94E0aw.webp",
+        "position": "66% 48%"
+      },
+      "sources": [
+        "http://127.0.0.1:4173/aqua-paradise-resort/assets/atlantis-realm-panorama-BG94E0aw.webp",
+        "http://127.0.0.1:4173/aqua-paradise-resort/assets/atlantis-realm-panorama-BG94E0aw.webp"
+      ],
+      "buttons": 9,
+      "rail": {
+        "width": 599,
+        "scrollWidth": 1588
+      },
+      "selectedText": "СЕЙЧАС ВЫ В МИРЕ\nAtlantis Realm\n\nЗатерянный мир древних руин, водных маршрутов и приключений среди морских легенд.\n\nПодробнее о зоне\n↗︎\nВыбрать билет"
+    },
+    {
+      "viewport": 1440,
+      "documentWidth": 1440,
+      "section": {
+        "display": "block",
+        "position": "relative",
+        "zIndex": "auto",
+        "isolation": "auto",
+        "width": 1440,
+        "height": 1000
+      },
+      "frame": {
+        "display": "flex",
+        "position": "relative",
+        "zIndex": "auto",
+        "isolation": "isolate",
+        "width": 1440,
+        "height": 1000
+      },
+      "backdrops": {
+        "display": "block",
+        "position": "absolute",
+        "zIndex": "0",
+        "isolation": "auto",
+        "width": 1440,
+        "height": 1000
+      },
+      "shade": {
+        "display": "block",
+        "position": "absolute",
+        "zIndex": "1",
+        "isolation": "auto",
+        "width": 1440,
+        "height": 1000
+      },
+      "content": {
+        "display": "flex",
+        "position": "relative",
+        "zIndex": "2",
+        "isolation": "auto",
+        "width": 1440,
+        "height": 858.5
+      },
+      "dock": {
+        "display": "block",
+        "position": "relative",
+        "zIndex": "3",
+        "isolation": "auto",
+        "width": 1440,
+        "height": 141.5
+      },
+      "image": {
+        "complete": true,
+        "naturalWidth": 1672,
+        "naturalHeight": 941,
+        "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/atlantis-realm-panorama-BG94E0aw.webp",
+        "position": "66% 48%"
+      },
+      "sources": [
+        "http://127.0.0.1:4173/aqua-paradise-resort/assets/atlantis-realm-panorama-BG94E0aw.webp",
+        "http://127.0.0.1:4173/aqua-paradise-resort/assets/atlantis-realm-panorama-BG94E0aw.webp"
+      ],
+      "buttons": 9,
+      "rail": {
+        "width": 1217,
+        "scrollWidth": 1588
+      },
+      "selectedText": "СЕЙЧАС ВЫ В МИРЕ\nAtlantis Realm\n\nЗатерянный мир древних руин, водных маршрутов и приключений среди морских легенд.\n\nПодробнее о зоне\n↗︎\nВыбрать билет"
+    },
+    {
+      "viewport": 1920,
+      "documentWidth": 1920,
+      "section": {
+        "display": "block",
+        "position": "relative",
+        "zIndex": "auto",
+        "isolation": "auto",
+        "width": 1920,
+        "height": 1080
+      },
+      "frame": {
+        "display": "flex",
+        "position": "relative",
+        "zIndex": "auto",
+        "isolation": "isolate",
+        "width": 1920,
+        "height": 1080
+      },
+      "backdrops": {
+        "display": "block",
+        "position": "absolute",
+        "zIndex": "0",
+        "isolation": "auto",
+        "width": 1920,
+        "height": 1080
+      },
+      "shade": {
+        "display": "block",
+        "position": "absolute",
+        "zIndex": "1",
+        "isolation": "auto",
+        "width": 1920,
+        "height": 1080
+      },
+      "content": {
+        "display": "flex",
+        "position": "relative",
+        "zIndex": "2",
+        "isolation": "auto",
+        "width": 1680,
+        "height": 938.5
+      },
+      "dock": {
+        "display": "block",
+        "position": "relative",
+        "zIndex": "3",
+        "isolation": "auto",
+        "width": 1920,
+        "height": 141.5
+      },
+      "image": {
+        "complete": true,
+        "naturalWidth": 1672,
+        "naturalHeight": 941,
+        "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/atlantis-realm-panorama-BG94E0aw.webp",
+        "position": "66% 48%"
+      },
+      "sources": [
+        "http://127.0.0.1:4173/aqua-paradise-resort/assets/atlantis-realm-panorama-BG94E0aw.webp",
+        "http://127.0.0.1:4173/aqua-paradise-resort/assets/atlantis-realm-panorama-BG94E0aw.webp"
+      ],
+      "buttons": 9,
+      "rail": {
+        "width": 1660,
+        "scrollWidth": 1660
+      },
+      "selectedText": "СЕЙЧАС ВЫ В МИРЕ\nAtlantis Realm\n\nЗатерянный мир древних руин, водных маршрутов и приключений среди морских легенд.\n\nПодробнее о зоне\n↗︎\nВыбрать билет"
+    }
+  ],
+  "errors": [],
+  "reducedMotion": "1e-05s",
+  "checks": "5 viewports, 16 zone routes, 4 CTA routes, 2 next routes, 2 Enter actions, horizontal scrolling, all scene images decoded, no reused ART sources"
+}

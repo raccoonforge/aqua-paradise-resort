@@ -7,7 +7,6 @@
 .apr-home .apr-attractions__photo img { object-fit: cover; }
 .apr-home .apr-worlds__selected { position: relative; max-width: none; padding-right: 48%; min-height: 270px; }
 .apr-home .apr-atlas--world { position: absolute; width: 43%; height: 320px; right: 0; top: -85px; border-radius: 48% 48% 4px 4px; box-shadow: 0 20px 50px #02090e55; }
-.apr-home .apr-worlds__backdrops { display: none; }
 .apr-home .apr-planner__time-media .apr-atlas { width: 100%; height: 100%; }
 .apr-home .apr-atlas--empty { background: transparent; }
 @media (min-width: 1800px) { .apr-home .apr-atlas--world { height: 370px; top: -110px; } }
