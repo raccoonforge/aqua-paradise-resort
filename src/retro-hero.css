@@ -52,16 +52,14 @@
 .apr-hero__title span { display: block; }
 .apr-hero__aqua { font-size: 10.5vw; padding-left: 5.3vw; }
 .apr-hero__paradise { font-size: 7.55vw; letter-spacing: -.065em; }
-.apr-hero__title::after {
-  content: '';
-  display: block;
+.apr-hero__flourish {
   position: absolute;
-  left: 2%; right: 2%; bottom: -1.05vw;
-  height: .47vw;
-  background: #fa7546;
-  border-bottom: .22vw solid #e5a03b;
-  transform: skewX(-36deg);
-  box-shadow: 0 .24vw #003c37;
+  left: 1%;
+  bottom: -2.2vw;
+  width: 98%;
+  height: auto;
+  overflow: visible;
+  pointer-events: none;
 }
 .apr-hero__resort {
   font: 400 8.9vw/.9 'APR Script', cursive;
@@ -140,7 +138,7 @@
   .apr-hero__aqua { font-size: 21vw; padding-left: 17vw; }
   .apr-hero__paradise { font-size: 15.2vw; }
   .apr-hero__title { text-shadow: 1px 1px #efb57b, 2px 2px #11434a, 3px 4px #0b3942, 4px 6px #04252c; }
-  .apr-hero__title::after { bottom: -10px; height: 5px; border-bottom-width: 3px; }
+  .apr-hero__flourish { bottom: -18px; }
   .apr-hero__resort { font-size: 21vw; margin-top: 14px; padding-right: 7vw; }
   .apr-hero__tagline { font-size: clamp(16px, 4.7vw, 30px); margin: 18px 0; text-align: center; }
   .apr-hero__tagline::before { display: none; }
