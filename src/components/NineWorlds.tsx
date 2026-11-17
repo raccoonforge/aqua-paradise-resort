@@ -1,19 +1,20 @@
 import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent, type TouchEvent } from 'react';
 import { ZONE_SLUGS } from '../data/attractions';
 import '../worlds-immersive.css';
+import '../worlds-reference.css';
 
-const panoramas = import.meta.glob('../assets/worlds-fantasy/*-panorama.webp', { eager: true, query: '?url', import: 'default' }) as Record<string, string>;
-const sceneUrl = (slug: string) => panoramas[`../assets/worlds-fantasy/${slug}-panorama.webp`];
+const panoramas = import.meta.glob('../assets/worlds-photo-final/*-panorama.webp', { eager: true, query: '?url', import: 'default' }) as Record<string, string>;
+const sceneUrl = (slug: string) => panoramas[`../assets/worlds-photo-final/${slug}-panorama.webp`];
 const sceneArt: Record<string, { desktop: string; mobile: string; shade: string; mobileShade: string }> = {
-  'atlantis-realm': { desktop: '52% 48%', mobile: '56% center', shade: 'linear-gradient(92deg, #03131edf, #03131e8c 37%, #03131b26 65%, transparent 86%)', mobileShade: 'linear-gradient(180deg, #03131b14, #03131b14 22%, #03131e8c 39%, #03131edf 66%, #03131b66 89%, #03131b80)' },
+  'atlantis-realm': { desktop: '52% 48%', mobile: '70% center', shade: 'linear-gradient(92deg, #03131edf, #03131e8c 37%, #03131b26 65%, transparent 86%)', mobileShade: 'linear-gradient(180deg, #03131b14, #03131b14 22%, #03131e8c 39%, #03131edf 66%, #03131b66 89%, #03131b80)' },
   'eden-gardens': { desktop: '54% 48%', mobile: '60% center', shade: 'linear-gradient(105deg, #031a19e0, #06211b8f 37%, #03131b26 65%, transparent 86%)', mobileShade: 'linear-gradient(180deg, #03131b14, #03131b14 22%, #06211b8f 39%, #031a19e0 66%, #03131b66 89%, #03131b80)' },
-  'adrenaline-peak': { desktop: '58% 46%', mobile: '65% center', shade: 'linear-gradient(82deg, #050f1ae6, #0c172c99 37%, #03131b26 65%, transparent 86%)', mobileShade: 'linear-gradient(180deg, #03131b14, #03131b14 22%, #0c172c99 39%, #050f1ae6 66%, #03131b66 89%, #03131b80)' },
-  'ocean-bay': { desktop: '55% 50%', mobile: '70% center', shade: 'linear-gradient(100deg, #061925e0, #07323b9e 37%, #03131b26 65%, transparent 86%)', mobileShade: 'linear-gradient(180deg, #03131b14, #03131b14 22%, #07323b9e 39%, #061925e0 66%, #03131b66 89%, #03131b80)' },
-  'serenity-spa': { desktop: '48% 48%', mobile: '35% center', shade: 'linear-gradient(96deg, #03131be0, #031b28c2 42%, #031b2840 68%, transparent 92%)', mobileShade: 'linear-gradient(180deg, #03131b14, #03131b14 22%, #061723cf 39%, #051622d6 66%, #03131b66 89%, #03131b80)' },
-  'pirates-cove': { desktop: '48% 48%', mobile: '47% center', shade: 'linear-gradient(86deg, #11191de0, #132a3099 37%, #03131b26 65%, transparent 86%)', mobileShade: 'linear-gradient(180deg, #03131b14, #03131b14 22%, #132a3099 39%, #11191de0 66%, #03131b66 89%, #03131b80)' },
+  'adrenaline-peak': { desktop: '58% 46%', mobile: '76% center', shade: 'linear-gradient(82deg, #050f1ae6, #0c172c99 37%, #03131b26 65%, transparent 86%)', mobileShade: 'linear-gradient(180deg, #03131b14, #03131b14 22%, #0c172c99 39%, #050f1ae6 66%, #03131b66 89%, #03131b80)' },
+  'ocean-bay': { desktop: '55% 50%', mobile: '42% center', shade: 'linear-gradient(100deg, #061925e0, #07323b9e 37%, #03131b26 65%, transparent 86%)', mobileShade: 'linear-gradient(180deg, #03131b14, #03131b14 22%, #07323b9e 39%, #061925e0 66%, #03131b66 89%, #03131b80)' },
+  'serenity-spa': { desktop: '48% 48%', mobile: '60% center', shade: 'linear-gradient(96deg, #03131be0, #031b28c2 42%, #031b2840 68%, transparent 92%)', mobileShade: 'linear-gradient(180deg, #03131b14, #03131b14 22%, #061723cf 39%, #051622d6 66%, #03131b66 89%, #03131b80)' },
+  'pirates-cove': { desktop: '48% 48%', mobile: '63% center', shade: 'linear-gradient(86deg, #11191de0, #132a3099 37%, #03131b26 65%, transparent 86%)', mobileShade: 'linear-gradient(180deg, #03131b14, #03131b14 22%, #132a3099 39%, #11191de0 66%, #03131b66 89%, #03131b80)' },
   'little-paradise': { desktop: '55% 48%', mobile: '62% center', shade: 'linear-gradient(102deg, #0b2032e8, #1839429e 37%, #03131b26 65%, transparent 86%)', mobileShade: 'linear-gradient(180deg, #03131b14, #03131b14 22%, #1839429e 39%, #0b2032e8 66%, #03131b66 89%, #03131b80)' },
   'paradise-market': { desktop: '50% 48%', mobile: '56% center', shade: 'linear-gradient(90deg, #1a1519eb, #352423ad 37%, #03131b26 65%, transparent 86%)', mobileShade: 'linear-gradient(180deg, #03131b14, #03131b14 22%, #352423ad 39%, #1a1519eb 66%, #03131b66 89%, #03131b80)' },
-  'paradise-boulevard': { desktop: '50% 48%', mobile: '32% center', shade: 'linear-gradient(98deg, #051529e0, #19243899 37%, #03131b26 65%, transparent 86%)', mobileShade: 'linear-gradient(180deg, #03131b14, #03131b14 22%, #19243899 39%, #051529e0 66%, #03131b66 89%, #03131b80)' },
+  'paradise-boulevard': { desktop: '50% 48%', mobile: '84% center', shade: 'linear-gradient(98deg, #051529e0, #19243899 37%, #03131b26 65%, transparent 86%)', mobileShade: 'linear-gradient(180deg, #03131b14, #03131b14 22%, #19243899 39%, #051529e0 66%, #03131b66 89%, #03131b80)' },
 };
 const sceneStyle = (slug: string): CSSProperties => ({
   '--world-desktop-position': sceneArt[slug].desktop,
@@ -127,12 +128,15 @@ export default function NineWorlds() {
           <div id="worlds-panel" role="tabpanel" aria-labelledby={`world-tab-${slug}`} className="apr-worlds__selected">
             <div className="apr-worlds__selected-copy" key={zone.name} aria-live="polite" aria-atomic="true">
               <span className="apr-worlds__selected-kicker">СЕЙЧАС ВЫ В МИРЕ</span>
-              <h3>{zone.name}</h3>
+              <div className="apr-worlds__zone-heading">
+                <svg className="apr-worlds__zone-mark" viewBox="0 0 40 32" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true"><path d="M3 9c6 0 6-6 12-6s6 6 12 6 6-3 10-3M3 18c6 0 6-6 12-6s6 6 12 6 6-3 10-3M3 27c6 0 6-6 12-6s6 6 12 6 6-3 10-3" /></svg>
+                <h3>{zone.name}</h3>
+              </div>
               <p>{zone.desc}</p>
             </div>
             <div className="apr-worlds__actions">
-              <button type="button" className="apr-button apr-button--sand" onClick={() => { window.location.hash = `#/zones?zone=${slug}`; }}>Подробнее о зоне <span aria-hidden="true">↗︎</span></button>
-              <button type="button" className="apr-button apr-button--outline" onClick={() => { window.location.hash = '#/tickets'; }}>Выбрать билет</button>
+              <button type="button" className="apr-button apr-button--sand" onClick={() => { window.location.hash = `#/zones?zone=${slug}`; }}>Подробнее о зоне <span aria-hidden="true">→</span></button>
+              <button type="button" className="apr-button apr-button--outline" onClick={() => { window.location.hash = '#/tickets'; }}><svg className="apr-worlds__ticket-mark" viewBox="0 0 24 20" fill="none" stroke="currentColor" strokeWidth="1.3" aria-hidden="true"><path d="M3 3h18v5a2 2 0 0 0 0 4v5H3v-5a2 2 0 0 0 0-4z" /><path d="M15 4v2m0 3v2m0 3v2" /></svg>Выбрать билет</button>
             </div>
             {error && <p role="alert" className="apr-worlds__error">Не удалось открыть этот мир. Попробуйте ещё раз.</p>}
           </div>

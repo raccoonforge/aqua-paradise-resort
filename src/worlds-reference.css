@@ -1,0 +1,84 @@
+/* Reference-led layout, scoped to Nine Worlds; global typography/assets stay intact. */
+.apr-home .apr-worlds--immersive .apr-worlds__content {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: clamp(90px, 10svh, 142px) clamp(30px, 5.3vw, 148px) 48px;
+  gap: 34px;
+}
+.apr-home .apr-worlds--immersive .apr-worlds__intro { max-width: 720px; }
+.apr-home .apr-worlds--immersive .apr-worlds__eyebrow { font-size: 11px; letter-spacing: .32em; }
+.apr-home .apr-worlds--immersive .apr-worlds__heading {
+  font-size: clamp(74px, 6vw, 128px);
+  font-weight: 600;
+  line-height: .95;
+  letter-spacing: -.035em;
+  margin: 16px 0 20px;
+}
+.apr-home .apr-worlds--immersive .apr-worlds__heading em {
+  font-style: normal;
+  font-weight: 500;
+  background: none;
+  -webkit-text-fill-color: initial;
+  color: #f0dfba;
+  filter: drop-shadow(0 2px 12px #03101880);
+}
+.apr-home .apr-worlds--immersive .apr-worlds__lead { max-width: 600px; font-size: clamp(15px, 1.08vw, 20px); line-height: 1.5; }
+.apr-home .apr-worlds--immersive .apr-worlds__selected { max-width: 560px; }
+.apr-home .apr-worlds--immersive .apr-worlds__selected-kicker {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 10px;
+  letter-spacing: .22em;
+  color: #b4dbd9;
+  margin-bottom: 10px;
+}
+.apr-home .apr-worlds--immersive .apr-worlds__selected-kicker::before { content: ''; width: 38px; height: 1px; flex: 0 0 38px; background: #d5b57b; }
+.apr-home .apr-worlds--immersive .apr-worlds__zone-heading { display: flex; align-items: center; gap: 15px; margin-bottom: 8px; }
+.apr-home .apr-worlds--immersive .apr-worlds__zone-mark { width: 40px; height: 32px; flex: 0 0 40px; color: #9ed7d8; }
+.apr-home .apr-worlds--immersive .apr-worlds__selected h3 { margin: 0; font-size: clamp(40px, 3vw, 56px); line-height: 1.05; }
+.apr-home .apr-worlds--immersive .apr-worlds__selected p { max-width: 535px; font-size: clamp(14px, .94vw, 17px); line-height: 1.5; }
+.apr-home .apr-worlds--immersive .apr-worlds__actions { gap: 15px; margin-top: 20px; }
+.apr-home .apr-worlds--immersive .apr-worlds__actions .apr-button { min-height: 50px; padding: 12px 25px; font-size: 13px; gap: 14px; }
+.apr-home .apr-worlds--immersive .apr-worlds__actions .apr-button--sand span { font-size: 21px; line-height: 1; }
+.apr-home .apr-worlds--immersive .apr-worlds__actions .apr-button--outline { background: #03141a33; border-color: #bad6d599; }
+.apr-home .apr-worlds--immersive .apr-worlds__ticket-mark { width: 21px; height: 19px; color: #a9d9d8; }
+.apr-home .apr-worlds--immersive .apr-worlds__dock { padding: 14px clamp(24px, 4.5vw, 125px) 20px; }
+.apr-home .apr-worlds--immersive .apr-worlds__dock-label { font-size: 9px; letter-spacing: .24em; color: #e1d1b0; margin-bottom: 8px; }
+.apr-home .apr-worlds--immersive .apr-worlds__thumb { width: 56px; height: 48px; flex-basis: 56px; border-radius: 7px; }
+.apr-home .apr-worlds--immersive .apr-worlds__tab { padding: 7px; border-radius: 12px; background: #0310181a; }
+.apr-home .apr-worlds--immersive .apr-worlds__tab.is-active { border-color: #efdbb4; background: linear-gradient(135deg, #eed7aa38, #09283180); box-shadow: inset 0 0 15px #e8cb8b1a, 0 4px 16px #03101833; }
+.apr-home .apr-worlds--immersive .apr-worlds__tab-copy strong { font-size: 11px; font-weight: 500; }
+.apr-home .apr-worlds--immersive .apr-worlds__tab-copy small { font-size: 10px; }
+.apr-home .apr-worlds--immersive .apr-worlds__next { width: 40px; height: 40px; flex-basis: 40px; font-size: 23px; background: #041b2340; border-color: #c4d8cd66; }
+@media (min-width: 640px) and (max-height: 850px) {
+  .apr-home .apr-worlds--immersive .apr-worlds__content { padding-top: 76px; padding-bottom: 30px; gap: 24px; }
+  .apr-home .apr-worlds--immersive .apr-worlds__heading { font-size: clamp(68px, 5.8vw, 90px); margin: 12px 0 14px; }
+  .apr-home .apr-worlds--immersive .apr-worlds__lead { font-size: 15px; }
+  .apr-home .apr-worlds--immersive .apr-worlds__selected h3 { font-size: 42px; }
+  .apr-home .apr-worlds--immersive .apr-worlds__selected p { font-size: 14px; }
+}
+@media (max-width: 639px) {
+  .apr-home .apr-worlds--immersive .apr-worlds__content { padding: 255px 24px 24px; gap: 20px; justify-content: flex-end; }
+  .apr-home .apr-worlds--immersive .apr-worlds__eyebrow { font-size: 8px; letter-spacing: .24em; }
+  .apr-home .apr-worlds--immersive .apr-worlds__heading { font-size: clamp(35px, 9.7vw, 51px); line-height: .98; margin: 9px 0 12px; }
+  .apr-home .apr-worlds--immersive .apr-worlds__lead { font-size: 12px; line-height: 1.45; }
+  .apr-home .apr-worlds--immersive .apr-worlds__selected-kicker { font-size: 8px; margin-bottom: 9px; gap: 12px; }
+  .apr-home .apr-worlds--immersive .apr-worlds__selected-kicker::before { width: 28px; flex-basis: 28px; }
+  .apr-home .apr-worlds--immersive .apr-worlds__zone-heading { gap: 11px; margin-bottom: 8px; }
+  .apr-home .apr-worlds--immersive .apr-worlds__zone-mark { width: 32px; height: 28px; flex-basis: 32px; }
+  .apr-home .apr-worlds--immersive .apr-worlds__selected h3 { font-size: 32px; line-height: 1.05; }
+  .apr-home .apr-worlds--immersive .apr-worlds__selected p { font-size: 12px; line-height: 1.45; }
+  .apr-home .apr-worlds--immersive .apr-worlds__actions { margin-top: 16px; gap: 9px; }
+  .apr-home .apr-worlds--immersive .apr-worlds__actions .apr-button { min-height: 46px; padding: 11px 20px; font-size: 12px; }
+  .apr-home .apr-worlds--immersive .apr-worlds__dock { padding: 12px 16px 14px; }
+  .apr-home .apr-worlds--immersive .apr-worlds__dock-label { font-size: 8px; letter-spacing: .18em; padding-right: 86px; min-height: 20px; }
+  .apr-home .apr-worlds--immersive .apr-worlds__dock-row { display: block; padding-right: 52px; }
+  .apr-home .apr-worlds--immersive .apr-worlds__rail { gap: 7px; padding: 3px 2px 3px; }
+  .apr-home .apr-worlds--immersive .apr-worlds__tab { flex: 0 0 76px; padding: 5px; gap: 5px; border-radius: 9px; }
+  .apr-home .apr-worlds--immersive .apr-worlds__thumb { width: 100%; height: 43px; flex-basis: 43px; }
+  .apr-home .apr-worlds--immersive .apr-worlds__tab-copy strong { font-size: 9px; line-height: 1.15; white-space: normal; min-height: 21px; text-align: center; }
+  .apr-home .apr-worlds--immersive .apr-worlds__next { position: absolute; width: 36px; height: 36px; top: 3px; right: 13px; font-size: 21px; }
+  .apr-home .apr-worlds--immersive .apr-worlds__prev { right: 54px; }
+}
