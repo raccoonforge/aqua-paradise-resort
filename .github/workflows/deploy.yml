@@ -27,7 +27,7 @@ jobs:
           ref: main
           path: site
 
-      # Preview refresh: Resort position and stroke weight, version 00f3f7d.
+      # Preview refresh: Resort stroke weight, commit 1115140.
       # Build preview from the current working branch without merging its design into main.
       - name: Checkout new preview (PR #5)
         uses: actions/checkout@v4
