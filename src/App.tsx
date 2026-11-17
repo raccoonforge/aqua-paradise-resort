@@ -412,6 +412,7 @@ function App() {
   const [currentPath, setCurrentPath] = useState(window.location.hash || '#/');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isHeaderScrolled, setIsHeaderScrolled] = useState(() => window.scrollY > 32);
+  const [openHeaderMenu, setOpenHeaderMenu] = useState<'entertainment' | 'visit' | null>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -425,6 +426,7 @@ function App() {
     window.location.hash = path;
     setCurrentPath(path);
     setIsMobileMenuOpen(false);
+    setOpenHeaderMenu(null);
   };
 
   useEffect(() => {
@@ -455,8 +457,13 @@ function App() {
   // Скролл вверх при смене страницы
   const basePath = currentPath.split('?')[0];
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [basePath]);
+    const section = new URLSearchParams(currentPath.split('?')[1] || '').get('section');
+    if (section && basePath === '#/') {
+      requestAnimationFrame(() => document.getElementById(section)?.scrollIntoView({ behavior: 'auto' }));
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [basePath, currentPath]);
 
   const renderPage = () => {
     const [base, queryString] = currentPath.split('?');
@@ -498,34 +505,58 @@ function App() {
             ) : '🌴 Aqua Paradise'}
           </div>
 
-<nav aria-label="Основная навигация" className="hidden md:flex gap-6 text-sm font-medium text-gray-600">
-  {([
-    { path: '#/', label: 'Главная' },
-    { path: '#/zones', label: 'Зоны' },
-    { path: '#/attractions', label: 'Аттракционы' },
-    { path: '#/map', label: 'Карта' },
-    { path: '#/hotel', label: 'Отель' },
-    { path: '#/visit', label: 'Посещение' },
-    { path: '#/planner', label: 'Планировщик' },
-  ] as const).map(item => (
-    <button
-      key={item.path}
-      type="button"
-      onClick={() => navigate(item.path)}
-      aria-current={basePath === item.path ? 'page' : undefined}
-      className={`rounded-sm border-b-2 py-1 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-600 ${basePath === item.path ? 'border-teal-600 text-teal-700' : 'border-transparent hover:border-teal-300 hover:text-teal-600'}`}
-    >
-      {item.label}
-    </button>
-  ))}
-  <button
-    type="button"
-    onClick={() => navigate('#/tickets')}
-    aria-current={basePath === '#/tickets' ? 'page' : undefined}
-    className={`bg-teal-600 text-white px-4 py-2 rounded-full hover:bg-teal-700 transition focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-600 ${basePath === '#/tickets' ? 'ring-2 ring-teal-800 ring-offset-2' : ''}`}
-  >
-    Билеты
+<nav aria-label="Основная навигация" className="apr-header__navigation hidden md:flex">
+  <button type="button" onClick={() => navigate('#/?section=about')} className="apr-header__navlink">
+    О курорте
   </button>
+  <div className="apr-header__menu" onMouseEnter={() => setOpenHeaderMenu('entertainment')} onMouseLeave={() => setOpenHeaderMenu(null)} onKeyDown={(e) => { if (e.key === 'Escape') setOpenHeaderMenu(null); }}>
+    <button type="button" className="apr-header__navlink apr-header__trigger" aria-haspopup="true"
+      aria-expanded={openHeaderMenu === 'entertainment'} aria-controls="apr-menu-entertainment"
+      onClick={() => setOpenHeaderMenu(openHeaderMenu === 'entertainment' ? null : 'entertainment')}
+      onFocus={() => setOpenHeaderMenu('entertainment')}>
+      Развлечения <span aria-hidden="true" className="apr-header__chevron">⌄</span>
+    </button>
+    {openHeaderMenu === 'entertainment' && (
+      <div className="apr-header__dropdown" id="apr-menu-entertainment" role="group" aria-label="Развлечения">
+        <button type="button" onClick={() => navigate('#/zones')} className="apr-header__dropdown-item">
+          <span className="apr-header__menu-icon" aria-hidden="true">✧</span><span><strong>Тематические зоны</strong><small>Девять миров острова</small></span>
+        </button>
+        <button type="button" onClick={() => navigate('#/attractions')} className="apr-header__dropdown-item">
+          <span className="apr-header__menu-icon" aria-hidden="true">⚑</span><span><strong>Аттракционы</strong><small>От релакса до экстрима</small></span>
+        </button>
+        <button type="button" onClick={() => navigate('#/zones?zone=little-paradise')} className="apr-header__dropdown-item">
+          <span className="apr-header__menu-icon" aria-hidden="true">♧</span><span><strong>Семейный отдых</strong><small>Развлечения для всей семьи</small></span>
+        </button>
+      </div>
+    )}
+  </div>
+  <button type="button" onClick={() => navigate('#/planner')} className="apr-header__navlink" aria-current={basePath === '#/planner' ? 'page' : undefined}>Планировщик</button>
+  <button type="button" onClick={() => navigate('#/hotel')} className="apr-header__navlink" aria-current={basePath === '#/hotel' ? 'page' : undefined}>Отель</button>
+  <div className="apr-header__menu" onMouseEnter={() => setOpenHeaderMenu('visit')} onMouseLeave={() => setOpenHeaderMenu(null)} onKeyDown={(e) => { if (e.key === 'Escape') setOpenHeaderMenu(null); }}>
+    <button type="button" className="apr-header__navlink apr-header__trigger" aria-haspopup="true"
+      aria-expanded={openHeaderMenu === 'visit'} aria-controls="apr-menu-visit"
+      onClick={() => setOpenHeaderMenu(openHeaderMenu === 'visit' ? null : 'visit')}
+      onFocus={() => setOpenHeaderMenu('visit')}>
+      Посещение <span aria-hidden="true" className="apr-header__chevron">⌄</span>
+    </button>
+    {openHeaderMenu === 'visit' && (
+      <div className="apr-header__dropdown" id="apr-menu-visit" role="group" aria-label="Посещение">
+        <button type="button" onClick={() => navigate('#/visit?section=arrival')} className="apr-header__dropdown-item">
+          <span className="apr-header__menu-icon" aria-hidden="true">⌁</span><span><strong>Как добраться</strong><small>Путь на остров</small></span>
+        </button>
+        <button type="button" onClick={() => navigate('#/visit?section=transport')} className="apr-header__dropdown-item">
+          <span className="apr-header__menu-icon" aria-hidden="true">▣</span><span><strong>Транспорт</strong><small>Передвижение по курорту</small></span>
+        </button>
+        <button type="button" onClick={() => navigate('#/visit?section=rules')} className="apr-header__dropdown-item">
+          <span className="apr-header__menu-icon" aria-hidden="true">◇</span><span><strong>Правила и безопасность</strong><small>Комфортный отдых</small></span>
+        </button>
+        <button type="button" onClick={() => navigate('#/visit?section=faq')} className="apr-header__dropdown-item">
+          <span className="apr-header__menu-icon" aria-hidden="true">?</span><span><strong>FAQ</strong><small>Ответы на вопросы</small></span>
+        </button>
+      </div>
+    )}
+  </div>
+  <button type="button" onClick={() => navigate('#/tickets')} className="apr-header__tickets" aria-current={basePath === '#/tickets' ? 'page' : undefined}>Билеты</button>
 </nav>
 
           <button
