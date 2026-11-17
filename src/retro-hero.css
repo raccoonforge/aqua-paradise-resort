@@ -213,4 +213,4 @@
 }
 
 .apr-hero__filters { position: absolute; pointer-events: none; }
-.apr-hero__title { filter: url(#apr-print-grain); }
+.apr-hero__title span { filter: url(#apr-print-grain); }
