@@ -1,3 +1,5 @@
+import './retro-hero.css';
+import riviera from './assets/retro/riviera.webp';
 import PlannerPage from './PlannerPage';
 import MapPage from './MapPage';
 import HotelPage from './HotelPage';
@@ -157,36 +159,78 @@ const NineWorlds = () => {
 
 const HomePage = () => (
   <>
-    <div className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-teal-500/20 via-cyan-600/40 to-[#f8f9fa] z-0"></div>
-      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto flex flex-col items-center">
-        <span className="text-teal-800 tracking-[0.2em] font-semibold text-sm mb-6 uppercase">WELCOME TO AQUA PARADISE</span>
-        <h1 className="text-5xl md:text-7xl font-serif text-gray-900 mb-6 leading-tight">
-          Ты ещё не видел <br className="hidden md:block"/> рай таким.
+    <section className="apr-hero" aria-label="Aqua Paradise Resort">
+      <svg className="apr-hero__filters" aria-hidden="true" width="0" height="0">
+        <defs>
+          <filter id="apr-print-grain" x="-5%" y="-5%" width="110%" height="115%">
+            <feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="3" seed="8" result="noise" />
+            <feColorMatrix in="noise" type="saturate" values="0" />
+            <feComponentTransfer><feFuncA type="linear" slope=".22" /></feComponentTransfer>
+            <feComposite in2="SourceGraphic" operator="in" />
+            <feBlend in="SourceGraphic" mode="multiply" />
+          </filter>
+        </defs>
+      </svg>
+      <img className="apr-hero__art" src={riviera} alt="" fetchPriority="high" />
+      <div className="apr-hero__content">
+        <p className="apr-hero__eyebrow">WELCOME TO AQUA PARADISE</p>
+        <h1 className="apr-hero__title" aria-label="Aqua Paradise">
+          <span className="apr-hero__aqua">AQUA</span>
+          <span className="apr-hero__paradise">PARADISE</span>
+          <svg
+    className="apr-hero__title-stripes"
+    viewBox="0 0 620 52"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      d="M12 18 L608 6"
+      stroke="#0B3942"
+      strokeWidth="14"
+      strokeLinecap="round"
+      fill="none"
+    />
+    <path
+      d="M12 14 L608 2"
+      stroke="#F47A4A"
+      strokeWidth="9"
+      strokeLinecap="round"
+      fill="none"
+    />
+    <path
+      d="M34 39 L592 27"
+      stroke="#0B3942"
+      strokeWidth="6"
+      strokeLinecap="round"
+      fill="none"
+    />
+    <path
+      d="M34 36 L592 24"
+      stroke="#E3A84E"
+      strokeWidth="3.2"
+      strokeLinecap="round"
+      fill="none"
+    />
+  </svg>
         </h1>
-        <p className="text-lg md:text-xl text-gray-700 mb-10 max-w-2xl font-light">
-          Девять уникальных миров. Один тропический остров. От безмятежных лагун до захватывающих приключений — здесь каждый найдёт свой рай.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4">
-          <button
+        <div className="apr-hero__resort" aria-hidden="true">Resort</div>
+        <p className="apr-hero__tagline">Остров бесконечного лета</p>
+        <div className="apr-hero__actions">
+          <button type="button" className="apr-hero__button apr-hero__button--primary"
             onClick={() => {
               const el = document.getElementById('about');
-              if (el) el.scrollIntoView({ behavior: 'smooth' });
-            }}
-            className="bg-teal-600 text-white px-8 py-3 rounded-full text-lg font-medium hover:bg-teal-700 transition shadow-lg"
-          >
-            Исследовать остров
+              if (el) el.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+            }}>
+            Исследовать остров <span aria-hidden="true">→</span>
           </button>
-          <button
-            onClick={() => window.location.hash = '#/planner'}
-            className="bg-white/80 backdrop-blur text-teal-900 border border-teal-600/30 px-8 py-3 rounded-full text-lg font-medium hover:bg-white transition shadow-lg"
-          >
-            Спланировать отдых
+          <button type="button" className="apr-hero__button" onClick={() => window.location.hash = '#/planner'}>
+            Спланировать отдых <span aria-hidden="true">→</span>
           </button>
         </div>
-        <div className="mt-20 text-sm tracking-[0.15em] text-teal-900/60 font-medium">OCEAN BAY · AQUA PARADISE</div>
+        <p className="apr-hero__description">Девять уникальных миров. Один тропический остров. От безмятежных лагун до захватывающих приключений — здесь каждый найдёт свой рай.</p>
+        <p className="apr-hero__signature">OCEAN BAY · AQUA PARADISE</p>
       </div>
-    </div>
+    </section>
     <AboutResort />
     <NineWorlds />
     <AttractionsCarousel />
@@ -442,10 +486,18 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#f8f9fa] font-sans">
-      <header className="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b border-gray-100">
+      <header className={`${basePath === '#/' ? 'apr-header ' : ''}bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b border-gray-100`}>
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="text-xl font-bold text-teal-900 cursor-pointer" onClick={() => navigate('#/')}>
-            🌴 Aqua Paradise
+            {basePath === '#/' ? <span className="apr-brand">
+              <svg width="56" height="52" viewBox="0 0 64 60" fill="none" aria-hidden="true">
+                <path d="M8 43a20 20 0 0 1 40-4" fill="#ffb84d" />
+                <path d="M30 44c6-12 7-26 5-32" stroke="#ffe4a7" strokeWidth="4" />
+                <path d="M35 14C23-2 9 9 8 17c11-7 18-5 27-3Zm0 0C36-3 55 1 59 12c-11-4-18-3-24 2Zm0 0C45 9 58 20 56 32c-6-10-12-14-21-18Zm0 0C20 10 15 24 17 33c5-10 11-16 18-19Z" fill="#ffb84d" />
+                <path d="M3 49c17-13 31 8 57-3M8 56c19-11 30 5 48-3" stroke="#ffe4a7" strokeWidth="3" />
+              </svg>
+              <span>Aqua<br />Paradise<small>Resort</small></span>
+            </span> : '🌴 Aqua Paradise'}
           </div>
 
 <nav aria-label="Основная навигация" className="hidden md:flex gap-6 text-sm font-medium text-gray-600">
