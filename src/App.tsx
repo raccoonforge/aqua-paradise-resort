@@ -410,7 +410,15 @@ const PlannerTeaser = () => {
 function App() {
   const [currentPath, setCurrentPath] = useState(window.location.hash || '#/');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isHeaderScrolled, setIsHeaderScrolled] = useState(() => window.scrollY > 32);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const onScroll = () => setIsHeaderScrolled(window.scrollY > 32);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const navigate = (path: string) => {
     window.location.hash = path;
@@ -478,7 +486,7 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#f8f9fa] font-sans">
-      <header className={`${basePath === '#/' ? 'apr-header ' : ''}bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b border-gray-100`}>
+      <header className={`${basePath === '#/' ? `apr-header${isHeaderScrolled ? ' apr-header--scrolled' : ''} ` : ''}bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b border-gray-100`}>
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="text-xl font-bold text-teal-900 cursor-pointer" onClick={() => navigate('#/')}>
             {basePath === '#/' ? <span className="apr-brand">
