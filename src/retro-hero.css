@@ -58,6 +58,8 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  /* A solid text-shadow paints across the gradient, hiding it. */
+  text-shadow: none;
 }
 .apr-hero__aqua { font-size: 10.5vw; padding-left: 5.3vw; }
 .apr-hero__paradise { font-size: 7.55vw; letter-spacing: -.065em; }
@@ -102,7 +104,7 @@
   -webkit-text-fill-color: transparent;
   -webkit-text-stroke: clamp(2.7px, .27vw, 4.4px) #e96a47;
   paint-order: stroke fill;
-  text-shadow: 1px 1px #dc6845, 2px 3px #0b3942, 4px 5px #04262d;
+  text-shadow: none;
   transform: translateX(-4vw) rotate(-8deg);
   text-align: right;
   padding-right: 2.3vw;
@@ -230,5 +232,20 @@
 }
 
 .apr-hero__filters { position: absolute; pointer-events: none; }
-.apr-hero__title span,
-.apr-hero__resort { filter: url(#apr-print-wear); }
+/* Distress the gradient fill first, then cast depth behind it (not over it). */
+.apr-hero__title span {
+  filter: url(#apr-print-wear)
+    drop-shadow(1px 1px #efb57b)
+    drop-shadow(1px 2px #c98d66)
+    drop-shadow(2px 3px #11434a)
+    drop-shadow(2px 3px #0b3942)
+    drop-shadow(2px 3px #08333b)
+    drop-shadow(2px 3px #062c34)
+    drop-shadow(2px 3px #04252c);
+}
+.apr-hero__resort {
+  filter: url(#apr-print-wear)
+    drop-shadow(1px 1px #dc6845)
+    drop-shadow(2px 2px #0b3942)
+    drop-shadow(2px 2px #04262d);
+}
