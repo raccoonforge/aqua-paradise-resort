@@ -1,8 +1,7 @@
 import './navigation-themes.css';
 import './midnight-obsidian.css';
 import { HomeArtwork } from './components/HomeArtwork';
-import atlantisPanorama from './assets/worlds/atlantis-realm-panorama.webp';
-import './worlds-immersive.css';
+import NineWorlds from './components/NineWorlds';
 import PlannerPage from './PlannerPage';
 import HotelPage from './HotelPage';
 import VisitPage from './VisitPage';
@@ -10,7 +9,7 @@ import TicketsPage from './TicketsPage';
 import AttractionsPage from './AttractionsPage';
 import ZonesPage from './ZonesPage';
 import { useState, useEffect, useRef, useMemo, type ReactNode, type CSSProperties } from 'react';
-import { ZONE_SLUGS, ATTRACTIONS } from './data/attractions';
+import { ATTRACTIONS } from './data/attractions';
 
 // TODO: Cinematic Intro — отложено (Visual Pending: нужны видео/3D-ассеты).
 // В Master Blueprint §4.1 описан спуск по горке; без медиа делаем только Hero.
@@ -99,79 +98,6 @@ const AboutResort = () => {
               <button type="button" onClick={() => setRevealedCount(0)}>Сначала</button>
             </div>
           )}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const NineWorlds = () => {
-  const zones = [
-    { name: 'Atlantis Realm', tag: 'Исследования', desc: 'Затерянный мир древних руин, водных маршрутов и приключений среди морских легенд.', color: '#174c63' },
-    { name: 'Eden Gardens', tag: 'Природа', desc: 'Тропические сады, тенистые тропы и водопады, где время словно замедляется.', color: '#285a49' },
-    { name: 'Adrenaline Peak', tag: 'Экстрим', desc: 'Головокружительные спуски и захватывающие водные приключения для самых смелых.', color: '#704d3e' },
-    { name: 'Ocean Bay', tag: 'Пляжный отдых', desc: 'Лазурная вода, белоснежный песок и безмятежный отдых у открытого моря.', color: '#176b76' },
-    { name: 'Serenity Spa', tag: 'Релакс', desc: 'Уединённое пространство спокойствия, восстановления и премиального отдыха.', color: '#486c68' },
-    { name: "Pirate's Cove", tag: 'Приключения', desc: 'Пиратские истории, спрятанные сокровища и весёлые открытия для всей семьи.', color: '#635344' },
-    { name: 'Little Paradise', tag: 'Для детей', desc: 'Яркий и безопасный мир водных развлечений для самых маленьких гостей.', color: '#527f79' },
-    { name: 'Paradise Market', tag: 'Гастрономия', desc: 'Ароматы островной кухни, уютные кафе и атмосферные торговые улочки.', color: '#846044' },
-    { name: 'Paradise Boulevard', tag: 'Прогулки', desc: 'Праздничное сердце острова: площади, вечерние огни и незабываемые встречи.', color: '#375c61' },
-  ];
-  // Only Atlantis has an exclusive panorama in this review stage.
-  // The other eight buttons open their zone pages, as agreed with the user.
-  const activeZone = 0;
-  const zone = zones[activeZone];
-  const changeZone = (index: number) => {
-    const destination = zones[(index + zones.length) % zones.length];
-    if (destination.name !== zone.name) {
-      window.location.assign(`#/zones?zone=${ZONE_SLUGS[destination.name]}`);
-    }
-  };
-  return (
-    <section id="worlds" className="apr-worlds apr-worlds--immersive" aria-label="Девять миров Aqua Paradise">
-      <div className="apr-worlds__frame" style={{ '--world-tone': zone.color } as CSSProperties}>
-        <div className="apr-worlds__backdrops" aria-hidden="true">
-          <div className="apr-worlds__backdrop is-active">
-            <img className="apr-worlds__panorama" src={atlantisPanorama} alt="" width="1672" height="941" decoding="async" />
-          </div>
-        </div>
-        <div className="apr-worlds__shade" aria-hidden="true" />
-        <div className="apr-worlds__content">
-          <div className="apr-worlds__intro">
-            <span className="apr-worlds__eyebrow">ТРОПИЧЕСКИЙ КУРОРТ</span>
-            <h2 className="apr-worlds__heading">Девять миров.<br /><em>Aqua Paradise</em></h2>
-            <p className="apr-worlds__lead">От тропических садов до затерянных цивилизаций — выбери свой мир приключений.</p>
-          </div>
-          <div className="apr-worlds__selected" key={zone.name}>
-
-            <span className="apr-worlds__selected-kicker">СЕЙЧАС ВЫ В МИРЕ</span>
-            <h3>{zone.name}</h3>
-            <p>{zone.desc}</p>
-            <div className="apr-worlds__actions">
-              <button type="button" className="apr-button apr-button--sand" onClick={() => { const slug = ZONE_SLUGS[zone.name]; if (slug) window.location.hash = `#/zones?zone=${slug}`; }}>Подробнее о зоне <span aria-hidden="true">↗︎</span></button>
-              <button type="button" className="apr-button apr-button--outline" onClick={() => window.location.hash = '#/tickets'}>Выбрать билет</button>
-            </div>
-          </div>
-        </div>
-        <div className="apr-worlds__dock">
-          <span className="apr-worlds__dock-label">ДЕВЯТЬ МИРОВ AQUA PARADISE</span>
-          <div className="apr-worlds__dock-row">
-            <div className="apr-worlds__rail" role="group" aria-label="Выберите тематическую зону">
-              {zones.map((item, index) => (
-                <button key={item.name} type="button" aria-pressed={activeZone === index ? true : undefined} onClick={() => changeZone(index)} className={`apr-worlds__tab ${activeZone === index ? 'is-active' : ''}`}>
-                  <span className="apr-worlds__thumb" style={{ backgroundColor: item.color }}>
-                    {item.name === 'Atlantis Realm' ? (
-                      <img src={atlantisPanorama} alt="" width="1672" height="941" decoding="async" />
-                    ) : (
-                      <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-                    )}
-                  </span>
-                  <span className="apr-worlds__tab-copy"><strong>{item.name}</strong><small>{item.tag}</small></span>
-                </button>
-              ))}
-            </div>
-            <button type="button" className="apr-worlds__next" onClick={() => changeZone(activeZone + 1)} aria-label="Следующий мир">→</button>
-          </div>
         </div>
       </div>
     </section>

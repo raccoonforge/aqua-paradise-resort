@@ -1,0 +1,66 @@
+{
+  "eden-gardens": {
+    "size": [
+      1672,
+      941
+    ],
+    "original": "docs/design/review/worlds-complete-v1/originals/eden-gardens-panorama.png",
+    "sha256": "e1acd1bbb311855e6ea9e5a7d4478fd0adae83bd940b907e0470b989f0b76874"
+  },
+  "adrenaline-peak": {
+    "size": [
+      1672,
+      941
+    ],
+    "original": "docs/design/review/worlds-complete-v1/originals/adrenaline-peak-panorama.png",
+    "sha256": "5f67d5cc13d457f09aeef4653dc3db2812b22e42178b971a42eefbb834814828"
+  },
+  "ocean-bay": {
+    "size": [
+      1672,
+      941
+    ],
+    "original": "docs/design/review/worlds-complete-v1/originals/ocean-bay-panorama.png",
+    "sha256": "e5f21f21711b7e3a5b5157a2f8aa8f2867575fc9492b7b8ca6660d1ba91d50a6"
+  },
+  "serenity-spa": {
+    "size": [
+      1672,
+      941
+    ],
+    "original": "docs/design/review/worlds-complete-v1/originals/serenity-spa-panorama.png",
+    "sha256": "285b682e429d1d633532b37602b188e5ddd41a1fcce0a66b3769349498a5382d"
+  },
+  "pirates-cove": {
+    "size": [
+      1672,
+      941
+    ],
+    "original": "docs/design/review/worlds-complete-v1/originals/pirates-cove-panorama.png",
+    "sha256": "1a522f4b3d7c76a01bc27e4765736eb9308adeab76ed1d7a08bc41ca2cc9ea9e"
+  },
+  "little-paradise": {
+    "size": [
+      1672,
+      941
+    ],
+    "original": "docs/design/review/worlds-complete-v1/originals/little-paradise-panorama.png",
+    "sha256": "c59cc83cf8d8d575fa36fa18ce0ec65239ac2b429993173d16ecaffe291aa05f"
+  },
+  "paradise-market": {
+    "size": [
+      1672,
+      941
+    ],
+    "original": "docs/design/review/worlds-complete-v1/originals/paradise-market-panorama.png",
+    "sha256": "291f775573e343e61e2ab306344b225a11aa04d6f6797db18a93bcccbcb6cde6"
+  },
+  "paradise-boulevard": {
+    "size": [
+      1672,
+      941
+    ],
+    "original": "docs/design/review/worlds-complete-v1/originals/paradise-boulevard-panorama.png",
+    "sha256": "ae32b930446d04a6f5b5d9b4e1b47dab9da1beb41c01c26820c6c9a63272986c"
+  }
+}

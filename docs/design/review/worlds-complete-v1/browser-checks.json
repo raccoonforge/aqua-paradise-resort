@@ -1,0 +1,2266 @@
+{
+  "results": [
+    {
+      "label": "phone-small",
+      "width": 320,
+      "height": 812,
+      "sources": [
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/atlantis-realm-panorama-BG94E0aw.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/eden-gardens-panorama-BLbM8JRn.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/adrenaline-peak-panorama-Ca4lmlRB.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/ocean-bay-panorama-CMrBGj0I.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/serenity-spa-panorama-DZNdDueG.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/pirates-cove-panorama-Wfv1jw6N.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/little-paradise-panorama-DP1Tw8cB.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/paradise-market-panorama-CeukZM8d.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/paradise-boulevard-panorama-bOzyC0Ej.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        }
+      ],
+      "states": [
+        {
+          "slug": "atlantis-realm",
+          "pageWidth": 320,
+          "viewport": 320,
+          "frame": {
+            "x": 0,
+            "y": 0.25,
+            "width": 320,
+            "height": 829.53125,
+            "bottom": 829.78125,
+            "right": 320
+          },
+          "image": {
+            "x": 0,
+            "y": 0.25,
+            "width": 320,
+            "height": 829.53125,
+            "bottom": 829.78125,
+            "right": 320
+          },
+          "dock": {
+            "x": 0,
+            "y": 689.28125,
+            "width": 320,
+            "height": 140.5,
+            "bottom": 829.78125,
+            "right": 320
+          },
+          "text": {
+            "x": 24,
+            "y": 417.7434387207031,
+            "width": 272,
+            "height": 243.56246948242188,
+            "bottom": 661.305908203125,
+            "right": 296
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Затерянный мир древних руин, водных маршрутов и приключений среди морских легенд."
+        },
+        {
+          "slug": "eden-gardens",
+          "pageWidth": 320,
+          "viewport": 320,
+          "frame": {
+            "x": 0,
+            "y": 0.25,
+            "width": 320,
+            "height": 820,
+            "bottom": 820.25,
+            "right": 320
+          },
+          "image": {
+            "x": -3.86822509765625,
+            "y": -9.66229248046875,
+            "width": 327.7364501953125,
+            "height": 839.8245849609375,
+            "bottom": 830.1622924804688,
+            "right": 323.86822509765625
+          },
+          "dock": {
+            "x": 0,
+            "y": 679.75,
+            "width": 320,
+            "height": 140.5,
+            "bottom": 820.25,
+            "right": 320
+          },
+          "text": {
+            "x": 24,
+            "y": 427.375,
+            "width": 272,
+            "height": 224.375,
+            "bottom": 651.75,
+            "right": 296
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Тропические сады, тенистые тропы и водопады, где время словно замедляется."
+        },
+        {
+          "slug": "adrenaline-peak",
+          "pageWidth": 320,
+          "viewport": 320,
+          "frame": {
+            "x": 0,
+            "y": 0.25,
+            "width": 320,
+            "height": 820,
+            "bottom": 820.25,
+            "right": 320
+          },
+          "image": {
+            "x": -3.8554534912109375,
+            "y": -9.629608154296875,
+            "width": 327.7109375,
+            "height": 839.75927734375,
+            "bottom": 830.1296691894531,
+            "right": 323.85548400878906
+          },
+          "dock": {
+            "x": 0,
+            "y": 679.75,
+            "width": 320,
+            "height": 140.5,
+            "bottom": 820.25,
+            "right": 320
+          },
+          "text": {
+            "x": 24,
+            "y": 427.375,
+            "width": 272,
+            "height": 224.375,
+            "bottom": 651.75,
+            "right": 296
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Головокружительные спуски и захватывающие водные приключения для самых смелых."
+        },
+        {
+          "slug": "ocean-bay",
+          "pageWidth": 320,
+          "viewport": 320,
+          "frame": {
+            "x": 0,
+            "y": 0.25,
+            "width": 320,
+            "height": 820,
+            "bottom": 820.25,
+            "right": 320
+          },
+          "image": {
+            "x": -3.8554534912109375,
+            "y": -9.629608154296875,
+            "width": 327.7109375,
+            "height": 839.75927734375,
+            "bottom": 830.1296691894531,
+            "right": 323.85548400878906
+          },
+          "dock": {
+            "x": 0,
+            "y": 679.75,
+            "width": 320,
+            "height": 140.5,
+            "bottom": 820.25,
+            "right": 320
+          },
+          "text": {
+            "x": 24,
+            "y": 427.375,
+            "width": 272,
+            "height": 224.375,
+            "bottom": 651.75,
+            "right": 296
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Лазурная вода, белоснежный песок и безмятежный отдых у открытого моря."
+        },
+        {
+          "slug": "serenity-spa",
+          "pageWidth": 320,
+          "viewport": 320,
+          "frame": {
+            "x": 0,
+            "y": 0.25,
+            "width": 320,
+            "height": 820,
+            "bottom": 820.25,
+            "right": 320
+          },
+          "image": {
+            "x": -3.855499267578125,
+            "y": -9.62969970703125,
+            "width": 327.71099853515625,
+            "height": 839.7593994140625,
+            "bottom": 830.1296997070312,
+            "right": 323.8554992675781
+          },
+          "dock": {
+            "x": 0,
+            "y": 679.75,
+            "width": 320,
+            "height": 140.5,
+            "bottom": 820.25,
+            "right": 320
+          },
+          "text": {
+            "x": 24,
+            "y": 427.375,
+            "width": 272,
+            "height": 224.375,
+            "bottom": 651.75,
+            "right": 296
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Уединённое пространство спокойствия, восстановления и премиального отдыха."
+        },
+        {
+          "slug": "pirates-cove",
+          "pageWidth": 320,
+          "viewport": 320,
+          "frame": {
+            "x": 0,
+            "y": 0.25,
+            "width": 320,
+            "height": 820,
+            "bottom": 820.25,
+            "right": 320
+          },
+          "image": {
+            "x": -3.85546875,
+            "y": -9.629669189453125,
+            "width": 327.7109375,
+            "height": 839.75927734375,
+            "bottom": 830.1296081542969,
+            "right": 323.85546875
+          },
+          "dock": {
+            "x": 0,
+            "y": 679.75,
+            "width": 320,
+            "height": 140.5,
+            "bottom": 820.25,
+            "right": 320
+          },
+          "text": {
+            "x": 24,
+            "y": 427.375,
+            "width": 272,
+            "height": 224.375,
+            "bottom": 651.75,
+            "right": 296
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Пиратские истории, спрятанные сокровища и весёлые открытия для всей семьи."
+        },
+        {
+          "slug": "little-paradise",
+          "pageWidth": 320,
+          "viewport": 320,
+          "frame": {
+            "x": 0,
+            "y": 0.25,
+            "width": 320,
+            "height": 820,
+            "bottom": 820.25,
+            "right": 320
+          },
+          "image": {
+            "x": -3.855438232421875,
+            "y": -9.629547119140625,
+            "width": 327.71087646484375,
+            "height": 839.759033203125,
+            "bottom": 830.1294860839844,
+            "right": 323.8554382324219
+          },
+          "dock": {
+            "x": 0,
+            "y": 679.75,
+            "width": 320,
+            "height": 140.5,
+            "bottom": 820.25,
+            "right": 320
+          },
+          "text": {
+            "x": 24,
+            "y": 427.375,
+            "width": 272,
+            "height": 224.375,
+            "bottom": 651.75,
+            "right": 296
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Яркий и безопасный мир водных развлечений для самых маленьких гостей."
+        },
+        {
+          "slug": "paradise-market",
+          "pageWidth": 320,
+          "viewport": 320,
+          "frame": {
+            "x": 0,
+            "y": 0.25,
+            "width": 320,
+            "height": 820,
+            "bottom": 820.25,
+            "right": 320
+          },
+          "image": {
+            "x": -3.855438232421875,
+            "y": -9.629547119140625,
+            "width": 327.71087646484375,
+            "height": 839.759033203125,
+            "bottom": 830.1294860839844,
+            "right": 323.8554382324219
+          },
+          "dock": {
+            "x": 0,
+            "y": 679.75,
+            "width": 320,
+            "height": 140.5,
+            "bottom": 820.25,
+            "right": 320
+          },
+          "text": {
+            "x": 24,
+            "y": 427.375,
+            "width": 272,
+            "height": 224.375,
+            "bottom": 651.75,
+            "right": 296
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Ароматы островной кухни, уютные кафе и атмосферные торговые улочки."
+        },
+        {
+          "slug": "paradise-boulevard",
+          "pageWidth": 320,
+          "viewport": 320,
+          "frame": {
+            "x": 0,
+            "y": 0.25,
+            "width": 320,
+            "height": 847.34375,
+            "bottom": 847.59375,
+            "right": 320
+          },
+          "image": {
+            "x": -3.855499267578125,
+            "y": -9.95916748046875,
+            "width": 327.71099853515625,
+            "height": 867.7620849609375,
+            "bottom": 857.8029174804688,
+            "right": 323.8554992675781
+          },
+          "dock": {
+            "x": 0,
+            "y": 707.09375,
+            "width": 320,
+            "height": 140.5,
+            "bottom": 847.59375,
+            "right": 320
+          },
+          "text": {
+            "x": 24,
+            "y": 417.71875,
+            "width": 272,
+            "height": 261.375,
+            "bottom": 679.09375,
+            "right": 296
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Праздничное сердце острова: площади, вечерние огни и незабываемые встречи."
+        }
+      ],
+      "loadsBeforeCta": 1
+    },
+    {
+      "label": "phone",
+      "width": 390,
+      "height": 844,
+      "sources": [
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/atlantis-realm-panorama-BG94E0aw.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/eden-gardens-panorama-BLbM8JRn.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/adrenaline-peak-panorama-Ca4lmlRB.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/ocean-bay-panorama-CMrBGj0I.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/serenity-spa-panorama-DZNdDueG.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/pirates-cove-panorama-Wfv1jw6N.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/little-paradise-panorama-DP1Tw8cB.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/paradise-market-panorama-CeukZM8d.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/paradise-boulevard-panorama-bOzyC0Ej.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        }
+      ],
+      "states": [
+        {
+          "slug": "atlantis-realm",
+          "pageWidth": 390,
+          "viewport": 390,
+          "frame": {
+            "x": 0,
+            "y": 0.265625,
+            "width": 390,
+            "height": 844,
+            "bottom": 844.265625,
+            "right": 390
+          },
+          "image": {
+            "x": 0,
+            "y": 0.265625,
+            "width": 390,
+            "height": 844,
+            "bottom": 844.265625,
+            "right": 390
+          },
+          "dock": {
+            "x": 0,
+            "y": 703.765625,
+            "width": 390,
+            "height": 140.5,
+            "bottom": 844.265625,
+            "right": 390
+          },
+          "text": {
+            "x": 24,
+            "y": 451.390625,
+            "width": 342,
+            "height": 224.375,
+            "bottom": 675.765625,
+            "right": 366
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Затерянный мир древних руин, водных маршрутов и приключений среди морских легенд."
+        },
+        {
+          "slug": "eden-gardens",
+          "pageWidth": 390,
+          "viewport": 390,
+          "frame": {
+            "x": 0,
+            "y": 0.265625,
+            "width": 390,
+            "height": 844,
+            "bottom": 844.265625,
+            "right": 390
+          },
+          "image": {
+            "x": -3.0652618408203125,
+            "y": -6.367919921875,
+            "width": 396.1304931640625,
+            "height": 857.26708984375,
+            "bottom": 850.899169921875,
+            "right": 393.0652313232422
+          },
+          "dock": {
+            "x": 0,
+            "y": 703.765625,
+            "width": 390,
+            "height": 140.5,
+            "bottom": 844.265625,
+            "right": 390
+          },
+          "text": {
+            "x": 24,
+            "y": 451.390625,
+            "width": 342,
+            "height": 224.375,
+            "bottom": 675.765625,
+            "right": 366
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Тропические сады, тенистые тропы и водопады, где время словно замедляется."
+        },
+        {
+          "slug": "adrenaline-peak",
+          "pageWidth": 390,
+          "viewport": 390,
+          "frame": {
+            "x": 0,
+            "y": 0.265625,
+            "width": 390,
+            "height": 844,
+            "bottom": 844.265625,
+            "right": 390
+          },
+          "image": {
+            "x": -3.028656005859375,
+            "y": -6.2886962890625,
+            "width": 396.05731201171875,
+            "height": 857.108642578125,
+            "bottom": 850.8199462890625,
+            "right": 393.0286560058594
+          },
+          "dock": {
+            "x": 0,
+            "y": 703.765625,
+            "width": 390,
+            "height": 140.5,
+            "bottom": 844.265625,
+            "right": 390
+          },
+          "text": {
+            "x": 24,
+            "y": 451.390625,
+            "width": 342,
+            "height": 224.375,
+            "bottom": 675.765625,
+            "right": 366
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Головокружительные спуски и захватывающие водные приключения для самых смелых."
+        },
+        {
+          "slug": "ocean-bay",
+          "pageWidth": 390,
+          "viewport": 390,
+          "frame": {
+            "x": 0,
+            "y": 0.265625,
+            "width": 390,
+            "height": 844,
+            "bottom": 844.265625,
+            "right": 390
+          },
+          "image": {
+            "x": -3.0651702880859375,
+            "y": -6.367706298828125,
+            "width": 396.13037109375,
+            "height": 857.2666015625,
+            "bottom": 850.8988952636719,
+            "right": 393.06520080566406
+          },
+          "dock": {
+            "x": 0,
+            "y": 703.765625,
+            "width": 390,
+            "height": 140.5,
+            "bottom": 844.265625,
+            "right": 390
+          },
+          "text": {
+            "x": 24,
+            "y": 451.390625,
+            "width": 342,
+            "height": 224.375,
+            "bottom": 675.765625,
+            "right": 366
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Лазурная вода, белоснежный песок и безмятежный отдых у открытого моря."
+        },
+        {
+          "slug": "serenity-spa",
+          "pageWidth": 390,
+          "viewport": 390,
+          "frame": {
+            "x": 0,
+            "y": 0.265625,
+            "width": 390,
+            "height": 844,
+            "bottom": 844.265625,
+            "right": 390
+          },
+          "image": {
+            "x": -3.028717041015625,
+            "y": -6.288848876953125,
+            "width": 396.05743408203125,
+            "height": 857.10888671875,
+            "bottom": 850.8200378417969,
+            "right": 393.0287170410156
+          },
+          "dock": {
+            "x": 0,
+            "y": 703.765625,
+            "width": 390,
+            "height": 140.5,
+            "bottom": 844.265625,
+            "right": 390
+          },
+          "text": {
+            "x": 24,
+            "y": 451.390625,
+            "width": 342,
+            "height": 224.375,
+            "bottom": 675.765625,
+            "right": 366
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Уединённое пространство спокойствия, восстановления и премиального отдыха."
+        },
+        {
+          "slug": "pirates-cove",
+          "pageWidth": 390,
+          "viewport": 390,
+          "frame": {
+            "x": 0,
+            "y": 0.265625,
+            "width": 390,
+            "height": 844,
+            "bottom": 844.265625,
+            "right": 390
+          },
+          "image": {
+            "x": -3.065216064453125,
+            "y": -6.367828369140625,
+            "width": 396.13043212890625,
+            "height": 857.266845703125,
+            "bottom": 850.8990173339844,
+            "right": 393.0652160644531
+          },
+          "dock": {
+            "x": 0,
+            "y": 703.765625,
+            "width": 390,
+            "height": 140.5,
+            "bottom": 844.265625,
+            "right": 390
+          },
+          "text": {
+            "x": 24,
+            "y": 451.390625,
+            "width": 342,
+            "height": 224.375,
+            "bottom": 675.765625,
+            "right": 366
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Пиратские истории, спрятанные сокровища и весёлые открытия для всей семьи."
+        },
+        {
+          "slug": "little-paradise",
+          "pageWidth": 390,
+          "viewport": 390,
+          "frame": {
+            "x": 0,
+            "y": 0.265625,
+            "width": 390,
+            "height": 844,
+            "bottom": 844.265625,
+            "right": 390
+          },
+          "image": {
+            "x": -3.0286712646484375,
+            "y": -6.288726806640625,
+            "width": 396.057373046875,
+            "height": 857.108642578125,
+            "bottom": 850.8199157714844,
+            "right": 393.02870178222656
+          },
+          "dock": {
+            "x": 0,
+            "y": 703.765625,
+            "width": 390,
+            "height": 140.5,
+            "bottom": 844.265625,
+            "right": 390
+          },
+          "text": {
+            "x": 24,
+            "y": 451.390625,
+            "width": 342,
+            "height": 224.375,
+            "bottom": 675.765625,
+            "right": 366
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Яркий и безопасный мир водных развлечений для самых маленьких гостей."
+        },
+        {
+          "slug": "paradise-market",
+          "pageWidth": 390,
+          "viewport": 390,
+          "frame": {
+            "x": 0,
+            "y": 0.265625,
+            "width": 390,
+            "height": 844,
+            "bottom": 844.265625,
+            "right": 390
+          },
+          "image": {
+            "x": -3.0284881591796875,
+            "y": -6.288330078125,
+            "width": 396.0570068359375,
+            "height": 857.10791015625,
+            "bottom": 850.819580078125,
+            "right": 393.0285186767578
+          },
+          "dock": {
+            "x": 0,
+            "y": 703.765625,
+            "width": 390,
+            "height": 140.5,
+            "bottom": 844.265625,
+            "right": 390
+          },
+          "text": {
+            "x": 24,
+            "y": 451.390625,
+            "width": 342,
+            "height": 224.375,
+            "bottom": 675.765625,
+            "right": 366
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Ароматы островной кухни, уютные кафе и атмосферные торговые улочки."
+        },
+        {
+          "slug": "paradise-boulevard",
+          "pageWidth": 390,
+          "viewport": 390,
+          "frame": {
+            "x": 0,
+            "y": 0.265625,
+            "width": 390,
+            "height": 844,
+            "bottom": 844.265625,
+            "right": 390
+          },
+          "image": {
+            "x": -3.065216064453125,
+            "y": -6.367828369140625,
+            "width": 396.13043212890625,
+            "height": 857.266845703125,
+            "bottom": 850.8990173339844,
+            "right": 393.0652160644531
+          },
+          "dock": {
+            "x": 0,
+            "y": 703.765625,
+            "width": 390,
+            "height": 140.5,
+            "bottom": 844.265625,
+            "right": 390
+          },
+          "text": {
+            "x": 24,
+            "y": 451.390625,
+            "width": 342,
+            "height": 224.375,
+            "bottom": 675.765625,
+            "right": 366
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Праздничное сердце острова: площади, вечерние огни и незабываемые встречи."
+        }
+      ],
+      "loadsBeforeCta": 1
+    },
+    {
+      "label": "tablet",
+      "width": 768,
+      "height": 1024,
+      "sources": [
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/atlantis-realm-panorama-BG94E0aw.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/eden-gardens-panorama-BLbM8JRn.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/adrenaline-peak-panorama-Ca4lmlRB.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/ocean-bay-panorama-CMrBGj0I.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/serenity-spa-panorama-DZNdDueG.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/pirates-cove-panorama-Wfv1jw6N.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/little-paradise-panorama-DP1Tw8cB.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/paradise-market-panorama-CeukZM8d.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/paradise-boulevard-panorama-bOzyC0Ej.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        }
+      ],
+      "states": [
+        {
+          "slug": "atlantis-realm",
+          "pageWidth": 768,
+          "viewport": 768,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 768,
+            "height": 1024,
+            "bottom": 1024,
+            "right": 768
+          },
+          "image": {
+            "x": 0,
+            "y": 0,
+            "width": 768,
+            "height": 1024,
+            "bottom": 1024,
+            "right": 768
+          },
+          "dock": {
+            "x": 0,
+            "y": 883.5,
+            "width": 768,
+            "height": 140.5,
+            "bottom": 1024,
+            "right": 768
+          },
+          "text": {
+            "x": 46.078125,
+            "y": 505.34674072265625,
+            "width": 420,
+            "height": 194.1875,
+            "bottom": 699.5342407226562,
+            "right": 466.078125
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Затерянный мир древних руин, водных маршрутов и приключений среди морских легенд."
+        },
+        {
+          "slug": "eden-gardens",
+          "pageWidth": 768,
+          "viewport": 768,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 768,
+            "height": 1024,
+            "bottom": 1024,
+            "right": 768
+          },
+          "image": {
+            "x": -9.36798095703125,
+            "y": -12.49066162109375,
+            "width": 786.7359619140625,
+            "height": 1048.9814453125,
+            "bottom": 1036.4907836914062,
+            "right": 777.3679809570312
+          },
+          "dock": {
+            "x": 0,
+            "y": 883.5,
+            "width": 768,
+            "height": 140.5,
+            "bottom": 1024,
+            "right": 768
+          },
+          "text": {
+            "x": 46.078125,
+            "y": 505.3125,
+            "width": 420,
+            "height": 194.1875,
+            "bottom": 699.5,
+            "right": 466.078125
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Тропические сады, тенистые тропы и водопады, где время словно замедляется."
+        },
+        {
+          "slug": "adrenaline-peak",
+          "pageWidth": 768,
+          "viewport": 768,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 768,
+            "height": 1024,
+            "bottom": 1024,
+            "right": 768
+          },
+          "image": {
+            "x": -9.2532958984375,
+            "y": -12.33770751953125,
+            "width": 786.506591796875,
+            "height": 1048.67529296875,
+            "bottom": 1036.3375854492188,
+            "right": 777.2532958984375
+          },
+          "dock": {
+            "x": 0,
+            "y": 883.5,
+            "width": 768,
+            "height": 140.5,
+            "bottom": 1024,
+            "right": 768
+          },
+          "text": {
+            "x": 46.078125,
+            "y": 505.3125,
+            "width": 420,
+            "height": 194.1875,
+            "bottom": 699.5,
+            "right": 466.078125
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Головокружительные спуски и захватывающие водные приключения для самых смелых."
+        },
+        {
+          "slug": "ocean-bay",
+          "pageWidth": 768,
+          "viewport": 768,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 768,
+            "height": 1024,
+            "bottom": 1024,
+            "right": 768
+          },
+          "image": {
+            "x": -9.22137451171875,
+            "y": -12.295166015625,
+            "width": 786.4427490234375,
+            "height": 1048.59033203125,
+            "bottom": 1036.295166015625,
+            "right": 777.2213745117188
+          },
+          "dock": {
+            "x": 0,
+            "y": 883.5,
+            "width": 768,
+            "height": 140.5,
+            "bottom": 1024,
+            "right": 768
+          },
+          "text": {
+            "x": 46.078125,
+            "y": 505.3125,
+            "width": 420,
+            "height": 194.1875,
+            "bottom": 699.5,
+            "right": 466.078125
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Лазурная вода, белоснежный песок и безмятежный отдых у открытого моря."
+        },
+        {
+          "slug": "serenity-spa",
+          "pageWidth": 768,
+          "viewport": 768,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 768,
+            "height": 1024,
+            "bottom": 1024,
+            "right": 768
+          },
+          "image": {
+            "x": -9.253143310546875,
+            "y": -12.3375244140625,
+            "width": 786.50634765625,
+            "height": 1048.675048828125,
+            "bottom": 1036.3375244140625,
+            "right": 777.2532043457031
+          },
+          "dock": {
+            "x": 0,
+            "y": 883.5,
+            "width": 768,
+            "height": 140.5,
+            "bottom": 1024,
+            "right": 768
+          },
+          "text": {
+            "x": 46.078125,
+            "y": 505.3125,
+            "width": 420,
+            "height": 194.1875,
+            "bottom": 699.5,
+            "right": 466.078125
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Уединённое пространство спокойствия, восстановления и премиального отдыха."
+        },
+        {
+          "slug": "pirates-cove",
+          "pageWidth": 768,
+          "viewport": 768,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 768,
+            "height": 1024,
+            "bottom": 1024,
+            "right": 768
+          },
+          "image": {
+            "x": -9.22137451171875,
+            "y": -12.295166015625,
+            "width": 786.4427490234375,
+            "height": 1048.59033203125,
+            "bottom": 1036.295166015625,
+            "right": 777.2213745117188
+          },
+          "dock": {
+            "x": 0,
+            "y": 883.5,
+            "width": 768,
+            "height": 140.5,
+            "bottom": 1024,
+            "right": 768
+          },
+          "text": {
+            "x": 46.078125,
+            "y": 505.3125,
+            "width": 420,
+            "height": 194.1875,
+            "bottom": 699.5,
+            "right": 466.078125
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Пиратские истории, спрятанные сокровища и весёлые открытия для всей семьи."
+        },
+        {
+          "slug": "little-paradise",
+          "pageWidth": 768,
+          "viewport": 768,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 768,
+            "height": 1024,
+            "bottom": 1024,
+            "right": 768
+          },
+          "image": {
+            "x": -9.252960205078125,
+            "y": -12.3372802734375,
+            "width": 786.505859375,
+            "height": 1048.674560546875,
+            "bottom": 1036.3372802734375,
+            "right": 777.2528991699219
+          },
+          "dock": {
+            "x": 0,
+            "y": 883.5,
+            "width": 768,
+            "height": 140.5,
+            "bottom": 1024,
+            "right": 768
+          },
+          "text": {
+            "x": 46.078125,
+            "y": 505.3125,
+            "width": 420,
+            "height": 194.1875,
+            "bottom": 699.5,
+            "right": 466.078125
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Яркий и безопасный мир водных развлечений для самых маленьких гостей."
+        },
+        {
+          "slug": "paradise-market",
+          "pageWidth": 768,
+          "viewport": 768,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 768,
+            "height": 1024,
+            "bottom": 1024,
+            "right": 768
+          },
+          "image": {
+            "x": -9.22125244140625,
+            "y": -12.29498291015625,
+            "width": 786.4425048828125,
+            "height": 1048.58984375,
+            "bottom": 1036.2948608398438,
+            "right": 777.2212524414062
+          },
+          "dock": {
+            "x": 0,
+            "y": 883.5,
+            "width": 768,
+            "height": 140.5,
+            "bottom": 1024,
+            "right": 768
+          },
+          "text": {
+            "x": 46.078125,
+            "y": 505.3125,
+            "width": 420,
+            "height": 194.1875,
+            "bottom": 699.5,
+            "right": 466.078125
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Ароматы островной кухни, уютные кафе и атмосферные торговые улочки."
+        },
+        {
+          "slug": "paradise-boulevard",
+          "pageWidth": 768,
+          "viewport": 768,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 768,
+            "height": 1024,
+            "bottom": 1024,
+            "right": 768
+          },
+          "image": {
+            "x": -9.2530517578125,
+            "y": -12.33740234375,
+            "width": 786.506103515625,
+            "height": 1048.6748046875,
+            "bottom": 1036.33740234375,
+            "right": 777.2530517578125
+          },
+          "dock": {
+            "x": 0,
+            "y": 883.5,
+            "width": 768,
+            "height": 140.5,
+            "bottom": 1024,
+            "right": 768
+          },
+          "text": {
+            "x": 46.078125,
+            "y": 505.3125,
+            "width": 420,
+            "height": 194.1875,
+            "bottom": 699.5,
+            "right": 466.078125
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Праздничное сердце острова: площади, вечерние огни и незабываемые встречи."
+        }
+      ],
+      "loadsBeforeCta": 1
+    },
+    {
+      "label": "laptop",
+      "width": 1366,
+      "height": 768,
+      "sources": [
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/atlantis-realm-panorama-BG94E0aw.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/eden-gardens-panorama-BLbM8JRn.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/adrenaline-peak-panorama-Ca4lmlRB.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/ocean-bay-panorama-CMrBGj0I.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/serenity-spa-panorama-DZNdDueG.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/pirates-cove-panorama-Wfv1jw6N.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/little-paradise-panorama-DP1Tw8cB.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/paradise-market-panorama-CeukZM8d.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/paradise-boulevard-panorama-bOzyC0Ej.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        }
+      ],
+      "states": [
+        {
+          "slug": "atlantis-realm",
+          "pageWidth": 1366,
+          "viewport": 1366,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 1366,
+            "height": 768,
+            "bottom": 768,
+            "right": 1366
+          },
+          "image": {
+            "x": 0,
+            "y": 0,
+            "width": 1366,
+            "height": 768,
+            "bottom": 768,
+            "right": 1366
+          },
+          "dock": {
+            "x": 0,
+            "y": 627.5,
+            "width": 1366,
+            "height": 140.5,
+            "bottom": 768,
+            "right": 1366
+          },
+          "text": {
+            "x": 81.953125,
+            "y": 356.25360107421875,
+            "width": 420,
+            "height": 201.359375,
+            "bottom": 557.6129760742188,
+            "right": 501.953125
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Затерянный мир древних руин, водных маршрутов и приключений среди морских легенд."
+        },
+        {
+          "slug": "eden-gardens",
+          "pageWidth": 1366,
+          "viewport": 1366,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 1366,
+            "height": 768,
+            "bottom": 768,
+            "right": 1366
+          },
+          "image": {
+            "x": -16.83203125,
+            "y": -9.46337890625,
+            "width": 1399.6640625,
+            "height": 786.9267578125,
+            "bottom": 777.46337890625,
+            "right": 1382.83203125
+          },
+          "dock": {
+            "x": 0,
+            "y": 627.5,
+            "width": 1366,
+            "height": 140.5,
+            "bottom": 768,
+            "right": 1366
+          },
+          "text": {
+            "x": 81.953125,
+            "y": 355.94049072265625,
+            "width": 420,
+            "height": 201.359375,
+            "bottom": 557.2998657226562,
+            "right": 501.953125
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Тропические сады, тенистые тропы и водопады, где время словно замедляется."
+        },
+        {
+          "slug": "adrenaline-peak",
+          "pageWidth": 1366,
+          "viewport": 1366,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 1366,
+            "height": 768,
+            "bottom": 768,
+            "right": 1366
+          },
+          "image": {
+            "x": -16.458251953125,
+            "y": -9.25323486328125,
+            "width": 1398.91650390625,
+            "height": 786.5064697265625,
+            "bottom": 777.2532348632812,
+            "right": 1382.458251953125
+          },
+          "dock": {
+            "x": 0,
+            "y": 627.5,
+            "width": 1366,
+            "height": 140.5,
+            "bottom": 768,
+            "right": 1366
+          },
+          "text": {
+            "x": 81.953125,
+            "y": 355.9375,
+            "width": 420,
+            "height": 201.359375,
+            "bottom": 557.296875,
+            "right": 501.953125
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Головокружительные спуски и захватывающие водные приключения для самых смелых."
+        },
+        {
+          "slug": "ocean-bay",
+          "pageWidth": 1366,
+          "viewport": 1366,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 1366,
+            "height": 768,
+            "bottom": 768,
+            "right": 1366
+          },
+          "image": {
+            "x": -16.4580078125,
+            "y": -9.25311279296875,
+            "width": 1398.916015625,
+            "height": 786.5062255859375,
+            "bottom": 777.2531127929688,
+            "right": 1382.4580078125
+          },
+          "dock": {
+            "x": 0,
+            "y": 627.5,
+            "width": 1366,
+            "height": 140.5,
+            "bottom": 768,
+            "right": 1366
+          },
+          "text": {
+            "x": 81.953125,
+            "y": 355.9375,
+            "width": 420,
+            "height": 201.359375,
+            "bottom": 557.296875,
+            "right": 501.953125
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Лазурная вода, белоснежный песок и безмятежный отдых у открытого моря."
+        },
+        {
+          "slug": "serenity-spa",
+          "pageWidth": 1366,
+          "viewport": 1366,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 1366,
+            "height": 768,
+            "bottom": 768,
+            "right": 1366
+          },
+          "image": {
+            "x": -16.51251220703125,
+            "y": -9.28375244140625,
+            "width": 1399.02490234375,
+            "height": 786.5675048828125,
+            "bottom": 777.2837524414062,
+            "right": 1382.5123901367188
+          },
+          "dock": {
+            "x": 0,
+            "y": 627.5,
+            "width": 1366,
+            "height": 140.5,
+            "bottom": 768,
+            "right": 1366
+          },
+          "text": {
+            "x": 81.953125,
+            "y": 355.9375,
+            "width": 420,
+            "height": 201.359375,
+            "bottom": 557.296875,
+            "right": 501.953125
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Уединённое пространство спокойствия, восстановления и премиального отдыха."
+        },
+        {
+          "slug": "pirates-cove",
+          "pageWidth": 1366,
+          "viewport": 1366,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 1366,
+            "height": 768,
+            "bottom": 768,
+            "right": 1366
+          },
+          "image": {
+            "x": -16.458251953125,
+            "y": -9.25323486328125,
+            "width": 1398.91650390625,
+            "height": 786.5064697265625,
+            "bottom": 777.2532348632812,
+            "right": 1382.458251953125
+          },
+          "dock": {
+            "x": 0,
+            "y": 627.5,
+            "width": 1366,
+            "height": 140.5,
+            "bottom": 768,
+            "right": 1366
+          },
+          "text": {
+            "x": 81.953125,
+            "y": 355.9375,
+            "width": 420,
+            "height": 201.359375,
+            "bottom": 557.296875,
+            "right": 501.953125
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Пиратские истории, спрятанные сокровища и весёлые открытия для всей семьи."
+        },
+        {
+          "slug": "little-paradise",
+          "pageWidth": 1366,
+          "viewport": 1366,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 1366,
+            "height": 768,
+            "bottom": 768,
+            "right": 1366
+          },
+          "image": {
+            "x": -16.45806884765625,
+            "y": -9.253143310546875,
+            "width": 1398.916015625,
+            "height": 786.50634765625,
+            "bottom": 777.2532043457031,
+            "right": 1382.4579467773438
+          },
+          "dock": {
+            "x": 0,
+            "y": 627.5,
+            "width": 1366,
+            "height": 140.5,
+            "bottom": 768,
+            "right": 1366
+          },
+          "text": {
+            "x": 81.953125,
+            "y": 355.9375,
+            "width": 420,
+            "height": 201.359375,
+            "bottom": 557.296875,
+            "right": 501.953125
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Яркий и безопасный мир водных развлечений для самых маленьких гостей."
+        },
+        {
+          "slug": "paradise-market",
+          "pageWidth": 1366,
+          "viewport": 1366,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 1366,
+            "height": 768,
+            "bottom": 768,
+            "right": 1366
+          },
+          "image": {
+            "x": -16.4013671875,
+            "y": -9.221282958984375,
+            "width": 1398.802734375,
+            "height": 786.442626953125,
+            "bottom": 777.2213439941406,
+            "right": 1382.4013671875
+          },
+          "dock": {
+            "x": 0,
+            "y": 627.5,
+            "width": 1366,
+            "height": 140.5,
+            "bottom": 768,
+            "right": 1366
+          },
+          "text": {
+            "x": 81.953125,
+            "y": 355.9375,
+            "width": 420,
+            "height": 201.359375,
+            "bottom": 557.296875,
+            "right": 501.953125
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Ароматы островной кухни, уютные кафе и атмосферные торговые улочки."
+        },
+        {
+          "slug": "paradise-boulevard",
+          "pageWidth": 1366,
+          "viewport": 1366,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 1366,
+            "height": 768,
+            "bottom": 768,
+            "right": 1366
+          },
+          "image": {
+            "x": -16.45782470703125,
+            "y": -9.25299072265625,
+            "width": 1398.91552734375,
+            "height": 786.5059814453125,
+            "bottom": 777.2529907226562,
+            "right": 1382.4577026367188
+          },
+          "dock": {
+            "x": 0,
+            "y": 627.5,
+            "width": 1366,
+            "height": 140.5,
+            "bottom": 768,
+            "right": 1366
+          },
+          "text": {
+            "x": 81.953125,
+            "y": 355.9375,
+            "width": 420,
+            "height": 201.359375,
+            "bottom": 557.296875,
+            "right": 501.953125
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Праздничное сердце острова: площади, вечерние огни и незабываемые встречи."
+        }
+      ],
+      "loadsBeforeCta": 1
+    },
+    {
+      "label": "desktop",
+      "width": 1920,
+      "height": 1080,
+      "sources": [
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/atlantis-realm-panorama-BG94E0aw.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/eden-gardens-panorama-BLbM8JRn.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/adrenaline-peak-panorama-Ca4lmlRB.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/ocean-bay-panorama-CMrBGj0I.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/serenity-spa-panorama-DZNdDueG.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/pirates-cove-panorama-Wfv1jw6N.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/little-paradise-panorama-DP1Tw8cB.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/paradise-market-panorama-CeukZM8d.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        },
+        {
+          "src": "http://127.0.0.1:4173/aqua-paradise-resort/assets/paradise-boulevard-panorama-bOzyC0Ej.webp",
+          "w": 1672,
+          "h": 941,
+          "complete": true
+        }
+      ],
+      "states": [
+        {
+          "slug": "atlantis-realm",
+          "pageWidth": 1920,
+          "viewport": 1920,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "bottom": 1080,
+            "right": 1920
+          },
+          "image": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "bottom": 1080,
+            "right": 1920
+          },
+          "dock": {
+            "x": 0,
+            "y": 939.5,
+            "width": 1920,
+            "height": 140.5,
+            "bottom": 1080,
+            "right": 1920
+          },
+          "text": {
+            "x": 230,
+            "y": 556.109375,
+            "width": 420,
+            "height": 212.1875,
+            "bottom": 768.296875,
+            "right": 650
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Затерянный мир древних руин, водных маршрутов и приключений среди морских легенд."
+        },
+        {
+          "slug": "eden-gardens",
+          "pageWidth": 1920,
+          "viewport": 1920,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "bottom": 1080,
+            "right": 1920
+          },
+          "image": {
+            "x": -15.817138671875,
+            "y": -8.8970947265625,
+            "width": 1951.63427734375,
+            "height": 1097.794189453125,
+            "bottom": 1088.8970947265625,
+            "right": 1935.817138671875
+          },
+          "dock": {
+            "x": 0,
+            "y": 939.5,
+            "width": 1920,
+            "height": 140.5,
+            "bottom": 1080,
+            "right": 1920
+          },
+          "text": {
+            "x": 230,
+            "y": 556.109375,
+            "width": 420,
+            "height": 212.1875,
+            "bottom": 768.296875,
+            "right": 650
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Тропические сады, тенистые тропы и водопады, где время словно замедляется."
+        },
+        {
+          "slug": "adrenaline-peak",
+          "pageWidth": 1920,
+          "viewport": 1920,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "bottom": 1080,
+            "right": 1920
+          },
+          "image": {
+            "x": -15.27154541015625,
+            "y": -8.59027099609375,
+            "width": 1950.54296875,
+            "height": 1097.1806640625,
+            "bottom": 1088.5903930664062,
+            "right": 1935.2714233398438
+          },
+          "dock": {
+            "x": 0,
+            "y": 939.5,
+            "width": 1920,
+            "height": 140.5,
+            "bottom": 1080,
+            "right": 1920
+          },
+          "text": {
+            "x": 230,
+            "y": 556.109375,
+            "width": 420,
+            "height": 212.1875,
+            "bottom": 768.296875,
+            "right": 650
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Головокружительные спуски и захватывающие водные приключения для самых смелых."
+        },
+        {
+          "slug": "ocean-bay",
+          "pageWidth": 1920,
+          "viewport": 1920,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "bottom": 1080,
+            "right": 1920
+          },
+          "image": {
+            "x": -15.271484375,
+            "y": -8.5902099609375,
+            "width": 1950.54296875,
+            "height": 1097.180419921875,
+            "bottom": 1088.5902099609375,
+            "right": 1935.271484375
+          },
+          "dock": {
+            "x": 0,
+            "y": 939.5,
+            "width": 1920,
+            "height": 140.5,
+            "bottom": 1080,
+            "right": 1920
+          },
+          "text": {
+            "x": 230,
+            "y": 556.109375,
+            "width": 420,
+            "height": 212.1875,
+            "bottom": 768.296875,
+            "right": 650
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Лазурная вода, белоснежный песок и безмятежный отдых у открытого моря."
+        },
+        {
+          "slug": "serenity-spa",
+          "pageWidth": 1920,
+          "viewport": 1920,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "bottom": 1080,
+            "right": 1920
+          },
+          "image": {
+            "x": -15.08984375,
+            "y": -8.488037109375,
+            "width": 1950.1796875,
+            "height": 1096.97607421875,
+            "bottom": 1088.488037109375,
+            "right": 1935.08984375
+          },
+          "dock": {
+            "x": 0,
+            "y": 939.5,
+            "width": 1920,
+            "height": 140.5,
+            "bottom": 1080,
+            "right": 1920
+          },
+          "text": {
+            "x": 230,
+            "y": 556.109375,
+            "width": 420,
+            "height": 212.1875,
+            "bottom": 768.296875,
+            "right": 650
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Уединённое пространство спокойствия, восстановления и премиального отдыха."
+        },
+        {
+          "slug": "pirates-cove",
+          "pageWidth": 1920,
+          "viewport": 1920,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "bottom": 1080,
+            "right": 1920
+          },
+          "image": {
+            "x": -15.270751953125,
+            "y": -8.58978271484375,
+            "width": 1950.54150390625,
+            "height": 1097.1796875,
+            "bottom": 1088.5899047851562,
+            "right": 1935.270751953125
+          },
+          "dock": {
+            "x": 0,
+            "y": 939.5,
+            "width": 1920,
+            "height": 140.5,
+            "bottom": 1080,
+            "right": 1920
+          },
+          "text": {
+            "x": 230,
+            "y": 556.109375,
+            "width": 420,
+            "height": 212.1875,
+            "bottom": 768.296875,
+            "right": 650
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Пиратские истории, спрятанные сокровища и весёлые открытия для всей семьи."
+        },
+        {
+          "slug": "little-paradise",
+          "pageWidth": 1920,
+          "viewport": 1920,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "bottom": 1080,
+            "right": 1920
+          },
+          "image": {
+            "x": -15.089599609375,
+            "y": -8.4879150390625,
+            "width": 1950.17919921875,
+            "height": 1096.975830078125,
+            "bottom": 1088.4879150390625,
+            "right": 1935.089599609375
+          },
+          "dock": {
+            "x": 0,
+            "y": 939.5,
+            "width": 1920,
+            "height": 140.5,
+            "bottom": 1080,
+            "right": 1920
+          },
+          "text": {
+            "x": 230,
+            "y": 556.109375,
+            "width": 420,
+            "height": 212.1875,
+            "bottom": 768.296875,
+            "right": 650
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Яркий и безопасный мир водных развлечений для самых маленьких гостей."
+        },
+        {
+          "slug": "paradise-market",
+          "pageWidth": 1920,
+          "viewport": 1920,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "bottom": 1080,
+            "right": 1920
+          },
+          "image": {
+            "x": -15.2711181640625,
+            "y": -8.59002685546875,
+            "width": 1950.542236328125,
+            "height": 1097.18017578125,
+            "bottom": 1088.5901489257812,
+            "right": 1935.2711181640625
+          },
+          "dock": {
+            "x": 0,
+            "y": 939.5,
+            "width": 1920,
+            "height": 140.5,
+            "bottom": 1080,
+            "right": 1920
+          },
+          "text": {
+            "x": 230,
+            "y": 556.109375,
+            "width": 420,
+            "height": 212.1875,
+            "bottom": 768.296875,
+            "right": 650
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Ароматы островной кухни, уютные кафе и атмосферные торговые улочки."
+        },
+        {
+          "slug": "paradise-boulevard",
+          "pageWidth": 1920,
+          "viewport": 1920,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "bottom": 1080,
+            "right": 1920
+          },
+          "image": {
+            "x": -15.2713623046875,
+            "y": -8.59014892578125,
+            "width": 1950.542724609375,
+            "height": 1097.18017578125,
+            "bottom": 1088.5900268554688,
+            "right": 1935.2713623046875
+          },
+          "dock": {
+            "x": 0,
+            "y": 939.5,
+            "width": 1920,
+            "height": 140.5,
+            "bottom": 1080,
+            "right": 1920
+          },
+          "text": {
+            "x": 230,
+            "y": 556.109375,
+            "width": 444.609375,
+            "height": 212.1875,
+            "bottom": 768.296875,
+            "right": 674.609375
+          },
+          "dockBackground": "rgba(0, 0, 0, 0)",
+          "dockBorder": "0px",
+          "dockBlur": "blur(12px)",
+          "backdropDisplay": "block",
+          "mask": "linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0) 6%, rgb(0, 0, 0) 97%, rgba(0, 0, 0, 0))",
+          "description": "Праздничное сердце острова: площади, вечерние огни и незабываемые встречи."
+        }
+      ],
+      "loadsBeforeCta": 1
+    }
+  ],
+  "errors": [],
+  "ctaRoutes": 9,
+  "ticketRoute": true,
+  "touchSwipe": true,
+  "latestRequestWins": true,
+  "failedLoadRetainsPreviousScene": true,
+  "reducedDuration": "1e-05s"
+}

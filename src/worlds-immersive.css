@@ -20,7 +20,8 @@
   height: 100%;
   z-index: 0;
   pointer-events: none;
-  mask-image: linear-gradient(180deg, transparent, #000 7%, #000 86%, transparent);
+  /* Only the outer section edges fade: the image continues behind the dock. */
+  mask-image: linear-gradient(180deg, transparent, #000 6%, #000 97%, transparent);
 }
 .apr-home .apr-worlds--immersive .apr-worlds__panorama {
   position: absolute;
@@ -29,14 +30,18 @@
   height: 100%;
   object-fit: cover;
   object-position: 66% 48%;
+  transform: scale(1.025);
+  transition: transform 5s ease;
 }
+.apr-home .apr-worlds--immersive .apr-worlds__backdrop { transition: opacity .9s ease; }
+.apr-home .apr-worlds--immersive .apr-worlds__backdrop.is-active .apr-worlds__panorama { transform: scale(1); }
 .apr-home .apr-worlds--immersive .apr-worlds__shade {
   display: block;
   z-index: 1;
   pointer-events: none;
   background:
     linear-gradient(90deg, #031419b8 0%, #03141980 26%, #03141926 52%, transparent 76%),
-    linear-gradient(180deg, #06131745, transparent 18%, transparent 66%, #061317a8);
+    linear-gradient(180deg, #06131745, transparent 18%, transparent 66%, #06131759);
 }
 .apr-home .apr-worlds--immersive .apr-worlds__content {
   position: relative;
@@ -47,6 +52,7 @@
   align-items: flex-start;
   justify-content: center;
   gap: clamp(26px, 4svh, 46px);
+  touch-action: pan-y pinch-zoom;
 }
 .apr-home .apr-worlds--immersive .apr-worlds__intro {
   max-width: 555px;
@@ -66,6 +72,13 @@
   max-width: 495px;
   min-height: 0;
   padding-right: 0;
+  animation: none;
+}
+.apr-home .apr-worlds--immersive .apr-worlds__selected-copy { animation: apr-world-reveal .7s cubic-bezier(.2,.7,.2,1) both; }
+.apr-home .apr-worlds--immersive .apr-worlds__error { color: #f1d5a8; }
+@keyframes apr-world-reveal {
+  from { opacity: 0; transform: translateY(16px); filter: blur(3px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
 .apr-home .apr-worlds--immersive .apr-worlds__selected h3 {
   font-size: clamp(42px, 3.6vw, 60px);
@@ -76,18 +89,29 @@
 }
 .apr-home .apr-worlds--immersive .apr-worlds__dock {
   position: relative;
+  isolation: isolate;
   z-index: 3;
   width: 100%;
   padding: 18px clamp(24px, 4vw, 76px) 22px;
-  background: linear-gradient(0deg, #061317e6, #0613178c);
-  border-top: 1px solid #e6c79133;
+  background: transparent;
+  border-top: 0;
+  backdrop-filter: none;
+}
+.apr-home .apr-worlds--immersive .apr-worlds__dock::before {
+  content: '';
+  position: absolute;
+  inset: -28px 0 0;
+  z-index: -1;
+  pointer-events: none;
+  background: #04141866;
   backdrop-filter: blur(12px);
+  mask-image: linear-gradient(180deg, transparent, #000 28px);
 }
 .apr-home .apr-worlds--immersive .apr-worlds__thumb > img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 78% center;
+  object-position: var(--world-mobile-position, 78% center);
 }
 .apr-home .apr-worlds--immersive .apr-worlds__tab {
   flex: 0 0 168px;
@@ -121,10 +145,10 @@
     min-height: max(820px, 100svh);
   }
   .apr-home .apr-worlds--immersive .apr-worlds__panorama {
-    object-position: 78% center;
+    object-position: var(--world-mobile-position, 78% center);
   }
   .apr-home .apr-worlds--immersive .apr-worlds__shade {
-    background: linear-gradient(180deg, #06131726, #0613170d 20%, #03141999 38%, #031419d9 64%, #061317ed);
+    background: linear-gradient(180deg, #06131726, #0613170d 20%, #03141999 38%, #031419cc 64%, #06131766 88%, #06131780);
   }
   .apr-home .apr-worlds--immersive .apr-worlds__content {
     padding: 230px 24px 28px;
@@ -161,4 +185,7 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .apr-home .apr-worlds--immersive .apr-worlds__rail { scroll-behavior: auto; }
+  .apr-home .apr-worlds--immersive .apr-worlds__backdrop,
+  .apr-home .apr-worlds--immersive .apr-worlds__panorama { transition: none; transform: none; }
+  .apr-home .apr-worlds--immersive .apr-worlds__selected-copy { animation: none; }
 }
