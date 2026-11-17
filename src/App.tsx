@@ -162,12 +162,16 @@ const HomePage = () => (
     <section className="apr-hero" aria-label="Aqua Paradise Resort">
       <svg className="apr-hero__filters" aria-hidden="true" width="0" height="0">
         <defs>
-          <filter id="apr-print-grain" x="-5%" y="-5%" width="110%" height="115%">
-            <feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="3" seed="8" result="noise" />
-            <feColorMatrix in="noise" type="saturate" values="0" />
-            <feComponentTransfer><feFuncA type="linear" slope=".31" /></feComponentTransfer>
-            <feComposite in2="SourceGraphic" operator="in" />
-            <feBlend in="SourceGraphic" mode="multiply" />
+          <filter id="apr-print-wear" x="-12%" y="-18%" width="124%" height="136%" colorInterpolationFilters="sRGB">
+            {/* Stretched noise creates short, uneven horizontal ink scratches. */}
+            <feTurbulence type="fractalNoise" baseFrequency=".032 .42" numOctaves="2" seed="13" result="scratchNoise" />
+            <feColorMatrix in="scratchNoise" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  8 0 0 0 -4.95" result="scratchMask" />
+            {/* A finer second pass adds scattered worn spots between the strokes. */}
+            <feTurbulence type="fractalNoise" baseFrequency=".58 .68" numOctaves="2" seed="8" result="speckleNoise" />
+            <feColorMatrix in="speckleNoise" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  10 0 0 0 -6.5" result="speckleMask" />
+            <feComposite in="scratchMask" in2="speckleMask" operator="arithmetic" k1="0" k2="1" k3=".45" k4="0" result="wearMask" />
+            <feComponentTransfer in="wearMask" result="softWear"><feFuncA type="linear" slope=".72" /></feComponentTransfer>
+            <feComposite in="SourceGraphic" in2="softWear" operator="out" />
           </filter>
         </defs>
       </svg>
