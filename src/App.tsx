@@ -512,7 +512,7 @@ function App() {
   <div className="apr-header__menu" onMouseEnter={() => setOpenHeaderMenu('entertainment')} onMouseLeave={() => setOpenHeaderMenu(null)} onKeyDown={(e) => { if (e.key === 'Escape') setOpenHeaderMenu(null); }}>
     <button type="button" className="apr-header__navlink apr-header__trigger" aria-haspopup="true"
       aria-expanded={openHeaderMenu === 'entertainment'} aria-controls="apr-menu-entertainment"
-      onClick={() => setOpenHeaderMenu(openHeaderMenu === 'entertainment' ? null : 'entertainment')}
+      onClick={() => setOpenHeaderMenu('entertainment')}
       onFocus={() => setOpenHeaderMenu('entertainment')}>
       Развлечения <span aria-hidden="true" className="apr-header__chevron">⌄</span>
     </button>
@@ -535,7 +535,7 @@ function App() {
   <div className="apr-header__menu" onMouseEnter={() => setOpenHeaderMenu('visit')} onMouseLeave={() => setOpenHeaderMenu(null)} onKeyDown={(e) => { if (e.key === 'Escape') setOpenHeaderMenu(null); }}>
     <button type="button" className="apr-header__navlink apr-header__trigger" aria-haspopup="true"
       aria-expanded={openHeaderMenu === 'visit'} aria-controls="apr-menu-visit"
-      onClick={() => setOpenHeaderMenu(openHeaderMenu === 'visit' ? null : 'visit')}
+      onClick={() => setOpenHeaderMenu('visit')}
       onFocus={() => setOpenHeaderMenu('visit')}>
       Посещение <span aria-hidden="true" className="apr-header__chevron">⌄</span>
     </button>
