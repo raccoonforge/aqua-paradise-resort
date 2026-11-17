@@ -232,6 +232,12 @@
 /* Let the artwork pass underneath the transparent desktop masthead. */
 @media (min-width: 768px) {
   .apr-header { margin-bottom: calc(-1 * clamp(72px, 5.2vw, 100px)); }
+  /* Preserve the approved headline/CTA positions while the art goes behind the nav. */
+  .apr-header ~ main .apr-hero { min-height: calc(56.25vw + clamp(72px, 5.2vw, 100px)); }
+  .apr-header ~ main .apr-hero__content { padding-top: calc(5.4vw + clamp(72px, 5.2vw, 100px)); }
+}
+@media (min-width: 768px) and (max-width: 1000px) {
+  .apr-header ~ main .apr-hero__content { padding-top: calc(5vw + clamp(72px, 5.2vw, 100px)); }
 }
 @media (max-width: 767px) {
   /* Keep the existing mobile flow until mobile navigation is redesigned. */
