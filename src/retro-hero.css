@@ -46,7 +46,7 @@
   color: #ffe6b2;
   -webkit-text-stroke: 1px #073d36;
   paint-order: stroke fill;
-  text-shadow: 1px 1px #ffc17c, 2px 2px #f6a163, 3px 4px #f2804c, 4px 5px #ec7041, 5px 6px #e9653b, 6px 7px #073d36, 8px 9px #073d36, 10px 11px #002d2b;
+  text-shadow: 1px 1px #efb57b, 2px 2px #c98d66, 3px 4px #11434a, 4px 5px #0b3942, 5px 6px #0b3942, 6px 7px #08333b, 8px 9px #062c34, 10px 11px #04252c;
   animation: apr-print-in .85s both;
 }
 .apr-hero__title span { display: block; }
@@ -137,7 +137,7 @@
   .apr-hero__content { width: 100%; padding: 45px 22px 420px; }
   .apr-hero__aqua { font-size: 21vw; padding-left: 17vw; }
   .apr-hero__paradise { font-size: 15.2vw; }
-  .apr-hero__title { text-shadow: 1px 2px #f6b260, 2px 3px #ef6b3b, 3px 4px #ef6b3b, 4px 6px #00302e; }
+  .apr-hero__title { text-shadow: 1px 1px #efb57b, 2px 2px #11434a, 3px 4px #0b3942, 4px 6px #04252c; }
   .apr-hero__title::after { bottom: -10px; height: 5px; border-bottom-width: 3px; }
   .apr-hero__resort { font-size: 21vw; margin-top: 14px; padding-right: 7vw; }
   .apr-hero__tagline { font-size: clamp(16px, 4.7vw, 30px); margin: 18px 0; text-align: center; }
