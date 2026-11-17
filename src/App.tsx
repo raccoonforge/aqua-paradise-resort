@@ -492,7 +492,8 @@ function App() {
           <div className="text-xl font-bold text-teal-900 cursor-pointer" onClick={() => navigate('#/')}>
             {basePath === '#/' ? (
               <span className="apr-brand" title="Aqua Paradise Resort">
-                <img src={aprPalmLogo} alt="Aqua Paradise Resort" width="76" height="69" />
+                <img src={aprPalmLogo} alt="" width="76" height="69" />
+                <span className="apr-brand__name">Aqua<br />Paradise<small>Resort</small></span>
               </span>
             ) : '🌴 Aqua Paradise'}
           </div>
