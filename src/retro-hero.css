@@ -222,15 +222,15 @@
   color: #fff0c8;
   border-top: 0 !important;
   outline: 0;
-  border-bottom: 1px solid transparent !important;
+  border-bottom: 0 !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
   transition: background-color .25s ease, border-color .25s ease, box-shadow .25s ease;
 }
 .apr-header--scrolled {
   background: rgba(5, 45, 47, .97) !important;
-  border-bottom-color: rgba(226, 180, 107, .68) !important;
-  box-shadow: 0 2px 10px rgba(2, 26, 29, .3) !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
 }
 /* Let the artwork pass underneath the transparent desktop masthead. */
 @media (min-width: 768px) {
