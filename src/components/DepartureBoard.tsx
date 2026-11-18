@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { ALL_INTERESTS, parties, todayLocal } from '../data/planner-options';
 import HeaderLineIcon from './HeaderLineIcon';
+import traveller from '../assets/retro/departure-traveller.webp';
+import foreground from '../assets/retro/departure-foreground.webp';
 
 function Letters({value}: {value: string}) {
   return <span className="board-letters" aria-hidden="true">
@@ -30,6 +32,10 @@ export default function DepartureBoard() {
   }
   return <section id="planner" className="departure poster-stock" aria-labelledby="departure-title">
     <header className="poster-heading">
+      <span className="departure-art" aria-hidden="true">
+        <img className="departure-foliage" src={foreground} width={414} height={190} alt="" loading="lazy" decoding="async" />
+        <img className="departure-traveller" src={traveller} width={398} height={692} alt="" loading="lazy" decoding="async" />
+      </span>
       <h2 id="departure-title">Спланируйте своё<br />идеальное прибытие в рай</h2>
       <p>Выберите дату, компанию и настроение отдыха.</p>
     </header>
