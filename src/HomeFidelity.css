@@ -589,103 +589,113 @@
   object-fit: cover;
   object-position: center;
 }
+/* Exact original title treatment from feat/retro-tropical-hero.
+   Only positioning is adapted to the current independently positioned Hero. */
+.riv-home .apr-hero__palm-foreground {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
 .riv-home .apr-hero__lettering {
   position: absolute;
   z-index: 1;
   top: 15%;
   left: 4.1%;
-  width: 47%;
-  transform: rotate(-5deg);
-  transform-origin: center;
+  width: 52%;
+  transform: translateX(-25px);
   pointer-events: auto;
   user-select: text;
   -webkit-user-select: text;
 }
 .riv-home .apr-hero__title {
-  position: relative;
   user-select: text;
   -webkit-user-select: text;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+}
+.riv-home .apr-hero__title {
+  position: relative;
   margin: 0;
-  color: #ffe8ba;
   font-family: 'APR Poster', Georgia, serif;
   font-style: italic;
   font-weight: 700;
-  letter-spacing: -.07em;
-  line-height: .83;
-  /* Dimensional poster shadow is applied to the ink-shaped glyphs below. */
+  line-height: .91;
+  letter-spacing: -.058em;
+  font-kerning: normal;
+  transform: rotate(-7deg);
+  transform-origin: 50% 70%;
+  color: #ffe6b2;
+  -webkit-text-stroke: 0;
+  paint-order: stroke fill;
+  text-shadow: 1px 1px #efb57b, 2px 2px #c98d66, 3px 4px #11434a, 4px 5px #0b3942, 5px 6px #0b3942, 6px 7px #08333b, 8px 9px #062c34, 10px 11px #04252c;
+  animation: apr-print-in .85s both;
+}
+.riv-home .apr-hero__title span {
+  display: block;
+  /* Sunlit cream ink becomes warmer and deeper toward the baseline. */
+  background-image: linear-gradient(180deg, #fff9e6 0%, #ffebbc 25%, #e9b56e 62%, #aa672f 100%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* A solid text-shadow paints across the gradient, hiding it. */
   text-shadow: none;
 }
-.riv-home .apr-hero__title .apr-hero__aqua,
-.riv-home .apr-hero__title .apr-hero__paradise {
-  display: block;
-  /* The letterforms remain selectable text: layered screenprint ink + gold shading. */
-  background-image: var(--riv-stock),
-    linear-gradient(180deg, #fff5d2 0%, #fbe7b6 42%, #efc68e 75%, #dba068 100%);
-  background-blend-mode: multiply, normal;
-  -webkit-background-clip: text, text;
-  background-clip: text, text;
-  -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: .014cqw rgba(255,233,186,.36);
-  paint-order: stroke fill;
-  filter: drop-shadow(.011em .015em #c58e58)
-    drop-shadow(.014em .021em #9a6746)
-    drop-shadow(.025em .032em #194a48)
-    drop-shadow(.029em .045em #06383d);
-}
-.riv-home .apr-hero__aqua {
-  font-size: 11.1cqw;
-  padding-left: 3.8cqw;
-}
-.riv-home .apr-hero__paradise {
-  font-size: 8.05cqw;
-  margin-top: .08em;
-}
-/* The two live ornamental ribbons belong to the HTML title, not the artwork. */
-.riv-home .apr-hero__title::before,
-.riv-home .apr-hero__title::after {
+.riv-home .apr-hero__aqua { font-size: 10.5vw; padding-left: 5.3vw; padding-bottom: .17em; margin-bottom: -.17em; }
+.riv-home .apr-hero__paradise { font-size: 7.55vw; letter-spacing: -.065em; }
+/* Two vintage poster ribbons sit BELOW the lettering (the parent already tilts -7deg). */
+.riv-home .apr-hero__title::after,
+.riv-home .apr-hero__title::before {
   content: '';
+  display: block;
   position: absolute;
   pointer-events: none;
-  z-index: -1;
-  left: 1.5%;
-  width: 100%;
-  transform: rotate(-4deg);
-  transform-origin: left center;
-  clip-path: polygon(0 13%, 82% 0, 100% 50%, 82% 100%, 0 87%);
-}
-.riv-home .apr-hero__title::before {
-  top: 76%;
-  height: .83cqw;
-  background: linear-gradient(180deg, #ff9d6a 0%, #ed6442 54%, #c33f31 100%);
-  filter: drop-shadow(0 .16cqw #06353a);
+  transform: skewX(-30deg);
 }
 .riv-home .apr-hero__title::after {
-  top: 79%;
-  height: .5cqw;
-  background: linear-gradient(180deg,#ffdb89 0%,#f6b64c 46%,#d98b24 100%);
-  filter: drop-shadow(0 .09cqw #08383a);
+  left: 2%;
+  width: 96%;
+  bottom: -1.2vw;
+  height: .88vw;
+  min-height: 9px;
+  background: linear-gradient(to bottom, #ffa16d 0%, #f76840 17%, #e84d2f 58%, #ad3027 100%);
+  /* Full ink until near the S, then the physical stroke narrows to a point. */
+  clip-path: polygon(0 4%, 70% 0, 79% 7%, 87% 19%, 94% 33%, 100% 50%, 94% 67%, 87% 81%, 79% 93%, 70% 100%, 0 100%);
+  filter: url(#apr-print-wear) drop-shadow(1px 3px 0 #062a2f);
 }
-.riv-home .apr-hero__title .apr-hero__resort {
-  display: block;
-  align-self: flex-start;
-  margin: .10em 0 0 16.2cqw;
-  color: #f56845;
-  font: 400 9.1cqw/.9 'APR Script', cursive;
-  letter-spacing: -.035em;
-  background-image: var(--riv-stock), linear-gradient(180deg,#ff9b6d 0%,#f76742 48%,#d84230 100%);
-  background-blend-mode: multiply, normal;
-  -webkit-background-clip: text, text;
-  background-clip: text, text;
+.riv-home .apr-hero__title::before {
+  left: 5%;
+  width: 90%;
+  bottom: -2.15vw;
+  height: .58vw;
+  min-height: 6px;
+  background: linear-gradient(to bottom, #ffe08b 0%, #f6b83c 22%, #df8b21 66%, #995219 100%);
+  clip-path: polygon(0 5%, 68% 0, 78% 8%, 87% 21%, 94% 36%, 100% 50%, 94% 64%, 87% 79%, 78% 92%, 68% 100%, 0 100%);
+  filter: url(#apr-print-wear) drop-shadow(1px 2px 0 #073137);
+}
+.riv-home .apr-hero__resort {
+  font: 400 8.9vw/.9 'APR Script', cursive;
+  color: #f76840;
+  /* Match the exact coral ink palette of the upper poster ribbon. */
+  background-image: linear-gradient(180deg, #ffa16d 0%, #f76840 17%, #e84d2f 58%, #ad3027 100%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: .055cqw #ec6244;
+  -webkit-text-stroke: clamp(2.7px, .27vw, 4.4px) #f76840;
   paint-order: stroke fill;
-  filter: drop-shadow(.012em .02em #ad4731)
-    drop-shadow(.026em .045em #073b3d);
-  transform: rotate(-2deg);
+  text-shadow: none;
+  transform: translateX(-4vw) rotate(-8deg);
+  text-align: right;
+  padding-right: 2.3vw;
+  margin-top: 1.4vw;
+  animation: apr-print-in 1s .12s both;
 }
+
 @media (max-width:1000px) {
   .riv-home .apr-hero__plate {
     inset: auto 0 0;
@@ -693,26 +703,32 @@
     mask-image: linear-gradient(transparent, #000 16%);
   }
   .riv-home .apr-hero__plate img { object-position: 41% 71%; }
-  .riv-home .apr-hero__lettering {
+   .riv-home .apr-hero__lettering {
     position: relative;
     top: auto;
     left: auto;
     width: min(86%,620px);
     margin: 0 auto;
-    transform: rotate(-4deg);
+    transform: none;
   }
   .riv-home .apr-hero__aqua { font-size: clamp(55px,11cqw,105px); padding-left: 5cqw; }
   .riv-home .apr-hero__paradise { font-size: clamp(44px,8.3cqw,82px); }
-  .riv-home .apr-hero__title .apr-hero__resort {
-    font-size: clamp(64px,9.5cqw,98px);
-    margin-left: 17cqw;
-    margin-right: 0;
-    -webkit-text-stroke: .5px #dc4d34;
+   .riv-home .apr-hero__resort {
+    font-size: clamp(54px, 9.5cqw, 98px);
+    margin-top: 1.4vw;
+    -webkit-text-stroke: .5px #f76840;
   }
 }
 @media (max-width:520px) {
   .riv-home .apr-hero__lettering { width: 94%; }
   .riv-home .apr-hero__aqua { font-size: 13.2cqw; padding-left: 11cqw; }
   .riv-home .apr-hero__paradise { font-size: 10.25cqw; padding-left: 1cqw; }
-  .riv-home .apr-hero__title .apr-hero__resort { font-size: 15.4cqw; margin-top: .07em; }
+   .riv-home .apr-hero__resort { font-size: 15.4cqw; margin-top: .07em; }
+}
+
+@media (max-width:1000px) {
+  .riv-home .apr-hero__palm-foreground { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .riv-home .apr-hero__title, .riv-home .apr-hero__resort { animation: none; }
 }
