@@ -26,7 +26,7 @@ jobs:
         with:
           ref: main
           path: site
-      # Preview refresh: visually balanced water slide and island pictograms.
+      # Preview refresh: balance visual size of vintage slide and island icons.
       # Build preview from the current working branch without merging its design into main.
       - name: Checkout new preview (PR #5)
         uses: actions/checkout@v4
