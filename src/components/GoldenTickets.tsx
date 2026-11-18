@@ -8,11 +8,11 @@ export default function GoldenTickets() {
     <svg width="0" height="0" aria-hidden="true" className="absolute">
       <defs>
         <filter id="ticket-print" colorInterpolationFilters="sRGB">
-          <feColorMatrix type="saturate" values=".64" />
+          <feColorMatrix type="matrix" values=".67 .35 .08 0 -.024  .12 .68 .14 0 -.005  .14 .19 .58 0 .025  0 0 0 1 0" />
           <feComponentTransfer>
-            <feFuncR type="discrete" tableValues=".03 .04 .07 .12 .24 .42 .65 .80 .91 .98 1" />
-            <feFuncG type="discrete" tableValues=".12 .22 .32 .40 .49 .56 .62 .67 .73 .81 .9" />
-            <feFuncB type="discrete" tableValues=".12 .19 .25 .28 .28 .24 .25 .28 .34 .45 .67" />
+            <feFuncR type="discrete" tableValues=".03 .06 .13 .26 .40 .57 .73 .85 .94 .98 1" />
+            <feFuncG type="discrete" tableValues=".11 .20 .28 .34 .40 .49 .57 .66 .75 .83 .91" />
+            <feFuncB type="discrete" tableValues=".13 .19 .24 .28 .29 .30 .34 .39 .46 .57 .74" />
           </feComponentTransfer>
         </filter>
       </defs>

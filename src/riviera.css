@@ -276,3 +276,6 @@
   .riv-home .apr-hero__actions .riv-button { text-align:center; }
   .departure { padding-bottom:70px; }
 }
+.golden-ticket .ticket-lettering { background:var(--riv-stock),repeating-conic-gradient(from 12deg at 50% 150%,#fae2ad 0 12deg,#f3d69c 12deg 18deg); }
+.ticket-lettering h3 { font-size:clamp(30px,3.3vw,57px); }
+@media (max-width:767px) { .ticket-lettering h3 { font-size:34px; } }
