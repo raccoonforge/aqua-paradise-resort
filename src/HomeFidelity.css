@@ -349,3 +349,65 @@
   .sunset-pier { background-size: auto 80%,auto,auto; }
   .pier-content nav { padding: 9px 0; background: #003b35bf; }
 }
+
+
+/* Header-only polish: transparent masthead, softer readability veil and shared coral ink. */
+.riv-mast.apr-header {
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  background: linear-gradient(180deg, rgba(1,31,33,.76) 0%, rgba(1,35,36,.39) 58%, rgba(1,35,36,0) 100%) !important;
+  background-clip: padding-box;
+}
+.riv-mast.apr-header::before,
+.riv-mast.apr-header::after,
+.riv-mast.apr-header .mast-inner::before,
+.riv-mast.apr-header .mast-inner::after {
+  content: none !important;
+  border: 0 !important;
+}
+.riv-mast .apr-header__links {
+  position: relative;
+  isolation: isolate;
+}
+.riv-mast .apr-header__links::before {
+  content: '';
+  position: absolute;
+  inset: -16px -25px;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(0,27,29,.46), rgba(0,30,31,.19) 58%, transparent 81%);
+}
+.riv-mast .apr-header__navlink,
+.riv-mast .apr-header__trigger {
+  transition: color .19s ease, border-color .19s ease, text-shadow .19s ease;
+}
+.riv-mast .apr-header__navlink:hover,
+.riv-mast .apr-header__navlink:focus-visible,
+.riv-mast .apr-header__navlink[aria-current='page'],
+.riv-mast .apr-header__trigger:hover,
+.riv-mast .apr-header__trigger:focus-visible,
+.riv-mast .apr-header__trigger[aria-expanded='true'] {
+  color: #e66a4c;
+  border-bottom-color: #c45139;
+  text-shadow: 0 0 10px rgba(238,105,74,.2), 0 2px 3px #002b2c;
+}
+/* Same vintage ink on the ticket CTA and ticket-menu heading. */
+.riv-mast .ticket-cta {
+  min-width: clamp(164px, 10.5vw, 198px);
+  padding-inline: clamp(19px, 1.65vw, 31px);
+  background-image: var(--riv-stock), linear-gradient(180deg,#d96645 0%,#bf472f 61%,#9d3225 100%);
+  border-color: #ecb17b;
+  box-shadow: inset 0 0 0 1px #ffcf9c5c, 0 3px 0 #59241c;
+}
+.riv-mast .ticket-cta:hover {
+  background-image: var(--riv-stock),linear-gradient(180deg,#e16a49 0%,#c94e33 61%,#a83b2b 100%);
+}
+.riv-mast .apr-header__ticket-head {
+  background-image: var(--riv-stock), linear-gradient(180deg,#d96645 0%,#bf472f 61%,#9d3225 100%);
+  border-bottom-color: #873122;
+}
+@media (prefers-reduced-motion: reduce) {
+  .riv-mast .apr-header__navlink,
+  .riv-mast .apr-header__trigger { transition: none; }
+}
