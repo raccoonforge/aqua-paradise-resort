@@ -63,11 +63,6 @@
 @keyframes drawer-enter { from { transform: translateX(100%); } }
 
 .riv-home { background: var(--riv-deep); }
-.riv-home .apr-hero { min-height: 56.3vw; }
-.riv-home .apr-hero__content { padding-top: clamp(105px,8.6vw,165px); }
-.riv-home .apr-hero__resort { animation: apr-print-in .75s both; }
-.riv-home .apr-hero__actions { flex-wrap: wrap; }
-.riv-home .apr-hero__actions .riv-button { font-size: clamp(13px,1.2vw,21px); }
 .water-spray { position: absolute; pointer-events: none; left: 61%; right: 20%; top: 68%; height: 4%; }
 .water-spray i { position:absolute; left: 8%; top: 22%; width: 3px; height: 2px; border-radius: 50%; background: #fff9d6; opacity: 0; animation: spray 2.7s ease-out infinite; }
 .water-spray i:nth-child(even) { left: 75%; --drift: 8px; animation-delay: -1.4s; }
@@ -156,12 +151,6 @@
 .pier-content nav a { display:block; width:fit-content; padding:3px 0; font:clamp(14px,1.15vw,20px)/1.4 Georgia,serif; }
 .pier-content a:hover { color:#ffac80; text-decoration:underline; }
 .pier-legal { position:relative; width:76%; display:flex; align-items:center; flex-wrap:wrap; gap:7px 20px; border-top:1px solid #d5ad71; margin-top:24px; padding-top:16px; font-size:12px; color:#f0d5a4; }
-.sunset-scene { position:absolute; z-index:-1; right:0; bottom:0; width:27%; height:84%; overflow:hidden; }
-.sunset-disc { position:absolute; bottom:22%; left:16%; width:61%; aspect-ratio:1; border-radius:50%; background:var(--riv-stock),linear-gradient(#ed6d41 0 43%,#fbb34e 43% 46%,#ed6d41 46% 49%,#f9b759 49% 54%,#ed6d41 54% 57%,#f7bc6c 57% 64%,#df7544 64% 67%,#f5bc6b 67% 78%,#e18b4c 78% 81%,#f8c77e 81%); }
-.sunset-isle { position:absolute; inset:60% -2% 23% 2%; background:#062f2e; clip-path:polygon(0 91%,17% 63%,24% 40%,35% 65%,43% 77%,53% 96%,68% 90%,87% 50%,100% 30%,100% 100%,0 100%); }
-.sunset-scene::after { content:''; position:absolute; width:20%; height:26%; right:0; bottom:26%; background:#062f2e; mask:url('./assets/retro/about-palms.svg') center/contain no-repeat; }
-.sunset-water { position:absolute; inset:77% 0 0; background:repeating-linear-gradient(177deg,transparent 0 5px,#e2a25b 6px 7px,transparent 8px 12px); mask-image:linear-gradient(90deg,transparent,#000 35%); }
-.pier-posts { position:absolute; width:44%; height:17%; bottom:0; right:-2%; transform:skewY(6deg); background:repeating-linear-gradient(90deg,transparent 0 9%,#082f2d 9% 13%,transparent 13% 20%); border-top:7px solid #082f2d; }
 @media (max-width:950px) {
   .mast-inner .apr-header__navigation { display:none; }
   .riv-mast .mast-inner { height:64px; }
@@ -175,19 +164,12 @@
   .golden-ticket { margin:0; }
   .ticket-lettering h3 { font-size:34px; }
   .pier-content { width:90%; }
-  .sunset-scene { width:20%; }
 }
 @media (max-width:767px) {
   .riv-mast.apr-header:not(.apr-header--scrolled) { background:transparent!important; }
   .riv-mast .apr-brand img { width:40px; }
   .riv-mast .apr-brand__name { font-size:13px; }
   .riv-mast .mast-inner { padding-inline:16px; }
-  .riv-home .apr-hero { min-height:0; }
-  .riv-home .apr-hero__content { padding:82px 20px 295px; }
-  .riv-home .apr-hero__art { height:280px; }
-  .riv-home .apr-hero::after { inset:auto 0 230px; height:50px; }
-  .riv-home .apr-hero__actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-  .riv-home .apr-hero__actions .riv-button { font-size:13px; padding:9px 6px; justify-content:center; }
   .water-spray { display:none; }
   .poster-heading h2 { font-size:clamp(34px,7vw,49px); }
   .ticket-collection { gap:23px 15px; }
@@ -216,7 +198,6 @@
   .pier-content h2 { font-size:19px; }
   .pier-content nav a { font-size:14px; padding:6px 0; }
   .pier-legal { width:78%; font-size:11px; }
-  .sunset-scene { width:24%; height:86px; bottom:0; }
 }
 @media (max-width:500px) {
   .ticket-collection { max-width:350px; grid-template-columns:1fr; gap:24px; margin:25px auto; padding-inline:12px; }
@@ -228,7 +209,6 @@
   .ticket-stub { font-size:12px; }
   .pier-content nav { grid-template-columns:1fr 1fr; }
   .pier-content nav > :last-child { grid-column:1/-1; }
-  .sunset-scene { width:40%; bottom:55px; height:120px; }
   .pier-legal { width:100%; padding-right:40px; }
 }
 @media (prefers-reduced-motion:reduce) {
@@ -243,7 +223,6 @@
 .golden-tickets::before,.golden-tickets::after { content:''; position:absolute; z-index:-1; pointer-events:none; width:min(20%,300px); }
 .golden-tickets::before { inset:0 auto auto 0; aspect-ratio:1.2; background:url('./assets/retro/riviera.webp') left top / 415% auto; mask-image:radial-gradient(ellipse at top left,#000 38%,transparent 71%); }
 .golden-tickets::after { inset:auto 0 0 auto; aspect-ratio:1.35; background:url('./assets/retro/riviera.webp') left bottom / 400% auto; transform:scaleX(-1); mask-image:radial-gradient(ellipse at bottom left,#000 35%,transparent 70%); }
-.ticket-picture img { filter:url(#ticket-print); }
 .ticket-lettering { position:relative; }
 .ticket-lettering::before { content:''; position:absolute; inset:-7px 0 auto; height:10px; background:#f7dfac; clip-path:polygon(0 65%,14% 20%,22% 45%,37% 0,53% 40%,63% 7%,72% 40%,88% 13%,100% 35%,100% 100%,0 100%); }
 .ticket-stock { box-shadow:inset 0 0 0 1px #bf9057,inset 0 0 0 5px #fbe0ad,inset 0 0 0 6px #d09f61; }
@@ -253,7 +232,6 @@
 @media (max-width:767px) {
   .riv-home .apr-about__intro { grid-template-columns:1fr; }
   .riv-home .apr-about__palm-engraving { width:65px; }
-  .riv-home .apr-hero__actions .riv-button { text-align:center; }
   .departure { padding-bottom:70px; }
 }
 .golden-ticket .ticket-lettering { background:var(--riv-stock),repeating-conic-gradient(from 12deg at 50% 150%,#fae2ad 0 12deg,#f3d69c 12deg 18deg); }

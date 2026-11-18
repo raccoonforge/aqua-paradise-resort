@@ -36,8 +36,10 @@ export default function DepartureBoard() {
         <img className="departure-foliage" src={foreground} width={414} height={190} alt="" loading="lazy" decoding="async" />
         <img className="departure-traveller" src={traveller} width={398} height={692} alt="" loading="lazy" decoding="async" />
       </span>
-      <h2 id="departure-title">Спланируйте своё<br />идеальное прибытие в рай</h2>
-      <p>Выберите дату, компанию и настроение отдыха.</p>
+      <div className="departure-heading-art">
+        <h2 id="departure-title" className="sr-only">Спланируйте своё идеальное прибытие в рай</h2>
+        <p className="sr-only">Выберите дату, компанию и настроение отдыха.</p>
+      </div>
     </header>
     <form className="terminal" onSubmit={event => {
       event.preventDefault();
@@ -71,7 +73,7 @@ export default function DepartureBoard() {
         </div>
       </div>
       {error && <p role="alert" className="board-error">{error}</p>}
-      <button type="submit" className="riv-button board-submit">Составить маршрут <span aria-hidden="true">→</span></button>
+      <button type="submit" className="riv-button board-submit">Составить мой маршрут <span aria-hidden="true">→</span></button>
     </form>
   </section>;
 }

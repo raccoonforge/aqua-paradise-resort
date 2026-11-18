@@ -15,6 +15,7 @@ import ParadiseViewMaster from './components/ParadiseViewMaster';
 import GoldenTickets from './components/GoldenTickets';
 import DepartureBoard from './components/DepartureBoard';
 import SunsetPier from './components/SunsetPier';
+import './HomeFidelity.css';
 
 function scrollHome(section: string) {
   document.getElementById(section)?.scrollIntoView({

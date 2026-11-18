@@ -78,7 +78,10 @@ export default function Header({ home }: {home: boolean}) {
     if (!home) return;
     const hero = document.getElementById('hero');
     if (!hero) return;
-    const observer = new IntersectionObserver(([entry]) => setCompact(!entry.isIntersecting));
+    // Treat the hero's bottom touching the viewport edge as having left the viewport.
+    const observer = new IntersectionObserver(([entry]) => setCompact(!entry.isIntersecting), {
+      rootMargin: '-1px 0px 0px',
+    });
     observer.observe(hero);
     const scroll = () => setScrolled(window.scrollY > 20);
     scroll();
@@ -100,7 +103,8 @@ export default function Header({ home }: {home: boolean}) {
           <div className="apr-header__links">
             <a className="apr-header__navlink" href="#/?section=about">О курорте</a>
             <TicketMenu group={entertainment} />
-            <a className="apr-header__navlink" href={home ? '#/map' : '#/planner'}>{home ? 'Карта острова' : 'Планировщик'}</a>
+            <a className="apr-header__navlink" href="#/planner">Планировщик</a>
+            <a className="apr-header__navlink nav-map" href="#/map">Карта острова</a>
             <a className="apr-header__navlink" href="#/hotel">Отель</a>
             <TicketMenu group={visit} />
           </div>

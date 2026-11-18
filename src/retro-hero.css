@@ -11,215 +11,6 @@
   font-weight: 400;
   font-display: swap;
 }
-.apr-hero {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  background: #003f3d;
-  color: #ffe8b1;
-  min-height: 56.25vw;
-}
-.apr-hero__art {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  z-index: -2;
-}
-/* Original painted fronds overprint the top of AQUA, with no duplicated scenery.
-   The SVG uses the exact same image and cover alignment as the background. */
-.apr-hero__palm-foreground {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  pointer-events: none;
-  overflow: hidden;
-}
-@media (max-width: 767px) {
-  /* The mobile art is cropped to the bottom and has a different alignment. */
-  .apr-hero__palm-foreground { display: none; }
-}
-.apr-hero__content {
-  width: 52%;
-  padding: 8.4vw 0 9vw 4.4vw;
-}
-/* Shift the complete poster lettering 25px left on desktop as one unit.
-   Tagline, CTAs and their established alignments remain untouched. */
-@media (min-width: 768px) {
-  .apr-hero__lettering { transform: translateX(-25px); }
-}
-.apr-hero__title {
-  position: relative;
-  margin: 0;
-  font-family: 'APR Poster', Georgia, serif;
-  font-style: italic;
-  font-weight: 700;
-  line-height: .91;
-  letter-spacing: -.058em;
-  font-kerning: normal;
-  transform: rotate(-7deg);
-  transform-origin: 50% 70%;
-  color: #ffe6b2;
-  -webkit-text-stroke: 0;
-  paint-order: stroke fill;
-  text-shadow: 1px 1px #efb57b, 2px 2px #c98d66, 3px 4px #11434a, 4px 5px #0b3942, 5px 6px #0b3942, 6px 7px #08333b, 8px 9px #062c34, 10px 11px #04252c;
-  animation: apr-print-in .85s both;
-}
-.apr-hero__title span {
-  display: block;
-  /* Sunlit cream ink becomes warmer and deeper toward the baseline. */
-  background-image: linear-gradient(180deg, #fff9e6 0%, #ffebbc 25%, #e9b56e 62%, #aa672f 100%);
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  /* A solid text-shadow paints across the gradient, hiding it. */
-  text-shadow: none;
-}
-.apr-hero__aqua { font-size: 10.5vw; padding-left: 5.3vw; padding-bottom: .17em; margin-bottom: -.17em; }
-.apr-hero__paradise { font-size: 7.55vw; letter-spacing: -.065em; }
-/* Two vintage poster ribbons sit BELOW the lettering (the parent already tilts -7deg). */
-.apr-hero__title::after,
-.apr-hero__title::before {
-  content: '';
-  display: block;
-  position: absolute;
-  pointer-events: none;
-  transform: skewX(-30deg);
-}
-.apr-hero__title::after {
-  left: 2%;
-  width: 96%;
-  bottom: -1.2vw;
-  height: .88vw;
-  min-height: 9px;
-  background: linear-gradient(to bottom, #ffa16d 0%, #f76840 17%, #e84d2f 58%, #ad3027 100%);
-  /* Full ink until near the S, then the physical stroke narrows to a point. */
-  clip-path: polygon(0 4%, 70% 0, 79% 7%, 87% 19%, 94% 33%, 100% 50%, 94% 67%, 87% 81%, 79% 93%, 70% 100%, 0 100%);
-  filter: url(#apr-print-wear) drop-shadow(1px 3px 0 #062a2f);
-}
-.apr-hero__title::before {
-  left: 5%;
-  width: 90%;
-  bottom: -2.15vw;
-  height: .58vw;
-  min-height: 6px;
-  background: linear-gradient(to bottom, #ffe08b 0%, #f6b83c 22%, #df8b21 66%, #995219 100%);
-  clip-path: polygon(0 5%, 68% 0, 78% 8%, 87% 21%, 94% 36%, 100% 50%, 94% 64%, 87% 79%, 78% 92%, 68% 100%, 0 100%);
-  filter: url(#apr-print-wear) drop-shadow(1px 2px 0 #073137);
-}
-.apr-hero__resort {
-  font: 400 8.9vw/.9 'APR Script', cursive;
-  color: #f76840;
-  /* Match the exact coral ink palette of the upper poster ribbon. */
-  background-image: linear-gradient(180deg, #ffa16d 0%, #f76840 17%, #e84d2f 58%, #ad3027 100%);
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: clamp(2.7px, .27vw, 4.4px) #f76840;
-  paint-order: stroke fill;
-  text-shadow: none;
-  transform: translateX(-4vw) rotate(-8deg);
-  text-align: right;
-  padding-right: 2.3vw;
-  margin-top: 1.4vw;
-  animation: apr-print-in 1s .12s both;
-}
-.apr-hero__tagline {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: max-content;
-  max-width: calc(100vw - 4vw);
-  gap: clamp(9px, 1.1vw, 20px);
-  font: italic 700 clamp(20px, 1.9vw, 40px)/1.4 'APR Poster', Georgia, serif;
-  white-space: nowrap;
-  flex-shrink: 0;
-  color: #f6df9e;
-  margin: 2.1vw 0 1.5vw -2.6vw;
-  text-shadow: 1px 1px #00312f;
-}
-.apr-hero__tagline::before,
-.apr-hero__tagline::after {
-  content: '';
-  display: block;
-  flex: 0 0 clamp(22px, 3vw, 54px);
-  height: clamp(2px, .2vw, 3px);
-  background: #f6df9e;
-  /* Both tips narrow cleanly; no opacity fade. */
-  clip-path: polygon(0 50%, 18% 0, 82% 0, 100% 50%, 82% 100%, 18% 100%);
-  filter: drop-shadow(0 1px 0 #073b3c);
-}
-.apr-hero__actions { display: flex; gap: 1.2vw; animation: apr-rise .7s .25s both; }
-@media (min-width: 768px) {
-  /* Align the action row with the left edge of the tagline's ornament. */
-  .apr-hero__actions { margin-left: -2.6vw; }
-}
-/* Retro Poster: matte screen-print ink, narrow trim, subtle paper-worn texture.
-   The texture lives on the fill layer so the button labels remain crisp. */
-.apr-hero__button {
-  position: relative;
-  isolation: isolate;
-  border: 1.5px solid #e6c581;
-  border-radius: 13px;
-  background: #073b3c;
-  color: #fff0c2;
-  padding: .95em 1.6em;
-  font-size: clamp(14px, 1.1vw, 22px);
-  font-weight: 700;
-  letter-spacing: .015em;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1em;
-  cursor: pointer;
-  box-shadow: 0 2px 0 #062b30;
-  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
-}
-.apr-hero__button::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  border-radius: inherit;
-  background: linear-gradient(180deg, #125d57 0%, #0a4945 42%, #063431 100%);
-  filter: url(#apr-print-wear);
-  transition: opacity .2s ease;
-}
-.apr-hero__button span { font-size: 1.5em; line-height: 1; transition: transform .2s ease; }
-.apr-hero__button--primary {
-  background: #ad3027;
-  color: #fff3cf;
-  border-color: #f3d19b;
-  box-shadow: 0 2px 0 #692e28;
-}
-.apr-hero__button--primary::before {
-  /* The exact same four ink stops as the Resort lettering. */
-  background: linear-gradient(180deg, #ffa16d 0%, #f76840 17%, #e84d2f 58%, #ad3027 100%);
-}
-.apr-hero__button:hover {
-  transform: translateY(-2px);
-  border-color: #ffe2a5;
-  box-shadow: 0 4px 0 #062b30;
-}
-.apr-hero__button--primary:hover { box-shadow: 0 4px 0 #692e28; }
-.apr-hero__button:hover::before { opacity: .88; }
-.apr-hero__button:hover span { transform: translateX(3px); }
-.apr-hero__button:active,
-.apr-hero__button--primary:active { transform: translateY(1px); box-shadow: 0 1px 0 #062b30; }
-.apr-hero__button:focus-visible, .apr-header button:focus-visible { outline: 3px solid #ffce66; outline-offset: 5px; }
-@media (prefers-reduced-motion: reduce) {
-  .apr-hero__button, .apr-hero__button::before, .apr-hero__button span { transition: none; }
-}
-.apr-hero__description { font-size: clamp(12px, .85vw, 16px); max-width: 38vw; margin-top: 1.4vw; line-height: 1.6; color: #ffe8b1; }
 /* Retro Tropical Riviera masthead: understated framing around the hero poster. */
 .apr-header {
   /* Transparent artwork remains visible, with a soft top-only contrast veil. */
@@ -236,20 +27,6 @@
   background: rgba(5, 45, 47, .97) !important;
   border-bottom: 0 !important;
   box-shadow: none !important;
-}
-/* Let the artwork pass underneath the transparent desktop masthead. */
-@media (min-width: 768px) {
-  .apr-header { margin-bottom: calc(-1 * clamp(72px, 5.2vw, 100px)); }
-  /* Preserve the approved headline/CTA positions while the art goes behind the nav. */
-  .apr-header ~ main .apr-hero { min-height: calc(56.25vw + clamp(72px, 5.2vw, 100px)); }
-  .apr-header ~ main .apr-hero__content { padding-top: calc(5.4vw + clamp(72px, 5.2vw, 100px)); }
-}
-@media (min-width: 768px) and (max-width: 1000px) {
-  .apr-header ~ main .apr-hero__content { padding-top: calc(5vw + clamp(72px, 5.2vw, 100px)); }
-}
-@media (max-width: 767px) {
-  /* Keep the existing mobile flow until mobile navigation is redesigned. */
-  .apr-header:not(.apr-header--scrolled) { background: #073b3c !important; }
 }
 .apr-header > div {
   max-width: none;
@@ -344,45 +121,6 @@
 }
 .apr-header__chevron { display: inline-block; flex-shrink: 0; transition: transform .22s ease; }
 .apr-header__trigger[aria-expanded='true'] .apr-header__chevron { transform: rotate(180deg); }
-/* Ticket CTA uses the same ink stops, worn print, corners and trim as the Hero's primary action. */
-.apr-header .apr-header__tickets {
-  position: relative;
-  isolation: isolate;
-  flex: 0 0 auto;
-  white-space: nowrap;
-  background: #ad3027;
-  border: 1.5px solid #f3d19b;
-  border-radius: 13px;
-  padding: .95em 1.6em;
-  color: #fff3cf;
-  box-shadow: 0 2px 0 #692e28;
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
-}
-.apr-header .apr-header__tickets::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  border-radius: inherit;
-  background: linear-gradient(180deg, #ffa16d 0%, #f76840 17%, #e84d2f 58%, #ad3027 100%);
-  filter: url(#apr-print-wear);
-  transition: opacity .2s ease;
-}
-.apr-header .apr-header__tickets:hover {
-  color: #fff3cf;
-  border-color: #ffe2a5;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 0 #692e28;
-  filter: none;
-}
-.apr-header .apr-header__tickets:hover::before { opacity: .88; }
-.apr-header .apr-header__tickets:active {
-  transform: translateY(1px);
-  box-shadow: 0 1px 0 #692e28;
-}
 /* Vintage Travel Ticket: a cream keepsake pass, not a flat dark popover. */
 .apr-header__dropdown {
   position: absolute;
@@ -475,13 +213,6 @@
   letter-spacing: .13em;
 }
 .apr-header__ticket-foot span:last-child { font-size: 14px; }
-.apr-header .apr-header__tickets {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-}
-.apr-header__ticket-icon { display: block; width: 22px; height: 22px; flex: none; transform: rotate(-5deg); }
 @media (prefers-reduced-motion: reduce) {
   .apr-header__chevron, .apr-header__dropdown-item { transition: none; }
   .apr-header__dropdown-item:hover { transform: none; }
@@ -489,7 +220,6 @@
 @media (min-width: 768px) and (max-width: 1100px) {
   .apr-header .apr-header__navigation { gap: 10px; margin-left: 10px; font-size: 12px; }
   .apr-header__links { gap: clamp(7px, 1vw, 14px); }
-  .apr-header .apr-header__tickets { padding: .6em 1em; }
 }
 
 .apr-header nav > button:focus-visible,
@@ -500,98 +230,6 @@
 @media (prefers-reduced-motion: reduce) {
   .apr-header nav > button { transition: none; }
 }
-@keyframes apr-print-in { from { opacity: 0; translate: -5px 8px; } to { opacity: 1; translate: 0 0; } }
-@keyframes apr-rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-@media (min-width: 2000px) { .apr-hero { min-height: 1050px; } }
-@media (max-width: 1000px) and (min-width: 768px) {
-  .apr-header > div { padding-inline: 16px; }
-  .apr-header > div > div { font-size: 15px; }
-  .apr-header nav { gap: 10px; font-size: 11px; }
-  .apr-hero__content { padding-top: 11vw; padding-bottom: 8vw; width: 55%; }
-  .apr-hero__description { max-width: 43vw; }
-  .apr-hero__button { padding: .8em 1em; gap: .5em; font-size: 12px; }
-}
-@media (max-width: 767px) {
-  .apr-hero { min-height: 860px; }
-  .apr-hero__art { height: 53%; top: auto; object-position: 78% center; }
-  .apr-hero::after { content: ''; position: absolute; inset: 45% 0 auto; height: 90px; z-index: -1; background: linear-gradient(#003f3d, transparent); pointer-events: none; }
-  .apr-hero__content { width: 100%; padding: 45px 22px 420px; }
-  .apr-hero__aqua { font-size: 21vw; padding-left: 17vw; }
-  .apr-hero__paradise { font-size: 15.2vw; }
-  .apr-hero__title { text-shadow: 1px 1px #efb57b, 2px 2px #11434a, 3px 4px #0b3942, 4px 6px #04252c; }
-  .apr-hero__title::before { bottom: -22px; min-height: 6px; }
-  .apr-hero__title::after { bottom: -12px; min-height: 9px; }
-  .apr-hero__resort { font-size: 21vw; margin-top: 14px; padding-right: 7vw; }
-  .apr-hero__tagline { font-size: clamp(12px, 3.8vw, 22px); max-width: 100%; margin: 18px auto; text-align: center; }
-  .apr-hero__tagline { gap: 6px; }
-  .apr-hero__tagline::before,
-  .apr-hero__tagline::after { flex-basis: clamp(10px, 2.7vw, 17px); height: 2px; }
-  .apr-hero__actions { gap: 10px; justify-content: center; flex-wrap: wrap; }
-  .apr-hero__button { font-size: 13px; padding: 13px 16px; gap: 8px; }
-  .apr-hero__description { max-width: 100%; text-align: center; font-size: 12px; margin-top: 18px; }
-  .apr-header > div { padding-inline: 20px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .apr-hero *, .apr-hero *::after { animation: none; transition: none; }
-}
-
-.apr-hero__eyebrow { font-size: clamp(10px, .75vw, 14px); letter-spacing: .2em; margin-bottom: 1.6vw; }
-.apr-hero__signature { font-size: 10px; letter-spacing: .18em; margin-top: 12px; }
-@media (max-width: 767px) { .apr-hero__eyebrow { text-align: center; margin-bottom: 26px; } .apr-hero__signature { text-align: center; } }
-/* Second visual pass: preserve the panoramic ratio and give the lettering poster scale. */
-@media (min-width: 1001px) {
-  .apr-hero { height: 56.25vw; min-height: 0; }
-  .apr-hero__content { padding-top: 5.4vw; padding-bottom: 0; width: 54%; }
-  .apr-hero__aqua { font-size: 11.5vw; }
-  .apr-hero__paradise { font-size: 8.8vw; }
-  .apr-hero__resort { font-size: 10vw; margin-top: 1.7vw; padding-right: 3vw; }
-  /* Open up breathing room below the approved poster lettering; buttons follow in normal flow. */
-  .apr-hero__tagline { margin-top: calc(1.6vw + 32px); }
-  .apr-hero__description { max-width: 36vw; font-size: .8vw; }
-  .apr-header nav { flex: 1; justify-content: space-between; margin-left: 7vw; }
-}
-.apr-hero__resort { animation: apr-print-in 1s .12s both, apr-ink-drift 7s 1.2s ease-in-out infinite; transform-origin: right center; }
-@keyframes apr-ink-drift { 0%, 100% { rotate: 0deg; } 50% { rotate: -1deg; } }
-@media (min-width: 768px) and (max-width: 1000px) {
-  .apr-hero__content { padding-top: 5vw; width: 54%; padding-bottom: 4vw; }
-  .apr-hero__resort { padding-right: 7vw; font-size: 9vw; }
-  .apr-hero__description { max-width: 36vw; font-size: 11px; }
-  .apr-hero__tagline { font-size: 17px; }
-}
-@media (max-width: 767px) {
-  .apr-hero { min-height: 900px; }
-  .apr-hero__content { padding-top: 28px; padding-bottom: 370px; }
-  .apr-hero__art { height: 370px; object-position: right center; }
-  .apr-hero::after { inset: auto 0 310px; height: 60px; }
-  .apr-hero__resort { line-height: .65; margin-bottom: 24px; }
-  .apr-hero__signature { margin-bottom: 15px; }
-
-}
-@media (prefers-reduced-motion: reduce) { .apr-hero__resort { animation: none; } }
-
 .apr-brand { display: flex; align-items: center; gap: 10px; font: 700 clamp(17px, 1.35vw, 26px)/1 sans-serif; text-transform: uppercase; }
 .apr-brand small { display: block; font-size: .5em; letter-spacing: .32em; margin-top: 6px; color: #ffba58; }
 .apr-brand svg { flex-shrink: 0; }
-@media (min-width: 1001px) {
-  .apr-hero__resort { margin-top: -1.7vw; padding-right: 7vw; }
-  .apr-hero__description { font-size: clamp(12px, .8vw, 16px); text-shadow: 0 1px 3px #00312e, 0 0 5px #00312e; }
-}
-
-.apr-hero__filters { position: absolute; pointer-events: none; }
-/* Distress the gradient fill first, then cast depth behind it (not over it). */
-.apr-hero__title span {
-  filter: url(#apr-print-wear)
-    drop-shadow(1px 1px #efb57b)
-    drop-shadow(1px 2px #c98d66)
-    drop-shadow(2px 3px #11434a)
-    drop-shadow(2px 3px #0b3942)
-    drop-shadow(2px 3px #08333b)
-    drop-shadow(2px 3px #062c34)
-    drop-shadow(2px 3px #04252c);
-}
-.apr-hero__resort {
-  filter: url(#apr-print-wear)
-    drop-shadow(1px 1px #dc6845)
-    drop-shadow(2px 2px #0b3942)
-    drop-shadow(2px 2px #04262d);
-}
