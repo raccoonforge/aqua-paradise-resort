@@ -800,3 +800,15 @@
     margin-top: clamp(28px, 5vw, 52px);
   }
 }
+
+
+/* Magazine pages should extend beyond the section's edges, like real layered paper.
+   Keep the existing container sizing and artwork geometry unchanged. */
+.riv-home .apr-about {
+  overflow: visible;
+}
+@media (max-width: 1000px) {
+  .riv-home .apr-about {
+    overflow: visible;
+  }
+}
