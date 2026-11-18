@@ -1,3 +1,6 @@
+import resortScene from '../assets/retro/riviera.webp';
+import mobileLagoon from '../assets/retro/fidelity/hero-lagoon.webp';
+
 export default function Hero() {
   return (
     <section id="hero" tabIndex={-1} className="apr-hero" aria-labelledby="hero-title">
@@ -8,8 +11,10 @@ export default function Hero() {
           <span className="apr-hero__resort">Resort</span>
         </h1>
       </div>
-      <div className="apr-hero__plate" aria-hidden="true" />
-      <div className="apr-hero__mobile-lettering" aria-hidden="true" />
+      <picture className="apr-hero__plate" aria-hidden="true">
+        <source media="(max-width: 1000px)" srcSet={mobileLagoon} />
+        <img src={resortScene} alt="" fetchPriority="high" decoding="async" />
+      </picture>
       <div className="water-spray" aria-hidden="true"><i /><i /><i /><i /><i /></div>
       <div className="apr-hero__content">
         <p className="apr-hero__tagline">Остров бесконечного лета</p>
