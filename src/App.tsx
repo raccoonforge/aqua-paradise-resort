@@ -506,6 +506,7 @@ function App() {
           </div>
 
 <nav aria-label="Основная навигация" className="apr-header__navigation hidden md:flex">
+  <div className="apr-header__links">
   <button type="button" onClick={() => navigate('#/?section=about')} className="apr-header__navlink">
     О курорте
   </button>
@@ -555,6 +556,7 @@ function App() {
         </button>
       </div>
     )}
+  </div>
   </div>
   <button type="button" onClick={() => navigate('#/tickets')} className="apr-header__tickets" aria-current={basePath === '#/tickets' ? 'page' : undefined}>Билеты</button>
 </nav>
