@@ -525,3 +525,46 @@
   .riv-home .apr-hero__actions .riv-button:hover,
   .riv-home .apr-hero__actions .riv-button:active { transform: none; }
 }
+
+
+/* Hero alignment: shorter tapered ornaments, compact two-button group under tagline. */
+@media (min-width:1001px) {
+  .riv-home .apr-hero__content {
+    left: 3.25%;
+    width: 39%;
+  }
+}
+.riv-home .apr-hero__tagline {
+  justify-content: center;
+  gap: clamp(7px,.75cqw,13px);
+}
+.riv-home .apr-hero__tagline::before,
+.riv-home .apr-hero__tagline::after {
+  flex: 0 0 clamp(17px,2.9cqw,48px);
+  width: clamp(17px,2.9cqw,48px);
+  min-width: 0;
+}
+.riv-home .apr-hero__actions {
+  width: 100%;
+  gap: clamp(8px,.9cqw,16px);
+}
+@media (max-width:1000px) {
+  .riv-home .apr-hero__content {
+    width: min(90%,520px);
+    margin-inline: auto;
+  }
+  .riv-home .apr-hero__tagline::before,
+  .riv-home .apr-hero__tagline::after {
+    flex-basis: clamp(13px,3.2cqw,30px);
+    width: clamp(13px,3.2cqw,30px);
+  }
+}
+@media (max-width:520px) {
+  .riv-home .apr-hero__content { width: min(94%,440px); }
+  .riv-home .apr-hero__tagline::before,
+  .riv-home .apr-hero__tagline::after {
+    flex-basis: 13px;
+    width: 13px;
+    min-width: 0;
+  }
+}
