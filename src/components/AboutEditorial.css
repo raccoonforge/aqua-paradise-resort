@@ -124,21 +124,21 @@
   box-shadow: 1px 6px 12px #412b2350;
 }
 .apr-about__quote::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 8px; background: repeating-linear-gradient(135deg, #ae4430 0 9px, transparent 9px 19px); }
-/* A personal inked note rather than a second formal serif headline.
-   Segoe Print supports Cyrillic on Windows; fallback stays readable elsewhere. */
+/* Elegant travel-editorial italic rather than simulated handwriting.
+   Reuse the locally hosted Libre Baskerville italic for consistent Cyrillic rendering. */
 .apr-about__quote p {
   flex: 1;
   min-width: 0;
   margin: 0;
   color: #16534b;
-  font-family: 'Segoe Print', 'Bradley Hand', 'Comic Sans MS', cursive;
+  font-family: 'APR Poster', Georgia, 'Times New Roman', serif;
   font-style: italic;
-  font-weight: 500;
-  font-size: clamp(15px, 1.42vw, 27px);
-  line-height: 1.33;
-  letter-spacing: -.025em;
+  font-weight: 400;
+  font-size: clamp(16px, 1.38vw, 26px);
+  line-height: 1.4;
+  letter-spacing: -.02em;
   text-wrap: balance;
-  transform: rotate(1deg);
+  transform: none;
 }
 .apr-about__quote svg { width: 17%; flex: none; }
 @media (max-width: 1050px) {
