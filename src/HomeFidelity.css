@@ -666,6 +666,12 @@
   transform: rotate(-2deg);
 }
 @media (max-width:1000px) {
+  .riv-home .apr-hero__plate {
+    inset: auto 0 0;
+    height: 54%;
+    mask-image: linear-gradient(transparent, #000 16%);
+  }
+  .riv-home .apr-hero__plate img { object-position: 41% 71%; }
   .riv-home .apr-hero__lettering {
     position: relative;
     top: auto;
