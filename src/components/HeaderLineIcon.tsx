@@ -35,8 +35,8 @@ const icons: Record<HeaderIconName, ReactNode> = {
     <path d="M9.5 9a2.7 2.7 0 0 1 5.3.5c0 2-2.8 2.3-2.8 4M12 16.5h.01" />
   </>,
   ticket: <>
-    <path d="M3 7a2 2 0 0 0 2-2h14v4a3 3 0 0 0 0 6v4H5a2 2 0 0 0-2-2V7Z" />
-    <path d="M13 5v2M13 10v2M13 15v2M13 19v0" />
+    <path d="M4 5h16a1 1 0 0 1 1 1v4a2 2 0 0 0 0 4v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4a2 2 0 0 0 0-4V6a1 1 0 0 1 1-1Z" />
+    <path d="M14 7v2M14 11v2M14 15v2" />
   </>,
 };
 
