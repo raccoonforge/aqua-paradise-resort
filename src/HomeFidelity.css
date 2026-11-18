@@ -615,17 +615,27 @@
   font-weight: 700;
   letter-spacing: -.07em;
   line-height: .83;
-  text-shadow: .018em .02em #edbd80, .035em .04em #a36b47,
-    .055em .065em #113e40, .077em .09em #062b31;
+  /* Dimensional poster shadow is applied to the ink-shaped glyphs below. */
+  text-shadow: none;
 }
 .riv-home .apr-hero__title .apr-hero__aqua,
 .riv-home .apr-hero__title .apr-hero__paradise {
   display: block;
-  background: linear-gradient(180deg,#fff8dc 0%,#ffe9b6 47%,#d59b60 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
+  /* The letterforms remain selectable text: layered screenprint ink + gold shading. */
+  background-image: var(--riv-stock),
+    linear-gradient(180deg, #fff9df 0%, #ffedc2 25%, #f7c783 58%, #e8a65c 79%, #bd793f 100%);
+  background-blend-mode: multiply, normal;
+  -webkit-background-clip: text, text;
+  background-clip: text, text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(.024em .043em #063034);
+  -webkit-text-stroke: .035cqw rgba(255,238,184,.62);
+  paint-order: stroke fill;
+  filter: drop-shadow(.016em .014em #fff1cb)
+    drop-shadow(.017em .021em #ba7542)
+    drop-shadow(.017em .021em #875437)
+    drop-shadow(.018em .024em #194949)
+    drop-shadow(.024em .036em #07343b)
+    drop-shadow(.03em .04em #042b32);
 }
 .riv-home .apr-hero__aqua {
   font-size: 10.2cqw;
@@ -649,24 +659,34 @@
   clip-path: polygon(0 13%, 82% 0, 100% 50%, 82% 100%, 0 87%);
 }
 .riv-home .apr-hero__title::before {
-  top: 75%;
-  height: .75cqw;
-  background: linear-gradient(180deg, #fb8f61, #df422e);
+  top: 76%;
+  height: .83cqw;
+  background: linear-gradient(180deg, #ff9d6a 0%, #ed6442 54%, #c33f31 100%);
+  filter: drop-shadow(0 .16cqw #06353a);
 }
 .riv-home .apr-hero__title::after {
-  top: 78%;
-  height: .46cqw;
-  background: linear-gradient(180deg,#f8d173,#dd952f);
+  top: 79%;
+  height: .5cqw;
+  background: linear-gradient(180deg,#ffdb89 0%,#f6b64c 46%,#d98b24 100%);
+  filter: drop-shadow(0 .09cqw #08383a);
 }
 .riv-home .apr-hero__title .apr-hero__resort {
   display: block;
   align-self: flex-end;
   margin: -.02em 3.25cqw 0 0;
-  color: #ef6240;
+  color: #f56845;
   font: 400 8.45cqw/.9 'APR Script', cursive;
   letter-spacing: -.035em;
-  -webkit-text-stroke: .07cqw #dc4d34;
-  text-shadow: .012em .025em #ffe2a3, .032em .045em #08383a;
+  background-image: var(--riv-stock), linear-gradient(180deg,#ff9b6d 0%,#f76742 48%,#d84230 100%);
+  background-blend-mode: multiply, normal;
+  -webkit-background-clip: text, text;
+  background-clip: text, text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: .085cqw #ea5a3b;
+  paint-order: stroke fill;
+  filter: drop-shadow(.012em .018em #ffe1ad)
+    drop-shadow(.022em .034em #883a2b)
+    drop-shadow(.028em .04em #07353a);
   transform: rotate(-2deg);
 }
 @media (max-width:1000px) {
