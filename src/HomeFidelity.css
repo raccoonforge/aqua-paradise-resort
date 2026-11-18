@@ -388,15 +388,15 @@
 .riv-mast .apr-header__trigger:hover,
 .riv-mast .apr-header__trigger:focus-visible,
 .riv-mast .apr-header__trigger[aria-expanded='true'] {
-  color: #f27c57;
-  border-bottom-color: #e26a49;
-  text-shadow: 0 0 10px rgba(242,124,87,.24), 0 2px 3px #002b2c;
+  color: #ff8d62;
+  border-bottom-color: #f06543;
+  text-shadow: 0 0 10px rgba(255,141,98,.3), 0 2px 3px #002b2c;
 }
 /* Slightly brighter coral ink with irregular fine scratches, shared by masthead tickets. */
 .riv-mast, .riv-drawer {
-  --apr-ticket-scratches: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='64' viewBox='0 0 160 64'%3E%3Cg fill='none' stroke='%23ffe3b9' stroke-linecap='round'%3E%3Cpath d='M12 9l19 -2M73 16l9 -1M115 7l24 -3M19 42l11 -1M88 49l29 -2M135 30l12 -1' opacity='.32' stroke-width='.8'/%3E%3Cpath d='M44 26l8 -1M102 34l13 -1M4 57l17 -2M146 55l6 -1' opacity='.48' stroke-width='.55'/%3E%3C/g%3E%3Cg fill='%23fff2ce' opacity='.27'%3E%3Ccircle cx='62' cy='53' r='.65'/%3E%3Ccircle cx='128' cy='19' r='.5'/%3E%3Ccircle cx='49' cy='10' r='.6'/%3E%3C/g%3E%3C/svg%3E");
-  --apr-ticket-coral: linear-gradient(180deg, #f08056 0%, #df6241 55%, #be432f 100%);
-  --apr-ticket-coral-hover: linear-gradient(180deg, #f58b62 0%, #e66a47 55%, #c64b34 100%);
+  --apr-ticket-scratches: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22240%22%20height%3D%2284%22%20viewBox%3D%220%200%20240%2084%22%3E%3Cg%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cg%20stroke%3D%22%23813021%22%20opacity%3D%22.32%22%20stroke-width%3D%22.9%22%3E%3Cpath%20d%3D%22M7%2012h36m8%201h13M102%2027h54m15%201h22M27%2055h67m12%200h11M169%2069h48M4%2074h23%22%2F%3E%3C%2Fg%3E%3Cg%20stroke%3D%22%23ffe4ad%22%20opacity%3D%22.55%22%20stroke-width%3D%22.7%22%3E%3Cpath%20d%3D%22M12%209h29m11%200h12M88%2035h42m8%200h9M177%2019h35M20%2060h36m7%200h11M150%2075h57%22%2F%3E%3C%2Fg%3E%3Cg%20stroke%3D%22%23772c24%22%20opacity%3D%22.28%22%20stroke-width%3D%22.45%22%3E%3Cpath%20d%3D%22M73%2019h44M160%2043h51M33%2040h12M109%2065h27%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20fill%3D%22%23ffdcab%22%20opacity%3D%22.22%22%3E%3Ccircle%20cx%3D%2289%22%20cy%3D%2210%22%20r%3D%22.6%22%2F%3E%3Ccircle%20cx%3D%22158%22%20cy%3D%2259%22%20r%3D%22.7%22%2F%3E%3Ccircle%20cx%3D%22229%22%20cy%3D%2235%22%20r%3D%22.5%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+  --apr-ticket-coral: linear-gradient(180deg, #ff9162 0%, #f06543 56%, #cd3d2d 100%);
+  --apr-ticket-coral-hover: linear-gradient(180deg, #ffa071 0%, #f4754f 56%, #d64831 100%);
 }
 .riv-mast .ticket-cta,
 .riv-drawer .ticket-cta {
