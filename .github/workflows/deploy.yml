@@ -26,7 +26,7 @@ jobs:
         with:
           ref: main
           path: site
-      # Preview refresh: natural left-aligned magazine copy with no syllable splitting.
+      # Preview refresh: redesigned four editorial resort fact icons.
       # Build preview from the current working branch without merging its design into main.
       - name: Checkout new preview (PR #5)
         uses: actions/checkout@v4
