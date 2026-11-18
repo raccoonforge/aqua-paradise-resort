@@ -26,7 +26,7 @@ jobs:
         with:
           ref: main
           path: site
-      # Preview refresh: screenprinted postcard hibiscus instead of shaded flower.
+      # Preview refresh: worn postcard paper and softly creased editorial page corners.
       # Build preview from the current working branch without merging its design into main.
       - name: Checkout new preview (PR #5)
         uses: actions/checkout@v4
