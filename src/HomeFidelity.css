@@ -779,3 +779,12 @@
     transform: translateX(-9vw) rotate(-8deg);
   }
 }
+
+
+/* Compact header Tickets button, keeping its approved height, ink and icon. */
+.riv-mast .ticket-cta {
+  min-width: 0;
+  width: auto;
+  padding-inline: clamp(13px, 1.05vw, 20px);
+  white-space: nowrap;
+}
