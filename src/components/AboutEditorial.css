@@ -49,7 +49,11 @@
   height: 100px;
   border: 1px solid #e0b782;
   border-radius: 13px 15px 3px 3px;
-  background: var(--grain), linear-gradient(145deg, #f4d59b, #ffe7b5 58%, #d8ac71);
+  background:
+    var(--grain),
+    radial-gradient(ellipse 115px 70px at 96% 0%, rgba(125, 79, 42, .18), transparent 83%),
+    radial-gradient(ellipse 95px 50px at 7% 0%, rgba(255, 252, 218, .56), transparent 83%),
+    linear-gradient(145deg, #eed09e, #ffe6b5 58%, #d6aa77);
   transform: rotate(-3deg);
   transform-origin: 55% 60%;
   box-shadow: 0 -2px 8px rgba(39, 34, 22, .12);
@@ -61,7 +65,11 @@
   padding: clamp(24px, 2.25vw, 44px) clamp(23px, 3.3vw, 64px) 0;
   border: 1px solid #ffe5aa;
   border-radius: 11px 16px 5px 4px;
-  background: var(--grain), radial-gradient(ellipse, #fff0c9 30%, #fbe3ae 78%, #edc286);
+  background:
+    var(--grain),
+    radial-gradient(ellipse 75px 90px at 99% 0%, rgba(143, 87, 47, .15), transparent 88%),
+    radial-gradient(ellipse 92px 75px at 0% 100%, rgba(132, 82, 42, .15), transparent 88%),
+    radial-gradient(ellipse, #fff0c9 30%, #fbe3ae 78%, #edc286);
   box-shadow: inset 0 0 34px #ab692d30, 4px 12px 22px #002c2a80;
 }
 /* Light edge-ageing only: readable type and statistics remain crisp. */
@@ -73,9 +81,14 @@
   pointer-events: none;
   border-radius: inherit;
   background:
-    radial-gradient(ellipse at top left, rgba(143, 80, 30, .13), transparent 24%),
-    radial-gradient(ellipse at bottom right, rgba(145, 84, 32, .15), transparent 27%);
-  box-shadow: inset 0 0 25px rgba(138, 77, 29, .09);
+    /* Rounded, diffuse folds — no geometric triangles or drawn diagonal lines. */
+    radial-gradient(ellipse 65px 120px at 100% 0%, rgba(255, 249, 217, .58), transparent 76%),
+    radial-gradient(ellipse 90px 105px at 100% 0%, rgba(115, 79, 50, .14), transparent 90%),
+    radial-gradient(ellipse 70px 115px at 0% 100%, rgba(255, 250, 222, .45), transparent 78%),
+    radial-gradient(ellipse 100px 105px at 0% 100%, rgba(116, 81, 49, .13), transparent 90%),
+    radial-gradient(ellipse at top left, rgba(143, 80, 30, .1), transparent 23%),
+    radial-gradient(ellipse at bottom right, rgba(145, 84, 32, .1), transparent 25%);
+  box-shadow: inset 0 0 22px rgba(138, 77, 29, .09);
 }
 .apr-about__label, .apr-about h2, .apr-about__stats, .apr-about__quote {
   font-family: 'APR Poster', Georgia, serif;
@@ -149,8 +162,11 @@
   line-height: 1.23;
   text-align: center;
   border-radius: 3px 6px 5px 2px;
-  border: 1px solid #d1a16a;
-  background: var(--grain), linear-gradient(#ffe0a6, #ffebbc);
+  border: 1px solid #be9563;
+  background:
+    var(--grain),
+    radial-gradient(ellipse 85px 65px at 0% 100%, rgba(130, 83, 49, .12), transparent 95%),
+    linear-gradient(165deg, #e9c992 0%, #f2d7a5 49%, #e8c58f 100%);
   box-shadow: 1px 6px 12px #412b2350;
 }
 .apr-about__quote::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 8px; background: repeating-linear-gradient(135deg, #ae4430 0 9px, transparent 9px 19px); }
