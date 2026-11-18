@@ -1,328 +1,129 @@
-/* The Golden Age of Paradise — editorial section, independent of approved Hero. */
 .apr-about {
-  position: relative;
-  isolation: isolate;
+  --ink: #073c3b;
+  --coral: #ad3e27;
+  --gold: #ad762e;
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.62' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath d='M0 0h180v180H0z' opacity='.23' filter='url(%23g)'/%3E%3C/svg%3E");
   overflow: hidden;
-  min-height: 740px;
-  padding: clamp(48px, 5vw, 90px) clamp(18px, 2.6vw, 48px);
-  background: #043f3e;
-  color: #fff0c5;
-}
-.apr-about__backdrop {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background:
-    radial-gradient(ellipse at 48% 40%, rgba(21, 102, 91, .7), transparent 64%),
-    radial-gradient(ellipse at 3% 90%, rgba(2, 37, 41, .8), transparent 45%),
-    radial-gradient(ellipse at 100% 0, rgba(6, 64, 58, .55), transparent 65%),
-    repeating-linear-gradient(100deg, transparent 0 24px, rgba(255, 241, 189, .013) 25px 26px);
+  scroll-margin-top: 110px;
+  padding: clamp(28px, 3vw, 60px) clamp(20px, 3.5vw, 70px) clamp(55px, 5vw, 100px);
+  background: var(--grain), radial-gradient(ellipse at 48% 42%, #095451, #003634 78%);
+  color: var(--ink);
 }
 .apr-about__layout {
-  position: relative;
-  width: min(100%, 1760px);
-  margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(0, .91fr) minmax(0, 1.09fr);
-  align-items: stretch;
-  gap: 0;
-  filter: drop-shadow(0 18px 20px rgba(0, 25, 26, .23));
+  grid-template-columns: minmax(0, 43%) minmax(0, 57%);
+  align-items: center;
+  max-width: 1800px;
+  margin: auto;
 }
-.apr-about__art-panel {
+.apr-about__frame {
   position: relative;
   z-index: 1;
-  min-height: 645px;
-  padding: 11px 0 10px 8px;
-  transform: rotate(-1.2deg);
-  transform-origin: center;
+  margin: 0;
+  padding: clamp(6px, .75vw, 14px);
+  background: var(--grain), linear-gradient(122deg, #eac187, #fff0bf 22%, #e8b87a 88%, #fcdf9d);
+  border: 1px solid #ffdfa5;
+  border-radius: 11px;
+  box-shadow: 2px 8px 22px #00262390;
+  transform: rotate(-1.1deg);
 }
-.apr-about__photo-border {
-  height: 100%;
-  min-height: 625px;
-  position: relative;
-  overflow: hidden;
-  padding: 11px;
-  border-radius: 9px;
-  border: 3px solid #dcb27c;
-  background: #f2d1a0;
-  box-shadow: inset 0 0 0 2px #f9eac0, 9px 13px 0 rgba(0, 39, 40, .25);
-}
-.apr-about__art {
-  display: block;
-  width: 100%;
-  height: 100%;
-  min-height: 595px;
-  object-fit: cover;
-  object-position: 71% 45%;
-  filter: saturate(1.08) sepia(.04) contrast(1.035);
-}
-.apr-about__art-wash {
-  pointer-events: none;
-  position: absolute;
-  inset: 11px;
-  box-shadow: inset 0 0 65px rgba(9, 43, 38, .33);
-  background: linear-gradient(180deg, rgba(255, 187, 100, .09), transparent 45%, rgba(4, 56, 47, .14));
-}
-.apr-about__art-caption {
-  position: absolute;
-  left: 32px;
-  bottom: 29px;
-  color: #fff5d4;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: .12em;
-  text-shadow: 0 1px 6px #063b3c;
-}
-.apr-about__postmark {
-  position: absolute;
-  top: 23px;
-  right: -39px;
-  z-index: 2;
-  width: 94px;
-  height: 94px;
-  border: 3px double #bf6444;
-  border-radius: 50%;
-  background: rgba(245, 218, 167, .92);
-  color: #a74f39;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font: 700 10px/1.2 'APR Poster', Georgia, serif;
-  letter-spacing: .06em;
-  transform: rotate(16deg);
-  box-shadow: 1px 2px 0 #f6e0ad;
-}
-.apr-about__postmark span { font-size: 24px; line-height: 1; }
+.apr-about__frame img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 4px; }
 .apr-about__paper {
   position: relative;
-  min-width: 0;
-  padding: clamp(45px, 3.8vw, 70px) clamp(32px, 3.3vw, 65px) clamp(64px, 5vw, 90px);
-  background:
-    radial-gradient(circle at 13% 32%, rgba(135,82,34,.07) 0 1px, transparent 1.5px) 0 0 / 20px 22px,
-    radial-gradient(ellipse at 76% 68%, rgba(221,167,90,.15), transparent 55%),
-    linear-gradient(125deg, #f5dfb1, #ffe9bd 55%, #eacc94);
-  border: 1px solid #e6bd84;
-  border-radius: 4px 10px 9px 2px;
-  box-shadow: inset 0 0 0 10px rgba(255, 248, 217, .24), 8px 12px 0 rgba(0,36,35,.15);
-  color: #073e3c;
+  isolation: isolate;
+  margin-left: -1.1vw;
+  padding: clamp(24px, 2.25vw, 44px) clamp(23px, 3.3vw, 64px) 0;
+  border: 1px solid #ffe5aa;
+  border-radius: 11px 16px 5px 4px;
+  background: var(--grain), radial-gradient(ellipse, #fff0c9 30%, #fbe3ae 78%, #edc286);
+  box-shadow: inset 0 0 34px #ab692d30, 4px 12px 22px #002c2a80;
 }
 .apr-about__paper::before {
-  content: '';
+  content: "";
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 5px;
-  background: linear-gradient(90deg, #c98b56, #f9e8be 28%, #d1a069);
-  opacity: .6;
+  inset: -2% 3% 100% 9%;
+  height: 17%;
+  z-index: -1;
+  border-radius: 12px;
+  background: var(--grain), #f6d9a3;
+  transform: rotate(-4deg);
+  clip-path: polygon(0 0, 100% 0, 100% 60%, 0 25%);
 }
-.apr-about__section-label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  margin-bottom: clamp(16px, 2vw, 32px);
-  color: #174b43;
-  font: 700 clamp(14px, 1.2vw, 19px)/1.4 'APR Poster', Georgia, serif;
-  letter-spacing: .12em;
+.apr-about__label, .apr-about h2, .apr-about__stats, .apr-about__quote {
+  font-family: 'APR Poster', Georgia, serif;
+  font-style: italic;
 }
-.apr-about__section-label::before,
-.apr-about__section-label::after {
-  content: '';
-  width: clamp(22px, 5vw, 90px);
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #bb8749 25%, #bb8749 75%, transparent);
-}
-.apr-about__paper h2 {
-  position: relative;
-  z-index: 1;
-  margin: 0;
-  max-width: 800px;
-  font: italic 700 clamp(34px, 3.75vw, 66px)/1.06 'APR Poster', Georgia, serif;
-  letter-spacing: -.055em;
-  color: #074541;
-  text-align: center;
-  text-wrap: balance;
-  text-shadow: 1px 2px rgba(165,111,63,.17);
-}
-.apr-about__brush {
-  width: 66%;
-  height: 11px;
-  margin: 15px auto 25px;
-  transform: rotate(-2deg);
-  background: linear-gradient(180deg, #e2764e, #c54f3c);
-  clip-path: polygon(0 65%, 7% 40%, 24% 26%, 54% 7%, 83% 0, 100% 52%, 82% 75%, 29% 74%, 5% 100%);
-}
-.apr-about__intro {
-  display: grid;
-  grid-template-columns: 86px minmax(0, 1fr);
-  gap: clamp(8px, 1.25vw, 23px);
-  align-items: center;
-  margin-top: clamp(24px, 2.8vw, 48px);
-}
-.apr-about__intro p {
-  margin: 0;
-  font: 400 clamp(16px, 1.16vw, 21px)/1.65 Georgia, 'Times New Roman', serif;
-  color: #21483e;
-}
-.apr-about__intro strong { font-style: italic; color: #0a4841; }
-.apr-about__palms {
-  font-size: 75px;
-  line-height: 1;
-  color: #bb8c45;
-  transform: rotate(-13deg);
-  opacity: .8;
-  text-align: center;
-}
-.apr-about__stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1.3fr 1fr;
-  margin-top: clamp(26px, 3.5vw, 54px);
-  padding-top: clamp(17px, 2.2vw, 32px);
-  border-top: 1px solid #b78451;
-}
-.apr-about__stat {
-  min-width: 0;
-  text-align: center;
-  padding: 0 clamp(6px, .6vw, 12px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #073d38;
-}
-.apr-about__stat + .apr-about__stat { border-left: 1px solid #c4945d; }
-.apr-about__stat svg {
-  width: clamp(29px, 3vw, 45px);
-  height: clamp(29px, 3vw, 45px);
-  color: #c75f40;
-  margin-bottom: 8px;
-}
-.apr-about__stat strong {
-  font: italic 700 clamp(17px, 1.65vw, 28px)/1.15 'APR Poster', Georgia, serif;
-  letter-spacing: -.04em;
-  white-space: nowrap;
-  max-width: 100%;
-}
-/* The timetable needs more room than the other figures. */
-.apr-about__stat:nth-child(3) strong { font-size: clamp(15px, 1.22vw, 22px); letter-spacing: -.055em; }
-.apr-about__stat:nth-child(4) strong { font-size: clamp(16px, 1.38vw, 25px); }
-.apr-about__stat span {
-  margin-top: 7px;
-  font: 400 clamp(11px, 1vw, 15px)/1.3 Georgia, serif;
-}
+.apr-about__label { display: flex; align-items: center; gap: .6em; width: 76%; font-size: clamp(20px, 2.15vw, 42px); font-weight: 700; }
+.apr-about__label::before, .apr-about__label::after { content: ""; height: 1px; background: var(--gold); flex: 1; }
+.apr-about__label::before { flex: .4; }
+.apr-about h2 { font-size: clamp(31px, 4.6vw, 88px); line-height: 1.01; letter-spacing: -.06em; font-weight: 700; margin: .42em 0 0; }
+.apr-about__brush { width: 55%; height: auto; margin: 0 0 .8em 12%; color: var(--coral); }
 .apr-about__seal {
   position: absolute;
-  top: 24px;
-  right: 26px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 87px;
-  width: 87px;
-  border: 3px double #bf6444;
+  right: 7%;
+  top: 3%;
+  width: clamp(65px, 8.8vw, 163px);
+  aspect-ratio: 1;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  border: 4px double currentColor;
   border-radius: 50%;
-  color: #a74f39;
-  transform: rotate(17deg);
-  opacity: .8;
-  text-align: center;
-  font: bold 10px/1.4 Georgia, serif;
+  transform: rotate(12deg);
+  color: var(--coral);
+  font: bold clamp(7px, .85vw, 16px)/1.1 Georgia, serif;
+  letter-spacing: .04em;
 }
-.apr-about__seal strong { font: 38px/1 Georgia, serif; }
-.apr-about__seal small { font-size: 9px; letter-spacing: .12em; }
+.apr-about__seal img { width: 53%; margin: 3px auto; filter: brightness(0) saturate(100%) invert(31%) sepia(67%) saturate(1149%) hue-rotate(340deg); }
+.apr-about__seal svg { position: absolute; width: 64%; left: 86%; top: 35%; }
+.apr-about__intro { display: grid; grid-template-columns: minmax(0, 19%) minmax(0, 1fr); gap: 4%; align-items: center; }
+.apr-about__intro svg { width: 100%; color: #ae7832; }
+.apr-about__intro p { font: clamp(17px, 1.42vw, 27px)/1.28 Georgia, serif; }
+.apr-about__intro strong { font-style: italic; }
+.apr-about__stats { display: grid; grid-template-columns: 1fr 1.1fr 1.35fr 1fr; border-top: 1px solid var(--gold); margin: clamp(17px, 1.5vw, 30px) 0 0; padding: 16px 0 0; list-style: none; }
+.apr-about__stats li { min-width: 0; padding: 0 5px; text-align: center; }
+.apr-about__stats li + li { border-left: 1px solid #ad762e99; }
+.apr-about__stats svg { display: block; width: clamp(34px, 4vw, 70px); margin: 0 auto 6px; color: var(--coral); stroke-linecap: round; stroke-linejoin: round; }
+.apr-about__stats strong, .apr-about__stats span { display: block; }
+.apr-about__stats strong { font-size: clamp(19px, 2.3vw, 44px); line-height: 1.12; letter-spacing: -.055em; }
+.apr-about__stats li:nth-child(n + 3) strong { font-size: clamp(15px, 1.65vw, 32px); }
+.apr-about__stats span { margin-top: 4px; font-size: clamp(13px, 1.12vw, 21px); line-height: 1.15; }
 .apr-about__quote {
   position: relative;
-  width: min(86%, 500px);
-  margin: clamp(28px, 3vw, 48px) auto -56px;
-  padding: 18px 40px 16px;
-  transform: rotate(-4deg);
-  background: #f2dfb6;
-  border: 1px solid #d6a66d;
-  color: #0a4b45;
-  box-shadow: 4px 8px 0 rgba(70,57,40,.13);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 74%;
+  margin: 0 auto -1.3em 3%;
+  padding: .7em .8em .7em 1em;
+  transform: translateY(.85em) rotate(-5deg);
+  font-size: clamp(16px, 1.64vw, 31px);
+  line-height: 1.23;
   text-align: center;
+  border-radius: 3px 6px 5px 2px;
+  border: 1px solid #d1a16a;
+  background: var(--grain), linear-gradient(#ffe0a6, #ffebbc);
+  box-shadow: 1px 6px 12px #412b2350;
 }
-.apr-about__quote::before, .apr-about__quote::after {
-  content: '';
-  position: absolute;
-  width: 35px;
-  height: 7px;
-  background: #db7555;
-  opacity: .75;
-  top: 4px;
+.apr-about__quote::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 8px; background: repeating-linear-gradient(135deg, #ae4430 0 9px, transparent 9px 19px); }
+.apr-about__quote svg { width: 17%; flex: none; }
+@media (max-width: 1050px) {
+  .apr-about__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 0; }
+  .apr-about__stats li:nth-child(3) { border-left: 0; }
+  .apr-about__intro { grid-template-columns: 1fr; }
+  .apr-about__intro svg { display: none; }
 }
-.apr-about__quote::before { left: -13px; transform: rotate(-35deg); }
-.apr-about__quote::after { right: -13px; transform: rotate(35deg); }
-.apr-about__quote p {
-  margin: 0;
-  font: italic 400 clamp(15px, 1.25vw, 22px)/1.35 'APR Poster', Georgia, serif;
+@media (max-width: 800px) {
+  .apr-about__layout { grid-template-columns: 1fr; max-width: 620px; }
+  .apr-about__paper { margin: -5px 0 0; padding-inline: clamp(18px, 5vw, 40px); }
+  .apr-about__paper::before { display: none; }
+  .apr-about h2 { font-size: clamp(30px, 6.8vw, 52px); }
+  .apr-about__seal { top: 2%; right: 5%; }
+  .apr-about__seal svg { display: none; }
+  .apr-about__quote { width: 93%; }
 }
-.apr-about__quote > span { display: none; }
-.apr-about__flower {
-  position: absolute;
-  z-index: 2;
-  color: #ee6843;
-  font-size: clamp(105px, 15vw, 240px);
-  line-height: 1;
-  text-shadow: 4px 8px #9e4736, 7px 11px rgba(0, 31, 29, .34);
-  pointer-events: none;
-}
-.apr-about__flower--left { left: -4vw; bottom: -3vw; transform: rotate(-13deg); }
-.apr-about__flower--right { right: -4vw; bottom: -4vw; transform: rotate(15deg) scale(.7); }
-
-/* Reveal as the editorial spread enters the viewport; never hide content from JS-less views. */
 @media (prefers-reduced-motion: no-preference) {
-  .apr-about__art-panel, .apr-about__paper {
-    transition: transform .8s cubic-bezier(.16,.9,.2,1), opacity .8s ease;
-  }
-  .apr-about--visible .apr-about__art-panel { animation: apr-about-art-enter .8s both; }
-  .apr-about--visible .apr-about__paper { animation: apr-about-paper-enter .9s .12s both; }
-}
-@keyframes apr-about-art-enter {
-  from { opacity: .45; transform: translateY(24px) rotate(-3deg); }
-  to { opacity: 1; transform: rotate(-1.2deg); }
-}
-@keyframes apr-about-paper-enter {
-  from { opacity: .5; transform: translateX(28px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-@media (max-width: 1080px) {
-  .apr-about__layout { grid-template-columns: .76fr 1.24fr; }
-  .apr-about__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 20px; }
-  .apr-about__stat:nth-child(3) { border-left: 0; }
-  .apr-about__stat strong { font-size: clamp(18px, 2.25vw, 26px); }
-  .apr-about__stat:nth-child(3) strong { font-size: clamp(16px, 1.75vw, 22px); }
-  .apr-about__paper { padding-inline: 28px; }
-  .apr-about__seal { width: 62px; height: 62px; top: 12px; right: 12px; font-size: 7px; }
-  .apr-about__seal strong { font-size: 27px; }
-  .apr-about__intro { grid-template-columns: 45px minmax(0,1fr); }
-  .apr-about__palms { font-size: 45px; }
-}
-@media (max-width: 767px) {
-  .apr-about { padding: 56px 22px 90px; }
-  .apr-about__layout { grid-template-columns: 1fr; max-width: 560px; }
-  .apr-about__art-panel { min-height: 420px; padding: 0; transform: rotate(-1deg); }
-  .apr-about__photo-border { height: 430px; min-height: 430px; }
-  .apr-about__art { min-height: 400px; }
-  .apr-about__art-caption { font-size: 8px; }
-  .apr-about__postmark { width: 65px; height: 65px; right: -9px; top: -22px; font-size: 8px; }
-  .apr-about__postmark span { font-size: 16px; }
-  .apr-about__paper { padding: 48px 22px 72px; margin-top: -4px; }
-  .apr-about__seal { right: 8px; top: 8px; width: 49px; height: 49px; font-size: 6px; }
-  .apr-about__seal strong { font-size: 20px; }
-  .apr-about__paper h2 { font-size: clamp(32px, 8.7vw, 46px); }
-  .apr-about__intro { grid-template-columns: 1fr; margin-top: 22px; }
-  .apr-about__palms { display: none; }
-  .apr-about__intro p { font-size: 16px; }
-  .apr-about__stats { margin-top: 27px; grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 20px; }
-  .apr-about__stat strong { font-size: clamp(17px, 5.2vw, 28px); }
-  .apr-about__stat:nth-child(3) strong { font-size: clamp(14px, 4vw, 21px); }
-  .apr-about__stat:nth-child(3) { border-left: 0; }
-  .apr-about__quote { width: 96%; padding: 15px 18px; margin-bottom: -42px; }
-  .apr-about__flower { font-size: 100px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .apr-about__art-panel, .apr-about__paper { animation: none !important; transition: none !important; }
+  .apr-about--visible .apr-about__frame { animation: apr-about-print-in .7s ease-out both; }
+  .apr-about--visible .apr-about__paper { animation: apr-about-print-in .7s .08s ease-out both; }
+  @keyframes apr-about-print-in { from { opacity: .55; translate: 0 10px; } }
 }
