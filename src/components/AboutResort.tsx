@@ -12,60 +12,59 @@ const highlights = [
 ] as const;
 
 function HighlightIcon({ name }: { name: typeof highlights[number]['icon'] }) {
-  const shared = {
-    viewBox: '0 0 64 64',
-    fill: 'none',
-    stroke: 'currentColor',
-    strokeLinecap: 'round' as const,
-    strokeLinejoin: 'round' as const,
-    'aria-hidden': true as const,
-  };
+  // Solid coral silhouettes, like illustrations printed onto a 1970s travel brochure.
+  const base = { viewBox: '0 0 64 64', fill: 'currentColor', 'aria-hidden': true as const };
 
-  // Single-colour 1970s travel-engraving motifs: bold outside strokes, finer etched details.
   if (name === 'sun') return (
-    <svg {...shared}>
-      <g strokeWidth="2.15">
-        <path d="M7 55H57M9 51h45M17 51V38c0-3 2-5 5-5h15M17 43h14M24 33V20h22v31M28 20l8-8 12 8M35 12V6l11 3-11 3M30 51V33"/>
-        <path d="M44 25c-5 7-13 9-24 10-7 1-13 4-13 9s5 7 11 7M44 33c-5 7-12 9-22 10-3 1-5 3-2 5 2 1 5 1 8 1"/>
-        <path d="M11 46l-4-2M45 20h4"/>
-      </g>
-      <g strokeWidth=".85" opacity=".62"><path d="M26 23h16M27 26h14M36 14l7 4M15 53h26M19 39h8"/></g>
+    <svg {...base}>
+      {/* Pavilion with a little holiday pennant. */}
+      <path d="M47 8V3h2v5l7 2-7 3v3h-2V8Z"/>
+      <path d="M38 21 49 12l11 9H38ZM43 23h3v31h-3zM54 23h3v31h-3z"/>
+      {/* A single thick waterslide winding towards the landing platform. */}
+      <path d="M44 30h9v5c0 7-13 8-22 10-10 2-14 5-11 8 2 2 9 3 17 3h19v4H35C21 60 12 57 12 51c0-8 10-11 23-14 7-2 9-3 9-7Z"/>
+      <path d="M37 37c-13 2-26 5-29 13-2 6 2 10 11 12H6c-4-4-5-10-2-15 5-8 18-11 33-14Z"/>
+      <path d="M4 60h56v3H4z"/>
+      <path d="M49 24h6v2h-6z"/>
     </svg>
   );
   if (name === 'island') return (
-    <svg {...shared}>
-      <g strokeWidth="2">
-        <path d="M5 50q12-5 25 0t29 0M8 56q13-5 25 0t23 0M14 44q18-7 38 0M18 42l17-19 16 19"/>
-        <path d="M33 24C34 17 36 10 39 6M38 8c-6-3-12-2-16 3 7-2 12-1 16 1M39 8c5-6 12-7 17-3-8 0-13 4-17 7M39 9c6 0 11 4 13 10-6-5-10-6-15-6M36 11c-6 1-10 5-11 11 4-5 8-7 12-8"/>
-      </g>
-      <g strokeWidth="1" opacity=".7"><path d="M28 32l7-8 10 13M20 47l6-2M35 46l4 1M22 53l7-1M41 53l7-2"/></g>
-      <path d="M38 22l-1 20" strokeWidth="1.7"/>
+    <svg {...base}>
+      {/* Overlapping volcanic hills, little island, and a windblown palm. */}
+      <path d="M3 47q8-8 13-9 7-16 15-17 7 0 15 19l8 3 7 5-7 3-16-2-20 3Z"/>
+      <path d="m13 40 6-4 6 3 7-11 6 11 4 3-9-2-7 5-9-2Z" fill="#f2d29e"/>
+      <path d="M34 51q8-5 15-4t12 5q-9 3-27-1Z"/>
+      <path d="M3 55q18-4 32-1t26 1l-5 3q-25-3-47 0Z"/>
+      <path d="M8 60q23-3 45 0v2H8z"/>
+      <path d="M46 17h3l-1 31h-4c2-10 3-20 2-31Z"/>
+      <path d="M47 17C42 6 35 7 32 12c7-1 11 2 15 7Z"/>
+      <path d="M47 17c0-12 8-14 13-10-6 2-9 5-13 12Z"/>
+      <path d="M47 17c8-8 15-6 17 0-6-3-11-2-17 3Z"/>
+      <path d="M47 17c11 1 15 8 14 15-3-7-8-10-14-12Z"/>
+      <path d="M47 17c-5-9-12-6-15 0 5-2 10-1 15 3Z"/>
     </svg>
   );
   if (name === 'clock') return (
-    <svg {...shared}>
-      <g strokeWidth="2.4">
-        <circle cx="32" cy="32" r="23"/>
-        <path d="M32 16v17l11 8M32 5v6M32 53v6M5 32h6M53 32h6"/>
-      </g>
-      <g strokeWidth="1.25" opacity=".7">
-        <path d="M19 10l3 5M45 10l-3 5M10 19l5 3M54 19l-5 3M10 45l5-3M54 45l-5-3M19 54l3-5M45 54l-3-5"/>
-        <path d="M32 32l-1-10"/>
-      </g>
-      <circle cx="32" cy="32" r="2.3" fill="currentColor" stroke="none"/>
+    <svg {...base}>
+      <circle cx="32" cy="32" r="25"/>
+      <circle cx="32" cy="32" r="20.7" fill="#f7e4b8"/>
+      <rect x="31" y="10" width="2" height="8"/>
+      <rect x="31" y="46" width="2" height="8"/>
+      <rect x="46" y="31" width="8" height="2"/>
+      <rect x="10" y="31" width="8" height="2"/>
+      <path d="M30 18h4v15l12 10-3 4-13-12Z"/>
+      <circle cx="32" cy="32" r="3.2"/>
     </svg>
   );
   return (
-    <svg {...shared}>
-      <g strokeWidth="2.05">
-        <circle cx="19" cy="16" r="6"/>
-        <circle cx="47" cy="16" r="6"/>
-        <circle cx="33" cy="29" r="4.5"/>
-        <path d="M8 55V39c0-7 4-12 11-12s11 5 11 12M58 55V39c0-7-4-12-11-12-5 0-8 3-10 7"/>
-        <path d="M24 57V46c0-6 3-10 9-10s9 4 9 10v11"/>
-        <path d="M8 52H5M58 52h3"/>
-      </g>
-      <g strokeWidth=".9" opacity=".7"><path d="M13 32q6-4 12 0M42 32q5-4 10 0M28 40q5-2 10 0M12 41v10M52 41v10"/></g>
+    <svg {...base}>
+      {/* Three distinct people holding hands, with clear silhouettes at small sizes. */}
+      <circle cx="14" cy="10" r="6"/>
+      <circle cx="50" cy="10" r="6"/>
+      <circle cx="32" cy="27" r="4.7"/>
+      <path d="M8 19q6-4 12 0l5 15-4 3-3-7-1 13 4 15-5 2-6-16-3 16-5-2 4-22-1-10-5 11-4-2 6-14q2-5 6-6Z"/>
+      <path d="M44 19q6-4 12 0 3 1 5 6l5 14-4 2-6-11 2 10 5 18-5 2-6-14-5 14-5-2 4-20-1-10-3 9-4-2 4-13q1-3 2-3Z"/>
+      <path d="M27 35q5-2 10 0l3 13-4 2-2-7 2 17h-4l-2-11-2 11h-4l2-17-2 7-4-2 3-10q2-3 4-3Z"/>
+      <path d="M21 33 28 37l-2 4-8-5ZM39 37l7-4 3 4-8 5Z"/>
     </svg>
   );
 }
