@@ -57,30 +57,66 @@ export default function AboutResort() {
           <svg className="apr-about__brush" viewBox="0 0 460 34" aria-hidden="true"><path d="M4 25C83 11 220 0 344 6C399 7 442 13 459 18C321 1 157 20 19 33C3 34-5 29 4 25Z" fill="currentColor" /></svg>
 
           <div className="apr-about__intro">
-            <svg className="apr-about__palm-engraving" viewBox="0 0 140 150" aria-hidden="true" focusable="false">
+            <svg className="apr-about__palm-engraving" viewBox="0 0 150 165" aria-hidden="true" focusable="false">
               <defs>
-                <clipPath id="apr-about-palm-silhouette">
-                  <path d="M3 140Q43 123 82 131Q112 132 138 143L138 146H3Z"/>
-                  <path d="M54 134Q62 83 92 33L98 36Q75 91 72 136Z"/>
-                  <path d="M31 136Q37 104 31 83L37 82Q49 105 44 136Z"/>
-                  <path d="M95 34Q80 11 56 18Q74 20 90 38Q63 25 38 40Q68 35 91 43Q65 45 58 70Q79 51 97 46Q92 66 108 78Q105 58 104 45Q127 49 137 71Q135 45 109 36Q126 24 139 29Q121 15 100 29Q105 14 93 2Q97 22 95 34Z"/>
-                  <path d="M34 86Q20 64 5 74Q23 73 32 90Q15 84 1 101Q18 92 35 96Q27 108 27 119Q35 107 39 97Q52 106 57 115Q56 97 41 91Q54 84 67 91Q55 78 39 86Q43 74 34 66Q38 78 34 86Z"/>
+                <clipPath id="apr-about-palm-print">
+                  <path d="M2 157Q38 149 78 154Q115 151 148 160H2Z"/>
+                  <path d="M48 154Q52 101 94 45L101 45Q67 109 67 154Z"/>
+                  <path d="M25 155Q36 122 33 101L38 98Q48 119 40 155Z"/>
+                  <g transform="translate(95 46)">
+                    <path d="M0 0Q-13-34-32-35Q-17-34-9-6Z"/>
+                    <path d="M0 0Q-38-27-57-12Q-33-15-9-3Z"/>
+                    <path d="M0 0Q-46-8-59 18Q-36 2-7 2Z"/>
+                    <path d="M0 0Q-34 12-34 43Q-24 18-3 5Z"/>
+                    <path d="M0 0Q-17 22-10 49Q-7 22 2 4Z"/>
+                    <path d="M0 0Q14 27 34 37Q19 18 5 1Z"/>
+                    <path d="M0 0Q33 6 49 31Q40 7 7-3Z"/>
+                    <path d="M0 0Q31-16 54-5Q30-8 6-3Z"/>
+                    <path d="M0 0Q12-27 32-28Q15-19 4-4Z"/>
+                    <path d="M0 0Q0-32-10-44Q-5-22 1-4Z"/>
+                  </g>
+                  <g transform="translate(36 100) scale(.72)">
+                    <path d="M0 0Q-15-23-29-21Q-18-16-3 3Z"/>
+                    <path d="M0 0Q-34-12-47 6Q-27-4-2 4Z"/>
+                    <path d="M0 0Q-31 10-37 33Q-20 16 1 5Z"/>
+                    <path d="M0 0Q-9 20-6 39Q-1 20 3 4Z"/>
+                    <path d="M0 0Q17 19 29 29Q22 9 5 2Z"/>
+                    <path d="M0 0Q30-8 41 4Q26-3 5 2Z"/>
+                    <path d="M0 0Q6-19 18-23Q10-11 2 1Z"/>
+                  </g>
                 </clipPath>
               </defs>
-              <g fill="#a87330" stroke="#865827" strokeWidth=".9" strokeLinejoin="round">
-                <path d="M3 140Q43 123 82 131Q112 132 138 143L138 146H3Z"/>
-                <path d="M54 134Q62 83 92 33L98 36Q75 91 72 136Z"/>
-                <path d="M31 136Q37 104 31 83L37 82Q49 105 44 136Z"/>
-                <path d="M95 34Q80 11 56 18Q74 20 90 38Q63 25 38 40Q68 35 91 43Q65 45 58 70Q79 51 97 46Q92 66 108 78Q105 58 104 45Q127 49 137 71Q135 45 109 36Q126 24 139 29Q121 15 100 29Q105 14 93 2Q97 22 95 34Z"/>
-                <path d="M34 86Q20 64 5 74Q23 73 32 90Q15 84 1 101Q18 92 35 96Q27 108 27 119Q35 107 39 97Q52 106 57 115Q56 97 41 91Q54 84 67 91Q55 78 39 86Q43 74 34 66Q38 78 34 86Z"/>
+              {/* Two gently curved palms, matching the warm ochre silhouette in the reference. */}
+              <g fill="#b1813d" stroke="#94672e" strokeWidth=".7" strokeLinejoin="round">
+                <path d="M2 157Q38 149 78 154Q115 151 148 160H2Z"/>
+                <path d="M48 154Q52 101 94 45L101 45Q67 109 67 154Z"/>
+                <path d="M25 155Q36 122 33 101L38 98Q48 119 40 155Z"/>
+                <g transform="translate(95 46)">
+                  <path d="M0 0Q-13-34-32-35Q-17-34-9-6Z"/>
+                  <path d="M0 0Q-38-27-57-12Q-33-15-9-3Z"/>
+                  <path d="M0 0Q-46-8-59 18Q-36 2-7 2Z"/>
+                  <path d="M0 0Q-34 12-34 43Q-24 18-3 5Z"/>
+                  <path d="M0 0Q-17 22-10 49Q-7 22 2 4Z"/>
+                  <path d="M0 0Q14 27 34 37Q19 18 5 1Z"/>
+                  <path d="M0 0Q33 6 49 31Q40 7 7-3Z"/>
+                  <path d="M0 0Q31-16 54-5Q30-8 6-3Z"/>
+                  <path d="M0 0Q12-27 32-28Q15-19 4-4Z"/>
+                  <path d="M0 0Q0-32-10-44Q-5-22 1-4Z"/>
+                </g>
+                <g transform="translate(36 100) scale(.72)">
+                  <path d="M0 0Q-15-23-29-21Q-18-16-3 3Z"/>
+                  <path d="M0 0Q-34-12-47 6Q-27-4-2 4Z"/>
+                  <path d="M0 0Q-31 10-37 33Q-20 16 1 5Z"/>
+                  <path d="M0 0Q-9 20-6 39Q-1 20 3 4Z"/>
+                  <path d="M0 0Q17 19 29 29Q22 9 5 2Z"/>
+                  <path d="M0 0Q30-8 41 4Q26-3 5 2Z"/>
+                  <path d="M0 0Q6-19 18-23Q10-11 2 1Z"/>
+                </g>
               </g>
-              <g clipPath="url(#apr-about-palm-silhouette)" stroke="#f4d399" fill="none" strokeLinecap="round">
-                <path d="M2 25L138 55M4 39L136 69M-4 60L135 92M-3 83L139 116M-4 112L139 138" strokeWidth="1.3" strokeDasharray="12 9 3 13" opacity=".48"/>
-                <path d="M22 13L121 149M36 9L136 147M8 56L72 149" strokeWidth=".7" strokeDasharray="3 10" opacity=".42"/>
-              </g>
-              <g stroke="#d4a05b" fill="none" strokeLinecap="round" opacity=".8">
-                <path d="M67 129Q72 80 95 37M38 129Q43 102 34 86" strokeWidth="1.6"/>
-                <path d="M95 38Q73 27 56 20M96 39Q68 36 44 41M100 40Q121 45 134 62M35 90Q18 83 6 98" strokeWidth=".9"/>
+              {/* Subtle rubbed-away pigment — no heavy distressed scratch overlay. */}
+              <g clipPath="url(#apr-about-palm-print)" fill="none" stroke="#f3dcaa" strokeLinecap="round">
+                <path d="M4 30L148 25M8 48L146 43M3 67L144 63M8 93L139 89M1 115L143 111M8 143L144 137" strokeWidth=".75" strokeDasharray="5 20 2 24" opacity=".65"/>
+                <path d="M19 5L100 160M47 4L119 155" strokeWidth=".5" strokeDasharray="2 19" opacity=".45"/>
               </g>
             </svg>
             <p><strong>Aqua Paradise Resort</strong> — премиальный тропический остров-аквапарк, где природа, развлечения и высокий уровень сервиса соединяются в одном месте. Вас ждут девять уникальных зон, отдых для всей семьи и тщательно продуманные впечатления — от активных приключений до полного расслабления в атмосфере курортной роскоши.</p>
