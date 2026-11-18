@@ -1,0 +1,142 @@
+.apr-worlds {
+  --paper: #f6d89e;
+  --ink: #073d38;
+  --rust: #8f321e;
+  --gold: #ffce62;
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath d='M0 0h180v180H0z' opacity='.23' filter='url(%23n)'/%3E%3C/svg%3E");
+  --stock: var(--grain), radial-gradient(ellipse at 48% 48%, #ffecc2, #f6d69a 72%, #d49a57);
+  --serif: 'APR Poster', Georgia, serif;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(22px, 3vw, 55px) clamp(12px, 3vw, 60px);
+  color: var(--paper);
+  background: var(--grain), radial-gradient(ellipse at 50% 45%, #16625c, #053c3b 76%, #002c29);
+  border: 4px ridge #d6a363;
+}
+.apr-worlds__heading, .apr-worlds__stage, .apr-worlds__tickets { max-width: 1600px; margin-inline: auto; }
+.apr-worlds__heading { position: relative; text-align: center; z-index: 2; margin-bottom: clamp(20px, 2vw, 38px); }
+.apr-worlds__heading h2 { font: italic 700 clamp(24px, 3.2vw, 60px)/1.03 var(--serif); text-shadow: 2px 3px #002d29; }
+.apr-worlds__heading h2 span { display: block; font-size: 1.67em; color: #ffe4aa; text-shadow: 2px 3px #b15a30, 4px 6px #6c2e21, 5px 8px #002d29; }
+.apr-worlds__heading p {
+  display: inline-block;
+  margin-top: .75rem;
+  padding: .45em .9em;
+  color: #65291e;
+  background: var(--stock);
+  border: 1px dashed #9c663b;
+  border-radius: 2rem;
+  font-weight: 700;
+}
+.apr-worlds__stage { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.04fr); gap: clamp(16px, 2.2vw, 40px); align-items: center; }
+.apr-worlds__viewer { position: relative; isolation: isolate; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: clamp(5px, .65vw, 12px); align-items: center; }
+.apr-worlds__stereo {
+  position: absolute; z-index: -1; top: -7%; left: 3%; width: 43%; height: 38%;
+  transform: rotate(-16deg); border-radius: 20% 20% 15% 16%; background: var(--grain), linear-gradient(#c6593b, #8f281e);
+  border: 3px ridge #d48b58; box-shadow: 5px 9px 14px #002c2a;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 7%; padding: 6%;
+}
+.apr-worlds__stereo span { width: 100%; text-align: center; font: italic 700 clamp(10px, 1.55vw, 27px)/1 var(--serif); }
+.apr-worlds__stereo i { width: 44%; height: 48%; border: 4px ridge #a64830; border-radius: 20%; background: radial-gradient(#625a42, #211d18); }
+.apr-worlds__arrow {
+  cursor: pointer; width: clamp(40px, 4vw, 67px); aspect-ratio: 1; border: 2px solid var(--paper);
+  border-radius: 50%; font: 400 clamp(32px, 4vw, 60px)/.72 Georgia, serif;
+  background: #053b38; padding-bottom: .13em;
+}
+.apr-worlds__arrow:hover { background: #22645a; }
+.apr-worlds__wheel { position: relative; min-width: 0; aspect-ratio: 1; }
+.apr-worlds__surface { position: absolute; inset: 0; border-radius: 50%; touch-action: pan-y; user-select: none; }
+.apr-worlds__reel {
+  position: absolute; inset: 0; border-radius: 50%; color: var(--ink); background: var(--stock);
+  border: 2px solid #d5a267;
+  box-shadow: inset 0 0 0 5px #efc388, inset 0 0 0 7px #ad763e55, 0 7px 0 #aa723a, 0 15px 20px #001c1acc;
+  transition: transform 550ms cubic-bezier(.23,.75,.26,1);
+}
+.apr-worlds__reel.is-dragging { transition: none; cursor: grabbing; }
+.apr-worlds__slide {
+  position: absolute; top: 2%; left: 40.5%; width: 19%; height: 28%;
+  transform-origin: 50% 171.4286%; display: flex; flex-direction: column; align-items: center;
+  gap: 3%; cursor: pointer; padding: 0 1px 2px; border-radius: 26% 26% 25% 25%;
+}
+.apr-worlds__slide span { font: bold clamp(13px, 2.1vw, 31px)/1 Georgia, serif; }
+.apr-worlds__slide img {
+  flex: 1; min-height: 0; width: 100%; object-fit: cover; border-radius: 23% 23% 37% 37%;
+  border: 2px solid #794d31; background: #28645e;
+}
+.apr-worlds__slide[aria-pressed=true] img { border-color: #fff4bd; outline: 2px solid #a46519; box-shadow: 0 0 9px 3px #ffbe37; }
+.apr-worlds__slide[aria-pressed=true] span { color: #6e3119; text-decoration: underline; }
+.apr-worlds__slide:hover img { filter: brightness(1.12); }
+.apr-worlds__hub {
+  position: absolute; inset: 34%; display: grid; align-content: center; justify-items: center; pointer-events: none;
+  border-radius: 50%; border: 4px double #f7d894; background: var(--grain), radial-gradient(#b54d2b, #7d2517);
+  box-shadow: 0 0 0 1px #7b482a; text-align: center;
+  font: bold clamp(8px, 1.25vw, 23px)/1.03 Georgia, serif; letter-spacing: .08em;
+}
+.apr-worlds__hub img { width: 43%; max-height: 50%; object-fit: contain; margin-bottom: 4%; }
+.apr-worlds__hub small { display: block; font-size: .45em; letter-spacing: .22em; margin-top: 5%; }
+.apr-worlds__marker {
+  position: absolute; left: 50%; top: -6px; transform: translateX(-50%);
+  width: 16px; height: 11px; background: var(--gold); border: 1px solid #94602a;
+  clip-path: polygon(0 0,100% 0,50% 100%); pointer-events: none;
+}
+.apr-worlds__card {
+  position: relative; color: var(--ink); background: var(--stock); text-align: center;
+  border: 4px ridge #e4b67b; outline: 1px dashed #9b6838; outline-offset: -9px;
+  border-radius: 12px 9px 15px 8px; padding: clamp(10px, 1.4vw, 24px);
+  box-shadow: 7px 9px 0 #bc8a52, 10px 15px 18px #002522b3;
+}
+.apr-worlds__photo { overflow: hidden; aspect-ratio: 2 / 1; border: 2px solid #986337; border-radius: 5px 8px 4px 7px; background: #165552; }
+.apr-worlds__photo img { display: block; width: 100%; height: 100%; object-fit: cover; animation: apr-worlds-fade .55s ease both; }
+.apr-worlds__info { display: grid; align-content: start; min-height: clamp(140px, 11vw, 185px); padding: .65em .3em 0; }
+.apr-worlds__caption { animation: apr-worlds-caption .55s ease both; }
+.apr-worlds__caption h3 { display: flex; align-items: center; justify-content: center; gap: .35em; font: italic 700 clamp(20px, 3vw, 52px)/1.08 var(--serif); }
+.apr-worlds__caption h3 span {
+  display: grid; place-items: center; width: 1.5em; aspect-ratio: 1; flex: none;
+  border-radius: 50%; background: var(--rust); color: #fff1cd; border: 3px double #fff1cd;
+  font-size: .8em;
+}
+.apr-worlds__caption p { max-width: 48ch; margin: .65em auto 0; font: 500 clamp(15px, 1.25vw, 21px)/1.38 system-ui, sans-serif; }
+.apr-worlds__link {
+  display: inline-flex; align-items: center; gap: .45em; margin: .1em 0 .35em; padding: .48em 1.3em;
+  color: #fff1cc; background: var(--rust); border: 3px double #edba7e; border-radius: 2rem;
+  font-weight: 700; font-size: clamp(15px, 1.35vw, 24px);
+}
+.apr-worlds__link:hover { background: #6d2518; }
+.apr-worlds__tickets {
+  display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 3px;
+  margin-top: clamp(22px, 2.8vw, 50px); padding: 7px; border-radius: 14px;
+  background: var(--stock); color: var(--ink); border: 2px solid #c39257;
+  box-shadow: 0 5px 0 #936437, 0 8px 15px #002421;
+}
+.apr-worlds__tickets button {
+  min-width: 0; padding: .58em .26em; cursor: pointer; border: 1px solid transparent; border-right-color: #a4724a77;
+  font: italic 700 clamp(12px, 1.26vw, 22px)/1.18 var(--serif);
+}
+.apr-worlds__tickets svg { display: block; width: clamp(25px, 2.6vw, 46px); height: auto; margin: 0 auto .32em; color: var(--rust); }
+.apr-worlds__tickets button:last-child { border-right-color: transparent; }
+.apr-worlds__tickets button[aria-pressed=true] { background: #ffeabc; border: 1px solid #a66c25; border-radius: 7px; box-shadow: inset 0 0 0 2px #fff5ca; text-decoration: underline; }
+.apr-worlds__tickets button:hover { background: #ffe8b0; }
+.apr-worlds :is(button,a):focus-visible { outline: 3px solid #ffe29a; outline-offset: 3px; }
+.apr-worlds__tickets button:focus-visible, .apr-worlds__slide:focus-visible { outline-color: #81301e; outline-offset: 1px; z-index: 1; }
+@keyframes apr-worlds-fade { from { opacity: .45; } }
+@keyframes apr-worlds-caption { from { opacity: .35; translate: 0 5px; } }
+@media (min-width: 1100px) {
+  .apr-worlds__heading p { position: absolute; right: 1%; top: 14%; max-width: 24%; transform: rotate(-6deg); }
+}
+@media (max-width: 900px) {
+  .apr-worlds__stage { grid-template-columns: minmax(0, 1fr); max-width: 620px; gap: 24px; }
+  .apr-worlds__viewer { width: 100%; max-width: 555px; margin: 12px auto 0; }
+  .apr-worlds__tickets { display: flex; overflow-x: auto; overscroll-behavior-inline: contain; }
+  .apr-worlds__tickets button { flex: 0 0 116px; font-size: 15px; }
+  .apr-worlds__slide span { font-size: clamp(13px, 3vw, 28px); }
+  .apr-worlds__hub { font-size: clamp(9px, 1.9vw, 20px); }
+  .apr-worlds__info { min-height: 112px; }
+}
+@media (max-width: 450px) {
+  .apr-worlds__info { min-height: 133px; }
+  .apr-worlds__arrow { width: 38px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .apr-worlds__reel { transition: none; }
+  .apr-worlds__photo img, .apr-worlds__caption { animation: none; }
+}

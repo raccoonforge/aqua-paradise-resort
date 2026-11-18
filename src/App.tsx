@@ -1,3 +1,4 @@
+import ParadiseViewMaster from './components/ParadiseViewMaster';
 import './retro-hero.css';
 import riviera from './assets/retro/riviera.webp';
 import aprPalmLogo from './assets/retro/apr-palm-logo.svg';
@@ -11,68 +12,12 @@ import TicketsPage from './TicketsPage';
 import AttractionsPage from './AttractionsPage';
 import ZonesPage from './ZonesPage';
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { ZONE_SLUGS, ATTRACTIONS } from './data/attractions';
+import { ATTRACTIONS } from './data/attractions';
 
 // TODO: Cinematic Intro — отложено (Visual Pending: нужны видео/3D-ассеты).
 // В Master Blueprint §4.1 описан спуск по горке; без медиа делаем только Hero.
 
 // The Golden Age of Paradise editorial section lives in components/AboutResort.tsx.
-
-const NineWorlds = () => {
-  const zones = [
-    { name: 'Ocean Bay', desc: 'Сердце курорта. Белоснежный песок, лазурная лагуна и безмятежность.', color: 'from-cyan-400/40 to-blue-900/80' },
-    { name: 'Adrenaline Peak', desc: 'Вызов для смельчаков. Самые высокие и быстрые водные горки острова.', color: 'from-orange-500/40 to-red-900/80' },
-    { name: 'Eden Gardens', desc: 'Тропический рай. Редкие растения, водопады и невероятная тишина.', color: 'from-green-500/40 to-emerald-900/80' },
-    { name: 'Atlantis Realm', desc: 'Затерянный город. Погружение в мифы и подводные приключения.', color: 'from-blue-600/40 to-indigo-900/80' },
-    { name: "Pirate's Cove", desc: 'Остров сокровищ. Приключения для всей семьи в декорациях пиратских историй.', color: 'from-amber-600/40 to-stone-900/80' },
-    { name: 'Serenity Spa', desc: 'Место силы. Премиальные спа-процедуры и абсолютный релакс.', color: 'from-purple-400/40 to-slate-900/80' },
-    { name: 'Little Paradise', desc: 'Мир для самых маленьких. Безопасные горки и любимые герои.', color: 'from-pink-400/40 to-rose-900/80' },
-    { name: 'Paradise Market', desc: 'Вкус острова. Рестораны, кафе и колоритные местные товары.', color: 'from-yellow-500/40 to-orange-900/80' },
-    { name: 'Paradise Boulevard', desc: 'Центральная артерия. Главные площади, шоу и вечерние прогулки.', color: 'from-teal-400/40 to-teal-900/80' },
-  ];
-
-  const [activeZone, setActiveZone] = useState(0);
-
-  return (
-    <section className="relative h-[80vh] min-h-[600px] flex flex-col justify-between overflow-hidden">
-      <div className={`absolute inset-0 bg-gradient-to-t ${zones[activeZone].color} transition-colors duration-1000 ease-in-out`}></div>
-      <div className="relative z-10 max-w-6xl mx-auto px-4 w-full pt-20 flex-grow flex flex-col justify-center">
-        <div className="max-w-xl text-white">
-          <span className="tracking-widest text-sm font-semibold uppercase mb-4 block opacity-80">EXPLORE THE ISLAND</span>
-          <h2 className="text-5xl md:text-7xl font-serif mb-6 drop-shadow-lg transition-all duration-500">{zones[activeZone].name}</h2>
-          <p className="text-lg md:text-xl text-gray-100 mb-8 font-light drop-shadow-md transition-all duration-500">{zones[activeZone].desc}</p>
-          <button
-            onClick={() => {
-              const slug = ZONE_SLUGS[zones[activeZone].name];
-              if (slug) window.location.hash = `#/zones?zone=${slug}`;
-            }}
-            className="bg-white text-gray-900 px-8 py-3 rounded-full font-medium hover:bg-gray-100 transition shadow-lg"
-          >
-            Подробнее о зоне
-          </button>
-        </div>
-      </div>
-      <div className="relative z-10 w-full bg-black/20 backdrop-blur-md border-t border-white/10">
-        <div className="max-w-6xl mx-auto px-4 py-4">
-          <div className="flex overflow-x-auto gap-4 pb-2 scrollbar-hide">
-            {zones.map((zone, index) => (
-              <button
-                key={zone.name}
-                onClick={() => setActiveZone(index)}
-                aria-label={`Показать зону ${zone.name}`}
-                className={`flex-shrink-0 px-6 py-3 rounded-full text-sm font-medium transition-all ${
-                  activeZone === index ? 'bg-white text-gray-900 shadow-lg scale-105' : 'bg-white/10 text-white hover:bg-white/20'
-                }`}
-              >
-                {zone.name}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
 
 const HomePage = () => (
   <>
@@ -143,7 +88,7 @@ const HomePage = () => (
       </div>
     </section>
     <AboutResort />
-    <NineWorlds />
+    <ParadiseViewMaster />
     <AttractionsCarousel />
     <PlannerTeaser />
   </>
