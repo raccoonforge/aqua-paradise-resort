@@ -80,6 +80,8 @@
 .apr-about__label, .apr-about h2, .apr-about__stats, .apr-about__quote {
   font-family: 'APR Poster', Georgia, serif;
   font-style: italic;
+  clip-path: polygon(0 0, 100% 0,
+    100.0% 100%, 97.1% calc(100% - 1px), 94.1% calc(100% - 2px), 91.2% calc(100% - 1px), 88.2% 100%, 85.3% calc(100% - 2px), 82.4% calc(100% - 1px), 79.4% calc(100% - 3px), 76.5% calc(100% - 2px), 73.5% 100%, 70.6% calc(100% - 1px), 67.6% calc(100% - 1px), 64.7% calc(100% - 3px), 61.8% calc(100% - 1px), 58.8% 100%, 55.9% calc(100% - 2px), 52.9% calc(100% - 2px), 50.0% calc(100% - 1px), 47.1% calc(100% - 3px), 44.1% calc(100% - 1px), 41.2% calc(100% - 2px), 38.2% 100%, 35.3% calc(100% - 1px), 32.4% calc(100% - 3px), 29.4% calc(100% - 2px), 26.5% calc(100% - 1px), 23.5% 100%, 20.6% calc(100% - 2px), 17.6% calc(100% - 1px), 14.7% calc(100% - 3px), 11.8% calc(100% - 1px), 8.8% calc(100% - 2px), 5.9% 100%, 2.9% calc(100% - 1px), 0.0% 100%);
 }
 .apr-about__label { display: flex; align-items: center; gap: .6em; width: 76%; font-size: clamp(20px, 2.15vw, 42px); font-weight: 700; }
 .apr-about__label::before, .apr-about__label::after { content: ""; height: 1px; background: var(--gold); flex: 1; }

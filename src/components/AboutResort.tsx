@@ -76,9 +76,46 @@ export default function AboutResort() {
           <blockquote className="apr-about__quote">
             <p>«Курорт, где каждый день становится особенным путешествием»</p>
             <svg viewBox="0 0 72 72" aria-hidden="true">
-              <path fill="#697842" d="M35 46Q11 35 5 59q19 0 30-13m2 0q21 2 17 23Q38 63 37 46"/>
-              <path fill="#b94028" d="M34 39C5 41 6 16 26 22C16-1 45-3 43 21C58 4 76 24 55 34C78 43 57 62 44 47C36 68 16 52 34 39Z"/>
-              <path d="M39 39q9-14 18-19" fill="none" stroke="#ffcf77" strokeWidth="2"/><circle cx="57" cy="20" r="3" fill="#ffcf77"/>
+              <defs>
+                <radialGradient id="apr-hibiscus-petal" cx="51%" cy="45%" r="58%">
+                  <stop stopColor="#702721" />
+                  <stop offset=".43" stopColor="#ba4130" />
+                  <stop offset=".81" stopColor="#df674d" />
+                  <stop offset="1" stopColor="#ec8c68" />
+                </radialGradient>
+                <linearGradient id="apr-hibiscus-leaf" x2=".8" y2="1">
+                  <stop stopColor="#9b9c5d" />
+                  <stop offset="1" stopColor="#465838" />
+                </linearGradient>
+                <filter id="apr-hibiscus-grain">
+                  <feTurbulence type="fractalNoise" baseFrequency=".75" numOctaves="3" stitchTiles="stitch" />
+                  <feColorMatrix type="saturate" values="0" />
+                  <feComponentTransfer><feFuncA type="linear" slope=".23" /></feComponentTransfer>
+                  <feComposite in2="SourceGraphic" operator="in" />
+                  <feBlend in2="SourceGraphic" mode="multiply" />
+                </filter>
+              </defs>
+              <g filter="url(#apr-hibiscus-grain)">
+                <g fill="url(#apr-hibiscus-leaf)">
+                  <path d="M37 42C23 35 9 40 3 53c12-3 17 7 34-11Z" />
+                  <path d="M34 46C18 49 15 58 16 69c10-6 21-8 18-23Z" />
+                  <path d="M41 44c16 1 25 11 26 20-12-2-22-7-26-20Z" />
+                </g>
+                <path d="M8 51q14-6 29-9M18 65l16-18m11 0 18 14" fill="none" stroke="#d6cb82" strokeWidth=".7" opacity=".65" />
+                <g fill="url(#apr-hibiscus-petal)" stroke="#9d362a" strokeWidth=".55">
+                  <path d="M37 35C27 32 19 23 20 15c-1-6 7-9 11-8 4-4 10-2 12 1 7 1 9 7 6 12-1 7-7 13-12 15Z" />
+                  <path d="M38 35C42 24 51 15 60 17c6-1 11 5 8 9 4 5 1 10-3 12-6 6-20 3-27-3Z" />
+                  <path d="M37 36c11-3 24 3 26 10 6 5 1 12-4 12-3 6-11 5-15 1-7-4-9-15-7-23Z" />
+                  <path d="M36 35c5 10 5 23-2 27-3 5-11 5-13 1-7-1-10-7-7-13 2-8 13-14 22-15Z" />
+                  <path d="M36 36C25 41 10 39 6 32c-5-3-5-10 0-13 0-5 7-8 12-5 8 1 16 12 18 22Z" />
+                </g>
+                <path d="M36 34q-4-9-4-20m6 20q8-10 21-13M40 38q11 3 17 12M34 39q-3 12-11 17m10-21Q20 32 11 24" fill="none" stroke="#f7a281" strokeWidth=".8" opacity=".55" />
+                <path d="M35 37c5-8 9-12 15-15" fill="none" stroke="#efb15e" strokeWidth="1.6" strokeLinecap="round" />
+                <g fill="#ffd586">
+                  <circle cx="50" cy="21" r="1.7" /><circle cx="47" cy="22" r="1.2" />
+                  <circle cx="51" cy="24" r="1.1" /><circle cx="49" cy="19" r="1" />
+                </g>
+              </g>
             </svg>
           </blockquote>
           </article>
