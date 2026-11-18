@@ -205,11 +205,13 @@ const HomePage = () => (
         />
       </svg>
       <div className="apr-hero__content">
-        <h1 className="apr-hero__title" aria-label="Aqua Paradise">
-          <span className="apr-hero__aqua">AQUA</span>
-          <span className="apr-hero__paradise">PARADISE</span>
-        </h1>
-        <div className="apr-hero__resort" aria-hidden="true">Resort</div>
+        <div className="apr-hero__lettering">
+          <h1 className="apr-hero__title" aria-label="Aqua Paradise">
+            <span className="apr-hero__aqua">AQUA</span>
+            <span className="apr-hero__paradise">PARADISE</span>
+          </h1>
+          <div className="apr-hero__resort" aria-hidden="true">Resort</div>
+        </div>
         <p className="apr-hero__tagline">Остров бесконечного лета</p>
         <div className="apr-hero__actions">
           <button type="button" className="apr-hero__button apr-hero__button--primary"
