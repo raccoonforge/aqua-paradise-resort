@@ -135,9 +135,15 @@
 }
 .apr-about__seal img { width: 53%; margin: 3px auto; filter: brightness(0) saturate(100%) invert(31%) sepia(67%) saturate(1149%) hue-rotate(340deg); }
 .apr-about__seal svg { position: absolute; width: 64%; left: 86%; top: 35%; }
-.apr-about__intro { display: grid; grid-template-columns: minmax(0, 19%) minmax(0, 1fr); gap: 4%; align-items: center; }
-.apr-about__intro svg { width: 100%; color: #ae7832; }
-.apr-about__intro p { font: clamp(17px, 1.38vw, 26px)/1.27 Georgia, serif; }
+.apr-about__intro { display: grid; grid-template-columns: minmax(0, 16%) minmax(0, 1fr); gap: 2.7%; align-items: center; }
+.apr-about__intro .apr-about__palm-engraving {
+  display: block;
+  width: 100%;
+  height: auto;
+  color: #ae7832;
+  filter: drop-shadow(0 1px 0 rgba(93, 65, 29, .2));
+}
+.apr-about__intro p { font: clamp(17px, 1.3vw, 24px)/1.3 Georgia, serif; }
 .apr-about__intro strong { font-style: italic; }
 .apr-about__stats { display: grid; grid-template-columns: 1fr 1.1fr 1.35fr 1fr; border-top: 1px solid var(--gold); margin: clamp(12px, 1.15vw, 22px) 0 0; padding: 11px 0 0; list-style: none; }
 .apr-about__stats li { min-width: 0; padding: 0 5px; text-align: center; }
