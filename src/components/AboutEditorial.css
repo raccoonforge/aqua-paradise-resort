@@ -273,8 +273,8 @@
   .apr-about__art-panel, .apr-about__paper {
     transition: transform .8s cubic-bezier(.16,.9,.2,1), opacity .8s ease;
   }
-  .apr-about__art-panel { animation: apr-about-art-enter .8s both; }
-  .apr-about__paper { animation: apr-about-paper-enter .9s .12s both; }
+  .apr-about--visible .apr-about__art-panel { animation: apr-about-art-enter .8s both; }
+  .apr-about--visible .apr-about__paper { animation: apr-about-paper-enter .9s .12s both; }
 }
 @keyframes apr-about-art-enter {
   from { opacity: .45; transform: translateY(24px) rotate(-3deg); }
