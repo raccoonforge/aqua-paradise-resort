@@ -1,159 +1,441 @@
 .apr-worlds {
-  --paper: #f6d89e;
-  --ink: #073d38;
-  --rust: #8f321e;
-  --gold: #ffce62;
-  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath d='M0 0h180v180H0z' opacity='.23' filter='url(%23n)'/%3E%3C/svg%3E");
-  --stock: var(--grain), radial-gradient(ellipse at 48% 48%, #ffecc2, #f6d69a 72%, #d49a57);
+  --paper: #ffe5a9;
+  --ink: #003b35;
+  --red: #8e271a;
+  --turn-duration: 550ms;
+  --turn-easing: cubic-bezier(.23, .75, .26, 1);
   --serif: 'APR Poster', Georgia, serif;
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  padding: clamp(44px, 5vw, 80px) clamp(16px, 3vw, 60px) clamp(48px, 5vw, 80px);
+  container-type: inline-size;
+  aspect-ratio: 1672 / 941;
   color: var(--paper);
-  background: var(--grain), radial-gradient(ellipse at 50% 45%, #16625c, #053c3b 76%, #002c29);
-  border: 0;
+  background: url('../assets/retro/viewmaster/ink-grain.webp'), var(--riv-stock), radial-gradient(ellipse at 59% 42%, #075451, #003c38 71%, #012c30);
 }
- .apr-worlds__heading, .apr-worlds__stage, .apr-worlds__tickets { max-width: 1460px; margin-inline: auto; }
-.apr-worlds__heading {
-  position: relative;
-  text-align: center;
-  z-index: 2;
-  margin-bottom: clamp(20px, 2.3vw, 34px);
+
+.apr-worlds::after {
+  content: '';
+  position: absolute;
+  z-index: 8;
+  inset: 0;
+  pointer-events: none;
+  background: url('../assets/retro/viewmaster/poster-edge.webp') center / 100% 100% no-repeat;
 }
-.apr-worlds__eyebrow {
-  display: block;
-  color: #dcb87a;
-  font: 700 clamp(10px, .8vw, 13px)/1.3 system-ui, sans-serif;
-  letter-spacing: .22em;
-  margin-bottom: clamp(7px, .9vw, 14px);
+
+.apr-worlds__geometry { position: absolute; pointer-events: none; }
+.apr-worlds__heading { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
+/* The hand-lettered title is isolated from the approved artwork. */
+.apr-worlds__heading h2,
+.apr-worlds__heading p { margin: 0; position: absolute; }
+.apr-worlds__heading h2 { inset: .18% auto auto 37.9%; width: 35.8%; aspect-ratio: 358 / 133; }
+.apr-worlds__heading p { inset: .53% .3% auto auto; width: 26.3%; aspect-ratio: 263 / 91; }
+.apr-worlds__headline-art, .apr-worlds__invitation-art {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: center / contain no-repeat;
 }
-.apr-worlds__heading h2 {
-  margin: 0;
-  color: #ffe6b3;
-  font: italic 700 clamp(32px, 3.5vw, 59px)/1.13 var(--serif);
-  letter-spacing: -.035em;
-  text-shadow: 1px 2px #ab5834, 3px 4px #002c29;
+.apr-worlds__headline-art { background-image: url('../assets/retro/viewmaster/headline.webp'); }
+.apr-worlds__invitation-art { background-image: url('../assets/retro/viewmaster/invitation.webp'); }
+.apr-worlds__heading :is(h2,p) .apr-worlds__accessible {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
-.apr-worlds__heading h2 span {
-  display: inline;
-  font-size: .84em;
-  color: #ecca8f;
-  text-shadow: 1px 2px #76452b, 2px 3px #002c29;
+
+.apr-worlds__stage { position: absolute; inset: 0; }
+.apr-worlds__viewer { position: absolute; inset: 12.7% auto auto 2.55%; width: 47.55%; aspect-ratio: 794 / 652; z-index: 3; }
+.apr-worlds__stereo,
+.apr-worlds__flowers,
+.apr-worlds__hinge {
+  position: absolute;
+  pointer-events: none;
+  background: center / contain no-repeat;
 }
-.apr-worlds__heading p {
-  margin: clamp(8px, 1vw, 15px) 0 0;
-  color: #f3dbb3;
-  font: italic 400 clamp(15px, 1.15vw, 19px)/1.4 var(--serif);
-  letter-spacing: .01em;
-}
-.apr-worlds__stage { display: grid; grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr); gap: clamp(24px, 2.6vw, 48px); align-items: center; }
-.apr-worlds__viewer { position: relative; isolation: isolate; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: clamp(5px, .65vw, 12px); align-items: center; }
 .apr-worlds__stereo {
-  position: absolute; z-index: -1; top: -7%; left: 3%; width: 43%; height: 38%;
-  transform: rotate(-16deg); border-radius: 20% 20% 15% 16%; background: var(--grain), linear-gradient(#c6593b, #8f281e);
-  border: 3px ridge #d48b58; box-shadow: 5px 9px 14px #002c2a;
-  display: flex; flex-wrap: wrap; justify-content: center; gap: 7%; padding: 6%;
+  width: 81.6%;
+  aspect-ratio: 388 / 229;
+  left: -4.74%;
+  top: -17.5%;
+  background-image: url('../assets/retro/viewmaster/viewer.webp');
 }
-.apr-worlds__stereo span { width: 100%; text-align: center; font: italic 700 clamp(10px, 1.55vw, 27px)/1 var(--serif); }
-.apr-worlds__stereo i { width: 44%; height: 48%; border: 4px ridge #a64830; border-radius: 20%; background: radial-gradient(#625a42, #211d18); }
+.apr-worlds__flowers {
+  width: 44%;
+  aspect-ratio: 209 / 251;
+  top: 60.2%;
+  left: -5.16%;
+  z-index: 2;
+  background-image: url('../assets/retro/viewmaster/corner-flowers.webp');
+}
+.apr-worlds__hinge {
+  width: 35.1%;
+  aspect-ratio: 167 / 105;
+  top: 76.9%;
+  left: 67.4%;
+  z-index: 3;
+  background-image: url('../assets/retro/viewmaster/hinge-flowers.webp');
+}
 .apr-worlds__arrow {
-  cursor: pointer; width: clamp(40px, 4vw, 67px); aspect-ratio: 1; border: 2px solid var(--paper);
-  border-radius: 50%; font: 400 clamp(32px, 4vw, 60px)/.72 Georgia, serif;
-  background: #053b38; padding-bottom: .13em;
+  position: absolute;
+  z-index: 4;
+  top: 50.7%;
+  translate: 0 -50%;
+  width: 9.8%;
+  min-width: 44px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  color: #ffe2a5;
+  background: var(--riv-stock), radial-gradient(ellipse at 38% 38%, #0b5247, #023931 70%, #012820);
+  border: .22cqw solid #f1cc90;
+  border-radius: 50%;
+  box-shadow: inset -.14em -.14em 0 #002c28, 0 .22em 0 #9c5029, 0 .36em .22em #001f1c8c;
+  cursor: pointer;
 }
-.apr-worlds__arrow:hover { background: #22645a; }
-.apr-worlds__wheel { position: relative; min-width: 0; aspect-ratio: 1; }
-.apr-worlds__surface { position: absolute; inset: 0; border-radius: 50%; touch-action: pan-y; user-select: none; }
+.apr-worlds__arrow:first-of-type { left: 0; }
+.apr-worlds__arrow:last-of-type { right: 0; }
+.apr-worlds__arrow svg { width: 65%; height: 65%; }
+.apr-worlds__arrow:hover { background-color: #126c60; filter: brightness(1.18); }
+.apr-worlds__wheel { position: absolute; left: 9.2%; top: 0; width: 82%; aspect-ratio: 1; z-index: 3; }
+.apr-worlds__surface { position: absolute; inset: 0; border-radius: 50%; touch-action: none; cursor: grab; user-select: none; }
 .apr-worlds__reel {
-  position: absolute; inset: 0; border-radius: 50%; color: var(--ink); background: var(--stock);
-  border: 2px solid #d5a267;
-  box-shadow: inset 0 0 0 5px #efc388, inset 0 0 0 7px #ad763e55, 0 7px 0 #aa723a, 0 15px 20px #001c1acc;
-  transition: transform 550ms cubic-bezier(.23,.75,.26,1);
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: url('../assets/retro/viewmaster/reel-stock.webp') center / cover;
+  box-shadow: inset 0 0 0 .12cqw #fff0b5, inset 0 0 0 .28cqw #db8e48,
+    0 .22cqw 0 #ca7b3f, 0 .52cqw 0 #743821, 0 .9cqw 1.3cqw #002421bc;
+  transition: transform var(--turn-duration) var(--turn-easing);
 }
 .apr-worlds__reel.is-dragging { transition: none; cursor: grabbing; }
+.apr-worlds__rim { position: absolute; inset: 0; width: 100%; pointer-events: none; }
 .apr-worlds__slide {
-  position: absolute; top: 2%; left: 40.5%; width: 19%; height: 28%;
-  transform-origin: 50% 171.4286%; display: flex; flex-direction: column; align-items: center;
-  gap: 3%; cursor: pointer; padding: 0 1px 2px; border-radius: 26% 26% 25% 25%;
+  position: absolute;
+  top: 4.35%;
+  left: 33.85%;
+  width: 32.3%;
+  height: 28.55%;
+  transform-origin: 50% 159.895%;
+  pointer-events: none;
+  border: 0;
+  padding: 0;
 }
-.apr-worlds__slide span { font: bold clamp(13px, 2.1vw, 31px)/1 Georgia, serif; }
+.apr-worlds__window {
+  position: absolute;
+  inset: 0;
+  clip-path: url(#apr-worlds-window);
+  background: #834824;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.apr-worlds__window::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 .27cqw .58cqw #002f2aa0;
+  pointer-events: none;
+}
 .apr-worlds__slide img {
-  flex: 1; min-height: 0; width: 100%; object-fit: cover; border-radius: 23% 23% 37% 37%;
-  border: 2px solid #794d31; background: #28645e;
+  position: absolute;
+  left: 50%;
+  top: 49%;
+  width: 143%;
+  max-width: none;
+  aspect-ratio: 1;
+  object-fit: cover;
+  transform: translate(-50%, -50%) rotate(var(--upright));
+  transition: transform var(--turn-duration) var(--turn-easing);
+  pointer-events: none;
 }
-.apr-worlds__slide[aria-pressed=true] img { border-color: #fff4bd; outline: 2px solid #a46519; box-shadow: 0 0 9px 3px #ffbe37; }
-.apr-worlds__slide[aria-pressed=true] span { color: #6e3119; text-decoration: underline; }
+.apr-worlds__number {
+  position: absolute;
+  left: 50%;
+  top: -14%;
+  translate: -50%;
+  width: 25%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #002f28;
+  background: var(--riv-stock), radial-gradient(ellipse at 38% 28%, #ffecb1, #f2c987);
+  border: .19cqw solid #9e5628;
+  box-shadow: inset 0 0 0 .12cqw #fff3b7, 0 .21cqw .22cqw #60332099;
+  font: 800 max(13px, 2.45cqw)/1 system-ui, sans-serif;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: rotate var(--turn-duration) var(--turn-easing);
+}
+.apr-worlds__slide:is([aria-pressed=true], :focus-visible) { z-index: 1; }
+.apr-worlds__slide:is([aria-pressed=true], :focus-visible) .apr-worlds__window {
+  filter: brightness(1.09);
+}
+.apr-worlds__slide:is([aria-pressed=true], :focus-visible)::before {
+  content: '';
+  position: absolute;
+  inset: -2%;
+  clip-path: url(#apr-worlds-window);
+  background: #fff1b1;
+}
+.apr-worlds__slide:is([aria-pressed=true], :focus-visible) { filter: drop-shadow(0 0 .38cqw #ffae13) drop-shadow(0 0 .21cqw #fff3ae); }
+.apr-worlds__slide[aria-pressed=true] .apr-worlds__number { top: -25%; border-color: #fff0b4; }
 .apr-worlds__slide:hover img { filter: brightness(1.12); }
 .apr-worlds__hub {
-  position: absolute; inset: 34%; display: grid; align-content: center; justify-items: center; pointer-events: none;
-  border-radius: 50%; border: 4px double #f7d894; background: var(--grain), radial-gradient(#b54d2b, #7d2517);
-  box-shadow: 0 0 0 1px #7b482a; text-align: center;
-  font: bold clamp(8px, 1.25vw, 23px)/1.03 Georgia, serif; letter-spacing: .08em;
+  position: absolute;
+  inset: 33.5%;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 2;
+  background: url('../assets/retro/viewmaster/hub.webp') center / cover;
+  box-shadow: 0 .18cqw 0 #92512e, 0 0 0 .12cqw #e7b478;
 }
-.apr-worlds__hub img { width: 43%; max-height: 50%; object-fit: contain; margin-bottom: 4%; }
-.apr-worlds__hub small { display: block; font-size: .45em; letter-spacing: .22em; margin-top: 5%; }
 .apr-worlds__marker {
-  position: absolute; left: 50%; top: -6px; transform: translateX(-50%);
-  width: 16px; height: 11px; background: var(--gold); border: 1px solid #94602a;
-  clip-path: polygon(0 0,100% 0,50% 100%); pointer-events: none;
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 3.1%;
+  width: 6.6%;
+  height: 7%;
+  translate: -50%;
+  pointer-events: none;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  background: #ffedb1;
 }
-.apr-worlds__card {
-  position: relative; color: var(--ink); background: var(--stock); text-align: center;
-  border: 4px ridge #e4b67b; outline: 1px dashed #9b6838; outline-offset: -9px;
-  border-radius: 12px 9px 15px 8px; padding: clamp(10px, 1.4vw, 24px);
-  box-shadow: 7px 9px 0 #bc8a52, 10px 15px 18px #002522b3;
+.apr-worlds__marker::before {
+  content: '';
+  position: absolute;
+  inset: 5% 8% 9%;
+  clip-path: inherit;
+  background: var(--riv-stock), linear-gradient(#ee7441,#a8301d);
 }
-.apr-worlds__photo { overflow: hidden; aspect-ratio: 2.2 / 1; border: 2px solid #986337; border-radius: 5px 8px 4px 7px; background: #165552; }
-.apr-worlds__photo img { display: block; width: 100%; height: 100%; object-fit: cover; animation: apr-worlds-fade .55s ease both; }
-.apr-worlds__info { display: grid; align-content: start; min-height: clamp(105px, 8.5vw, 145px); padding: .6em .3em 0; }
-.apr-worlds__caption { animation: apr-worlds-caption .55s ease both; }
-.apr-worlds__caption h3 { display: flex; align-items: center; justify-content: center; gap: .35em; font: italic 700 clamp(20px, 2.65vw, 45px)/1.12 var(--serif); }
-.apr-worlds__caption h3 span {
-  display: grid; place-items: center; width: 1.5em; aspect-ratio: 1; flex: none;
-  border-radius: 50%; background: var(--rust); color: #fff1cd; border: 3px double #fff1cd;
-  font-size: .8em;
+
+.apr-worlds__card { position: absolute; top: 16.1%; bottom: 17.4%; left: 45.6%; right: .6%; color: var(--ink); }
+.apr-worlds__card::before {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  left: 48%;
+  top: 2%;
+  width: 17.8%;
+  aspect-ratio: 160 / 127;
+  background: url('../assets/retro/viewmaster/scene-sunset.webp') center / contain no-repeat;
 }
-.apr-worlds__caption p { max-width: 48ch; margin: .65em auto 0; font: 500 clamp(15px, 1.25vw, 21px)/1.38 system-ui, sans-serif; }
+.apr-worlds__photo {
+  position: absolute;
+  inset: 0 0 25% 0;
+  overflow: hidden;
+  mask-image:
+    url('../assets/retro/viewmaster/scene-mask.svg'),
+    linear-gradient(#0000 0, #000 19%);
+  mask-composite: intersect;
+  mask-size: 100% 100%;
+}
+.apr-worlds__photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 51%;
+  animation: apr-worlds-fade .38s ease both;
+}
+.apr-worlds__info {
+  position: absolute;
+  inset: 56.4% 0 -3.4%;
+  padding: 2.3cqw 2.2cqw 2.8cqw 5.7cqw;
+  isolation: isolate;
+}
+.apr-worlds__info::before, .apr-worlds__info::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+}
+.apr-worlds__info::before {
+  z-index: -1;
+  inset: 0;
+  background: url('../assets/retro/viewmaster/painted-paper.webp') center / 100% 100% no-repeat;
+}
+.apr-worlds__info::after {
+  width: 18%;
+  aspect-ratio: 97 / 108;
+  z-index: -1;
+  top: 5%;
+  right: 0;
+  background: url('../assets/retro/viewmaster/caption-palm.webp') center / contain no-repeat;
+}
+.apr-worlds__caption {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0 1.3cqw;
+  align-items: center;
+  animation: apr-worlds-caption .37s ease both;
+}
+.apr-worlds__stamp {
+  grid-row: span 2;
+  display: grid;
+  width: 4.75cqw;
+  height: 4.75cqw;
+  place-items: center;
+  align-self: start;
+  justify-self: center;
+  margin-left: 1cqw;
+  rotate: -8deg;
+  transform: skewX(-15deg);
+  border: .22cqw double #ffe6af;
+  border-radius: 17% 12% 16% 9%;
+  background: var(--riv-stock), #a03220;
+  color: var(--paper);
+  box-shadow: 0 0 0 .12cqw #96361e, inset 0 0 0 .2cqw #7f24178c;
+  font: italic bold 4.25cqw/.92 Georgia, serif;
+}
+.apr-worlds__caption h3 {
+  margin: 0;
+  padding-right: 1.5%;
+  color: var(--ink);
+  font: italic 700 3.62cqw/1.02 Georgia, serif;
+  letter-spacing: -.045em;
+}
+.apr-worlds__subtitle {
+  display: flex;
+  align-items: center;
+  gap: .85em;
+  padding-top: .21cqw;
+  color: #7d291b;
+  font: 800 1.13cqw/1.22 system-ui, sans-serif;
+  letter-spacing: .23em;
+  text-transform: uppercase;
+}
+.apr-worlds__subtitle::before, .apr-worlds__subtitle::after {
+  content: '';
+  width: 3cqw;
+  flex: none;
+  height: 2px;
+  background: currentColor;
+  border-radius: 60%;
+}
+.apr-worlds__description {
+  grid-column: 1 / -1;
+  width: 59.5%;
+  margin: .72cqw 0 0;
+  font: 500 1.14cqw/1.2 Arial, sans-serif;
+  letter-spacing: -.02em;
+}
 .apr-worlds__link {
-  display: inline-flex; align-items: center; gap: .45em; margin: .1em 0 .35em; padding: .48em 1.3em;
-  color: #fff1cc; background: var(--rust); border: 3px double #edba7e; border-radius: 2rem;
-  font-weight: 700; font-size: clamp(15px, 1.35vw, 24px);
+  position: absolute;
+  right: 4.6%;
+  bottom: 19.5%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: .42em;
+  min-height: 44px;
+  padding: .34em 1.08em;
+  white-space: nowrap;
+  border: .22cqw double #ffe0a3;
+  border-radius: 2em;
+  color: #fff1c9;
+  background: var(--riv-stock), linear-gradient(#b93f24, #9b2917);
+  box-shadow: 0 .2cqw 0 #73341f, 0 .31cqw 0 #cb9456;
+  font: 700 1.34cqw/1.25 system-ui, sans-serif;
 }
-.apr-worlds__link:hover { background: #6d2518; }
+.apr-worlds__link:hover { filter: brightness(1.15); }
+
 .apr-worlds__tickets {
-  display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 3px;
-  margin-top: clamp(20px, 2.2vw, 36px); padding: 7px; border-radius: 14px;
-  background: var(--stock); color: var(--ink); border: 2px solid #c39257;
-  box-shadow: 0 5px 0 #936437, 0 8px 15px #002421;
+  position: absolute;
+  z-index: 6;
+  left: 8.3%;
+  right: 1.7%;
+  bottom: 3.75%;
+  height: 12.1%;
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  align-items: stretch;
 }
 .apr-worlds__tickets button {
-  min-width: 0; padding: .58em .26em; cursor: pointer; border: 1px solid transparent; border-right-color: #a4724a77;
-  font: italic 700 clamp(12px, 1.26vw, 22px)/1.18 var(--serif);
+  position: relative;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: .08em;
+  min-width: 0;
+  height: 100%;
+  cursor: pointer;
+  color: #ffdf9b;
+  text-shadow: 0 .1em .1em #001b16;
+  font: italic 700 1.63cqw/.98 Georgia, serif;
 }
-.apr-worlds__tickets svg { display: block; width: clamp(25px, 2.6vw, 46px); height: auto; margin: 0 auto .32em; color: var(--rust); }
-.apr-worlds__tickets button:last-child { border-right-color: transparent; }
-.apr-worlds__tickets button[aria-pressed=true] { background: #ffeabc; border: 1px solid #a66c25; border-radius: 7px; box-shadow: inset 0 0 0 2px #fff5ca; text-decoration: underline; }
-.apr-worlds__tickets button:hover { background: #ffe8b0; }
-.apr-worlds :is(button,a):focus-visible { outline: 3px solid #ffe29a; outline-offset: 3px; }
-.apr-worlds__tickets button:focus-visible, .apr-worlds__slide:focus-visible { outline-color: #81301e; outline-offset: 1px; z-index: 1; }
-@keyframes apr-worlds-fade { from { opacity: .45; } }
-@keyframes apr-worlds-caption { from { opacity: .35; translate: 0 5px; } }
-@media (max-width: 900px) {
-  .apr-worlds__heading h2 span { display: block; font-size: .78em; }
-  .apr-worlds__stage { grid-template-columns: minmax(0, 1fr); max-width: 620px; gap: 24px; }
-  .apr-worlds__viewer { width: 100%; max-width: 555px; margin: 12px auto 0; }
-  .apr-worlds__tickets { display: flex; overflow-x: auto; overscroll-behavior-inline: contain; }
-  .apr-worlds__tickets button { flex: 0 0 116px; font-size: 15px; }
-  .apr-worlds__slide span { font-size: clamp(13px, 3vw, 28px); }
-  .apr-worlds__hub { font-size: clamp(9px, 1.9vw, 20px); }
-  .apr-worlds__info { min-height: 112px; }
+.apr-worlds__tickets button:not(:first-child)::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8%;
+  bottom: 10%;
+  width: 1px;
+  background: #ebc87e;
 }
-@media (max-width: 450px) {
-  .apr-worlds__info { min-height: 133px; }
-  .apr-worlds__arrow { width: 38px; }
+.apr-worlds__tickets button img { display: block; height: 2.9cqw; width: 4.8cqw; object-fit: contain; }
+.apr-worlds__tickets button span { display: block; max-width: 6.7em; padding-inline: .55em; text-align: center; }
+.apr-worlds__tickets button[aria-pressed=true] {
+  border: .16cqw solid #fff1bb;
+  border-radius: 1.5cqw;
+  box-shadow: inset 0 0 .46cqw .15cqw #e28029, 0 0 .35cqw .15cqw #ffc344;
+  background: var(--riv-stock), radial-gradient(ellipse at 50% 36%, #aa562b, #723222);
+}
+.apr-worlds__tickets button[aria-pressed=true] + button::before,
+.apr-worlds__tickets button[aria-pressed=true]::before { opacity: 0; }
+.apr-worlds__tickets button:hover { color: #fff8ce; }
+.riv-home .apr-worlds__slide:focus-visible { outline: none; }
+
+@keyframes apr-worlds-fade { from { opacity: .55; } }
+@keyframes apr-worlds-caption { from { opacity: .45; translate: 0 4px; } }
+
+@media (max-width: 1000px) {
+  .apr-worlds { aspect-ratio: auto; padding: 20px 14px 32px; }
+  .apr-worlds::after { border: 5px solid #efd19a; border-radius: 15px; background: none; }
+  .apr-worlds__heading { position: relative; display: grid; justify-items: center; margin: 0 auto 3%; max-width: 620px; }
+  .apr-worlds__heading h2, .apr-worlds__heading p { position: relative; inset: auto; }
+  .apr-worlds__heading h2 { width: min(78%,460px); }
+  .apr-worlds__heading p { width: min(58%,270px); margin-top: -1%; }
+  .apr-worlds__stage { position: relative; display: grid; gap: 14px; margin: 0 auto; max-width: 695px; }
+  .apr-worlds__viewer { position: relative; inset: auto; width: 100%; max-width: 636px; margin: 0 auto; }
+  .apr-worlds__stereo { left: -2%; top: -12%; mask-image: linear-gradient(#0000, #000 10%); }
+  .apr-worlds__flowers { height: 44%; width: 30%; left: -2.2%; top: 68%; mask-image: linear-gradient(#0000, #000 16%, #000 85%, #0000); }
+  .apr-worlds__hinge { top: 79%; }
+  .apr-worlds__arrow { width: 9.5%; border-width: 2px; }
+  .apr-worlds__wheel { left: 10%; width: 80%; }
+  .apr-worlds__number { font-size: clamp(13px, 4.25cqw, 27px); border-width: 1px; }
+  .apr-worlds__card { position: relative; inset: auto; min-width: 0; margin-top: -2.5%; }
+  .apr-worlds__photo { position: relative; inset: auto; aspect-ratio: 1.95; }
+  .apr-worlds__card::before { display: none; }
+  .apr-worlds__info { position: relative; inset: auto; margin-top: -10%; padding: 7% 6% 9%; }
+  .apr-worlds__info::before { inset: 0 -1.2% -3%; }
+  .apr-worlds__caption { column-gap: 10px; }
+  .apr-worlds__caption h3 { font-size: clamp(27px, 6cqw, 46px); }
+  .apr-worlds__stamp { width: clamp(30px, 8.5cqw, 58px); height: auto; aspect-ratio: 1; margin-left: 0; font-size: clamp(27px, 7cqw, 53px); }
+  .apr-worlds__subtitle { font-size: clamp(9px, 2.2cqw, 15px); letter-spacing: .13em; }
+  .apr-worlds__description { width: 100%; max-width: 53ch; margin-top: 10px; font-size: clamp(14px, 2.6cqw, 18px); }
+  .apr-worlds__link { position: relative; right: auto; bottom: auto; margin: 11px 0 0; font-size: clamp(14px,2.8cqw,19px); border-width: 3px; }
+  .apr-worlds__tickets { position: relative; inset: auto; height: auto; display: flex; margin: 8px auto 0; padding: 6px; gap: 4px; overflow-x: auto; overscroll-behavior-inline: contain; scrollbar-color: #e7b66e #003a35; }
+  .apr-worlds__tickets button { flex: 0 0 clamp(88px, 13cqw, 110px); min-height: 82px; padding: 6px 1px; font-size: clamp(15px, 2.4cqw, 19px); }
+  .apr-worlds__tickets button img { width: 45px; height: 29px; }
+  .apr-worlds__tickets button[aria-pressed=true] { border-width: 2px; border-radius: 12px; }
+}
+@media (max-width: 455px) {
+  .apr-worlds__heading h2 { width: 80%; }
+  .apr-worlds__heading p { width: 49%; margin: -1% 1% 0 auto; }
+  .apr-worlds__viewer { margin-top: 14px; }
+  .apr-worlds__stereo { top: -14%; width: 76%; }
+  .apr-worlds__wheel { left: 12%; width: 76%; }
+  .apr-worlds__arrow { min-width: 40px; }
+  .apr-worlds__flowers { z-index: 2; }
+  .apr-worlds__hinge { top: 72%; left: 65%; }
+  .apr-worlds__info { padding-top: 10%; padding-bottom: 13%; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .apr-worlds__reel { transition: none; }
+  .apr-worlds { --turn-duration: 0ms; }
   .apr-worlds__photo img, .apr-worlds__caption { animation: none; }
 }

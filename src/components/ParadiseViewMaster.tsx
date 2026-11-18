@@ -1,20 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
-import type { PointerEvent } from 'react';
-import logo from '../assets/retro/apr-palm-logo.svg';
+import type { CSSProperties, PointerEvent } from 'react';
 import { zonesData as zones } from '../data/zones';
 import './ParadiseViewMaster.css';
 
-const ticketIcons = [
-  'M3 21h26M6 21V9h6v12m0 0V4l4-2 4 2v17m0 0V9h6v12M16 6v12M9 12v6m14-6v6',
-  'M3 10l3-6h20l3 6H3Zm2 1v10h22V11M9 10l2-6m6 0v6m6-6 2 6M10 21v-6h12v6',
-  'M16 22C9 19 10 10 16 5c6 5 7 14 0 17Zm0 0C8 23 3 18 3 12c5 0 8 2 10 6m3 4c8 1 13-4 13-10-5 0-8 2-10 6',
-  'M4 22V11h5v11m14 0V11h5v11M2 11l4-6 5 6m10 0 5-6 4 6M10 22V8h12v14M9 8l7-6 7 6M14 22v-5h4v5',
-  'M5 18h22c-2 6-20 6-22 0Zm5-3q-4-3 0-6t0-5m6 11q-4-3 0-6t0-5m6 11q-4-3 0-6t0-5',
-  'M16 3v16m0-15 10 11H16M4 18h24l-4 4H9l-5-4Zm10-12-7 9h7M3 24q4-3 8 0t8 0 9 0',
-  'M2 8l14-5 14 5H2Zm3 3h22M4 21h24m-26 3h28M8 11v10m5-10v10m6-10v10m5-10v10',
-  'M2 18c11 0 8-14 19-14 5 0 7 8 9 10M2 21h28M10 14v7m5-14v14m6-17v17m5-12v12',
-  'M2 20C9 21 9 5 20 4c6-1 10 3 10 8-3-4-7-4-9-1-5 8 4 11 9 8M2 23q5-3 10 0t10 0 8 0',
+const icons = import.meta.glob<string>('../assets/retro/viewmaster/icon-*.webp', {
+  eager: true, import: 'default',
+});
+
+const zoneSubtitles = [
+  'Сердце курорта', 'Вкусы острова', 'Ботанические сады', 'Детская зона',
+  'Термальные бассейны', 'Бухта сокровищ', 'Затерянный город', 'Скоростные спуски', 'Морская бухта',
 ];
+
+const frameSlots = [8, 33, 61, 99, 125, 155, 185, 215, 242, 274, 304, 334];
 
 const art = import.meta.glob<string>('../assets/retro/worlds/*.webp', {
   eager: true, import: 'default',
@@ -111,14 +109,24 @@ export default function ParadiseViewMaster() {
   return (
     <section id="worlds" className="apr-worlds" aria-labelledby="apr-worlds-title">
       <header className="apr-worlds__heading">
-        <h2 id="apr-worlds-title">9 миров <span>Aqua Paradise</span></h2>
-        <p>Выберите мир и загляните внутрь</p>
+        <h2 id="apr-worlds-title"><span className="apr-worlds__headline-art" aria-hidden="true" /><span className="apr-worlds__accessible">9 миров Aqua Paradise</span></h2>
+        <p><span className="apr-worlds__invitation-art" aria-hidden="true" /><span className="apr-worlds__accessible">Выберите мир и загляните внутрь</span></p>
       </header>
+
+      <svg className="apr-worlds__geometry" width="0" height="0" aria-hidden="true">
+        <defs>
+          <clipPath id="apr-worlds-window" clipPathUnits="objectBoundingBox">
+            <path d="M.121 .095C.28 -.017 .72 -.017 .879 .095Q.945 .133 .896 .27L.68 .909Q.659 .997 .611 .971Q.5 .93 .389 .971Q.341 .997 .32 .909L.104 .27Q.055 .133 .121 .095Z" />
+          </clipPath>
+        </defs>
+      </svg>
 
       <div className="apr-worlds__stage">
         <div className="apr-worlds__viewer">
-          <div className="apr-worlds__stereo" aria-hidden="true"><span>Aqua Paradise</span><i /><i /></div>
-          <button className="apr-worlds__arrow" type="button" aria-label="Предыдущий мир" onClick={() => setTurn(n => n - 1)}>‹</button>
+          <div className="apr-worlds__stereo" aria-hidden="true" />
+          <div className="apr-worlds__flowers" aria-hidden="true" />
+          <div className="apr-worlds__hinge" aria-hidden="true" />
+          <button className="apr-worlds__arrow" type="button" aria-label="Предыдущий мир" onClick={() => setTurn(n => n - 1)}><svg aria-hidden="true" viewBox="0 0 32 32"><path d="M22 3 8 16l14 13" fill="none" stroke="currentColor" strokeWidth="4" /></svg></button>
           <div className="apr-worlds__wheel">
             <div role="group" aria-label="Диск миров Aqua Paradise" className="apr-worlds__surface"
               onPointerDown={start} onPointerMove={move}
@@ -136,22 +144,35 @@ export default function ParadiseViewMaster() {
               }}>
               <div className={`apr-worlds__reel${dragAngle === null ? '' : ' is-dragging'}`}
                 style={{ transform: `rotate(${dragAngle ?? -turn * step}deg)` }}>
+                <svg className="apr-worlds__rim" viewBox="0 0 640 640" aria-hidden="true">
+                  <circle cx="320" cy="320" r="307" fill="none" stroke="#9c532a" strokeWidth="1.5" strokeDasharray="20 2 6 9" />
+                  <circle cx="320" cy="320" r="312" fill="none" stroke="#aa60322e" strokeWidth="6" strokeDasharray="4 14 9 4" />
+                  {frameSlots.map(angle => (
+                    <g key={angle} transform={`rotate(${angle} 320 320)`}>
+                      <rect x="303" y="4" width="34" height="14" rx="1" fill="#5c422c" stroke="#9d612e" strokeWidth="2" />
+                      <path d="M305 16V9h30v7" fill="#c08c54" stroke="#f9cc89" strokeWidth="1" />
+                    </g>
+                  ))}
+                </svg>
                 {zones.map(({ name }, index) => (
                   <button key={name} type="button" className="apr-worlds__slide"
                     aria-label={name} aria-pressed={selected === index}
                     style={{ transform: `rotate(${index * step}deg)` }} onClick={() => choose(index)}>
-                    <span>{index + 1}</span>
-                    <img loading="lazy" src={imageFor(index)} alt="" draggable={false} />
+                    <span className="apr-worlds__window">
+                      <img loading="lazy" src={imageFor(index)} alt="" draggable={false}
+                        style={{ '--upright': `${(turn - index) * step}deg` } as CSSProperties} />
+                    </span>
+                    <span className="apr-worlds__number" style={{ rotate: `${(turn - index) * step}deg` }} aria-hidden="true">
+                      {index + 1}
+                    </span>
                   </button>
                 ))}
               </div>
             </div>
-            <div className="apr-worlds__hub" aria-hidden="true">
-              <img src={logo} alt="" draggable={false} /><span>AQUA<br />PARADISE<small>RESORT</small></span>
-            </div>
+            <div className="apr-worlds__hub" aria-hidden="true" />
             <span className="apr-worlds__marker" aria-hidden="true" />
           </div>
-          <button className="apr-worlds__arrow" type="button" aria-label="Следующий мир" onClick={() => setTurn(n => n + 1)}>›</button>
+          <button className="apr-worlds__arrow" type="button" aria-label="Следующий мир" onClick={() => setTurn(n => n + 1)}><svg aria-hidden="true" viewBox="0 0 32 32"><path d="m10 3 14 13-14 13" fill="none" stroke="currentColor" strokeWidth="4" /></svg></button>
         </div>
 
         <article className="apr-worlds__card" aria-labelledby="apr-worlds-current">
@@ -160,19 +181,21 @@ export default function ParadiseViewMaster() {
           </div>
           <div className="apr-worlds__info" aria-live="polite" aria-atomic="true">
             <div key={zone.name} className="apr-worlds__caption">
-              <h3 id="apr-worlds-current"><span aria-hidden="true">{selected + 1}</span>{zone.name}</h3>
-              <p>{zone.desc}</p>
+              <span className="apr-worlds__stamp" aria-hidden="true">{selected + 1}</span>
+              <h3 id="apr-worlds-current">{zone.name}</h3>
+              <p className="apr-worlds__subtitle">{zoneSubtitles[selected]}</p>
+              <p className="apr-worlds__description">{zone.desc}</p>
             </div>
+            <a className="apr-worlds__link" href={`#/zones?zone=${zone.id}`}>Подробнее о зоне <span aria-hidden="true">→</span></a>
           </div>
-          <a className="apr-worlds__link" href={`#/zones?zone=${zone.id}`}>Подробнее о зоне <span aria-hidden="true">→</span></a>
         </article>
       </div>
 
       <div ref={ticketStrip} role="group" aria-label="Билеты в девять миров" className="apr-worlds__tickets">
         {zones.map(({ name }, index) => (
           <button key={name} type="button" aria-pressed={selected === index} onClick={() => choose(index)}>
-            <svg aria-hidden="true" viewBox="0 0 32 26" fill="none" stroke="currentColor" strokeWidth="1.65" strokeLinecap="round" strokeLinejoin="round"><path d={ticketIcons[index]} /></svg>
-            {name}
+            <img src={icons[`../assets/retro/viewmaster/icon-${index + 1}.webp`]} alt="" loading="lazy" />
+            <span>{name}</span>
           </button>
         ))}
       </div>

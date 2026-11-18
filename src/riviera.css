@@ -8,7 +8,7 @@
   --riv-stock: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' opacity='.2' filter='url(%23g)' d='M0 0h140v140H0z'/%3E%3C/svg%3E");
   --riv-serif: 'APR Poster', Georgia, serif;
 }
-.riv-button, .riv-home .apr-worlds__link {
+.riv-button {
   display: inline-flex; justify-content: center; align-items: center; gap: .65em;
   min-height: 44px; padding: .74em 1.4em; color: #fff5d9; background: var(--riv-stock), var(--riv-coral);
   border: 1px solid #f3bd77; border-radius: 7px; box-shadow: inset 0 0 0 2px #ffffff24, 0 3px 0 #612b1e;
@@ -16,7 +16,7 @@
   transition: background-color .18s, transform .18s, color .18s;
 }
 .riv-button.secondary { background-color: var(--riv-ink); box-shadow: inset 0 0 0 1px #ffffff18, 0 3px 0 #012826; }
-.riv-button:hover, .riv-home .apr-worlds__link:hover { background-color: #93341e; }
+.riv-button:hover { background-color: #93341e; }
 .riv-button.secondary:hover { background-color: #a74028; }
 .riv-button:active { transform: translateY(2px); }
 .riv-home :is(a,button,input,select):focus-visible, .sunset-pier a:focus-visible,
@@ -77,24 +77,10 @@
 @keyframes spray { 0%,57%,100% { opacity:0; } 64% { opacity:.75; transform:translate(0,0); } 76% { transform:translate(var(--drift,-6px),-7px); } 94% { transform:translate(var(--drift,-6px),3px); opacity:0; } }
 .poster-stock { position: relative; isolation: isolate; background: var(--riv-stock),var(--riv-ink); color: var(--riv-cream); }
 .poster-heading { margin: 0 auto; text-align: center; }
-.poster-heading h2, .apr-worlds__heading h2 { font: italic 700 clamp(38px,5.5vw,88px)/1.08 Georgia,var(--riv-serif); letter-spacing: -.045em; text-wrap: balance; color: #ffe7b4; text-shadow: 1px 2px #bd7844, 3px 5px #742f1d, 5px 7px #052f2b; }
+.poster-heading h2 { font: italic 700 clamp(38px,5.5vw,88px)/1.08 Georgia,var(--riv-serif); letter-spacing: -.045em; text-wrap: balance; color: #ffe7b4; text-shadow: 1px 2px #bd7844, 3px 5px #742f1d, 5px 7px #052f2b; }
 .poster-heading h2::after { content: ''; display:block; margin:.14em auto .21em; width: min(29%,320px); height: 6px; border-radius: 90% 80% 0 95%; transform: rotate(-1deg); background:#ec7547; }
 .imprint, .ticket-subtitle { font: 700 clamp(11px,1.1vw,18px)/1.4 system-ui,sans-serif; letter-spacing:.17em; text-transform: uppercase; }
 .imprint::before,.imprint::after { content: ''; display:inline-block; vertical-align:middle; width:clamp(20px,4vw,80px); height:1px; background:currentColor; margin:0 .9em; }
-.riv-home .apr-worlds { padding-block:clamp(30px,3.8vw,60px); border-block:4px double #d4a869; }
-.riv-home .apr-worlds__heading h2 { font-size:clamp(42px,5.5vw,82px); }
-.riv-home .apr-worlds__heading h2 span { font-size:.7em; }
-.riv-home .apr-worlds__stage { grid-template-columns: minmax(0,.94fr) minmax(0,1.06fr); }
-.riv-home .apr-worlds__surface { touch-action:none; cursor:grab; }
-.riv-home .apr-worlds__slide { width:27%; left:36.5%; height:32%; transform-origin:50% 150%; }
-.riv-home .apr-worlds__slide img { clip-path:polygon(0 0,100% 0,76% 100%,24% 100%); border-radius:20% 20% 24% 24%; }
-.riv-home .apr-worlds__slide[aria-pressed=true] { filter:drop-shadow(0 0 4px #ffac2b); }
-.riv-home .apr-worlds__arrow { border-radius:8px; }
-.riv-home .apr-worlds__tickets { background:transparent; box-shadow:none; border:0; color:var(--riv-cream); }
-.riv-home .apr-worlds__tickets button { border-right:1px solid #b99d65; }
-.riv-home .apr-worlds__tickets svg { color:#f3cb83; }
-.riv-home .apr-worlds__tickets button:is(:hover,[aria-pressed=true]) { background:var(--riv-stock),#81351e; border-radius:6px; color:#fff0c5; }
-.riv-home .apr-worlds__photo { aspect-ratio:2.15; }
 
 .golden-tickets { padding:clamp(40px,4.5vw,78px) 4vw; border-block-end:5px double #caa16b; }
 .ticket-subtitle { margin-top:.85rem; letter-spacing:.08em; }
@@ -183,7 +169,6 @@
   .riv-mast { background:transparent!important; }
   .riv-mast .mast-inner .apr-brand { pointer-events:auto; }
   .riv-mast .mast-inner { pointer-events:none; }
-  .riv-home .apr-worlds__stage { grid-template-columns:1fr; }
   .terminal { width:min(77%,760px); margin-right:0; }
   .departure-art { width:25%; }
   .ticket-collection { grid-template-columns:repeat(2,minmax(0,1fr)); gap:30px; max-width:730px; }
@@ -255,10 +240,6 @@
 .riv-home .apr-about { scroll-margin-top:0; padding-top:clamp(36px,3.5vw,75px); }
 .riv-home .apr-about__stats { position:relative; z-index:1; }
 .riv-home .apr-about__quote { margin-top:1.4rem; }
-.riv-home .apr-worlds__card { padding:0; border:0; background:transparent; outline:0; box-shadow:none; }
-.riv-home .apr-worlds__photo { aspect-ratio:1.93; border:0; border-radius:6px 6px 0 0; }
-.riv-home .apr-worlds__info { background:var(--stock); padding:12px 18px 57px; min-height:155px; clip-path:polygon(0 0,100% 0,99.5% 95%,91% 97%,86% 95%,78% 99%,70% 97%,55% 99%,49% 97%,36% 99%,21% 96%,11% 99%,1% 96%); }
-.riv-home .apr-worlds__card > .apr-worlds__link { position:absolute; bottom:10px; left:50%; transform:translateX(-50%); white-space:nowrap; min-height:39px; padding:.5em 1.1em; }
 .golden-tickets::before,.golden-tickets::after { content:''; position:absolute; z-index:-1; pointer-events:none; width:min(20%,300px); }
 .golden-tickets::before { inset:0 auto auto 0; aspect-ratio:1.2; background:url('./assets/retro/riviera.webp') left top / 415% auto; mask-image:radial-gradient(ellipse at top left,#000 38%,transparent 71%); }
 .golden-tickets::after { inset:auto 0 0 auto; aspect-ratio:1.35; background:url('./assets/retro/riviera.webp') left bottom / 400% auto; transform:scaleX(-1); mask-image:radial-gradient(ellipse at bottom left,#000 35%,transparent 70%); }
@@ -266,18 +247,10 @@
 .ticket-lettering { position:relative; }
 .ticket-lettering::before { content:''; position:absolute; inset:-7px 0 auto; height:10px; background:#f7dfac; clip-path:polygon(0 65%,14% 20%,22% 45%,37% 0,53% 40%,63% 7%,72% 40%,88% 13%,100% 35%,100% 100%,0 100%); }
 .ticket-stock { box-shadow:inset 0 0 0 1px #bf9057,inset 0 0 0 5px #fbe0ad,inset 0 0 0 6px #d09f61; }
-@media (min-width:951px) {
-  .riv-home .apr-worlds__viewer { grid-template-columns:36px minmax(0,1fr) 36px; gap:2px; }
-  .riv-home .apr-worlds__arrow { width:40px; min-height:44px; font-size:38px; }
-  .riv-home .apr-worlds__heading { margin-bottom:12px; }
-  .riv-home .apr-worlds__slide img { object-position:center; }
-  .riv-home .apr-worlds__caption h3 { font:italic bold clamp(27px,2.8vw,45px)/1.05 Georgia,serif; }
-}
 @media (max-width:1050px) {
   .riv-home .apr-about__palm-engraving { max-width:100px; justify-self:center; }
 }
 @media (max-width:767px) {
-  .riv-home .apr-worlds__info { padding-bottom:66px; min-height:176px; }
   .riv-home .apr-about__intro { grid-template-columns:1fr; }
   .riv-home .apr-about__palm-engraving { width:65px; }
   .riv-home .apr-hero__actions .riv-button { text-align:center; }
