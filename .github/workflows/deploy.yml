@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ feat/retro-tropical-hero ]
+    branches: [ fix/riviera-header-polish ]
   workflow_dispatch:
 
 permissions:
@@ -34,10 +34,16 @@ jobs:
           ref: feat/retro-tropical-hero
           path: preview-source
 
+      - name: Checkout design preview (header polish)
+        uses: actions/checkout@v4
+        with:
+          ref: fix/riviera-header-polish
+          path: design-preview-source
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Install main site dependencies
         working-directory: site
@@ -55,10 +61,20 @@ jobs:
         working-directory: preview-source
         run: npm run build -- --base=/aqua-paradise-resort/preview/
 
+      - name: Install design preview dependencies
+        working-directory: design-preview-source
+        run: npm ci
+
+      - name: Build independent design preview
+        working-directory: design-preview-source
+        run: npm run build -- --base=/aqua-paradise-resort/design-preview/
+
       - name: Combine sites into one Pages artifact
         run: |
           mkdir -p site/dist/preview
           cp -a preview-source/dist/. site/dist/preview/
+          mkdir -p site/dist/design-preview
+          cp -a design-preview-source/dist/. site/dist/design-preview/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -68,6 +84,6 @@ jobs:
         with:
           path: './site/dist'
 
-      - name: Deploy both sites to GitHub Pages
+      - name: Deploy main, legacy preview, and design preview to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
