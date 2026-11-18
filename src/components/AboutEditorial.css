@@ -5,7 +5,8 @@
   --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.62' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath d='M0 0h180v180H0z' opacity='.23' filter='url(%23g)'/%3E%3C/svg%3E");
   overflow: hidden;
   scroll-margin-top: 110px;
-  padding: clamp(28px, 3vw, 60px) clamp(20px, 3.5vw, 70px) clamp(55px, 5vw, 100px);
+  /* Give the finished Hero a clear breathing interval before the editorial spread. */
+  padding: clamp(90px, 7.5vw, 140px) clamp(20px, 3.5vw, 70px) clamp(55px, 5vw, 100px);
   background: var(--grain), radial-gradient(ellipse at 48% 42%, #095451, #003634 78%);
   color: var(--ink);
 }
@@ -114,6 +115,7 @@
   .apr-about__intro svg { display: none; }
 }
 @media (max-width: 800px) {
+  .apr-about { padding-top: clamp(62px, 9vw, 86px); }
   .apr-about__layout { grid-template-columns: 1fr; max-width: 620px; }
   .apr-about__paper { margin: -5px 0 0; padding-inline: clamp(18px, 5vw, 40px); }
   .apr-about__paper::before { display: none; }
