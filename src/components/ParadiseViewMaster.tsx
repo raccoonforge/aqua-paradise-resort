@@ -123,8 +123,9 @@ export default function ParadiseViewMaster() {
   return (
     <section className="apr-worlds" aria-labelledby="apr-worlds-title">
       <header className="apr-worlds__heading">
-        <h2 id="apr-worlds-title"><span>9 миров</span> Aqua Paradise</h2>
-        <p>Выберите мир и загляните внутрь</p>
+        <span className="apr-worlds__eyebrow">AQUA PARADISE · КОЛЛЕКЦИЯ ПРИКЛЮЧЕНИЙ</span>
+        <h2 id="apr-worlds-title">Девять миров <span>— одно путешествие</span></h2>
+        <p>Поверните диск и выберите свою историю</p>
       </header>
 
       <div className="apr-worlds__stage">
