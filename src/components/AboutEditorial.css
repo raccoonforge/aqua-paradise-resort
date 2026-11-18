@@ -75,6 +75,23 @@
   font: bold clamp(7px, .85vw, 16px)/1.1 Georgia, serif;
   letter-spacing: .04em;
 }
+/* Light ink loss and fine printing scratches keep the resort postmark
+   consistent with the distressed screenprint lettering in the Hero. */
+.apr-about__seal {
+  opacity: .86;
+  text-shadow: .35px .35px rgba(126, 54, 35, .38);
+}
+.apr-about__seal::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(173deg, transparent 0 8px, rgba(255, 235, 190, .75) 8.2px 8.6px, transparent 9px 16px),
+    radial-gradient(circle at 43% 24%, rgba(255, 235, 190, .65) 0 1px, transparent 1.5px) 0 0 / 13px 17px;
+  opacity: .42;
+}
 .apr-about__seal img { width: 53%; margin: 3px auto; filter: brightness(0) saturate(100%) invert(31%) sepia(67%) saturate(1149%) hue-rotate(340deg); }
 .apr-about__seal svg { position: absolute; width: 64%; left: 86%; top: 35%; }
 .apr-about__intro { display: grid; grid-template-columns: minmax(0, 19%) minmax(0, 1fr); gap: 4%; align-items: center; }
@@ -107,6 +124,22 @@
   box-shadow: 1px 6px 12px #412b2350;
 }
 .apr-about__quote::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 8px; background: repeating-linear-gradient(135deg, #ae4430 0 9px, transparent 9px 19px); }
+/* A personal inked note rather than a second formal serif headline.
+   Segoe Print supports Cyrillic on Windows; fallback stays readable elsewhere. */
+.apr-about__quote p {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  color: #16534b;
+  font-family: 'Segoe Print', 'Bradley Hand', 'Comic Sans MS', cursive;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(15px, 1.42vw, 27px);
+  line-height: 1.33;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+  transform: rotate(1deg);
+}
 .apr-about__quote svg { width: 17%; flex: none; }
 @media (max-width: 1050px) {
   .apr-about__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 0; }
