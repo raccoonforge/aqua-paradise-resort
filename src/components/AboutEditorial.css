@@ -10,7 +10,22 @@
   background: var(--grain), radial-gradient(ellipse at 48% 42%, #095451, #003634 78%);
   color: var(--ink);
 }
+/* Botanical accents stay outside the readable magazine layout. */
+.apr-about__botanical {
+  position: absolute;
+  z-index: 0;
+  width: clamp(140px, 15vw, 250px);
+  height: auto;
+  bottom: -18px;
+  pointer-events: none;
+  opacity: .89;
+  filter: drop-shadow(3px 5px 0 rgba(0, 30, 29, .25));
+}
+.apr-about__botanical--left { left: -30px; }
+.apr-about__botanical--right { right: -30px; transform: scaleX(-1); }
 .apr-about__layout {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: minmax(0, 43%) minmax(0, 57%);
   align-items: center;
@@ -38,6 +53,19 @@
   border-radius: 11px 16px 5px 4px;
   background: var(--grain), radial-gradient(ellipse, #fff0c9 30%, #fbe3ae 78%, #edc286);
   box-shadow: inset 0 0 34px #ab692d30, 4px 12px 22px #002c2a80;
+}
+/* Light edge-ageing only: readable type and statistics remain crisp. */
+.apr-about__paper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    radial-gradient(ellipse at top left, rgba(143, 80, 30, .13), transparent 24%),
+    radial-gradient(ellipse at bottom right, rgba(145, 84, 32, .15), transparent 27%);
+  box-shadow: inset 0 0 25px rgba(138, 77, 29, .09);
 }
 .apr-about__paper::before {
   content: "";
@@ -149,6 +177,9 @@
 }
 @media (max-width: 800px) {
   .apr-about { padding-top: clamp(62px, 9vw, 86px); }
+  .apr-about__botanical { width: clamp(95px, 25vw, 155px); bottom: -10px; opacity: .62; }
+  .apr-about__botanical--left { left: -38px; }
+  .apr-about__botanical--right { right: -38px; }
   .apr-about__layout { grid-template-columns: 1fr; max-width: 620px; }
   .apr-about__paper { margin: -5px 0 0; padding-inline: clamp(18px, 5vw, 40px); }
   .apr-about__paper::before { display: none; }
