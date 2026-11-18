@@ -623,26 +623,24 @@
   display: block;
   /* The letterforms remain selectable text: layered screenprint ink + gold shading. */
   background-image: var(--riv-stock),
-    linear-gradient(180deg, #fff9df 0%, #ffedc2 25%, #f7c783 58%, #e8a65c 79%, #bd793f 100%);
+    linear-gradient(180deg, #fff5d2 0%, #fbe7b6 42%, #efc68e 75%, #dba068 100%);
   background-blend-mode: multiply, normal;
   -webkit-background-clip: text, text;
   background-clip: text, text;
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: .035cqw rgba(255,238,184,.62);
+  -webkit-text-stroke: .014cqw rgba(255,233,186,.36);
   paint-order: stroke fill;
-  filter: drop-shadow(.016em .014em #fff1cb)
-    drop-shadow(.017em .021em #ba7542)
-    drop-shadow(.017em .021em #875437)
-    drop-shadow(.018em .024em #194949)
-    drop-shadow(.024em .036em #07343b)
-    drop-shadow(.03em .04em #042b32);
+  filter: drop-shadow(.011em .015em #c58e58)
+    drop-shadow(.014em .021em #9a6746)
+    drop-shadow(.025em .032em #194a48)
+    drop-shadow(.029em .045em #06383d);
 }
 .riv-home .apr-hero__aqua {
-  font-size: 10.2cqw;
+  font-size: 11.1cqw;
   padding-left: 3.8cqw;
 }
 .riv-home .apr-hero__paradise {
-  font-size: 7.3cqw;
+  font-size: 8.05cqw;
   margin-top: .08em;
 }
 /* The two live ornamental ribbons belong to the HTML title, not the artwork. */
@@ -652,8 +650,8 @@
   position: absolute;
   pointer-events: none;
   z-index: -1;
-  left: 4%;
-  width: 86%;
+  left: 1.5%;
+  width: 100%;
   transform: rotate(-4deg);
   transform-origin: left center;
   clip-path: polygon(0 13%, 82% 0, 100% 50%, 82% 100%, 0 87%);
@@ -672,21 +670,20 @@
 }
 .riv-home .apr-hero__title .apr-hero__resort {
   display: block;
-  align-self: flex-end;
-  margin: -.02em 3.25cqw 0 0;
+  align-self: flex-start;
+  margin: .10em 0 0 16.2cqw;
   color: #f56845;
-  font: 400 8.45cqw/.9 'APR Script', cursive;
+  font: 400 9.1cqw/.9 'APR Script', cursive;
   letter-spacing: -.035em;
   background-image: var(--riv-stock), linear-gradient(180deg,#ff9b6d 0%,#f76742 48%,#d84230 100%);
   background-blend-mode: multiply, normal;
   -webkit-background-clip: text, text;
   background-clip: text, text;
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: .085cqw #ea5a3b;
+  -webkit-text-stroke: .055cqw #ec6244;
   paint-order: stroke fill;
-  filter: drop-shadow(.012em .018em #ffe1ad)
-    drop-shadow(.022em .034em #883a2b)
-    drop-shadow(.028em .04em #07353a);
+  filter: drop-shadow(.012em .02em #ad4731)
+    drop-shadow(.026em .045em #073b3d);
   transform: rotate(-2deg);
 }
 @media (max-width:1000px) {
@@ -708,7 +705,8 @@
   .riv-home .apr-hero__paradise { font-size: clamp(44px,8.3cqw,82px); }
   .riv-home .apr-hero__title .apr-hero__resort {
     font-size: clamp(64px,9.5cqw,98px);
-    margin-right: 4cqw;
+    margin-left: 17cqw;
+    margin-right: 0;
     -webkit-text-stroke: .5px #dc4d34;
   }
 }
