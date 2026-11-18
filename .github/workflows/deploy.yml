@@ -26,7 +26,7 @@ jobs:
         with:
           ref: main
           path: site
-      # Preview refresh: four traced and approved resort poster illustrations.
+      # Preview refresh: visually balanced water slide and island pictograms.
       # Build preview from the current working branch without merging its design into main.
       - name: Checkout new preview (PR #5)
         uses: actions/checkout@v4
