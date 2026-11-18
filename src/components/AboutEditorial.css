@@ -158,7 +158,7 @@
 .apr-about__stats { display: grid; grid-template-columns: 1fr 1.1fr 1.35fr 1fr; border-top: 1px solid var(--gold); margin: clamp(12px, 1.15vw, 22px) 0 0; padding: 11px 0 0; list-style: none; }
 .apr-about__stats li { min-width: 0; padding: 0 5px; text-align: center; }
 .apr-about__stats li + li { border-left: 1px solid #ad762e99; }
-.apr-about__stats svg { display: block; width: clamp(32px, 3.35vw, 60px); margin: 0 auto 4px; color: var(--coral); stroke-linecap: round; stroke-linejoin: round; }
+.apr-about__stats svg { display: block; width: clamp(32px, 3.35vw, 60px); height: clamp(32px, 3.35vw, 60px); margin: 0 auto 4px; color: var(--coral); overflow: visible; }
 .apr-about__stats strong, .apr-about__stats span { display: block; }
 .apr-about__stats strong { font-size: clamp(19px, 2.3vw, 44px); line-height: 1.12; letter-spacing: -.055em; }
 .apr-about__stats li:nth-child(n + 3) strong { font-size: clamp(15px, 1.65vw, 32px); }
