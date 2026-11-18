@@ -159,6 +159,9 @@
 .apr-about__stats li { min-width: 0; padding: 0 5px; text-align: center; }
 .apr-about__stats li + li { border-left: 1px solid #ad762e99; }
 .apr-about__stats svg { display: block; width: clamp(32px, 3.35vw, 60px); height: clamp(32px, 3.35vw, 60px); margin: 0 auto 4px; color: var(--coral); overflow: visible; }
+/* Match the perceived silhouette size, not only the SVG viewport size. */
+.apr-about__stats li:first-child svg { transform: scale(1.16); transform-origin: center; }
+.apr-about__stats li:nth-child(2) svg { transform: scale(1.22); transform-origin: center; }
 .apr-about__stats strong, .apr-about__stats span { display: block; }
 .apr-about__stats strong { font-size: clamp(19px, 2.3vw, 44px); line-height: 1.12; letter-spacing: -.055em; }
 .apr-about__stats li:nth-child(n + 3) strong { font-size: clamp(15px, 1.65vw, 32px); }
