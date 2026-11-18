@@ -1,9 +1,3 @@
-import ParadiseViewMaster from './components/ParadiseViewMaster';
-import './retro-hero.css';
-import riviera from './assets/retro/riviera.webp';
-import aprPalmLogo from './assets/retro/apr-palm-logo.svg';
-import HeaderLineIcon from './components/HeaderLineIcon';
-import AboutResort from './components/AboutResort';
 import PlannerPage from './PlannerPage';
 import MapPage from './MapPage';
 import HotelPage from './HotelPage';
@@ -11,322 +5,45 @@ import VisitPage from './VisitPage';
 import TicketsPage from './TicketsPage';
 import AttractionsPage from './AttractionsPage';
 import ZonesPage from './ZonesPage';
-import { useState, useEffect, useRef, useMemo } from 'react';
-import { ATTRACTIONS } from './data/attractions';
+import { useEffect, useState } from 'react';
+import './retro-hero.css';
+import './riviera.css';
+import Header from './components/Header';
+import Hero from './components/Hero';
+import AboutResort from './components/AboutResort';
+import ParadiseViewMaster from './components/ParadiseViewMaster';
+import GoldenTickets from './components/GoldenTickets';
+import DepartureBoard from './components/DepartureBoard';
+import SunsetPier from './components/SunsetPier';
 
-// TODO: Cinematic Intro — отложено (Visual Pending: нужны видео/3D-ассеты).
-// В Master Blueprint §4.1 описан спуск по горке; без медиа делаем только Hero.
+function scrollHome(section: string) {
+  document.getElementById(section)?.scrollIntoView({
+    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+  });
+}
 
-// The Golden Age of Paradise editorial section lives in components/AboutResort.tsx.
-
-const HomePage = () => (
-  <>
-    <section className="apr-hero" aria-label="Aqua Paradise Resort">
-      <svg className="apr-hero__filters" aria-hidden="true" width="0" height="0">
-        <defs>
-          <filter id="apr-print-wear" x="-12%" y="-18%" width="124%" height="136%" colorInterpolationFilters="sRGB">
-            {/* Stretched noise creates short, uneven horizontal ink scratches. */}
-            <feTurbulence type="fractalNoise" baseFrequency=".032 .42" numOctaves="2" seed="13" result="scratchNoise" />
-            <feColorMatrix in="scratchNoise" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  8 0 0 0 -4.95" result="scratchMask" />
-            {/* A finer second pass adds scattered worn spots between the strokes. */}
-            <feTurbulence type="fractalNoise" baseFrequency=".58 .68" numOctaves="2" seed="8" result="speckleNoise" />
-            <feColorMatrix in="speckleNoise" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  10 0 0 0 -6.5" result="speckleMask" />
-            <feComposite in="scratchMask" in2="speckleMask" operator="arithmetic" k1="0" k2="1" k3=".35" k4="0" result="wearMask" />
-            <feComponentTransfer in="wearMask" result="softWear"><feFuncA type="linear" slope=".46" /></feComponentTransfer>
-            <feComposite in="SourceGraphic" in2="softWear" operator="out" />
-          </filter>
-        </defs>
-      </svg>
-      <img className="apr-hero__art" src={riviera} alt="" fetchPriority="high" />
-      {/* Reuse the SAME poster artwork for naturally aligned foreground palm fronds.
-          A warm-leaf chroma matte keeps the sky transparent instead of placing a cropped rectangle over the title. */}
-      <svg
-        className="apr-hero__palm-foreground"
-        viewBox="0 0 1672 941"
-        preserveAspectRatio="xMidYMid slice"
-        aria-hidden="true"
-        focusable="false"
-      >
-        <defs>
-          <clipPath id="apr-palm-foreground-region">
-            <path d="M0 0 H620 L604 150 L490 225 L245 280 L0 310 Z" />
-          </clipPath>
-          <filter id="apr-palm-leaf-matte" x="0" y="0" width="1672" height="941" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
-            <feColorMatrix type="matrix" in="SourceGraphic" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  1.45 1.35 -2.8 0 -.66" result="warmLeaves" />
-            <feComposite in="SourceGraphic" in2="warmLeaves" operator="in" />
-          </filter>
-        </defs>
-        <image
-          href={riviera}
-          x="0" y="0" width="1672" height="941"
-          preserveAspectRatio="none"
-          clipPath="url(#apr-palm-foreground-region)"
-          filter="url(#apr-palm-leaf-matte)"
-        />
-      </svg>
-      <div className="apr-hero__content">
-        <div className="apr-hero__lettering">
-          <h1 className="apr-hero__title" aria-label="Aqua Paradise">
-            <span className="apr-hero__aqua">AQUA</span>
-            <span className="apr-hero__paradise">PARADISE</span>
-          </h1>
-          <div className="apr-hero__resort" aria-hidden="true">Resort</div>
-        </div>
-        <p className="apr-hero__tagline">Остров бесконечного лета</p>
-        <div className="apr-hero__actions">
-          <button type="button" className="apr-hero__button apr-hero__button--primary"
-            onClick={() => {
-              const el = document.getElementById('about');
-              if (el) el.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
-            }}>
-            Исследовать остров <span aria-hidden="true">→</span>
-          </button>
-          <button type="button" className="apr-hero__button" onClick={() => window.location.hash = '#/planner'}>
-            Спланировать отдых <span aria-hidden="true">→</span>
-          </button>
-        </div>
-      </div>
-    </section>
-    <AboutResort />
-    <ParadiseViewMaster />
-    <AttractionsCarousel />
-    <PlannerTeaser />
-  </>
-);
-
-const AttractionsCarousel = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const rides = ['skyfall', 'poseidons-descent', 'stormbreaker', 'crystal-passage']
-    .map(id => ATTRACTIONS.find(a => a.id === id))
-    .filter((a): a is NonNullable<typeof a> => Boolean(a));
-
-  const nextSlide = () => setActiveIndex((prev) => (prev + 1) % rides.length);
-  const prevSlide = () => setActiveIndex((prev) => (prev - 1 + rides.length) % rides.length);
-
-  return (
-    <section className="py-24 bg-white overflow-hidden">
-      <div className="max-w-5xl mx-auto px-4 text-center mb-12">
-        <h2 className="text-4xl md:text-5xl font-serif text-gray-900 mb-4">Выберите своё приключение</h2>
-        <p className="text-gray-600">От захватывающих дух спусков до спокойных прогулок по воде.</p>
-      </div>
-      <div className="relative max-w-4xl mx-auto flex items-center justify-center h-[400px]">
-        <button onClick={prevSlide} aria-label="Предыдущий аттракцион" className="absolute left-4 z-20 bg-white/80 p-3 rounded-full shadow-lg hover:bg-white text-gray-800 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500">←</button>
-        <div className="relative w-full h-full flex items-center justify-center perspective-1000">
-          {rides.map((ride, index) => {
-            let offset = index - activeIndex;
-            if (offset < -1) offset += rides.length;
-            if (offset > 1) offset -= rides.length;
-            if (Math.abs(offset) > 1) return null;
-            const isActive = offset === 0;
-            const cardColor = ['bg-blue-200', 'bg-teal-200', 'bg-indigo-200', 'bg-emerald-200'][index % 4];
-            return (
-              <div
-                key={index}
-                className={`absolute w-[300px] md:w-[380px] bg-white rounded-xl shadow-2xl overflow-hidden transition-all duration-500 ease-in-out
-                  ${isActive ? 'z-10 scale-100 opacity-100' : 'scale-90 opacity-50 blur-[1px]'}
-                `}
-                style={{ transform: `translateX(${offset * 60}%) scale(${isActive ? 1 : 0.85})`, zIndex: isActive ? 10 : 5 }}
-              >
-                <div className={`h-48 md:h-56 ${cardColor} flex items-center justify-center text-gray-500`}>[Фото: {ride.name}]</div>
-                <div className="p-6 text-left relative bg-white">
-                  <span className="text-xs font-bold text-teal-600 tracking-wider uppercase mb-2 block">{ride.zone}</span>
-                  <h3 className="text-2xl font-serif text-gray-900 mb-2">{ride.name}</h3>
-                  <p className="text-gray-600 text-sm mb-4">{ride.desc}</p>
-                  <div className="flex gap-4 text-xs font-medium text-gray-500 bg-gray-50 p-3 rounded-lg">
-                    <span className="flex items-center gap-1">🔥 {ride.intensity}</span>
-                    {ride.minAge > 0 && <span className="flex items-center gap-1">👤 {ride.minAge}+</span>}
-                    {ride.minHeight !== null && <span className="flex items-center gap-1">📏 {ride.minHeight} см</span>}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-        <button onClick={nextSlide} aria-label="Следующий аттракцион" className="absolute right-4 z-20 bg-white/80 p-3 rounded-full shadow-lg hover:bg-white text-gray-800 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500">→</button>
-      </div>
-      <div className="text-center mt-8">
-        <button onClick={() => window.location.hash = '#/attractions'} className="text-teal-600 font-medium hover:text-teal-800 underline underline-offset-4">
-          Смотреть все аттракционы
-        </button>
-      </div>
-    </section>
-  );
-};
-
-// Мини-планировщик: реальная рекомендация на основе интересов
-const PlannerTeaser = () => {
-  const [selected, setSelected] = useState<string[]>([]);
-  const interests = ["Адреналин", "Семейный отдых", "Релакс", "Исследования"];
-
-  // Маппинг интересов → категории интенсивности
-  const interestToIntensity: Record<string, string[]> = {
-    'Адреналин': ['Экстрим', 'Высокая'],
-    'Семейный отдых': ['Семейная', 'Спокойная'],
-    'Релакс': ['Спокойная'],
-    'Исследования': ['Спокойная', 'Средняя'],
-  };
-
-  const toggleInterest = (interest: string) => {
-    setSelected(prev => prev.includes(interest) ? prev.filter(i => i !== interest) : [...prev, interest]);
-  };
-
-  // 3 рекомендации: утро / день / вечер
-  const recommendation = useMemo(() => {
-    if (selected.length === 0) return null;
-
-    // Собираем объекты, соответствующие хотя бы одному выбранному интересу
-    const matchedIntensities = Array.from(new Set(
-      selected.flatMap(interest => interestToIntensity[interest] || [])
-    ));
-
-    const matched = ATTRACTIONS.filter(attr => matchedIntensities.includes(attr.intensity));
-
-    if (matched.length === 0) return null;
-
-    // Утро: первый из matched
-    const morning = matched[0];
-    // День: второй (или первый, если только один)
-    const afternoon = matched[1] || matched[0];
-    // Вечер: приоритет спокойным / семейным
-    const evening = matched.find(a => a.intensity === 'Спокойная' || a.intensity === 'Семейная') || matched[matched.length - 1];
-
-    // Убираем дубли, если matched.length < 3
-    const unique = [morning, afternoon, evening].filter((item, idx, arr) =>
-      idx === 0 || item.id !== arr[idx - 1].id
-    );
-
-    return unique;
-  }, [selected]);
-
-  const handleOpenPlanner = () => {
-    if (selected.length === 0) {
-      window.location.hash = '#/planner';
-    } else {
-      const interestsParam = encodeURIComponent(selected.join(','));
-      window.location.hash = `#/planner?interests=${interestsParam}`;
-    }
-  };
-
-  return (
-    <section className="py-24 bg-teal-900 text-white relative overflow-hidden">
-      <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
-      <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
-        <span className="tracking-widest text-teal-300 text-sm font-semibold uppercase mb-2 block">PLAN YOUR DAY</span>
-        <h2 className="text-4xl md:text-5xl font-serif mb-6">Собери свой идеальный день.</h2>
-        <p className="text-teal-100 mb-10 text-lg">Выберите то, что вам по душе, и мы покажем, каким может быть ваш отдых.</p>
-
-        <div className="flex flex-wrap justify-center gap-4 mb-10">
-          {interests.map(interest => (
-            <button
-              key={interest}
-              onClick={() => toggleInterest(interest)}
-              aria-pressed={selected.includes(interest)}
-              className={`px-6 py-3 rounded-full border-2 transition-all font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-300 ${
-                selected.includes(interest) ? 'bg-teal-400 border-teal-400 text-teal-900' : 'border-teal-700 hover:border-teal-500 text-teal-100'
-              }`}
-            >
-              {interest}
-            </button>
-          ))}
-        </div>
-
-        {/* Пример дня — 3 карточки */}
-        {recommendation && recommendation.length > 0 && (
-          <div className="mb-10 animate-fade-in">
-            <p className="text-sm text-teal-200 mb-4 uppercase tracking-wider">Пример дня</p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
-              {['Утро', 'День', 'Вечер'].map((period, idx) => {
-                const item = recommendation[idx];
-                if (!item) return null;
-                return (
-                  <div key={period} className="bg-white/10 backdrop-blur rounded-xl p-4 border border-white/10">
-                    <span className="text-xs text-teal-300 font-bold uppercase tracking-wider">{period}</span>
-                    <h3 className="font-serif text-xl text-white mt-1 mb-1">{item.name}</h3>
-                    <p className="text-xs text-teal-200 mb-2">{item.zone}</p>
-                    <p className="text-sm text-gray-200 line-clamp-2">{item.desc}</p>
-                  </div>
-                );
-              })}
-            </div>
-            <p className="text-xs text-teal-300 mt-3">
-              Это пример для вдохновения, а не гарантированное расписание. Полный план — в планировщике.
-            </p>
-          </div>
-        )}
-
-        {selected.length > 0 && !recommendation && (
-          <p className="text-amber-200 text-sm mb-6">
-            По выбранным интересам пока нет рекомендаций. Попробуйте другие или откройте полный планировщик.
-          </p>
-        )}
-
-        <button
-          onClick={handleOpenPlanner}
-          className="bg-white text-teal-900 px-8 py-3 rounded-full text-lg font-medium hover:bg-gray-100 transition shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
-        >
-          {selected.length > 0 ? 'Открыть полный планировщик с этими интересами' : 'Открыть полный планировщик'}
-        </button>
-      </div>
-    </section>
-  );
-};
+function HomePage() {
+  return <><Hero /><AboutResort /><ParadiseViewMaster /><GoldenTickets /><DepartureBoard /></>;
+}
 
 function App() {
   const [currentPath, setCurrentPath] = useState(window.location.hash || '#/');
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isHeaderScrolled, setIsHeaderScrolled] = useState(() => window.scrollY > 32);
-  const [openHeaderMenu, setOpenHeaderMenu] = useState<'entertainment' | 'visit' | null>(null);
-  const menuButtonRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    const onScroll = () => setIsHeaderScrolled(window.scrollY > 32);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  const navigate = (path: string) => {
-    window.location.hash = path;
-    setCurrentPath(path);
-    setIsMobileMenuOpen(false);
-    setOpenHeaderMenu(null);
-  };
-
-  useEffect(() => {
-    if ('scrollRestoration' in window.history) {
-      window.history.scrollRestoration = 'manual';
-    }
-  }, []);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isMobileMenuOpen) {
-        setIsMobileMenuOpen(false);
-        if (menuButtonRef.current) menuButtonRef.current.focus();
-      }
-    };
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isMobileMenuOpen]);
-
-  useEffect(() => {
-    const handleHashChange = () => {
-      setCurrentPath(window.location.hash || '#/');
-    };
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
-  }, []);
-
-  // Скролл вверх при смене страницы
   const basePath = currentPath.split('?')[0];
+  const home = basePath === '#/';
+  const navigate = (path: string) => { window.location.hash = path; };
   useEffect(() => {
-    const section = new URLSearchParams(currentPath.split('?')[1] || '').get('section');
-    if (section && basePath === '#/') {
-      requestAnimationFrame(() => document.getElementById(section)?.scrollIntoView({ behavior: 'auto' }));
-    } else {
-      window.scrollTo(0, 0);
+    const update = () => setCurrentPath(window.location.hash || '#/');
+    window.addEventListener('hashchange', update);
+    return () => window.removeEventListener('hashchange', update);
+  }, []);
+  useEffect(() => {
+    const section = new URLSearchParams(currentPath.split('?')[1]).get('section');
+    if (home && section) {
+      const frame = requestAnimationFrame(() => scrollHome(section));
+      return () => cancelAnimationFrame(frame);
     }
-  }, [basePath, currentPath]);
+    if (!(basePath === '#/visit' && section)) window.scrollTo({top: 0, behavior: 'instant'});
+  }, [home, basePath, currentPath]);
 
   const renderPage = () => {
     const [base, queryString] = currentPath.split('?');
@@ -349,155 +66,24 @@ function App() {
       case '#/tickets': return <TicketsPage />;
       case '#/planner': {
         const plannerParams = new URLSearchParams(queryString);
-        return <PlannerPage initialInterests={plannerParams.get('interests') || undefined} />;
+        return <PlannerPage key={currentPath} initialDate={plannerParams.get('date')} initialParty={plannerParams.get('party')} initialInterests={plannerParams.get('interests') || undefined} />;
       }
       default: return <HomePage />;
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f8f9fa] font-sans">
-      <header className={`${basePath === '#/' ? `apr-header${isHeaderScrolled ? ' apr-header--scrolled' : ''} ` : ''}bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b border-gray-100`}>
-        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="text-xl font-bold text-teal-900 cursor-pointer" onClick={() => navigate('#/')}>
-            {basePath === '#/' ? (
-              <span className="apr-brand" title="Aqua Paradise Resort">
-                <img src={aprPalmLogo} alt="" width="76" height="69" />
-                <span className="apr-brand__name">Aqua<br />Paradise<small>Resort</small></span>
-              </span>
-            ) : '🌴 Aqua Paradise'}
-          </div>
-
-<nav aria-label="Основная навигация" className="apr-header__navigation hidden md:flex">
-  <div className="apr-header__links">
-  <button type="button" onClick={() => navigate('#/?section=about')} className="apr-header__navlink">
-    О курорте
-  </button>
-  <div className="apr-header__menu" onMouseEnter={() => setOpenHeaderMenu('entertainment')} onMouseLeave={() => setOpenHeaderMenu(null)} onKeyDown={(e) => { if (e.key === 'Escape') setOpenHeaderMenu(null); }}>
-    <button type="button" className="apr-header__navlink apr-header__trigger" aria-haspopup="true"
-      aria-expanded={openHeaderMenu === 'entertainment'} aria-controls="apr-menu-entertainment"
-      onClick={() => setOpenHeaderMenu('entertainment')}
-      onFocus={() => setOpenHeaderMenu('entertainment')}>
-      Развлечения <svg aria-hidden="true" className="apr-header__chevron" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
-    </button>
-    {openHeaderMenu === 'entertainment' && (
-      <div className="apr-header__dropdown" id="apr-menu-entertainment" role="group" aria-label="Развлечения">
-        <div className="apr-header__ticket-head" aria-hidden="true">
-          <span>AQUA PARADISE</span><span>EXPLORE · 01</span>
-        </div>
-        <div className="apr-header__ticket-body">
-        <button type="button" onClick={() => navigate('#/zones')} className="apr-header__dropdown-item">
-          <span className="apr-header__menu-icon"><HeaderLineIcon name="compass" /></span><span><strong>Тематические зоны</strong><small>Девять миров острова</small></span>
-        </button>
-        <button type="button" onClick={() => navigate('#/attractions')} className="apr-header__dropdown-item">
-          <span className="apr-header__menu-icon"><HeaderLineIcon name="waves" /></span><span><strong>Аттракционы</strong><small>От релакса до экстрима</small></span>
-        </button>
-        <button type="button" onClick={() => navigate('#/zones?zone=little-paradise')} className="apr-header__dropdown-item">
-          <span className="apr-header__menu-icon"><HeaderLineIcon name="family" /></span><span><strong>Семейный отдых</strong><small>Развлечения для всей семьи</small></span>
-        </button>
-        </div>
-        <div className="apr-header__ticket-foot" aria-hidden="true"><span>DISCOVER THE ISLAND</span><span>✳</span></div>
-      </div>
-    )}
-  </div>
-  <button type="button" onClick={() => navigate('#/planner')} className="apr-header__navlink" aria-current={basePath === '#/planner' ? 'page' : undefined}>Планировщик</button>
-  <button type="button" onClick={() => navigate('#/hotel')} className="apr-header__navlink" aria-current={basePath === '#/hotel' ? 'page' : undefined}>Отель</button>
-  <div className="apr-header__menu" onMouseEnter={() => setOpenHeaderMenu('visit')} onMouseLeave={() => setOpenHeaderMenu(null)} onKeyDown={(e) => { if (e.key === 'Escape') setOpenHeaderMenu(null); }}>
-    <button type="button" className="apr-header__navlink apr-header__trigger" aria-haspopup="true"
-      aria-expanded={openHeaderMenu === 'visit'} aria-controls="apr-menu-visit"
-      onClick={() => setOpenHeaderMenu('visit')}
-      onFocus={() => setOpenHeaderMenu('visit')}>
-      Посещение <svg aria-hidden="true" className="apr-header__chevron" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
-    </button>
-    {openHeaderMenu === 'visit' && (
-      <div className="apr-header__dropdown" id="apr-menu-visit" role="group" aria-label="Посещение">
-        <div className="apr-header__ticket-head" aria-hidden="true">
-          <span>AQUA PARADISE</span><span>GUEST PASS · 02</span>
-        </div>
-        <div className="apr-header__ticket-body">
-        <button type="button" onClick={() => navigate('#/visit?section=arrival')} className="apr-header__dropdown-item">
-          <span className="apr-header__menu-icon"><HeaderLineIcon name="cable-car" /></span><span><strong>Как добраться</strong><small>Путь на остров</small></span>
-        </button>
-        <button type="button" onClick={() => navigate('#/visit?section=transport')} className="apr-header__dropdown-item">
-          <span className="apr-header__menu-icon"><HeaderLineIcon name="bus" /></span><span><strong>Транспорт</strong><small>Передвижение по курорту</small></span>
-        </button>
-        <button type="button" onClick={() => navigate('#/visit?section=rules')} className="apr-header__dropdown-item">
-          <span className="apr-header__menu-icon"><HeaderLineIcon name="shield-check" /></span><span><strong>Правила и безопасность</strong><small>Комфортный отдых</small></span>
-        </button>
-        <button type="button" onClick={() => navigate('#/visit?section=faq')} className="apr-header__dropdown-item">
-          <span className="apr-header__menu-icon"><HeaderLineIcon name="faq" /></span><span><strong>FAQ</strong><small>Ответы на вопросы</small></span>
-        </button>
-        </div>
-        <div className="apr-header__ticket-foot" aria-hidden="true"><span>WELCOME TO PARADISE</span><span>✳</span></div>
-      </div>
-    )}
-  </div>
-  </div>
-  <button type="button" onClick={() => navigate('#/tickets')} className="apr-header__tickets" aria-current={basePath === '#/tickets' ? 'page' : undefined}><HeaderLineIcon name="ticket" className="apr-header__ticket-icon" />Билеты</button>
-</nav>
-
-          <button
-            ref={menuButtonRef}
-            className="md:hidden p-2 text-gray-600 hover:text-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-500 rounded"
-            onClick={() => setIsMobileMenuOpen(true)}
-            aria-label="Открыть меню"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-        </div>
-      </header>
-
-      {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-[60] md:hidden">
-          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)}></div>
-          <div className="absolute top-0 right-0 w-[80%] max-w-sm h-full bg-white shadow-2xl flex flex-col animate-slide-in">
-            <div className="p-4 border-b border-gray-100 flex justify-between items-center">
-              <span className="font-bold text-teal-900">Меню</span>
-              <button
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="p-2 text-gray-500 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-500 rounded"
-                aria-label="Закрыть меню"
-              >
-                ✕
-              </button>
-            </div>
-            <div className="flex-grow overflow-y-auto p-4 flex flex-col gap-2">
-              {[
-                { path: '#/', label: 'Главная' },
-                { path: '#/zones', label: 'Зоны' },
-                { path: '#/attractions', label: 'Аттракционы' },
-                { path: '#/map', label: 'Карта' },
-                { path: '#/hotel', label: 'Отель' },
-                { path: '#/visit', label: 'Посещение' },
-                { path: '#/planner', label: 'Планировщик' },
-              ].map((item) => (
-                <button
-                  key={item.path}
-                  onClick={() => navigate(item.path)}
-                  aria-current={basePath === item.path ? 'page' : undefined}
-                  className={`text-left py-3 px-4 rounded-xl font-medium transition focus-visible:outline-2 focus-visible:outline-teal-600 ${basePath === item.path ? 'bg-teal-50 text-teal-800 border-l-4 border-teal-600' : 'text-gray-800 hover:bg-teal-50 hover:text-teal-700 border-l-4 border-transparent'}`}
-                >
-                  {item.label}
-                </button>
-              ))}
-              <div className="mt-4 pt-4 border-t border-gray-100">
-                <button
-                  onClick={() => navigate('#/tickets')}
-                  aria-current={basePath === '#/tickets' ? 'page' : undefined}
-                  className="w-full bg-teal-600 text-white py-3 rounded-xl font-medium hover:bg-teal-700 transition shadow-md"
-                >
-                  Купить билеты
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <main className="flex-grow">{renderPage()}</main>
-
+    <div className="min-h-screen flex flex-col bg-[#f8f9fa] font-sans" onClick={event => {
+      if (!home || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const link = (event.target as Element).closest<HTMLAnchorElement>('a[href]');
+      if (link?.hash === currentPath) {
+        const section = new URLSearchParams(currentPath.split('?')[1]).get('section');
+        scrollHome(section ?? 'hero');
+      }
+    }}>
+      <Header key={currentPath} home={home} />
+      <main className={home ? 'riv-home' : 'riv-interior flex-grow'}>{renderPage()}</main>
+      {home ? <SunsetPier /> : (
       <footer className="bg-[#0a192f] text-white py-12 mt-auto">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
@@ -531,8 +117,8 @@ function App() {
           </div>
         </div>
       </footer>
+      )}
     </div>
   );
 }
-
 export default App;

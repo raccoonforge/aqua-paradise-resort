@@ -2,25 +2,7 @@ import { useState, useMemo, useRef, useEffect } from 'react';
 import { toPng } from 'html-to-image';
 import { useFocusTrap } from './hooks/useFocusTrap';
 
-const ALL_INTERESTS = ['Адреналин', 'Семейный отдых', 'Релакс', 'Исследования'];
-
-// Локальная календарная дата без преобразования через UTC.
-const todayLocal = (): string => {
-  const now = new Date();
-  const y = now.getFullYear();
-  const m = String(now.getMonth() + 1).padStart(2, '0');
-  const d = String(now.getDate()).padStart(2, '0');
-  return `${y}-${m}-${d}`;
-};
-
-const isValidVisitDate = (value: string): boolean => {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
-  const [year, month, day] = value.split('-').map(Number);
-  const parsed = new Date(year, month - 1, day);
-  return parsed.getFullYear() === year &&
-    parsed.getMonth() === month - 1 &&
-    parsed.getDate() === day;
-};
+import { ALL_INTERESTS, guestsFor, isValidVisitDate, todayLocal } from './data/planner-options';
 
 type Attraction = {
   id: string;
@@ -207,22 +189,18 @@ type ScheduledItem = Attraction & {
 type InaccessibleItem = Attraction & { reasons: string[] };
 type PlanPeriod = { period: string; title: string; items: ScheduledItem[] };
 
-export default function PlannerPage({ initialInterests }: { initialInterests?: string }) {
-  const [date, setDate] = useState('');
+export default function PlannerPage({ initialInterests, initialDate, initialParty }: { initialInterests?: string; initialDate: string | null; initialParty: string | null }) {
+  const [date, setDate] = useState(() => initialDate && isValidVisitDate(initialDate) && initialDate >= todayLocal() ? initialDate : '');
   const [ticketType, setTicketType] = useState('day');
   const parsedInitialInterests = useMemo(() => {
     if (!initialInterests) return [];
-    const valid = ['Адреналин', 'Семейный отдых', 'Релакс', 'Исследования'];
-    return initialInterests.split(',').map(s => s.trim()).filter(s => valid.includes(s));
+    return initialInterests.split(',').map(s => s.trim()).filter(s => ALL_INTERESTS.includes(s));
   }, [initialInterests]);
   const [selectedInterests, setSelectedInterests] = useState<string[]>(parsedInitialInterests);
   const [isGenerated, setIsGenerated] = useState(false);
   const [showAdvanced, setShowAdvanced] = useState(false);
 
-  const [guests, setGuests] = useState<Guest[]>([
-    { id: 'g1', age: 30, height: 175 },
-    { id: 'g2', age: 8, height: 120 },
-  ]);
+  const [guests, setGuests] = useState<Guest[]>(() => guestsFor(initialParty));
 
   const [pace, setPace] = useState('balanced');  const [transport, setTransport] = useState<TransportMode>('auto');
   const [mobility, setMobility] = useState<Mobility>('none');
@@ -611,8 +589,8 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
             <div className="animate-fade-in">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Дата посещения</label>
-                  <input type="date" min={todayLocal()} value={date} onChange={(e) => setDate(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500/50" />
+                  <label htmlFor="planner-date" className="block text-sm font-medium text-gray-700 mb-2">Дата посещения</label>
+                  <input id="planner-date" type="date" min={todayLocal()} value={date} onChange={(e) => setDate(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500/50" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Тип билета</label>
@@ -632,6 +610,7 @@ export default function PlannerPage({ initialInterests }: { initialInterests?: s
                     <button onClick={() => addGuest('child')} className="text-xs bg-amber-500 text-white px-3 py-1.5 rounded-lg hover:bg-amber-600 transition">+ Ребёнок</button>
                   </div>
                 </div>
+                {initialParty && <p className="mb-3 text-sm text-gray-600">Проверьте возраст и рост каждого гостя перед построением маршрута.</p>}
                 <div className="space-y-2">
                   {guests.map((g, idx) => (
                     <div key={g.id} className="flex flex-wrap items-center gap-3 bg-white p-2 rounded-lg border border-gray-100">

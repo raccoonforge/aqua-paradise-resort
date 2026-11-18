@@ -1,20 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import type { PointerEvent } from 'react';
 import logo from '../assets/retro/apr-palm-logo.svg';
-import { ZONE_SLUGS } from '../data/attractions';
+import { zonesData as zones } from '../data/zones';
 import './ParadiseViewMaster.css';
-
-const zones = [
-  { name: 'Paradise Boulevard', description: 'Центральная артерия. Главные площади, шоу и вечерние прогулки.' },
-  { name: 'Paradise Market', description: 'Вкус острова. Рестораны, кафе и колоритные местные товары.' },
-  { name: 'Eden Gardens', description: 'Тропический рай. Редкие растения, водопады и невероятная тишина.' },
-  { name: 'Little Paradise', description: 'Мир для самых маленьких. Безопасные горки и любимые герои.' },
-  { name: 'Serenity Spa', description: 'Место силы. Премиальные спа-процедуры и абсолютный релакс.' },
-  { name: "Pirate's Cove", description: 'Остров сокровищ. Приключения для всей семьи в декорациях пиратских историй.' },
-  { name: 'Atlantis Realm', description: 'Затерянный город. Погружение в мифы и подводные приключения.' },
-  { name: 'Adrenaline Peak', description: 'Вызов для смельчаков. Самые высокие и быстрые водные горки острова.' },
-  { name: 'Ocean Bay', description: 'Сердце курорта. Белоснежный песок, лазурная лагуна и безмятежность.' },
-];
 
 const ticketIcons = [
   'M3 21h26M6 21V9h6v12m0 0V4l4-2 4 2v17m0 0V9h6v12M16 6v12M9 12v6m14-6v6',
@@ -121,11 +109,10 @@ export default function ParadiseViewMaster() {
   }
 
   return (
-    <section className="apr-worlds" aria-labelledby="apr-worlds-title">
+    <section id="worlds" className="apr-worlds" aria-labelledby="apr-worlds-title">
       <header className="apr-worlds__heading">
-        <span className="apr-worlds__eyebrow">AQUA PARADISE · КОЛЛЕКЦИЯ ПРИКЛЮЧЕНИЙ</span>
-        <h2 id="apr-worlds-title">Девять миров <span>— одно путешествие</span></h2>
-        <p>Поверните диск и выберите свою историю</p>
+        <h2 id="apr-worlds-title">9 миров <span>Aqua Paradise</span></h2>
+        <p>Выберите мир и загляните внутрь</p>
       </header>
 
       <div className="apr-worlds__stage">
@@ -154,7 +141,7 @@ export default function ParadiseViewMaster() {
                     aria-label={name} aria-pressed={selected === index}
                     style={{ transform: `rotate(${index * step}deg)` }} onClick={() => choose(index)}>
                     <span>{index + 1}</span>
-                    <img src={imageFor(index)} alt="" draggable={false} />
+                    <img loading="lazy" src={imageFor(index)} alt="" draggable={false} />
                   </button>
                 ))}
               </div>
@@ -169,15 +156,15 @@ export default function ParadiseViewMaster() {
 
         <article className="apr-worlds__card" aria-labelledby="apr-worlds-current">
           <div className="apr-worlds__photo">
-            <img key={zone.name} src={imageFor(selected)} alt={zone.name} />
+            <img key={zone.name} loading="lazy" src={imageFor(selected)} alt={zone.name} />
           </div>
           <div className="apr-worlds__info" aria-live="polite" aria-atomic="true">
             <div key={zone.name} className="apr-worlds__caption">
               <h3 id="apr-worlds-current"><span aria-hidden="true">{selected + 1}</span>{zone.name}</h3>
-              <p>{zone.description}</p>
+              <p>{zone.desc}</p>
             </div>
           </div>
-          <a className="apr-worlds__link" href={`#/zones?zone=${ZONE_SLUGS[zone.name]}`}>Подробнее о зоне <span aria-hidden="true">→</span></a>
+          <a className="apr-worlds__link" href={`#/zones?zone=${zone.id}`}>Подробнее о зоне <span aria-hidden="true">→</span></a>
         </article>
       </div>
 
