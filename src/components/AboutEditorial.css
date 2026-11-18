@@ -1,4 +1,6 @@
 .apr-about {
+  position: relative;
+  isolation: isolate;
   --ink: #073c3b;
   --coral: #ad3e27;
   --gold: #ad762e;
