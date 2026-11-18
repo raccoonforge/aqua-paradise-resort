@@ -17,35 +17,6 @@ function HighlightIcon({ name }: { name: typeof highlights[number]['icon'] }) {
   return <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true"><circle cx="18" cy="14" r="5" /><circle cx="33" cy="17" r="4" /><circle cx="26" cy="27" r="3.5" /><path d="M7 39v-7c0-6 5-10 11-10 4 0 7 1 9 4M32 24c5 1 8 4 8 9v6M18 39v-3c0-5 3-8 8-8s8 3 8 8v3" /></svg>;
 }
 
-/* Small screen-printed botanical accent for the outside corners of the spread.
-   All paths are decorative, vector-based and contain no text. */
-function BotanicalCorner({ side }: { side: 'left' | 'right' }) {
-  return (
-    <svg className={`apr-about__botanical apr-about__botanical--${side}`}
-      viewBox="0 0 260 245" fill="none" aria-hidden="true" focusable="false">
-      <g stroke="#073b36" strokeWidth="2" strokeLinejoin="round">
-        <path d="M-15 232C33 176 73 121 114 42" stroke="#b58b50" strokeWidth="8"/>
-        <path d="M37 187C8 147 7 106 25 71C60 111 65 149 37 187Z" fill="#307a5a"/>
-        <path d="M68 140C44 98 53 58 89 24C106 73 101 109 68 140Z" fill="#155f56"/>
-        <path d="M95 87C102 45 132 22 181 16C161 62 134 85 95 87Z" fill="#347d64"/>
-        <path d="M23 210C64 193 103 193 141 215C95 235 58 233 23 210Z" fill="#145951"/>
-        <path d="M125 125C156 84 198 72 242 87C217 127 179 143 125 125Z" fill="#1a6a57"/>
-        <path d="M37 187L24 76M68 140L87 34M95 87L171 25M23 210L132 215M125 125L230 90" stroke="#d3a35a" strokeWidth="1.7" opacity=".65"/>
-      </g>
-      <g transform="translate(174 169)" stroke="#963f2d" strokeWidth="2">
-        {Array.from({length:5},(_,i)=>(
-          <path key={i} d="M0 0C-10-14-30-41-11-60C8-74 25-49 0 0Z"
-            transform={`rotate(${i*72})`} fill="#ed6a43"/>
-        ))}
-        <circle r="17" fill="#f2b653" stroke="#ae5c2e" strokeWidth="2"/>
-        <circle r="7" fill="#8a4c31" stroke="none"/>
-        <path d="M7 0L30-11" stroke="#ffe4a2" strokeWidth="3"/>
-        <circle cx="31" cy="-11" r="4" fill="#f9d87e" stroke="none"/>
-      </g>
-    </svg>
-  );
-}
-
 export default function AboutResort() {
   const sectionRef = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
@@ -68,8 +39,6 @@ export default function AboutResort() {
   return (
     <section id="about" ref={sectionRef} aria-labelledby="about-title"
       className={`apr-about ${visible ? 'apr-about--visible' : ''}`}>
-      <BotanicalCorner side="left" />
-      <BotanicalCorner side="right" />
       <div className="apr-about__layout">
         <figure className="apr-about__frame">
           <img src={terrace} width="1122" height="1402" loading="lazy" decoding="async"
