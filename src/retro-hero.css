@@ -476,7 +476,7 @@
   justify-content: center;
   gap: 9px;
 }
-.apr-header__ticket-icon { display: block; width: 19px; height: 19px; flex: none; transform: rotate(-12deg); }
+.apr-header__ticket-icon { display: block; width: 22px; height: 22px; flex: none; transform: rotate(-5deg); }
 @media (prefers-reduced-motion: reduce) {
   .apr-header__chevron, .apr-header__dropdown-item { transition: none; }
   .apr-header__dropdown-item:hover { transform: none; }
