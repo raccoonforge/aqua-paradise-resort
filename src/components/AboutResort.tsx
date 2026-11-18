@@ -12,10 +12,62 @@ const highlights = [
 ] as const;
 
 function HighlightIcon({ name }: { name: typeof highlights[number]['icon'] }) {
-  if (name === 'sun') return <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true"><path d="M3 41h42M38 40V14H24v7M20 14l11-8 11 8M31 6V2l7 2-7 2M38 20C34 32 8 23 7 34c0 5 6 7 13 7M37 26C31 36 14 29 13 35c0 3 6 4 10 4M28 30v11" /></svg>;
-  if (name === 'island') return <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true"><path d="M5 37c8-5 28-5 38 0M8 42c8-4 24-4 32 0M11 30l13-17 11 17H11Z" /><path d="M24 13c1-5 6-7 10-5M24 13c-5-5-10-4-12-1M24 13l-3 19" /></svg>;
-  if (name === 'clock') return <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true"><circle cx="24" cy="24" r="17" /><path d="M24 12v13l8 5M24 4v4M24 40v4M4 24h4M40 24h4" /></svg>;
-  return <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true"><circle cx="18" cy="14" r="5" /><circle cx="33" cy="17" r="4" /><circle cx="26" cy="27" r="3.5" /><path d="M7 39v-7c0-6 5-10 11-10 4 0 7 1 9 4M32 24c5 1 8 4 8 9v6M18 39v-3c0-5 3-8 8-8s8 3 8 8v3" /></svg>;
+  const shared = {
+    viewBox: '0 0 64 64',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeLinecap: 'round' as const,
+    strokeLinejoin: 'round' as const,
+    'aria-hidden': true as const,
+  };
+
+  // Single-colour 1970s travel-engraving motifs: bold outside strokes, finer etched details.
+  if (name === 'sun') return (
+    <svg {...shared}>
+      <g strokeWidth="2.15">
+        <path d="M7 55H57M9 51h45M17 51V38c0-3 2-5 5-5h15M17 43h14M24 33V20h22v31M28 20l8-8 12 8M35 12V6l11 3-11 3M30 51V33"/>
+        <path d="M44 25c-5 7-13 9-24 10-7 1-13 4-13 9s5 7 11 7M44 33c-5 7-12 9-22 10-3 1-5 3-2 5 2 1 5 1 8 1"/>
+        <path d="M11 46l-4-2M45 20h4"/>
+      </g>
+      <g strokeWidth=".85" opacity=".62"><path d="M26 23h16M27 26h14M36 14l7 4M15 53h26M19 39h8"/></g>
+    </svg>
+  );
+  if (name === 'island') return (
+    <svg {...shared}>
+      <g strokeWidth="2">
+        <path d="M5 50q12-5 25 0t29 0M8 56q13-5 25 0t23 0M14 44q18-7 38 0M18 42l17-19 16 19"/>
+        <path d="M33 24C34 17 36 10 39 6M38 8c-6-3-12-2-16 3 7-2 12-1 16 1M39 8c5-6 12-7 17-3-8 0-13 4-17 7M39 9c6 0 11 4 13 10-6-5-10-6-15-6M36 11c-6 1-10 5-11 11 4-5 8-7 12-8"/>
+      </g>
+      <g strokeWidth="1" opacity=".7"><path d="M28 32l7-8 10 13M20 47l6-2M35 46l4 1M22 53l7-1M41 53l7-2"/></g>
+      <path d="M38 22l-1 20" strokeWidth="1.7"/>
+    </svg>
+  );
+  if (name === 'clock') return (
+    <svg {...shared}>
+      <g strokeWidth="2.4">
+        <circle cx="32" cy="32" r="23"/>
+        <path d="M32 16v17l11 8M32 5v6M32 53v6M5 32h6M53 32h6"/>
+      </g>
+      <g strokeWidth="1.25" opacity=".7">
+        <path d="M19 10l3 5M45 10l-3 5M10 19l5 3M54 19l-5 3M10 45l5-3M54 45l-5-3M19 54l3-5M45 54l-3-5"/>
+        <path d="M32 32l-1-10"/>
+      </g>
+      <circle cx="32" cy="32" r="2.3" fill="currentColor" stroke="none"/>
+    </svg>
+  );
+  return (
+    <svg {...shared}>
+      <g strokeWidth="2.05">
+        <circle cx="19" cy="16" r="6"/>
+        <circle cx="47" cy="16" r="6"/>
+        <circle cx="33" cy="29" r="4.5"/>
+        <path d="M8 55V39c0-7 4-12 11-12s11 5 11 12M58 55V39c0-7-4-12-11-12-5 0-8 3-10 7"/>
+        <path d="M24 57V46c0-6 3-10 9-10s9 4 9 10v11"/>
+        <path d="M8 52H5M58 52h3"/>
+      </g>
+      <g strokeWidth=".9" opacity=".7"><path d="M13 32q6-4 12 0M42 32q5-4 10 0M28 40q5-2 10 0M12 41v10M52 41v10"/></g>
+    </svg>
+  );
 }
 
 export default function AboutResort() {
