@@ -755,3 +755,27 @@
     drop-shadow(3px 4px 0 #09383e)
     drop-shadow(3px 4px 0 #042930);
 }
+
+/* Resort finishing: match approved Tickets coral, shift toward center,
+   and build readable ink-depth on the actual selectable lettering. */
+.riv-home .apr-hero__resort {
+  color: #f04c30;
+  background-image: var(--riv-stock),
+    linear-gradient(180deg, #fa7445 0%, #f04c30 55%, #da3327 100%);
+  background-blend-mode: soft-light, normal;
+  -webkit-background-clip: text, text;
+  background-clip: text, text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: clamp(1.2px, .13vw, 2.4px) #e95637;
+  filter:
+    drop-shadow(1px 1px 0 #f3a46a)
+    drop-shadow(2px 2px 0 #bb4b35)
+    drop-shadow(3px 3px 0 #81372d)
+    drop-shadow(4px 5px 0 #184949)
+    drop-shadow(5px 7px 0 #06343a);
+}
+@media (min-width: 1001px) {
+  .riv-home .apr-hero__resort {
+    transform: translateX(-9vw) rotate(-8deg);
+  }
+}
