@@ -47,6 +47,11 @@
   width: 52%;
   padding: 8.4vw 0 9vw 4.4vw;
 }
+/* Shift the complete poster lettering 25px left on desktop as one unit.
+   Tagline, CTAs and their established alignments remain untouched. */
+@media (min-width: 768px) {
+  .apr-hero__lettering { transform: translateX(-25px); }
+}
 .apr-hero__title {
   position: relative;
   margin: 0;
