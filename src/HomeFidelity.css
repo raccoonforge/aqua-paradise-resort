@@ -568,3 +568,91 @@
     min-width: 0;
   }
 }
+
+
+/* Real poster lettering on the original title-free Riviera illustration. */
+.riv-home .apr-hero__plate {
+  background-image: url('./assets/retro/riviera.webp');
+  background-position: center;
+  background-size: cover;
+}
+.riv-home .apr-hero__lettering {
+  position: absolute;
+  z-index: 1;
+  top: 15%;
+  left: 4.1%;
+  width: 47%;
+  transform: rotate(-5deg);
+  transform-origin: center;
+  pointer-events: none;
+}
+.riv-home .apr-hero__title {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0;
+  color: #ffe8ba;
+  font-family: 'APR Poster', Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  letter-spacing: -.07em;
+  line-height: .83;
+  text-shadow: .018em .02em #edbd80, .035em .04em #a36b47,
+    .055em .065em #113e40, .077em .09em #062b31;
+}
+.riv-home .apr-hero__title .apr-hero__aqua,
+.riv-home .apr-hero__title .apr-hero__paradise {
+  display: block;
+  background: linear-gradient(180deg,#fff8dc 0%,#ffe9b6 47%,#d59b60 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(.024em .043em #063034);
+}
+.riv-home .apr-hero__aqua {
+  font-size: 10.2cqw;
+  padding-left: 3.8cqw;
+}
+.riv-home .apr-hero__paradise {
+  font-size: 7.3cqw;
+  margin-top: .08em;
+}
+.riv-home .apr-hero__title .apr-hero__resort {
+  display: block;
+  align-self: flex-end;
+  margin: -.02em 3.25cqw 0 0;
+  color: #ef6240;
+  font: 400 8.45cqw/.9 'APR Script', cursive;
+  letter-spacing: -.035em;
+  -webkit-text-stroke: .07cqw #dc4d34;
+  text-shadow: .012em .025em #ffe2a3, .032em .045em #08383a;
+  transform: rotate(-2deg);
+}
+@media (max-width:1000px) {
+  .riv-home .apr-hero__plate {
+    background-image: url('./assets/retro/fidelity/hero-lagoon.webp');
+  }
+  .riv-home .apr-hero__mobile-lettering { display: none; }
+  .riv-home .apr-hero__lettering {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: min(86%,620px);
+    margin: 0 auto;
+    transform: rotate(-4deg);
+  }
+  .riv-home .apr-hero__aqua { font-size: clamp(55px,11cqw,105px); padding-left: 5cqw; }
+  .riv-home .apr-hero__paradise { font-size: clamp(44px,8.3cqw,82px); }
+  .riv-home .apr-hero__title .apr-hero__resort {
+    font-size: clamp(64px,9.5cqw,98px);
+    margin-right: 4cqw;
+    -webkit-text-stroke: .5px #dc4d34;
+  }
+}
+@media (max-width:520px) {
+  .riv-home .apr-hero__lettering { width: 94%; }
+  .riv-home .apr-hero__aqua { font-size: 13.2cqw; padding-left: 11cqw; }
+  .riv-home .apr-hero__paradise { font-size: 10.25cqw; padding-left: 1cqw; }
+  .riv-home .apr-hero__title .apr-hero__resort { font-size: 15.4cqw; margin-top: .07em; }
+}
