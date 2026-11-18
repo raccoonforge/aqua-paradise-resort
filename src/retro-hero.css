@@ -337,7 +337,8 @@
   color: #f1bc68;
   border-bottom-color: #e4b66e;
 }
-.apr-header__chevron { font-size: 1.15em; display: inline-block; transform: translateY(-2px); }
+.apr-header__chevron { display: inline-block; flex-shrink: 0; transition: transform .22s ease; }
+.apr-header__trigger[aria-expanded='true'] .apr-header__chevron { transform: rotate(180deg); }
 /* Ticket CTA uses the same ink stops, worn print, corners and trim as the Hero's primary action. */
 .apr-header .apr-header__tickets {
   position: relative;
@@ -377,62 +378,108 @@
   transform: translateY(1px);
   box-shadow: 0 1px 0 #692e28;
 }
+/* Vintage Travel Ticket: a cream keepsake pass, not a flat dark popover. */
 .apr-header__dropdown {
   position: absolute;
   z-index: 70;
-  top: calc(100% + 8px);
-  left: -24px;
-  width: clamp(285px, 20vw, 342px);
-  padding: 11px;
-  border: 1px solid rgba(238, 198, 123, .48);
-  border-radius: 14px;
-  background: #072b2d;
-  box-shadow: 0 16px 32px rgba(0, 19, 22, .5);
-  color: #fff0d2;
+  top: 100%; /* no hover dead zone between the trigger and the ticket */
+  left: -26px;
+  width: clamp(290px, 22vw, 350px);
+  overflow: hidden;
+  border: 1px solid #e9c78e;
+  border-radius: 12px;
+  background: #f0dcaf;
+  box-shadow: 0 17px 0 -12px #804a37, 0 24px 38px rgba(0, 20, 22, .4);
+  color: #244844;
+  /* Two subtle inward cuts suggest the perforations of a keepsake ticket. */
+  clip-path: polygon(0 0, 100% 0, 100% 48px, calc(100% - 8px) 57px, 100% 66px, 100% 100%, 0 100%, 0 66px, 8px 57px, 0 48px);
 }
-.apr-header__dropdown::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -11px;
-  height: 12px;
+.apr-header__ticket-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 14px 21px;
+  background: linear-gradient(180deg, #e77852 0%, #cc5b3d 100%);
+  border-bottom: 1px solid #ad4f35;
+  color: #fff0cf;
+  font: 700 11px/1.35 Inter, sans-serif;
+  letter-spacing: .11em;
+  text-shadow: none;
+}
+.apr-header__ticket-head span:last-child { font-size: 9px; white-space: nowrap; }
+.apr-header__ticket-body {
+  padding: 10px 13px;
+  background:
+    radial-gradient(circle at 12% 30%, rgba(153,96,51,.08) 0 1px, transparent 1.7px) 0 0 / 17px 19px,
+    linear-gradient(145deg, #f7e7c3, #efd5a6);
 }
 .apr-header__dropdown-item {
   width: 100%;
   display: grid;
   grid-template-columns: 35px 1fr;
   align-items: center;
-  gap: 11px;
+  gap: 12px;
   padding: 13px 12px;
   border: 0;
-  border-radius: 8px;
-  background: none;
-  color: #fff4d6;
+  border-bottom: 1px solid rgba(159,111,72,.25);
+  border-radius: 5px;
+  background: transparent;
+  color: #254844;
   text-align: left;
-  cursor: pointer;
   text-shadow: none;
+  cursor: pointer;
+  transition: background-color .18s ease, transform .18s ease;
 }
+.apr-header__dropdown-item:last-child { border-bottom-color: transparent; }
 .apr-header__dropdown-item:hover,
 .apr-header__dropdown-item:focus-visible {
-  background: rgba(236, 174, 98, .13);
-  outline: none;
+  background: rgba(207,99,60,.14);
+  color: #214642;
+  outline: 2px solid transparent;
+  transform: translateX(2px);
 }
+.apr-header__dropdown-item:focus-visible { outline-color: #bc6743; outline-offset: -2px; }
 .apr-header__dropdown-item strong {
   display: block;
-  font: 700 15px/1.25 Inter, sans-serif;
-  color: #fff4d6;
+  font: 700 15px/1.3 Inter, sans-serif;
+  color: #264641;
 }
 .apr-header__dropdown-item small {
   display: block;
-  margin-top: 5px;
-  color: #b7d1cb;
-  font: 400 12px/1.3 Inter, sans-serif;
+  margin-top: 4px;
+  color: #806a53;
+  font: 400 12px/1.35 Inter, sans-serif;
 }
 .apr-header__menu-icon {
-  color: #efc77c;
-  font: 600 25px/1 Georgia, serif;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ad6044;
+}
+.apr-header__menu-icon svg { width: 25px; height: 25px; }
+.apr-header__ticket-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-top: 1px dashed rgba(150,99,58,.55);
+  background: #e5c79a;
+  color: #8b684a;
+  font: 700 10px/1.2 Inter, sans-serif;
+  letter-spacing: .13em;
+}
+.apr-header__ticket-foot span:last-child { font-size: 14px; }
+.apr-header .apr-header__tickets {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+}
+.apr-header__ticket-icon { display: block; width: 19px; height: 19px; flex: none; transform: rotate(-12deg); }
+@media (prefers-reduced-motion: reduce) {
+  .apr-header__chevron, .apr-header__dropdown-item { transition: none; }
+  .apr-header__dropdown-item:hover { transform: none; }
 }
 @media (min-width: 768px) and (max-width: 1100px) {
   .apr-header .apr-header__navigation { gap: 10px; margin-left: 10px; font-size: 12px; }
