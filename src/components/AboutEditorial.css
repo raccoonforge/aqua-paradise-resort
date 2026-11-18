@@ -49,11 +49,24 @@
   height: 100px;
   border: 1px solid #e0b782;
   border-radius: 13px 15px 3px 3px;
-  background: var(--grain), linear-gradient(145deg, #f4d59b, #ffe7b5 58%, #d8ac71);
+  background: var(--grain), radial-gradient(circle at 97% 0%, #d9ac76 0%, #f6d9a3 14%, transparent 27%), linear-gradient(145deg, #f4d59b, #ffe7b5 58%, #d8ac71);
   transform: rotate(-3deg);
   transform-origin: 55% 60%;
   box-shadow: 0 -2px 8px rgba(39, 34, 22, .12);
   pointer-events: none;
+}
+/* A fine folded corner on the second sheet, visible only along the exposed edge. */
+.apr-about__back-page::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 35px;
+  height: 35px;
+  border-top-right-radius: 12px;
+  background: linear-gradient(136deg, transparent 48%, rgba(126, 77, 39, .17) 49%, #ffe7b7 53%, #e9be85 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+  opacity: .65;
 }
 .apr-about__paper {
   position: relative;
@@ -61,7 +74,7 @@
   padding: clamp(24px, 2.25vw, 44px) clamp(23px, 3.3vw, 64px) 0;
   border: 1px solid #ffe5aa;
   border-radius: 11px 16px 5px 4px;
-  background: var(--grain), radial-gradient(ellipse, #fff0c9 30%, #fbe3ae 78%, #edc286);
+  background: var(--grain), radial-gradient(ellipse at 2% 98%, rgba(151, 89, 43, .21), transparent 22%), radial-gradient(ellipse at 98% 2%, rgba(145, 85, 43, .2), transparent 18%), radial-gradient(ellipse, #fff0c9 30%, #fbe3ae 78%, #edc286);
   box-shadow: inset 0 0 34px #ab692d30, 4px 12px 22px #002c2a80;
 }
 /* Light edge-ageing only: readable type and statistics remain crisp. */
@@ -73,15 +86,16 @@
   pointer-events: none;
   border-radius: inherit;
   background:
-    radial-gradient(ellipse at top left, rgba(143, 80, 30, .13), transparent 24%),
-    radial-gradient(ellipse at bottom right, rgba(145, 84, 32, .15), transparent 27%);
-  box-shadow: inset 0 0 25px rgba(138, 77, 29, .09);
+    linear-gradient(133deg, transparent 0 48%, rgba(107, 66, 37, .11) 49%, rgba(255, 249, 214, .38) 51%, transparent 54%) top right / 52px 52px no-repeat,
+    linear-gradient(313deg, transparent 0 47%, rgba(107, 66, 37, .12) 49%, rgba(255, 249, 214, .29) 51%, transparent 54%) bottom left / 43px 43px no-repeat,
+    radial-gradient(ellipse at top left, rgba(143, 80, 30, .15), transparent 24%),
+    radial-gradient(ellipse at bottom right, rgba(145, 84, 32, .19), transparent 27%);
+  box-shadow: inset 0 0 28px rgba(138, 77, 29, .12);
 }
 .apr-about__label, .apr-about h2, .apr-about__stats, .apr-about__quote {
   font-family: 'APR Poster', Georgia, serif;
   font-style: italic;
-  clip-path: polygon(0 0, 100% 0,
-    100.0% 100%, 97.1% calc(100% - 1px), 94.1% calc(100% - 2px), 91.2% calc(100% - 1px), 88.2% 100%, 85.3% calc(100% - 2px), 82.4% calc(100% - 1px), 79.4% calc(100% - 3px), 76.5% calc(100% - 2px), 73.5% 100%, 70.6% calc(100% - 1px), 67.6% calc(100% - 1px), 64.7% calc(100% - 3px), 61.8% calc(100% - 1px), 58.8% 100%, 55.9% calc(100% - 2px), 52.9% calc(100% - 2px), 50.0% calc(100% - 1px), 47.1% calc(100% - 3px), 44.1% calc(100% - 1px), 41.2% calc(100% - 2px), 38.2% 100%, 35.3% calc(100% - 1px), 32.4% calc(100% - 3px), 29.4% calc(100% - 2px), 26.5% calc(100% - 1px), 23.5% 100%, 20.6% calc(100% - 2px), 17.6% calc(100% - 1px), 14.7% calc(100% - 3px), 11.8% calc(100% - 1px), 8.8% calc(100% - 2px), 5.9% 100%, 2.9% calc(100% - 1px), 0.0% 100%);
+
 }
 .apr-about__label { display: flex; align-items: center; gap: .6em; width: 76%; font-size: clamp(20px, 2.15vw, 42px); font-weight: 700; }
 .apr-about__label::before, .apr-about__label::after { content: ""; height: 1px; background: var(--gold); flex: 1; }
@@ -136,6 +150,8 @@
 .apr-about__stats li:nth-child(n + 3) strong { font-size: clamp(15px, 1.65vw, 32px); }
 .apr-about__stats span { margin-top: 3px; font-size: clamp(13px, 1.1vw, 20px); line-height: 1.15; }
 .apr-about__quote {
+  clip-path: polygon(0 0, 100% 0,
+    100.0% 100%, 97.1% calc(100% - 1px), 94.1% calc(100% - 2px), 91.2% calc(100% - 1px), 88.2% 100%, 85.3% calc(100% - 2px), 82.4% calc(100% - 1px), 79.4% calc(100% - 3px), 76.5% calc(100% - 2px), 73.5% 100%, 70.6% calc(100% - 1px), 67.6% calc(100% - 1px), 64.7% calc(100% - 3px), 61.8% calc(100% - 1px), 58.8% 100%, 55.9% calc(100% - 2px), 52.9% calc(100% - 2px), 50.0% calc(100% - 1px), 47.1% calc(100% - 3px), 44.1% calc(100% - 1px), 41.2% calc(100% - 2px), 38.2% 100%, 35.3% calc(100% - 1px), 32.4% calc(100% - 3px), 29.4% calc(100% - 2px), 26.5% calc(100% - 1px), 23.5% 100%, 20.6% calc(100% - 2px), 17.6% calc(100% - 1px), 14.7% calc(100% - 3px), 11.8% calc(100% - 1px), 8.8% calc(100% - 2px), 5.9% 100%, 2.9% calc(100% - 1px), 0.0% 100%);
   position: relative;
   display: flex;
   align-items: center;
@@ -149,10 +165,29 @@
   text-align: center;
   border-radius: 3px 6px 5px 2px;
   border: 1px solid #d1a16a;
-  background: var(--grain), linear-gradient(#ffe0a6, #ffebbc);
+  background:
+    var(--grain),
+    radial-gradient(ellipse at 0 100%, rgba(117, 64, 31, .23), transparent 31%),
+    radial-gradient(ellipse at 100% 0, rgba(138, 81, 36, .21), transparent 34%),
+    linear-gradient(160deg, #e2bd80 0%, #f2d69b 24%, #f0d49b 61%, #d7af74 100%);
   box-shadow: 1px 6px 12px #412b2350;
 }
 .apr-about__quote::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 8px; background: repeating-linear-gradient(135deg, #ae4430 0 9px, transparent 9px 19px); }
+/* Worn ink, tiny flecks and edge shading, kept beneath the quote lettering. */
+.apr-about__quote::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 10% 88%, rgba(107, 63, 38, .34) 0 1px, transparent 1.5px) 0 0 / 19px 23px,
+    repeating-linear-gradient(174deg, transparent 0 26px, rgba(107, 69, 40, .065) 27px 27.5px, transparent 29px 49px),
+    linear-gradient(180deg, rgba(107, 63, 38, .09), transparent 28%, transparent 72%, rgba(114, 75, 44, .16));
+  opacity: .65;
+  mix-blend-mode: multiply;
+}
+
 /* Elegant travel-editorial italic rather than simulated handwriting.
    Reuse the locally hosted Libre Baskerville italic for consistent Cyrillic rendering. */
 .apr-about__quote p {
