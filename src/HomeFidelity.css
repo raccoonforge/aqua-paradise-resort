@@ -392,7 +392,7 @@
   border-bottom-color: #f04c30;
   text-shadow: 0 0 10px rgba(240,76,48,.3), 0 2px 3px #002b2c;
 }
-/* Saturated sunset-coral header accents; intentionally no scratches or print overlays. */
+/* Saturated sunset-coral accents with subtle irregular old-print grain, no scratches. */
 .riv-mast, .riv-drawer {
   --apr-ticket-coral: linear-gradient(180deg, #fa7445 0%, #f04c30 55%, #da3327 100%);
   --apr-ticket-coral-hover: linear-gradient(180deg, #ff8151 0%, #f65738 55%, #e33c2c 100%);
@@ -401,16 +401,18 @@
 .riv-drawer .ticket-cta {
   min-width: clamp(164px, 10.5vw, 198px);
   padding-inline: clamp(19px, 1.65vw, 31px);
-  background: var(--apr-ticket-coral);
+  background-image: var(--riv-stock), var(--apr-ticket-coral);
+  background-blend-mode: soft-light, normal;
   border-color: #f6ad75;
   box-shadow: inset 0 0 0 1px #ffe0af70, 0 3px 0 #702b20;
 }
 .riv-mast .ticket-cta:hover,
 .riv-drawer .ticket-cta:hover {
-  background: var(--apr-ticket-coral-hover);
+  background-image: var(--riv-stock), var(--apr-ticket-coral-hover);
 }
 .riv-mast .apr-header__ticket-head {
-  background: var(--apr-ticket-coral);
+  background-image: var(--riv-stock), var(--apr-ticket-coral);
+  background-blend-mode: soft-light, normal;
   border-bottom-color: #ac3525;
 }
 @media (prefers-reduced-motion: reduce) {
