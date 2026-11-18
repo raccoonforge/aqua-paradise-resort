@@ -26,7 +26,7 @@ jobs:
         with:
           ref: main
           path: site
-      # Preview refresh: correct rear magazine page overlap and exposed paper edge.
+      # Preview refresh: screenprinted postcard hibiscus instead of shaded flower.
       # Build preview from the current working branch without merging its design into main.
       - name: Checkout new preview (PR #5)
         uses: actions/checkout@v4
