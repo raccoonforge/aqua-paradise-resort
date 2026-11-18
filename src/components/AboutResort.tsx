@@ -75,47 +75,43 @@ export default function AboutResort() {
 
           <blockquote className="apr-about__quote">
             <p>«Курорт, где каждый день становится особенным путешествием»</p>
-            <svg viewBox="0 0 72 72" aria-hidden="true">
+            <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
               <defs>
-                <radialGradient id="apr-hibiscus-petal" cx="51%" cy="45%" r="58%">
-                  <stop stopColor="#702721" />
-                  <stop offset=".43" stopColor="#ba4130" />
-                  <stop offset=".81" stopColor="#df674d" />
-                  <stop offset="1" stopColor="#ec8c68" />
-                </radialGradient>
-                <linearGradient id="apr-hibiscus-leaf" x2=".8" y2="1">
-                  <stop stopColor="#9b9c5d" />
-                  <stop offset="1" stopColor="#465838" />
-                </linearGradient>
-                <filter id="apr-hibiscus-grain">
-                  <feTurbulence type="fractalNoise" baseFrequency=".75" numOctaves="3" stitchTiles="stitch" />
-                  <feColorMatrix type="saturate" values="0" />
-                  <feComponentTransfer><feFuncA type="linear" slope=".23" /></feComponentTransfer>
-                  <feComposite in2="SourceGraphic" operator="in" />
-                  <feBlend in2="SourceGraphic" mode="multiply" />
-                </filter>
+                <clipPath id="apr-quote-flower-ink">
+                  <path d="M46 51C22 46 14 34 19 21c4-10 16-12 27-2 10-19 22-21 31-11 10 12 4 24-9 34 20 3 27 16 20 28-7 12-21 13-34 1-7 18-22 24-33 15-11-10-6-24 7-35-15 1-28-5-28-18 1-14 17-18 31-10 8 5 12 15 15 28Z"/>
+                </clipPath>
               </defs>
-              <g filter="url(#apr-hibiscus-grain)">
-                <g fill="url(#apr-hibiscus-leaf)">
-                  <path d="M37 42C23 35 9 40 3 53c12-3 17 7 34-11Z" />
-                  <path d="M34 46C18 49 15 58 16 69c10-6 21-8 18-23Z" />
-                  <path d="M41 44c16 1 25 11 26 20-12-2-22-7-26-20Z" />
-                </g>
-                <path d="M8 51q14-6 29-9M18 65l16-18m11 0 18 14" fill="none" stroke="#d6cb82" strokeWidth=".7" opacity=".65" />
-                <g fill="url(#apr-hibiscus-petal)" stroke="#9d362a" strokeWidth=".55">
-                  <path d="M37 35C27 32 19 23 20 15c-1-6 7-9 11-8 4-4 10-2 12 1 7 1 9 7 6 12-1 7-7 13-12 15Z" />
-                  <path d="M38 35C42 24 51 15 60 17c6-1 11 5 8 9 4 5 1 10-3 12-6 6-20 3-27-3Z" />
-                  <path d="M37 36c11-3 24 3 26 10 6 5 1 12-4 12-3 6-11 5-15 1-7-4-9-15-7-23Z" />
-                  <path d="M36 35c5 10 5 23-2 27-3 5-11 5-13 1-7-1-10-7-7-13 2-8 13-14 22-15Z" />
-                  <path d="M36 36C25 41 10 39 6 32c-5-3-5-10 0-13 0-5 7-8 12-5 8 1 16 12 18 22Z" />
-                </g>
-                <path d="M36 34q-4-9-4-20m6 20q8-10 21-13M40 38q11 3 17 12M34 39q-3 12-11 17m10-21Q20 32 11 24" fill="none" stroke="#f7a281" strokeWidth=".8" opacity=".55" />
-                <path d="M35 37c5-8 9-12 15-15" fill="none" stroke="#efb15e" strokeWidth="1.6" strokeLinecap="round" />
-                <g fill="#ffd586">
-                  <circle cx="50" cy="21" r="1.7" /><circle cx="47" cy="22" r="1.2" />
-                  <circle cx="51" cy="24" r="1.1" /><circle cx="49" cy="19" r="1" />
-                </g>
+              {/* A few angular leaves peek out behind the blossom like vintage screenprinted foliage. */}
+              <g stroke="#164d46" strokeWidth="1.7" strokeLinejoin="round">
+                <path d="M49 62Q26 60 8 82Q29 87 49 62Z" fill="#557c55"/>
+                <path d="M60 64Q73 68 89 91Q89 69 60 64Z" fill="#295c4e"/>
+                <path d="M54 63Q47 79 46 99" stroke="#b58a46" strokeWidth="3.2"/>
+                <path d="M49 62L14 80M60 64L86 87" stroke="#d0a75e" strokeWidth="1.3" opacity=".8"/>
               </g>
+              {/* Asymmetrical coral petals, firm inky silhouettes, no airbrushed gradients. */}
+              <g stroke="#823d30" strokeWidth="1.6" strokeLinejoin="round">
+                <path d="M49 48C37 43 24 40 22 26c-2-13 8-19 18-14 9 2 17 19 17 34Z" fill="#ef8154"/>
+                <path d="M52 48C53 32 61 17 74 17c16-2 22 13 10 23-7 7-20 10-32 8Z" fill="#e96743"/>
+                <path d="M54 50C67 43 87 47 92 60c5 13-7 21-19 17-10-3-17-14-19-27Z" fill="#ee7950"/>
+                <path d="M50 54C59 69 55 88 42 93c-14 5-22-7-18-20 2-9 12-16 26-19Z" fill="#d9533c"/>
+                <path d="M47 52C33 65 14 64 7 51c-7-12 4-23 17-20 12 3 19 11 23 21Z" fill="#f18b59"/>
+              </g>
+              {/* Offset shadow ink and directional hatch lines emulate the resort's poster print. */}
+              <g stroke="#a44034" strokeWidth="1.35" fill="none" opacity=".76" strokeLinecap="round">
+                <path d="M46 45Q35 32 36 19M53 44Q64 31 75 28M60 52Q76 55 83 65M49 60Q45 76 36 84M41 52Q25 53 15 48"/>
+                <path d="M35 25l-6-5M40 30l-7-7M68 32l8-6M72 36l8-4M69 58l11 4M65 63l10 5M39 72l-4 9M36 69l-5 7M23 48l-9 4M26 44l-10 2"/>
+              </g>
+              <g clipPath="url(#apr-quote-flower-ink)" stroke="#ffd39a" strokeWidth=".7" opacity=".55" strokeLinecap="round">
+                <path d="M12 30l15-5M14 34l12-4M19 39l9-3M62 19l14-6M65 23l17-7M71 47l18 5M70 51l21 6M21 69l12-5M19 75l16-7M38 86l10-8"/>
+              </g>
+              <path d="M51 53C63 47 68 40 79 30" fill="none" stroke="#813c2d" strokeWidth="3.5" strokeLinecap="round"/>
+              <path d="M51 51C64 46 70 39 78 29" fill="none" stroke="#efbd68" strokeWidth="2" strokeLinecap="round"/>
+              <g fill="#f9d27c" stroke="#a65b30" strokeWidth=".65">
+                <circle cx="79" cy="29" r="3.4"/><circle cx="76" cy="27" r="1.6"/>
+                <circle cx="82" cy="27" r="1.6"/><circle cx="79" cy="32" r="1.5"/>
+              </g>
+              <circle cx="49" cy="52" r="6.5" fill="#b44d34"/>
+              <circle cx="49" cy="52" r="3" fill="#eaaa5e"/>
             </svg>
           </blockquote>
           </article>
