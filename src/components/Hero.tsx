@@ -1,8 +1,13 @@
 export default function Hero() {
   return (
     <section id="hero" tabIndex={-1} className="apr-hero" aria-labelledby="hero-title">
-      {/* The illustration still includes the decorative lettering; keep exactly one accessible title. */}
-      <h1 id="hero-title" className="sr-only">Aqua Paradise Resort</h1>
+      <div className="apr-hero__lettering">
+        <h1 id="hero-title" className="apr-hero__title" aria-label="Aqua Paradise Resort">
+          <span className="apr-hero__aqua">AQUA</span>
+          <span className="apr-hero__paradise">PARADISE</span>
+          <span className="apr-hero__resort">Resort</span>
+        </h1>
+      </div>
       <div className="apr-hero__plate" aria-hidden="true" />
       <div className="apr-hero__mobile-lettering" aria-hidden="true" />
       <div className="water-spray" aria-hidden="true"><i /><i /><i /><i /><i /></div>
