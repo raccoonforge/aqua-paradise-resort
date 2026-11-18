@@ -597,10 +597,14 @@
   width: 47%;
   transform: rotate(-5deg);
   transform-origin: center;
-  pointer-events: none;
+  pointer-events: auto;
+  user-select: text;
+  -webkit-user-select: text;
 }
 .riv-home .apr-hero__title {
   position: relative;
+  user-select: text;
+  -webkit-user-select: text;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
