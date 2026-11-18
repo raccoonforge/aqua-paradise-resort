@@ -45,7 +45,9 @@ export default function AboutResort() {
             alt="Отдыхающая в соломенной шляпе на террасе с видом на лагуну и водопады на закате" />
         </figure>
 
-        <article className="apr-about__paper">
+        <div className="apr-about__paper-stack">
+          <div className="apr-about__back-page" aria-hidden="true" />
+          <article className="apr-about__paper">
           <p className="apr-about__label">О курорте</p>
           <div className="apr-about__seal" aria-hidden="true">
             <span>AQUA PARADISE</span><img src={palm} alt="" /><small>RESORT</small>
@@ -79,7 +81,8 @@ export default function AboutResort() {
               <path d="M39 39q9-14 18-19" fill="none" stroke="#ffcf77" strokeWidth="2"/><circle cx="57" cy="20" r="3" fill="#ffcf77"/>
             </svg>
           </blockquote>
-        </article>
+          </article>
+        </div>
       </div>
     </section>
   );
