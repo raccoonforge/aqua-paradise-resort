@@ -26,8 +26,7 @@ jobs:
         with:
           ref: main
           path: site
-
-      # Preview refresh: about editorial text and postcard spacing at 100 percent.
+      # Preview refresh: add breathing room above Golden Age resort spread.
       # Build preview from the current working branch without merging its design into main.
       - name: Checkout new preview (PR #5)
         uses: actions/checkout@v4
