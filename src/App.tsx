@@ -1,6 +1,7 @@
 import './retro-hero.css';
 import riviera from './assets/retro/riviera.webp';
 import aprPalmLogo from './assets/retro/apr-palm-logo.svg';
+import HeaderLineIcon from './components/HeaderLineIcon';
 import PlannerPage from './PlannerPage';
 import MapPage from './MapPage';
 import HotelPage from './HotelPage';
@@ -515,19 +516,25 @@ function App() {
       aria-expanded={openHeaderMenu === 'entertainment'} aria-controls="apr-menu-entertainment"
       onClick={() => setOpenHeaderMenu('entertainment')}
       onFocus={() => setOpenHeaderMenu('entertainment')}>
-      Развлечения <span aria-hidden="true" className="apr-header__chevron">⌄</span>
+      Развлечения <svg aria-hidden="true" className="apr-header__chevron" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
     </button>
     {openHeaderMenu === 'entertainment' && (
       <div className="apr-header__dropdown" id="apr-menu-entertainment" role="group" aria-label="Развлечения">
+        <div className="apr-header__ticket-head" aria-hidden="true">
+          <span>AQUA PARADISE</span><span>EXPLORE · 01</span>
+        </div>
+        <div className="apr-header__ticket-body">
         <button type="button" onClick={() => navigate('#/zones')} className="apr-header__dropdown-item">
-          <span className="apr-header__menu-icon" aria-hidden="true">✧</span><span><strong>Тематические зоны</strong><small>Девять миров острова</small></span>
+          <span className="apr-header__menu-icon"><HeaderLineIcon name="compass" /></span><span><strong>Тематические зоны</strong><small>Девять миров острова</small></span>
         </button>
         <button type="button" onClick={() => navigate('#/attractions')} className="apr-header__dropdown-item">
-          <span className="apr-header__menu-icon" aria-hidden="true">⚑</span><span><strong>Аттракционы</strong><small>От релакса до экстрима</small></span>
+          <span className="apr-header__menu-icon"><HeaderLineIcon name="waves" /></span><span><strong>Аттракционы</strong><small>От релакса до экстрима</small></span>
         </button>
         <button type="button" onClick={() => navigate('#/zones?zone=little-paradise')} className="apr-header__dropdown-item">
-          <span className="apr-header__menu-icon" aria-hidden="true">♧</span><span><strong>Семейный отдых</strong><small>Развлечения для всей семьи</small></span>
+          <span className="apr-header__menu-icon"><HeaderLineIcon name="family" /></span><span><strong>Семейный отдых</strong><small>Развлечения для всей семьи</small></span>
         </button>
+        </div>
+        <div className="apr-header__ticket-foot" aria-hidden="true"><span>DISCOVER THE ISLAND</span><span>✳</span></div>
       </div>
     )}
   </div>
@@ -538,27 +545,33 @@ function App() {
       aria-expanded={openHeaderMenu === 'visit'} aria-controls="apr-menu-visit"
       onClick={() => setOpenHeaderMenu('visit')}
       onFocus={() => setOpenHeaderMenu('visit')}>
-      Посещение <span aria-hidden="true" className="apr-header__chevron">⌄</span>
+      Посещение <svg aria-hidden="true" className="apr-header__chevron" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
     </button>
     {openHeaderMenu === 'visit' && (
       <div className="apr-header__dropdown" id="apr-menu-visit" role="group" aria-label="Посещение">
+        <div className="apr-header__ticket-head" aria-hidden="true">
+          <span>AQUA PARADISE</span><span>GUEST PASS · 02</span>
+        </div>
+        <div className="apr-header__ticket-body">
         <button type="button" onClick={() => navigate('#/visit?section=arrival')} className="apr-header__dropdown-item">
-          <span className="apr-header__menu-icon" aria-hidden="true">⌁</span><span><strong>Как добраться</strong><small>Путь на остров</small></span>
+          <span className="apr-header__menu-icon"><HeaderLineIcon name="cable-car" /></span><span><strong>Как добраться</strong><small>Путь на остров</small></span>
         </button>
         <button type="button" onClick={() => navigate('#/visit?section=transport')} className="apr-header__dropdown-item">
-          <span className="apr-header__menu-icon" aria-hidden="true">▣</span><span><strong>Транспорт</strong><small>Передвижение по курорту</small></span>
+          <span className="apr-header__menu-icon"><HeaderLineIcon name="bus" /></span><span><strong>Транспорт</strong><small>Передвижение по курорту</small></span>
         </button>
         <button type="button" onClick={() => navigate('#/visit?section=rules')} className="apr-header__dropdown-item">
-          <span className="apr-header__menu-icon" aria-hidden="true">◇</span><span><strong>Правила и безопасность</strong><small>Комфортный отдых</small></span>
+          <span className="apr-header__menu-icon"><HeaderLineIcon name="shield-check" /></span><span><strong>Правила и безопасность</strong><small>Комфортный отдых</small></span>
         </button>
         <button type="button" onClick={() => navigate('#/visit?section=faq')} className="apr-header__dropdown-item">
-          <span className="apr-header__menu-icon" aria-hidden="true">?</span><span><strong>FAQ</strong><small>Ответы на вопросы</small></span>
+          <span className="apr-header__menu-icon"><HeaderLineIcon name="faq" /></span><span><strong>FAQ</strong><small>Ответы на вопросы</small></span>
         </button>
+        </div>
+        <div className="apr-header__ticket-foot" aria-hidden="true"><span>WELCOME TO PARADISE</span><span>✳</span></div>
       </div>
     )}
   </div>
   </div>
-  <button type="button" onClick={() => navigate('#/tickets')} className="apr-header__tickets" aria-current={basePath === '#/tickets' ? 'page' : undefined}>Билеты</button>
+  <button type="button" onClick={() => navigate('#/tickets')} className="apr-header__tickets" aria-current={basePath === '#/tickets' ? 'page' : undefined}><HeaderLineIcon name="ticket" className="apr-header__ticket-icon" />Билеты</button>
 </nav>
 
           <button
