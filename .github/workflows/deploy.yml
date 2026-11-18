@@ -26,7 +26,7 @@ jobs:
         with:
           ref: main
           path: site
-      # Preview refresh: illustrated palm engraving and refined six-line About copy.
+      # Preview refresh: justified About editorial paragraph with non-orphaned dash.
       # Build preview from the current working branch without merging its design into main.
       - name: Checkout new preview (PR #5)
         uses: actions/checkout@v4
