@@ -570,11 +570,24 @@
 }
 
 
-/* Real poster lettering on the original title-free Riviera illustration. */
+/* The picture references only artwork without baked-in lettering.
+   The visible h1 is a separate, selectable HTML element. */
 .riv-home .apr-hero__plate {
-  background-image: url('./assets/retro/riviera.webp');
-  background-position: center;
-  background-size: cover;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #043b3b;
+}
+.riv-home .apr-hero__plate img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 .riv-home .apr-hero__lettering {
   position: absolute;
@@ -618,6 +631,29 @@
   font-size: 7.3cqw;
   margin-top: .08em;
 }
+/* The two live ornamental ribbons belong to the HTML title, not the artwork. */
+.riv-home .apr-hero__title::before,
+.riv-home .apr-hero__title::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  z-index: -1;
+  left: 4%;
+  width: 86%;
+  transform: rotate(-4deg);
+  transform-origin: left center;
+  clip-path: polygon(0 13%, 82% 0, 100% 50%, 82% 100%, 0 87%);
+}
+.riv-home .apr-hero__title::before {
+  top: 75%;
+  height: .75cqw;
+  background: linear-gradient(180deg, #fb8f61, #df422e);
+}
+.riv-home .apr-hero__title::after {
+  top: 78%;
+  height: .46cqw;
+  background: linear-gradient(180deg,#f8d173,#dd952f);
+}
 .riv-home .apr-hero__title .apr-hero__resort {
   display: block;
   align-self: flex-end;
@@ -630,10 +666,6 @@
   transform: rotate(-2deg);
 }
 @media (max-width:1000px) {
-  .riv-home .apr-hero__plate {
-    background-image: url('./assets/retro/fidelity/hero-lagoon.webp');
-  }
-  .riv-home .apr-hero__mobile-lettering { display: none; }
   .riv-home .apr-hero__lettering {
     position: relative;
     top: auto;
