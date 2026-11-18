@@ -148,8 +148,10 @@
   margin: 0;
   font: 400 clamp(16px, 1.18vw, 22px)/1.41 Georgia, 'Times New Roman', serif;
   letter-spacing: -.012em;
-  text-wrap: pretty;
-  hyphens: none;
+  text-align: justify;
+  text-align-last: left;
+  text-wrap: wrap;
+  hyphens: auto;
 }
 .apr-about__intro strong { font-style: italic; }
 .apr-about__stats { display: grid; grid-template-columns: 1fr 1.1fr 1.35fr 1fr; border-top: 1px solid var(--gold); margin: clamp(12px, 1.15vw, 22px) 0 0; padding: 11px 0 0; list-style: none; }
