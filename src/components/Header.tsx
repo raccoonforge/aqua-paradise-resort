@@ -104,7 +104,7 @@ export default function Header({ home }: {home: boolean}) {
             <a className="apr-header__navlink" href="#/?section=about">О курорте</a>
             <TicketMenu group={entertainment} />
             <a className="apr-header__navlink" href="#/planner">Планировщик</a>
-            <a className="apr-header__navlink nav-map" href="#/map">Карта острова</a>
+            {home && <a className="apr-header__navlink" href="#/map">Карта острова</a>}
             <a className="apr-header__navlink" href="#/hotel">Отель</a>
             <TicketMenu group={visit} />
           </div>
