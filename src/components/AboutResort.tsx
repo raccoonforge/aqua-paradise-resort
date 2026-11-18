@@ -57,8 +57,31 @@ export default function AboutResort() {
           <svg className="apr-about__brush" viewBox="0 0 460 34" aria-hidden="true"><path d="M4 25C83 11 220 0 344 6C399 7 442 13 459 18C321 1 157 20 19 33C3 34-5 29 4 25Z" fill="currentColor" /></svg>
 
           <div className="apr-about__intro">
-            <svg viewBox="0 0 120 126" aria-hidden="true" fill="currentColor">
-              <path d="M9 117q48-22 104 0zM36 113q4-54 35-91l6 5q-22 38-24 85zM69 26Q52 6 36 14q12 1 22 14Q26 18 15 42q20-12 46-7Q37 43 34 65q12-19 34-28Q60 57 70 73q0-21 8-35 20 6 30 23Q105 36 83 30q20-8 33 1Q103 9 78 23 77 7 60 3q8 9 9 23zM19 112q5-27-1-42l5-1q10 19 9 42zM21 69Q8 50 0 69q11-5 17 3Q1 73 3 87q7-11 17-11 14-3 23 11-1-16-18-16 11-9 21-5-13-12-25 3z"/>
+            <svg className="apr-about__palm-engraving" viewBox="0 0 140 150" aria-hidden="true" focusable="false">
+              <defs>
+                <clipPath id="apr-about-palm-silhouette">
+                  <path d="M3 140Q43 123 82 131Q112 132 138 143L138 146H3Z"/>
+                  <path d="M54 134Q62 83 92 33L98 36Q75 91 72 136Z"/>
+                  <path d="M31 136Q37 104 31 83L37 82Q49 105 44 136Z"/>
+                  <path d="M95 34Q80 11 56 18Q74 20 90 38Q63 25 38 40Q68 35 91 43Q65 45 58 70Q79 51 97 46Q92 66 108 78Q105 58 104 45Q127 49 137 71Q135 45 109 36Q126 24 139 29Q121 15 100 29Q105 14 93 2Q97 22 95 34Z"/>
+                  <path d="M34 86Q20 64 5 74Q23 73 32 90Q15 84 1 101Q18 92 35 96Q27 108 27 119Q35 107 39 97Q52 106 57 115Q56 97 41 91Q54 84 67 91Q55 78 39 86Q43 74 34 66Q38 78 34 86Z"/>
+                </clipPath>
+              </defs>
+              <g fill="#a87330" stroke="#865827" strokeWidth=".9" strokeLinejoin="round">
+                <path d="M3 140Q43 123 82 131Q112 132 138 143L138 146H3Z"/>
+                <path d="M54 134Q62 83 92 33L98 36Q75 91 72 136Z"/>
+                <path d="M31 136Q37 104 31 83L37 82Q49 105 44 136Z"/>
+                <path d="M95 34Q80 11 56 18Q74 20 90 38Q63 25 38 40Q68 35 91 43Q65 45 58 70Q79 51 97 46Q92 66 108 78Q105 58 104 45Q127 49 137 71Q135 45 109 36Q126 24 139 29Q121 15 100 29Q105 14 93 2Q97 22 95 34Z"/>
+                <path d="M34 86Q20 64 5 74Q23 73 32 90Q15 84 1 101Q18 92 35 96Q27 108 27 119Q35 107 39 97Q52 106 57 115Q56 97 41 91Q54 84 67 91Q55 78 39 86Q43 74 34 66Q38 78 34 86Z"/>
+              </g>
+              <g clipPath="url(#apr-about-palm-silhouette)" stroke="#f4d399" fill="none" strokeLinecap="round">
+                <path d="M2 25L138 55M4 39L136 69M-4 60L135 92M-3 83L139 116M-4 112L139 138" strokeWidth="1.3" strokeDasharray="12 9 3 13" opacity=".48"/>
+                <path d="M22 13L121 149M36 9L136 147M8 56L72 149" strokeWidth=".7" strokeDasharray="3 10" opacity=".42"/>
+              </g>
+              <g stroke="#d4a05b" fill="none" strokeLinecap="round" opacity=".8">
+                <path d="M67 129Q72 80 95 37M38 129Q43 102 34 86" strokeWidth="1.6"/>
+                <path d="M95 38Q73 27 56 20M96 39Q68 36 44 41M100 40Q121 45 134 62M35 90Q18 83 6 98" strokeWidth=".9"/>
+              </g>
             </svg>
             <p><strong>Aqua Paradise Resort</strong> — премиальный тропический остров-аквапарк, где природа, развлечения и высокий уровень сервиса соединяются в одном месте. Вас ждут девять уникальных зон, отдых для всей семьи и тщательно продуманные впечатления — от активных приключений до полного расслабления в атмосфере курортной роскоши.</p>
           </div>
