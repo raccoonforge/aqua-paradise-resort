@@ -9,10 +9,14 @@ const ids = ['hero', 'about', 'worlds', 'attractions', 'planner'];
 for (const width of [1440, 1280, 1024, 768, 375, 320]) {
   const page = await browser.newPage({ viewport: { width, height: width < 800 ? 812 : 900 } });
   page.on('pageerror', err => report.errors.push({ width, error: err.message }));
-  await page.goto(url, { waitUntil: 'networkidle', timeout: 90000 });
+  const response = await page.goto(url, { waitUntil: 'networkidle', timeout: 90000 });
+  if (!response?.ok()) report.errors.push({ width, error: `HTTP status ${response?.status()}` });
   await page.evaluate(() => document.fonts.ready);
   const result = await page.evaluate(ids => ({
     scrollWidth: document.documentElement.scrollWidth,
+    hasHome: !!document.querySelector('#hero'),
+    hasFooter: !!document.querySelector('.sunset-pier'),
+    bodyStart: document.body.textContent?.slice(0,140),
     viewportWidth: window.innerWidth,
     headings: [...document.querySelectorAll('main h1, main h2')].map(e => ({ text: e.textContent?.trim(), hiddenVisually: e.classList.contains('sr-only') })),
     brokenImages: [...document.images].filter(e => e.complete && !e.naturalWidth).map(e => e.src),
@@ -21,7 +25,7 @@ for (const width of [1440, 1280, 1024, 768, 375, 320]) {
   await page.screenshot({ path: `${dir}/home-${width}.png`, fullPage: true, animations: 'disabled' });
   if (width === 1440) {
     const points = result.sections;
-    const footer = await page.locator('.sunset-pier').boundingBox();
+    const footer = await page.locator('.sunset-pier').count() ? await page.locator('.sunset-pier').boundingBox() : null;
     if (footer) points.push({ id: 'footer', top: footer.y, bottom: footer.y + footer.height });
     for (let i=0; i<points.length-1; i++) {
       const prev=points[i], next=points[i+1], y=Math.max(0,Math.round((prev.bottom+next.top)/2-180));
