@@ -23,8 +23,8 @@ jobs:
         run: |
           npm ci || npm install
           npm install --no-save playwright
-      - name: Install Chromium
-        run: npx playwright install --with-deps chromium
+      - name: Verify preinstalled Chrome
+        run: google-chrome --version
       - name: Production build
         run: npm run build -- --base=/aqua-paradise-resort/riviera-polish/
       - name: Start preview
