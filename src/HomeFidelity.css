@@ -695,3 +695,129 @@
   .riv-mast .ticket-cta:hover,
   .riv-home .apr-hero__actions .riv-button:hover { transform: none; }
 }
+
+
+/* Reference-driven poster lock-up: HTML typography, warm dimensional ink,
+   tapered stripes, and individual palm fronds instead of a hard polygon cut. */
+.riv-home .apr-hero__title {
+  width: max-content;
+  max-width: 100%;
+  margin: -.02em 0 .08em;
+  padding: 0;
+  transform: rotate(-7deg);
+  transform-origin: 24% 50%;
+  text-align: left;
+  isolation: isolate;
+}
+.riv-home .apr-hero__title > .apr-hero__word {
+  position: relative;
+  display: block;
+  width: max-content;
+  max-width: none;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 900;
+  line-height: .87;
+  letter-spacing: -.09em;
+  text-transform: uppercase;
+  color: #ffe3a7;
+  background: linear-gradient(175deg, #fff1c8 3%, #ffe5ac 48%, #e4a35b 90%, #cb8749 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow:
+    .012em .015em #ae6b45,
+    .027em .034em #935035,
+    .046em .052em #173f3d,
+    .061em .066em #062f30,
+    .079em .087em #002b2d,
+    .092em .101em #001c22;
+}
+.riv-home .apr-hero__title > .apr-hero__word::after { content: none; }
+.riv-home .apr-hero__title > .apr-hero__word--aqua {
+  font-size: clamp(5.1rem, 13.8vw, 13.8rem);
+}
+.riv-home .apr-hero__title > .apr-hero__word--paradise {
+  margin: -.13em 0 0 -.015em;
+  font-size: clamp(4.6rem, 10.85vw, 10.85rem);
+}
+.riv-home .apr-hero__title > .apr-hero__word--paradise::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: 2.5%;
+  top: calc(100% + .035em);
+  width: 111%;
+  height: .18em;
+  background: linear-gradient(to bottom,
+    #f35d37 0 43%,
+    transparent 44% 58%,
+    #eab451 59% 100%);
+  clip-path: polygon(0 70%, 5% 30%, 48% 0, 94% 18%, 100% 49%, 95% 75%, 52% 100%, 5% 87%);
+  box-shadow: none;
+}
+.riv-home .apr-hero__title > em {
+  display: block;
+  width: max-content;
+  margin: -.19em 0 0 35%;
+  padding: .08em .15em .09em 0;
+  color: #f35d37;
+  font: 400 clamp(4.1rem, 9.5vw, 9.7rem)/.88 'APR Script', Georgia, serif;
+  text-align: left;
+  transform: rotate(1deg);
+  text-shadow:
+    .012em .018em #ed824f,
+    .03em .043em #9d3b2c,
+    .05em .065em #003c39,
+    .075em .085em #012d2c;
+}
+.riv-home .apr-hero__tagline {
+  margin-top: clamp(1.4rem, 3vw, 3rem);
+  margin-bottom: .8em;
+  max-width: min(100%, 45rem);
+  font-size: clamp(1.1rem, 2.15vw, 2.05rem);
+}
+.riv-home .apr-hero__tagline::before,
+.riv-home .apr-hero__tagline::after {
+  flex: 0 1 clamp(1.6rem, 4.6vw, 4.4rem);
+  min-width: 13px;
+  height: 4px;
+}
+/* The exact same source art is painted only within tapered palm-shaped
+   silhouettes. Unlike the previous polygon, there is no diagonal cut over letters. */
+.apr-hero__palm-overlap {
+  background: url('./assets/retro/riviera.webp') center / cover no-repeat;
+  clip-path: none;
+  -webkit-mask: url('./assets/retro/hero-palm-foreground-mask.svg') 0 0 / 100% 100% no-repeat;
+  mask: url('./assets/retro/hero-palm-foreground-mask.svg') 0 0 / 100% 100% no-repeat;
+}
+
+@media (max-width: 1200px) and (min-width: 951px) {
+  .riv-home .apr-hero__title > .apr-hero__word--aqua { font-size: 13.2vw; }
+  .riv-home .apr-hero__title > .apr-hero__word--paradise { font-size: 10.4vw; }
+  .riv-home .apr-hero__title > em { font-size: 9.2vw; }
+}
+@media (max-width: 950px) {
+  .riv-home .apr-hero__title { transform: rotate(-6deg); transform-origin: 50% 50%; margin: 1.1rem auto 1rem; }
+  .riv-home .apr-hero__title > .apr-hero__word--aqua { font-size: clamp(4.25rem, 14vw, 8rem); }
+  .riv-home .apr-hero__title > .apr-hero__word--paradise { font-size: clamp(3.65rem, 11.1vw, 6.5rem); }
+  .riv-home .apr-hero__title > em { font-size: clamp(3.9rem, 10.5vw, 6.7rem); margin-left: 34%; }
+  .riv-home .apr-hero__tagline { margin-top: 1.1rem; }
+}
+@media (min-width: 768px) and (max-width: 950px) {
+  .apr-hero__palm-overlap { display: block; }
+}
+@media (max-width: 767px) {
+  .apr-hero__palm-overlap { display: none; }
+  .riv-home .apr-hero__title { margin-top: 1.5rem; margin-bottom: .9rem; }
+  .riv-home .apr-hero__title > .apr-hero__word--aqua { font-size: clamp(3.4rem, 14.4vw, 6.2rem); }
+  .riv-home .apr-hero__title > .apr-hero__word--paradise { font-size: clamp(2.8rem, 11vw, 5rem); }
+  .riv-home .apr-hero__title > em { font-size: clamp(3.5rem, 11.8vw, 5.2rem); margin-left: 30%; }
+}
+@media (max-width: 410px) {
+  .riv-home .apr-hero__title { transform: rotate(-5deg); }
+  .riv-home .apr-hero__title > .apr-hero__word--aqua { font-size: 14vw; }
+  .riv-home .apr-hero__title > .apr-hero__word--paradise { font-size: 10.7vw; }
+  .riv-home .apr-hero__title > em { font-size: 12vw; }
+  .riv-home .apr-hero__tagline { font-size: clamp(.91rem, 4.2vw, 1.15rem); }
+}
