@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="none">
+  <g fill="white">
+    <!-- Palm fronds nearest the title, individually tapered rather than cut by a polygon. -->
+    <path d="M70 0 Q242 31 470 250 Q307 117 95 15Z"/>
+    <path d="M183 12 Q265 40 328 174 Q299 91 182 18Z"/>
+    <path d="M216 18 Q306 49 373 208 Q348 102 215 24Z"/>
+    <path d="M248 17 Q354 57 415 226 Q395 105 245 24Z"/>
+    <path d="M280 13 Q390 49 445 213 Q432 102 279 20Z"/>
+    <path d="M320 9 Q425 58 477 210 Q463 92 318 16Z"/>
+    <path d="M355 7 Q463 45 502 174 Q480 75 353 14Z"/>
+    <path d="M392 8 Q501 40 539 135 Q510 65 390 15Z"/>
+    <path d="M420 7 Q532 28 562 108 Q526 54 418 15Z"/>
+    <path d="M440 12 Q557 40 585 96 Q536 61 438 20Z"/>
+    <path d="M214 21 Q237 99 190 161 Q220 88 209 27Z"/>
+    <path d="M246 33 Q259 122 230 196 Q253 102 240 38Z"/>
+    <path d="M276 42 Q295 140 265 216 Q290 120 270 45Z"/>
+    <path d="M311 55 Q325 163 304 236 Q328 131 306 58Z"/>
+    <path d="M343 70 Q364 166 341 244 Q358 151 338 71Z"/>
+    <path d="M375 91 Q394 171 377 243 Q392 162 370 93Z"/>
+    <path d="M410 117 Q424 182 412 242 Q427 178 405 117Z"/>
+    <path d="M447 150 Q454 202 440 246 Q463 194 443 151Z"/>
+  </g>
+</svg>
