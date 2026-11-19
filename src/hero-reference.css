@@ -586,3 +586,40 @@
     opacity: .30;
   }
 }
+
+
+/* Reference-matched poster transition. Unlike the former subtle layer,
+   this decorative underprint is directly visible on the teal field. */
+.riv-home .apr-hero {
+  margin-bottom: -5px;
+  filter: none;
+}
+.riv-home .apr-about {
+  position: relative;
+  isolation: isolate;
+  padding-top: clamp(135px, 12vw, 195px);
+}
+.riv-home .apr-about::before {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  inset: 0 0 auto;
+  height: clamp(190px, 24vw, 330px);
+  opacity: 1;
+  background:
+    url('./assets/retro/hero-ink-seam.svg') center top / 100% 16px no-repeat,
+    url('./assets/retro/hero-transition-palms.svg') center top / 100% 100% no-repeat,
+    linear-gradient(180deg, #052e2de0 0%, #073b38aa 45%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 64%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 64%, transparent 100%);
+}
+.riv-home .apr-about__layout {
+  position: relative;
+  z-index: 1;
+}
+@media (max-width: 767px) {
+  .riv-home .apr-hero { margin-bottom: -4px; }
+  .riv-home .apr-about { padding-top: clamp(88px, 18vw, 125px); }
+  .riv-home .apr-about::before { height: 195px; }
+}
