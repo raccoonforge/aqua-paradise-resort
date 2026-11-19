@@ -16,6 +16,7 @@ import GoldenTickets from './components/GoldenTickets';
 import DepartureBoard from './components/DepartureBoard';
 import SunsetPier from './components/SunsetPier';
 import './HomeFidelity.css';
+import './hero-reference.css';
 
 function scrollHome(section: string) {
   const target = document.getElementById(section);
