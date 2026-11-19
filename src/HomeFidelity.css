@@ -834,20 +834,31 @@
 }
 
 
-/* Hero -> magazine: a continuous vintage-teal atmospheric transition instead
-   of a flat rectangular spacer. Preserve section spacing and the visible paper edges. */
-.riv-home .apr-hero {
-  --apr-transition-ink: #063f3d;
-}
+/* Vintage poster torn edge — only on the Hero -> About Resort transition.
+   Keep the editorial gap, the live Hero artwork and the journal sheets intact. */
 .riv-home .apr-hero::after {
   content: '';
   position: absolute;
   inset: auto 0 0;
-  height: clamp(36px, 6vw, 95px);
-  z-index: 0;
+  height: clamp(13px, 1.5vw, 25px);
+  z-index: 5;
   pointer-events: none;
-  background: linear-gradient(180deg, transparent 0%, rgba(6,63,61,.28) 50%, #063f3d 100%);
+  background-image:
+    var(--riv-stock),
+    linear-gradient(180deg, #f8d9a5 0%, #e7b97d 72%, #cb915d 100%);
+  background-blend-mode: soft-light, normal;
+  clip-path: polygon(
+    0 0, 100% 0, 100% 66%,
+    97% 72%, 94% 65%, 91% 83%, 88% 71%, 85% 80%,
+    81% 67%, 78% 77%, 74% 68%, 71% 85%, 67% 70%,
+    64% 78%, 60% 64%, 57% 83%, 53% 70%, 49% 77%,
+    46% 66%, 42% 84%, 39% 72%, 35% 79%, 32% 67%,
+    28% 83%, 25% 70%, 21% 77%, 18% 65%, 14% 82%,
+    11% 69%, 8% 79%, 5% 66%, 2% 78%, 0 71%
+  );
 }
+
+/* The breathing room is deliberately retained, not covered by paper layers. */
 .riv-home .apr-hero + .apr-about {
   --apr-section-gap: clamp(48px, 5.6vw, 104px);
   margin-top: var(--apr-section-gap);
@@ -861,13 +872,12 @@
   right: 0;
   top: calc(-1 * var(--apr-section-gap));
   height: calc(var(--apr-section-gap) + 2px);
-  background: var(--riv-stock), linear-gradient(180deg, #063f3d 0%, #064943 62%, #054c47 100%);
+  background-image: var(--riv-stock), linear-gradient(180deg, #073f3d 0%, #064641 65%, #054c47 100%);
+  background-blend-mode: soft-light, normal;
 }
-@media (max-width:1000px) {
+
+@media (max-width: 1000px) {
   .riv-home .apr-hero + .apr-about {
     --apr-section-gap: clamp(28px, 5vw, 52px);
-  }
-  .riv-home .apr-hero::after {
-    height: clamp(22px, 6vw, 52px);
   }
 }
