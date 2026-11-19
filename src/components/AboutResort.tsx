@@ -111,7 +111,7 @@ export default function AboutResort() {
           <article className="apr-about__paper">
           <p className="apr-about__label">О курорте</p>
           <div className="apr-about__seal" aria-hidden="true">
-            <span>AQUA PARADISE</span><img src={palm} alt="" /><small>RESORT</small>
+            <span>AQUA<br />PARADISE</span><img src={palm} alt="" /><small>RESORT</small>
             <svg viewBox="0 0 120 48" fill="none"><path d="M0 8q15-8 30 0t30 0t30 0t30 0M0 18q15-8 30 0t30 0t30 0t30 0M0 28q15-8 30 0t30 0t30 0t30 0M0 38q15-8 30 0t30 0t30 0t30 0" stroke="currentColor" strokeWidth="2" /></svg>
           </div>
           <h2 id="about-title">Золотой век <br />тропического рая</h2>
