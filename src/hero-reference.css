@@ -459,3 +459,69 @@
     margin-bottom: 4px;
   }
 }
+
+
+/* Final localized refinement: lift Resort visually without shifting the
+   CTA row back onto the flowers, and unify Tickets with the primary Hero CTA. */
+@media (min-width: 1001px) {
+  .riv-home .apr-hero__resort { top: -12px; }
+}
+@media (min-width: 768px) and (max-width: 1000px) {
+  .riv-home .apr-hero__resort { top: -8px; }
+}
+@media (max-width: 767px) {
+  .riv-home .apr-hero__resort { top: -5px; }
+}
+
+/* The masthead stays transparent over the art but receives a localized
+   contrast veil; the Hero artwork itself is not darkened. */
+.riv-mast.apr-header {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 31, 34, .66) 0%,
+    rgba(0, 39, 42, .36) 58%,
+    rgba(0, 39, 42, 0) 100%
+  ) !important;
+}
+.riv-mast .ticket-cta {
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:1em;
+  background:#f35d37;
+  color:#fff3cf;
+  border:1.5px solid #f3d19b;
+  border-radius:13px;
+  box-shadow:0 2px 0 #692e28;
+  font-weight:700;
+  letter-spacing:.015em;
+  text-shadow:none;
+}
+.riv-mast .ticket-cta::before {
+  content:'';
+  position:absolute;
+  z-index:-1;
+  inset:0;
+  background:linear-gradient(180deg,#ff9369 0%,#f35d37 34%,#d8492c 100%);
+  filter:url(#apr-print-wear);
+  pointer-events:none;
+  transition:opacity .2s ease;
+}
+.riv-mast .ticket-cta:hover {
+  transform:translateY(-4px);
+  border-color:#ffe2a5;
+  box-shadow:0 7px 0 #692e28,0 12px 24px #001d1b66;
+}
+.riv-mast .ticket-cta:hover::before { opacity:.88; }
+.riv-mast .ticket-cta:active {
+  transform:translateY(1px);
+  box-shadow:0 1px 0 #692e28;
+}
+@media (prefers-reduced-motion:reduce) {
+  .riv-mast .ticket-cta,
+  .riv-mast .ticket-cta::before { transition:none; }
+  .riv-mast .ticket-cta:hover { transform:none; }
+}
