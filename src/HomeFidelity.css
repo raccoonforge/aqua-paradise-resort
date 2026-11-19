@@ -832,3 +832,42 @@
   .riv-home .apr-about h2 { font-size: clamp(30px, 5.7cqw, 45px); line-height: 1.04; }
   .riv-home .apr-about__intro p { font-size: clamp(15px, 2.7cqw, 19px); line-height: 1.4; }
 }
+
+
+/* Hero -> magazine: a continuous vintage-teal atmospheric transition instead
+   of a flat rectangular spacer. Preserve section spacing and the visible paper edges. */
+.riv-home .apr-hero {
+  --apr-transition-ink: #063f3d;
+}
+.riv-home .apr-hero::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: clamp(36px, 6vw, 95px);
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 0%, rgba(6,63,61,.28) 50%, #063f3d 100%);
+}
+.riv-home .apr-hero + .apr-about {
+  --apr-section-gap: clamp(48px, 5.6vw, 104px);
+  margin-top: var(--apr-section-gap);
+}
+.riv-home .apr-hero + .apr-about::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  left: 0;
+  right: 0;
+  top: calc(-1 * var(--apr-section-gap));
+  height: calc(var(--apr-section-gap) + 2px);
+  background: var(--riv-stock), linear-gradient(180deg, #063f3d 0%, #064943 62%, #054c47 100%);
+}
+@media (max-width:1000px) {
+  .riv-home .apr-hero + .apr-about {
+    --apr-section-gap: clamp(28px, 5vw, 52px);
+  }
+  .riv-home .apr-hero::after {
+    height: clamp(22px, 6vw, 52px);
+  }
+}
