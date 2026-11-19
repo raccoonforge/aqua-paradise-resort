@@ -47,19 +47,19 @@ jobs:
       - name: Install and build main site
         working-directory: site
         run: |
-          npm ci
+          npm ci || npm install
           npm run build
 
       - name: Install and build existing preview
         working-directory: preview-source
         run: |
-          npm ci
+          npm ci || npm install
           npm run build -- --base=/aqua-paradise-resort/preview/
 
       - name: Install and build Riviera preview
         working-directory: riviera-source
         run: |
-          npm ci
+          npm ci || npm install
           npm run build -- --base=/aqua-paradise-resort/riviera-polish/
 
       - name: Combine all Pages artifacts
