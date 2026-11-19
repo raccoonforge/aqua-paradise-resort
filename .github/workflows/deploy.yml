@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ feat/retro-tropical-hero ]
+    branches: [main, feat/riviera-final-polish]
   workflow_dispatch:
 
 permissions:
@@ -27,38 +27,46 @@ jobs:
           ref: main
           path: site
 
-      # Build preview from the current working branch without merging its design into main.
-      - name: Checkout new preview (PR #5)
+      - name: Checkout existing preview
         uses: actions/checkout@v4
         with:
           ref: feat/retro-tropical-hero
           path: preview-source
 
+      - name: Checkout Riviera polish preview
+        uses: actions/checkout@v4
+        with:
+          ref: feat/riviera-final-polish
+          path: riviera-source
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
-      - name: Install main site dependencies
+      - name: Install and build main site
         working-directory: site
-        run: npm ci || npm install
-
-      - name: Build main site
-        working-directory: site
-        run: npm run build
-
-      - name: Install preview site dependencies
-        working-directory: preview-source
-        run: npm ci || npm install
-
-      - name: Build preview with independent asset paths
-        working-directory: preview-source
-        run: npm run build -- --base=/aqua-paradise-resort/preview/
-
-      - name: Combine sites into one Pages artifact
         run: |
-          mkdir -p site/dist/preview
+          npm ci
+          npm run build
+
+      - name: Install and build existing preview
+        working-directory: preview-source
+        run: |
+          npm ci
+          npm run build -- --base=/aqua-paradise-resort/preview/
+
+      - name: Install and build Riviera preview
+        working-directory: riviera-source
+        run: |
+          npm ci
+          npm run build -- --base=/aqua-paradise-resort/riviera-polish/
+
+      - name: Combine all Pages artifacts
+        run: |
+          mkdir -p site/dist/preview site/dist/riviera-polish
           cp -a preview-source/dist/. site/dist/preview/
+          cp -a riviera-source/dist/. site/dist/riviera-polish/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -66,8 +74,8 @@ jobs:
       - name: Upload combined artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './site/dist'
+          path: ./site/dist
 
-      - name: Deploy both sites to GitHub Pages
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
