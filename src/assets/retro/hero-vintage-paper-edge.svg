@@ -21,12 +21,4 @@
     C196 886 176 880 148 885
     C120 890 103 894 79 890
     C52 885 28 881 0 886Z"/>
-  <!-- Tiny pinholes around the printed margin suggest age without fading the scene. -->
-  <g fill="#111">
-    <ellipse cx="117" cy="882" rx="2.1" ry=".9"/>
-    <ellipse cx="361" cy="883" rx="2.7" ry=".8"/>
-    <ellipse cx="691" cy="879" rx="1.7" ry=".8"/>
-    <ellipse cx="942" cy="880" rx="2.4" ry=".8"/>
-    <ellipse cx="1265" cy="885" rx="1.6" ry=".65"/>
-  </g>
 </svg>
