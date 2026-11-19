@@ -133,6 +133,23 @@
     radial-gradient(circle at 43% 24%, rgba(255, 235, 190, .65) 0 1px, transparent 1.5px) 0 0 / 13px 17px;
   opacity: .42;
 }
+/* Keep both name lines inside the circular postmark at desktop and mobile sizes. */
+.apr-about__seal > span {
+  display: block;
+  width: 84%;
+  margin: 0 auto;
+  font-size: .81em;
+  line-height: 1.03;
+  letter-spacing: .025em;
+  text-align: center;
+  white-space: nowrap;
+}
+.apr-about__seal > small {
+  display: block;
+  font-size: .76em;
+  line-height: 1;
+  text-align: center;
+}
 .apr-about__seal img { width: 53%; margin: 3px auto; filter: brightness(0) saturate(100%) invert(31%) sepia(67%) saturate(1149%) hue-rotate(340deg); }
 .apr-about__seal svg { position: absolute; width: 64%; left: 86%; top: 35%; }
 .apr-about__intro { display: grid; grid-template-columns: minmax(0, 18%) minmax(0, 1fr); gap: 2.3%; align-items: center; }
