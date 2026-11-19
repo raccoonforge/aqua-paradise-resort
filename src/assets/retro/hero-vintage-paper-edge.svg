@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" preserveAspectRatio="none">
+  <!-- Opaque poster; the bottom edge follows irregular, shallow hand-trimmed curves. -->
+  <path fill="#fff" d="M0 0H1440V881
+    C1414 880 1403 886 1380 885
+    C1354 884 1333 878 1307 882
+    C1279 888 1263 893 1236 889
+    C1208 886 1184 881 1158 884
+    C1131 887 1117 892 1090 891
+    C1062 890 1034 880 1008 881
+    C982 881 967 889 937 887
+    C907 884 888 877 861 882
+    C836 887 820 892 795 891
+    C767 889 751 883 724 883
+    C699 883 679 890 653 889
+    C625 887 610 878 582 881
+    C555 885 537 891 510 889
+    C485 887 463 879 434 882
+    C409 884 395 892 365 892
+    C337 891 317 882 291 885
+    C264 888 246 895 221 890
+    C196 886 176 880 148 885
+    C120 890 103 894 79 890
+    C52 885 28 881 0 886Z"/>
+  <!-- Tiny pinholes around the printed margin suggest age without fading the scene. -->
+  <g fill="#111">
+    <ellipse cx="117" cy="882" rx="2.1" ry=".9"/>
+    <ellipse cx="361" cy="883" rx="2.7" ry=".8"/>
+    <ellipse cx="691" cy="879" rx="1.7" ry=".8"/>
+    <ellipse cx="942" cy="880" rx="2.4" ry=".8"/>
+    <ellipse cx="1265" cy="885" rx="1.6" ry=".65"/>
+  </g>
+</svg>
