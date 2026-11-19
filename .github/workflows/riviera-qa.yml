@@ -1,0 +1,47 @@
+name: Riviera polish browser QA
+
+on:
+  push:
+    branches: [feat/riviera-final-polish]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  visual-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install packages
+        run: |
+          npm ci || npm install
+          npm install --no-save playwright
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Production build
+        run: npm run build -- --base=/aqua-paradise-resort/riviera-polish/
+      - name: Start preview
+        run: |
+          npm run preview -- --host 127.0.0.1 --port 4173 > /tmp/apr-preview.log 2>&1 &
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:4173/aqua-paradise-resort/riviera-polish/ >/dev/null; then exit 0; fi
+            sleep 2
+          done
+          cat /tmp/apr-preview.log
+          exit 1
+      - name: Browser QA and screenshots
+        run: node scripts/qa-riviera.mjs
+      - name: Upload visual evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: riviera-polish-visual-qa
+          path: qa-output/riviera-polish/
+          retention-days: 14
