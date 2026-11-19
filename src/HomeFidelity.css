@@ -384,3 +384,21 @@
 @media (max-width: 520px) {
   .riv-home { --riv-section-breath: clamp(38px, 9vw, 54px); padding-block-end: 38px; }
 }
+
+/* Footer is part of the island landscape, not another framed poster.
+   Fade its top edge into the shared canvas; keep the actual sunset artwork. */
+.sunset-pier::after {
+  background-image: none;
+}
+.sunset-pier::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: clamp(25px, 4vw, 54px);
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(to bottom, #043a36 0%, #043a3699 34%, transparent 100%);
+}
+@media (max-width: 520px) {
+  .sunset-pier::before { height: 20px; }
+}
