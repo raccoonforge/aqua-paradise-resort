@@ -130,14 +130,10 @@
 .riv-home .apr-about::before {
   inset: 0 0 calc(var(--about-bottom-tear) - var(--about-overhang) - 1px);
   z-index: 0;
-  background:
-    url('./assets/retro/poster-tear-shadow.webp') center top / var(--poster-tear-width) calc(var(--poster-tear-height) * 4 / 3) no-repeat,
-    url('./assets/retro/about-upper-tear-fibres.webp') center var(--about-upper-offset) / var(--about-tear-width) var(--about-upper-tear) no-repeat,
-    url('./assets/retro/about-frond-ink.webp') -35px 62px / clamp(219px, 32vw, 526px) auto no-repeat,
-    var(--about-stock) center bottom;
-  mask:
-    url('./assets/retro/about-upper-tear-mask.webp') center var(--about-upper-offset) / var(--about-tear-width) var(--about-upper-tear) no-repeat,
-    linear-gradient(#000 0 0) center bottom / 100% calc(100% - var(--about-upper-offset) - var(--about-upper-tear) + 1px) no-repeat;
+  /* The Hero supplies the only visible upper tear. This is clean stock
+     underneath it; the About section keeps its separate bottom torn edge. */
+  background: var(--about-stock) center bottom;
+  mask: none;
 }
 /* Put only the final strip and its shadow above the neighbouring section. */
 .apr-about__lower-edge {
