@@ -6,7 +6,8 @@ export default function Hero() {
       <div className="water-spray" aria-hidden="true"><i /><i /><i /><i /></div>
       <div className="apr-hero__content">
         <h1 id="hero-title" className="apr-hero__title">
-          <span>Aqua <br />Paradise</span>{' '}
+          <span className="apr-hero__word apr-hero__word--aqua">Aqua</span>
+          <span className="apr-hero__word apr-hero__word--paradise">Paradise</span>
           <em>Resort</em>
         </h1>
         <p className="apr-hero__tagline"><span>Остров бесконечного лета</span></p>
