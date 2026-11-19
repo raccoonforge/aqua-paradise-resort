@@ -1,6 +1,11 @@
 /* Printed pieces share the same ink under their individual illustrations. */
 .riv-home, .sunset-pier { background: var(--riv-stock), #043a36; color: var(--riv-cream); }
-.riv-home { overflow: clip; }
+.riv-home {
+  overflow: clip;
+  --poster-tear-height: 54px;
+  /* Narrow screens see a crop of the tear at roughly the same paper scale. */
+  --poster-tear-width: max(100%, 1080px);
+}
 .poster-stock { position: relative; isolation: isolate; }
 .poster-heading { margin-inline: auto; text-align: center; }
 .poster-heading h2 {
@@ -103,14 +108,12 @@
   94% { transform: translate(var(--drift, -6px), 3px); opacity: 0; }
 }
 
-/* The travel journal ends at the edge of its own paper. */
+/* The tear and its contact shadow share the same crop and pixel scale. */
 .riv-home .apr-about {
-  padding: clamp(82px, 8.3vw, 152px) clamp(22px, 5vw, 86px) clamp(55px, 7.3vw, 114px);
+  padding: calc(var(--poster-tear-height) + clamp(72px, 7.8vw, 138px)) clamp(22px, 5vw, 86px) clamp(55px, 7.3vw, 114px);
   background:
-    url('./assets/retro/about-palm-left.webp') left clamp(26px, 2.9vw, 52px) / clamp(200px, 30vw, 550px) auto no-repeat,
-    url('./assets/retro/about-palm-right.webp') right top / clamp(122px, 17vw, 308px) auto no-repeat,
-    url('./assets/retro/about-print-grain.webp'),
-    radial-gradient(ellipse 80% 55% at 42% 52%, #0b5850af, transparent) #073835;
+    url('./assets/retro/poster-tear-shadow.webp') center top / var(--poster-tear-width) calc(var(--poster-tear-height) * 4 / 3) no-repeat,
+    #c8bca6 url('./assets/retro/about-collage-paper.webp') center top;
   overflow: clip;
 }
 .apr-about__layout { max-width: 92rem; }
@@ -121,13 +124,11 @@
   box-shadow: none;
   padding: 0;
   transform: rotate(-1.2deg);
+  filter: drop-shadow(2px 6px 5px #47362050);
 }
 .riv-home .apr-about__frame img {
   aspect-ratio: 740 / 941;
-  /* The printed background above the postcard blends into the section's stock. */
-  mask:
-    url('./assets/retro/about-postcard-blend.webp') center top / 100% 25% no-repeat,
-    linear-gradient(#000 0 93.4%, transparent) center bottom / 100% 76% no-repeat;
+  mask: url('./assets/retro/about-postcard-cutout.webp') center / 100% 100% no-repeat;
 }
 .riv-home .apr-about__paper-stack { margin-left: -2%; }
 .riv-home .apr-about__paper {
@@ -464,7 +465,7 @@
 }
 @media (max-width: 800px) {
   .riv-home .apr-about {
-    padding-block-start: clamp(72px, 15vw, 100px);
+    padding-block-start: calc(var(--poster-tear-height) + clamp(62px, 12vw, 94px));
     padding-inline: clamp(15px, 5vw, 38px);
   }
   .riv-home .apr-about__layout { grid-template-columns: minmax(0, 1fr); max-width: 39rem; }
@@ -472,7 +473,8 @@
   .riv-home .apr-about__frame img {
     aspect-ratio: 1.07;
     object-position: 50% 62%;
-    mask: linear-gradient(#000 95%, transparent);
+    mask-position: 50% 62%;
+    mask-size: cover;
   }
   .riv-home .apr-about__paper-stack { margin-left: 0; }
   .riv-home .apr-about__paper { padding-top: clamp(24px, 6.3vw, 47px); }

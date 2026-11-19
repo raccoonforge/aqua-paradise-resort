@@ -40,6 +40,16 @@ jobs:
           exit 1
       - name: Browser QA and screenshots
         run: node scripts/qa-riviera.mjs
+      - name: Upload Hero to About screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: riviera-hero-about-screenshots
+          path: |
+            qa-output/riviera-polish/transition-1440-hero-about.png
+            qa-output/riviera-polish/transition-768-hero-about.png
+            qa-output/riviera-polish/transition-375-hero-about.png
+          retention-days: 14
       - name: Upload visual evidence
         if: always()
         uses: actions/upload-artifact@v4

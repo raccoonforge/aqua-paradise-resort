@@ -222,21 +222,20 @@
   isolation:isolate;
   overflow:hidden;
 
-  /* Only the last few pixels are cut. The solid mask covers the rest of the artwork. */
-  --poster-edge: 8px;
   z-index: 1;
-  margin-block-end: calc(-1 * var(--poster-edge));
+  margin-block-end: calc(-1 * var(--poster-tear-height));
+  /* Join the textured tear to the solid body of the poster. */
   mask:
-    url('./assets/retro/poster-cut.webp') center bottom / 100% var(--poster-edge) no-repeat,
-    linear-gradient(#000 0 0) center top / 100% calc(100% - var(--poster-edge) + 1px) no-repeat;
+    url('./assets/retro/poster-tear-mask.webp') center bottom / var(--poster-tear-width) var(--poster-tear-height) no-repeat,
+    linear-gradient(#000 0 0) center top / 100% calc(100% - var(--poster-tear-height) + 1px) no-repeat;
 }
 .riv-home .apr-hero::before {
   content: '';
   position: absolute;
   inset: auto 0 0;
-  height: var(--poster-edge);
+  height: var(--poster-tear-height);
   z-index: -1;
-  background: url('./assets/retro/poster-edge-fibres.webp') center bottom / 100% 100% no-repeat;
+  background: url('./assets/retro/poster-tear-fibres.webp') center bottom / var(--poster-tear-width) 100% no-repeat;
   pointer-events: none;
 }
 .riv-home .apr-hero__art {
