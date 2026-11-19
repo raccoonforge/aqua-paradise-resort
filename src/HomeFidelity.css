@@ -537,3 +537,161 @@
   .board-letters b, .board-interests b { animation: none; }
   .golden-ticket { transition: none; }
 }
+
+
+/* Hero/Header visual polish — focused changes requested in November 2026. */
+.riv-mast.apr-header .apr-header__navlink:hover,
+.riv-mast.apr-header .apr-header__navlink:focus-visible,
+.riv-mast.apr-header .apr-header__trigger[aria-expanded="true"] {
+  color: #f35d37;
+  border-bottom-color: #f35d37;
+}
+.riv-mast .apr-header__ticket-head,
+.inner-mast .apr-header__ticket-head {
+  background: #f35d37;
+  border-bottom-color: #cf4727;
+}
+.apr-header__menu-icon,
+.riv-mast .apr-header__menu-icon,
+.inner-mast .apr-header__menu-icon { color: #f35d37; }
+.apr-header__dropdown-item:hover,
+.apr-header__dropdown-item:focus-visible { background-color: #f35d3725; }
+.riv-mast .ticket-cta,
+.riv-mast .ticket-cta:hover,
+.riv-mast .ticket-cta:focus-visible,
+.riv-home .apr-hero__actions .riv-button:first-child,
+.riv-home .apr-hero__actions .riv-button:first-child:hover,
+.riv-home .apr-hero__actions .riv-button:first-child:focus-visible {
+  background: var(--riv-stock), #f35d37;
+  border-color: #ffc08a;
+}
+.riv-mast .ticket-cta,
+.riv-home .apr-hero__actions .riv-button {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transform: translateY(0);
+  transition: transform .28s cubic-bezier(.2,.7,.2,1), filter .28s ease, box-shadow .28s ease;
+}
+.riv-mast .ticket-cta::after,
+.riv-home .apr-hero__actions .riv-button::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 22%, #fff6cf54 47%, transparent 68%);
+  transform: translateX(-135%);
+  transition: transform .52s ease;
+  pointer-events: none;
+}
+.riv-mast .ticket-cta:hover,
+.riv-home .apr-hero__actions .riv-button:hover {
+  transform: translateY(-4px);
+  filter: brightness(1.09) saturate(1.08);
+  box-shadow: inset 0 0 0 2px #ffffff3d, 0 7px 0 #512720, 0 13px 23px #001d1a6e;
+}
+.riv-mast .ticket-cta:hover::after,
+.riv-home .apr-hero__actions .riv-button:hover::after { transform: translateX(135%); }
+.riv-mast .ticket-cta:active,
+.riv-home .apr-hero__actions .riv-button:active { transform: translateY(1px); }
+
+/* Retain the full-colour original artwork, with no bottom transparency. */
+.riv-home .apr-hero__plate {
+  -webkit-mask-image: none;
+  mask-image: none;
+  clip-path: polygon(0 0, 100% 0, 100% 96%, 94% 97%, 87% 95.5%, 78% 98%, 66% 96%, 55% 98.5%, 44% 96%, 33% 97.5%, 22% 95.5%, 12% 97%, 0 95.5%);
+}
+.riv-home .apr-hero::before {
+  background: linear-gradient(180deg, #002a275e 0%, transparent 20%);
+}
+.riv-home .apr-hero__content {
+  position: relative;
+  z-index: 1;
+}
+.riv-home .apr-hero__title {
+  position: relative;
+  margin-bottom: .15em;
+  padding-right: .12em;
+}
+.riv-home .apr-hero__title > span {
+  font-size: clamp(4.2rem, 11.2vw, 12rem);
+  line-height: .79;
+}
+.riv-home .apr-hero__title > span::after {
+  width: 103%;
+  height: .14em;
+  margin-top: .04em;
+  border-radius: 0;
+  clip-path: polygon(0 50%, 7% 18%, 49% 0, 94% 22%, 100% 48%, 93% 72%, 51% 100%, 6% 82%);
+  background: linear-gradient(180deg, #f35d37 0 53%, transparent 53% 64%, #edb761 64% 100%);
+  box-shadow: none;
+}
+.riv-home .apr-hero__title em {
+  margin: -.07em .19em 0 0;
+  font-size: clamp(4rem, 8.9vw, 9.4rem);
+  color: #f35d37;
+  transform: translateX(-.18em);
+  text-shadow: .023em .035em #00362f;
+}
+.riv-home .apr-hero__tagline {
+  display: flex;
+  align-items: center;
+  gap: clamp(.6rem, 1.25vw, 1.4rem);
+  max-width: min(100%, 48rem);
+  margin: 1.1em 0 .7em;
+  font-size: clamp(1.3rem, 2.15vw, 2.15rem);
+  white-space: nowrap;
+}
+.riv-home .apr-hero__tagline::before,
+.riv-home .apr-hero__tagline::after {
+  content: '';
+  height: 4px;
+  min-width: 16px;
+  flex: 1 1 3.4rem;
+  background: #f6d999;
+  clip-path: polygon(0 50%, 14% 8%, 85% 8%, 100% 50%, 85% 92%, 14% 92%);
+}
+.riv-home .apr-hero__tagline span { flex: 0 1 auto; }
+/* Reuse the exact art at the same cover position to bring the upper-left
+   canopy in front of the poster lettering without rasterizing the HTML title. */
+.apr-hero__palm-overlap {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: url('./assets/retro/riviera.webp') center / cover no-repeat;
+  clip-path: polygon(0 0, 43% 0, 39% 9%, 32% 15%, 28% 19%, 26% 26%, 19% 29%, 15% 24%, 8% 24%, 0 32%);
+}
+.riv-home .apr-hero__actions { position: relative; z-index: 3; }
+
+@media (max-width: 950px) {
+  .riv-home .apr-hero__plate {
+    -webkit-mask-image: none;
+    mask-image: none;
+    clip-path: polygon(0 3%, 10% 1%, 22% 2%, 34% 0, 45% 2%, 57% 1%, 69% 3%, 81% 1%, 92% 2%, 100% 0, 100% 96%, 88% 98%, 76% 96%, 64% 99%, 52% 96%, 40% 98%, 28% 96%, 15% 98%, 0 96%);
+  }
+  .riv-home .apr-hero::before { background: linear-gradient(180deg, #002a2733, transparent 22%); }
+  .apr-hero__palm-overlap { display: none; }
+  .riv-home .apr-hero__title > span { font-size: clamp(3.7rem, 12.6vw, 8rem); }
+  .riv-home .apr-hero__title em { font-size: clamp(3.4rem, 10.4vw, 7rem); }
+  .riv-home .apr-hero__tagline { margin-inline: auto; justify-content: center; }
+}
+@media (max-width: 520px) {
+  .riv-home .apr-hero__title > span { font-size: clamp(3.05rem, 14.2vw, 4.7rem); }
+  .riv-home .apr-hero__title em { font-size: clamp(3.1rem, 12.6vw, 4.6rem); }
+  .riv-home .apr-hero__tagline {
+    gap: .42rem;
+    font-size: clamp(.96rem, 4.4vw, 1.28rem);
+    white-space: normal;
+  }
+  .riv-home .apr-hero__tagline::before,
+  .riv-home .apr-hero__tagline::after { flex-basis: 1.1rem; min-width: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .riv-mast .ticket-cta,
+  .riv-home .apr-hero__actions .riv-button,
+  .riv-mast .ticket-cta::after,
+  .riv-home .apr-hero__actions .riv-button::after { transition: none; }
+  .riv-mast .ticket-cta:hover,
+  .riv-home .apr-hero__actions .riv-button:hover { transform: none; }
+}
