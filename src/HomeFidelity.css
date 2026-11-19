@@ -486,3 +486,44 @@
   .departure-heading-art h2 { font-size: clamp(21px,5.4cqw,29px); }
   .departure-heading-art p { font-size: 11px; }
 }
+
+/* Section-by-section edge treatment: preserve the illustrations' center
+   and all foreground controls; blend only the narrow outer poster edges. */
+.riv-home .apr-hero__plate {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 95%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 95%, transparent 100%);
+}
+.riv-home .apr-about {
+  box-shadow: inset 0 19px 22px -18px #043a37,
+    inset 0 -25px 26px -22px #043a37;
+}
+.riv-home .apr-worlds {
+  box-shadow: inset 0 16px 18px -15px #043a37,
+    inset 0 -21px 22px -19px #043a37;
+}
+.riv-home .golden-tickets {
+  box-shadow: inset 0 20px 22px -18px #043a37,
+    inset 0 -32px 29px -27px #043a37;
+}
+.riv-home .departure {
+  box-shadow: inset 0 18px 20px -16px #043a37,
+    inset 0 -35px 30px -28px #043a37;
+}
+/* The earlier painted rectangular border on the wheel's mobile section
+   is a section frame, not part of the actual View-Master mechanism. */
+.riv-home .apr-worlds::after {
+  background: none;
+  border: 0;
+  border-radius: 0;
+}
+@media (max-width: 1000px) {
+  .riv-home .apr-hero__plate {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 15%, #000 92%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 15%, #000 92%, transparent);
+  }
+  .riv-home .apr-about, .riv-home .apr-worlds,
+  .riv-home .golden-tickets, .riv-home .departure {
+    box-shadow: inset 0 11px 13px -11px #043a37,
+      inset 0 -18px 20px -17px #043a37;
+  }
+}
