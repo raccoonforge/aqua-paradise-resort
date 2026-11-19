@@ -57,6 +57,26 @@ jobs:
           name: riviera-about-screenshots
           path: qa-output/riviera-polish/about-*.png
           retention-days: 14
+      - name: Upload desktop and individual world screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: riviera-nine-worlds-desktop
+          path: |
+            qa-output/riviera-polish/worlds-1440.png
+            qa-output/riviera-polish/worlds-1920.png
+            qa-output/riviera-polish/worlds-slide-*.png
+          retention-days: 14
+      - name: Upload tablet and phone world screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: riviera-nine-worlds-mobile
+          path: |
+            qa-output/riviera-polish/worlds-768.png
+            qa-output/riviera-polish/worlds-375.png
+            qa-output/riviera-polish/worlds-390.png
+          retention-days: 14
       - name: Upload visual evidence
         if: always()
         uses: actions/upload-artifact@v4

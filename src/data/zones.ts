@@ -4,6 +4,7 @@ type Zone = {
   icon: string;
   hours: string;
   desc: string;
+  poster: { tagline: string; summary: string; imageAlt: string };
   features: string[];
   likes: string;
   activities: string[];
@@ -17,6 +18,7 @@ export const zonesData: Zone[] = [
   {
     id: 'paradise-boulevard', name: 'Paradise Boulevard', icon: '🌴', hours: '09:00–22:00',
     desc: 'Главная входная и прогулочная зона курорта. Здесь начинается знакомство с островом: центральная площадь, пальмовая аллея, информационный центр и музыкальные фонтаны.',
+    poster: { tagline: 'Сердце курорта', summary: 'Пальмовая аллея ведёт от торжественной арки к садам и музыкальным фонтанам. Здесь начинается путешествие по острову.', imageAlt: 'Парадная арка над пальмовой аллеей и фонтанами' },
     features: ['Paradise Gateway — входная площадь', 'Palm Avenue — прогулочная аллея', 'Вечернее Paradise Fountain Show'],
     likes: 'Гостям, которые хотят познакомиться с островом, прогуляться и посмотреть шоу фонтанов.',
     activities: [
@@ -37,6 +39,7 @@ export const zonesData: Zone[] = [
   {
     id: 'paradise-market', name: 'Paradise Market', icon: '🛍️', hours: '09:00–22:00',
     desc: 'Гастрономический и торговый центр курорта с фуд-холлом, рестораном с видом на океан, кафе, магазинами и прогулочной площадью.',
+    poster: { tagline: 'Вкусы острова', summary: 'Ароматы островной кухни, открытые террасы и сувенирные лавки оживляют площадь под тёплыми огнями.', imageAlt: 'Торговая площадь с полосатыми навесами, террасами и гирляндами' },
     features: ['Tropical Bites Food Hall', 'Azure Terrace Restaurant', 'Sunset Market Square'],
     likes: 'Любителям гастрономии, неспешных прогулок и покупок сувениров.',
     activities: [
@@ -60,6 +63,7 @@ export const zonesData: Zone[] = [
   {
     id: 'eden-gardens', name: 'Eden Gardens', icon: '🌸', hours: '09:00–21:00',
     desc: 'Ботанические сады с прогулочными маршрутами, водопадом, павильоном бабочек, экспозицией орхидей и вечерней подсветкой дорожек.',
+    poster: { tagline: 'Ботанические сады', summary: 'Орхидеи цветут у тихого пруда, водопад скрыт среди зелени, а тропа поднимается к кронам деревьев.', imageAlt: 'Водопад над декоративным прудом, орхидеи и дорожка среди крон' },
     features: ['Emerald Walk — ботанический маршрут', 'Butterfly Haven — павильон бабочек', 'Starlight Trail — вечерняя прогулка'],
     likes: 'Любителям природы, спокойного отдыха, ботаники и фотографии.',
     activities: [
@@ -83,6 +87,7 @@ export const zonesData: Zone[] = [
   {
     id: 'little-paradise', name: 'Little Paradise', icon: '🧸', hours: '09:00–19:00',
     desc: 'Детская тематическая зона для гостей 0–12 лет с отдельными пространствами для разных возрастов и водными развлечениями.',
+    poster: { tagline: 'Семейные приключения', summary: 'От первых фонтанчиков до коралловой крепости и лагуны: у детей разного возраста здесь свои водные приключения.', imageAlt: 'Коралловый игровой комплекс с небольшими горками и фонтанами' },
     features: ['Tiny Tides — для малышей 0–3 лет', 'Rainbow Reef — для детей 4–7 лет', 'Splash Explorers — для детей 8–12 лет'],
     likes: 'Семьям с детьми, которым важны развлечения по возрасту.',
     activities: [
@@ -100,6 +105,7 @@ export const zonesData: Zone[] = [
   {
     id: 'serenity-spa', name: 'Serenity Spa', icon: '🧘', hours: '09:00–21:00',
     desc: 'Спокойная wellness-зона с термальными бассейнами, массажными павильонами, саунами, водопадами и садом медитации.',
+    poster: { tagline: 'Тропический покой', summary: 'Тёплые бассейны, каменные водопады и тихие деревянные павильоны укрыты в тропическом саду.', imageAlt: 'Открытые павильоны среди пальм и тёплых бассейнов' },
     features: ['Lotus Thermal Pools — тёплые бассейны', 'Whispering Falls — бассейн с водопадами', 'Zen Garden — сад медитации'],
     likes: 'Тем, кто предпочитает отдых, прогулки и спокойные wellness-практики.',
     activities: [
@@ -120,6 +126,7 @@ export const zonesData: Zone[] = [
   {
     id: 'pirates-cove', name: "Pirate's Cove", icon: '🏴‍☠️', hours: '09:00–20:00',
     desc: 'Пиратская тематическая зона с семейными водными приключениями, спусками и маршрутами в декорациях бухты сокровищ.',
+    poster: { tagline: 'Бухта сокровищ', summary: 'Над бирюзовой бухтой поднимаются мачты Stormbreaker. За скалами ждут пещеры и семейные водные спуски.', imageAlt: 'Большой пиратский корабль в скалистой бухте с водными спусками' },
     features: ['Stormbreaker', "Blackbeard's Run", "Smuggler's Passage"],
     likes: 'Семьям и любителям пиратских приключений.',
     activities: ['Водные развлечения: Stormbreaker, Blackbeard’s Run, Smuggler’s Passage и Cannonball Clash.'],
@@ -132,6 +139,7 @@ export const zonesData: Zone[] = [
   {
     id: 'atlantis-realm', name: 'Atlantis Realm', icon: '🔱', hours: '09:00–21:00',
     desc: 'Мир затерянного города с храмами, руинами, водными маршрутами и тематическими бассейнами.',
+    poster: { tagline: 'Затерянный город', summary: 'Колонны и арки древнего храма поднимаются из лагуны, а водный спуск проходит сквозь каменные руины.', imageAlt: 'Монументальный храм среди затопленных руин, водопадов и горок' },
     features: ["Poseidon's Descent — спуск сквозь храм", 'Crystal Passage — туннель с аквариумом', 'Moonlit Ruins — вечерний бассейн'],
     likes: 'Любителям легенд, исследований и водных приключений.',
     activities: ["Poseidon’s Descent, Tidal Kingdom, Crystal Passage и Moonlit Ruins — развлечения с разной интенсивностью."],
@@ -144,6 +152,7 @@ export const zonesData: Zone[] = [
   {
     id: 'adrenaline-peak', name: 'Adrenaline Peak', icon: '⚡', hours: '09:00–20:00',
     desc: 'Зона высокоскоростных и соревновательных водных аттракционов с обзорной площадкой над островом.',
+    poster: { tagline: 'Скоростные спуски', summary: 'Высоко над островом возвышается Skyfall. Рядом закручивается Cyclone Vortex и тянутся параллельные гоночные дорожки.', imageAlt: 'Высокая башня с крутым спуском, воронкой и параллельными дорожками' },
     features: ['Skyfall — свободное падение', 'Velocity Racers — водные гонки', "Eagle's Lookout — смотровая площадка"],
     likes: 'Любителям экстремальных горок и ярких впечатлений.',
     activities: ['Skyfall, Velocity Racers, Cyclone Vortex и Thunder Rush — экстремальные и скоростные аттракционы.', "Eagle's Lookout — смотровая площадка."],
@@ -157,6 +166,7 @@ export const zonesData: Zone[] = [
   {
     id: 'ocean-bay', name: 'Ocean Bay', icon: '🌊', hours: '09:00–22:00',
     desc: 'Природная морская бухта с песчаным пляжем, прогулочной береговой линией и водными активностями в специально отведённых местах.',
+    poster: { tagline: 'Морская бухта', summary: 'Песчаный берег огибает прозрачную бухту с кабанами и террасами. Горки Ocean Rush заканчиваются в отдельных бассейнах.', imageAlt: 'Естественный песчаный пляж у моря и обособленные бассейны водных горок' },
     features: ['Естественный морской пляж', 'Купание в обозначенной зоне до 19:00', 'Прогулки по берегу вечером'],
     likes: 'Любителям пляжного отдыха, моря и спокойных вечерних прогулок.',
     activities: ['Отдых на природном пляже и купание в разрешённой зоне под наблюдением спасателей.', 'Водные развлечения Ocean Rush, Blue Horizon, Tidal Drop, Aqua Challenge, Coral Discovery и Ocean Explorer — по индивидуальному расписанию и правилам.'],

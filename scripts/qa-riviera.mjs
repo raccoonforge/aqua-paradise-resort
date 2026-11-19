@@ -1,11 +1,13 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import { chromium } from 'playwright';
+import { zonesData } from '../src/data/zones.ts';
 
 const url = process.env.RIVIERA_QA_URL || 'http://127.0.0.1:4173/aqua-paradise-resort/riviera-polish/#/';
 const dir = 'qa-output/riviera-polish';
 const sections = ['hero', 'about', 'worlds', 'attractions', 'planner', 'footer'];
-const widths = [1440, 1280, 1024, 768, 375, 320];
+const widths = [1920, 1440, 1280, 1024, 768, 390, 375, 320];
+const worldsWidths = [1920, 1440, 768, 390, 375];
 const report = { viewports: [], transitions: [], errors: [] };
 const executablePath = process.env.RIVIERA_CHROMIUM_PATH;
 const browser = await chromium.launch(executablePath ? { executablePath } : { channel: 'chrome' });
@@ -71,13 +73,25 @@ async function checkMenu(page, width) {
   await page.waitForFunction(() => window.scrollY === 0 && document.activeElement?.id === 'hero');
 }
 
-async function checkWorlds(page) {
+async function checkWorlds(page, width) {
   const wheel = page.getByRole('group', { name: 'Диск миров Aqua Paradise' });
   const current = page.locator('#apr-worlds-current');
   const strip = page.getByRole('group', { name: 'Билеты в девять миров' });
   const tickets = strip.getByRole('button');
-  const expected = await tickets.allTextContents();
-  assert.equal(expected.length, 9);
+  const expected = zonesData.map(zone => zone.name);
+  assert.deepEqual(await tickets.allTextContents(), expected);
+  const photo = page.locator('.apr-worlds__photo img');
+  const link = page.getByRole('link', { name: 'Подробнее о зоне' });
+  const seenPhotos = new Set();
+  if (width <= 950) {
+    const order = ['.apr-worlds__heading', '.apr-worlds__photo', '.apr-worlds__viewer', '.apr-worlds__info', '.apr-worlds__tickets'];
+    let previousBottom = -Infinity;
+    for (const selector of order) {
+      const { y, height } = await page.locator(selector).boundingBox();
+      assert(y >= previousBottom, `${selector} follows the previous block`);
+      previousBottom = y + height;
+    }
+  }
 
   await page.getByRole('button', { name: 'Предыдущий мир' }).click();
   assert.equal(await current.innerText(), expected[8]);
@@ -85,14 +99,58 @@ async function checkWorlds(page) {
   assert.equal(await current.innerText(), expected[0]);
   for (let index = 0; index < expected.length; index++) {
     const ticket = tickets.nth(index);
+    if (width === 375 || width === 390) {
+      await ticket.evaluate(el => el.scrollIntoView({ block: 'center', behavior: 'instant' }));
+    }
+    const scrollBefore = await page.evaluate(() => scrollY);
     await ticket.click();
     assert.equal(await current.innerText(), expected[index]);
     assert.equal(await ticket.getAttribute('aria-pressed'), 'true');
     assert.equal(await wheel.getByRole('button', { name: expected[index], exact: true }).getAttribute('aria-pressed'), 'true');
-    const descriptionBottom = await page.locator('.apr-worlds__description').evaluate(el => el.getBoundingClientRect().bottom);
-    assert((await page.getByRole('link', { name: 'Подробнее о зоне' }).boundingBox()).y >= descriptionBottom, 'Zone link is below its description');
+    assert.equal(await link.getAttribute('href'), `#/zones?zone=${zonesData[index].id}`);
+    assert.equal(await photo.getAttribute('alt'), zonesData[index].poster.imageAlt);
+    const source = await photo.evaluate(async img => {
+      img.loading = 'eager';
+      await img.decode();
+      return { src: img.currentSrc, width: img.naturalWidth };
+    });
+    assert(source.width >= 1000, 'The selected scene uses the large artwork');
+    seenPhotos.add(source.src);
+    const aboveAction = await page.locator('.apr-worlds__description').evaluate((el, desktop) => {
+      const bounds = el.getBoundingClientRect();
+      const style = getComputedStyle(el);
+      return desktop ? bounds.right - parseFloat(style.paddingInlineEnd) : bounds.bottom;
+    }, width >= 1180);
+    const action = await link.boundingBox();
+    const actionStart = width >= 1180 ? action.x : action.y;
+    assert(actionStart >= aboveAction - 1, 'Zone link leaves its description readable');
+    if (width === 375 || width === 390) {
+      assert.equal(await page.evaluate(() => scrollY), scrollBefore, 'Selecting a zone keeps the mobile scroll position');
+    }
+    if (width === 1440) {
+      const picture = await page.locator('.apr-worlds__photo').boundingBox();
+      const info = await page.locator('.apr-worlds__info').boundingBox();
+      const scroll = await page.evaluate(() => scrollY);
+      const left = Math.floor(Math.min(picture.x, info.x));
+      const top = Math.floor(picture.y + scroll);
+      await page.screenshot({
+        path: `${dir}/worlds-slide-${String(index + 1).padStart(2, '0')}.png`, fullPage: true,
+        clip: {
+          x: left, y: top,
+          width: Math.ceil(Math.max(picture.x + picture.width, info.x + info.width)) - left,
+          height: Math.ceil(info.y + info.height + scroll) - top,
+        },
+        animations: 'disabled',
+      });
+    }
   }
+  assert.equal(seenPhotos.size, expected.length);
   await wheel.getByRole('button', { name: expected[8], exact: true }).press('ArrowRight');
+  assert.equal(await current.innerText(), expected[0]);
+  assert.equal(await page.evaluate(() => document.activeElement?.getAttribute('aria-label')), expected[0]);
+  await wheel.getByRole('button', { name: expected[0], exact: true }).press('End');
+  assert.equal(await current.innerText(), expected[8]);
+  await wheel.getByRole('button', { name: expected[8], exact: true }).press('Home');
   assert.equal(await current.innerText(), expected[0]);
   await wheel.getByRole('button', { name: expected[1], exact: true }).press('Enter');
   assert.equal(await current.innerText(), expected[1]);
@@ -117,6 +175,33 @@ async function checkDrag(page) {
   }
   await page.mouse.up();
   assert.equal(await page.locator('#apr-worlds-current').innerText(), 'Ocean Bay', 'Dragging by one segment selects the previous zone');
+}
+
+async function checkWorldsMotion(page) {
+  const reel = page.locator('.apr-worlds__reel');
+  const next = page.getByRole('button', { name: 'Следующий мир' });
+  const previous = page.getByRole('button', { name: 'Предыдущий мир' });
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  try {
+    const duration = await reel.evaluate(el => parseFloat(getComputedStyle(el).transitionDuration));
+    assert(duration >= .5 && duration <= .8, 'Mechanical travel takes half to four-fifths of a second');
+    await next.click();
+    await page.waitForFunction(() => {
+      const reel = document.querySelector('.apr-worlds__reel');
+      const scene = document.querySelector('.apr-worlds__photo img');
+      return reel.getAnimations().length > 0 && scene.getAnimations().length > 0;
+    });
+    await Promise.all([
+      reel.evaluate(el => Promise.all(el.getAnimations().map(animation => animation.finished))),
+      page.locator('.apr-worlds__photo img').evaluate(el => Promise.all(el.getAnimations().map(animation => animation.finished))),
+    ]);
+  } finally {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.waitForFunction(() => getComputedStyle(document.querySelector('.apr-worlds__reel')).transitionProperty === 'none');
+    await previous.click();
+  }
+  assert.equal(await reel.evaluate(el => el.getAnimations().length), 0);
+  assert.equal(await page.locator('.apr-worlds__photo img').evaluate(el => getComputedStyle(el).animationName), 'none');
 }
 
 async function checkTickets(page, all) {
@@ -210,7 +295,16 @@ try {
       assert.deepEqual(layout.brokenImages, []);
       assert.deepEqual(layout.unreadableText, []);
 
-      await page.screenshot({ path: `${dir}/home-${width}.png`, fullPage: true, animations: 'disabled' });
+      await page.screenshot({ path: `${dir}/home-${width}.png`, fullPage: true, animations: 'disabled', timeout: 25000 });
+
+      if (worldsWidths.includes(width)) {
+        const { top, bottom } = bounds.find(section => section.id === 'worlds');
+        await page.screenshot({
+          path: `${dir}/worlds-${width}.png`, fullPage: true,
+          clip: { x: 0, y: top - 35, width, height: bottom - top + 65 },
+          animations: 'disabled',
+        });
+      }
 
       if ([1440, 768, 375].includes(width)) {
         const { top, bottom } = bounds.find(section => section.id === 'about');
@@ -250,9 +344,10 @@ try {
       if (width === 1440) {
         await checkDrag(page);
         await page.getByRole('button', { name: 'Следующий мир' }).click();
+        await checkWorldsMotion(page);
       }
       assert(await page.locator('.apr-worlds__reel').evaluate(el => parseFloat(getComputedStyle(el).transitionDuration) < .001));
-      await checkWorlds(page);
+      await checkWorlds(page, width);
       await page.goto(url);
       await checkTickets(page, width === 1440);
       await checkPlanner(page);

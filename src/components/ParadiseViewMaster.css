@@ -1,87 +1,174 @@
 .apr-worlds {
   --paper: #ffe5a9;
-  --ink: #003b35;
-  --red: #8e271a;
-  --turn-duration: 550ms;
-  --turn-easing: cubic-bezier(.23, .75, .26, 1);
+  --ink: #073631;
+  --turn-duration: 620ms;
+  --turn-easing: cubic-bezier(.2, .75, .28, 1.045);
   --serif: 'APR Poster', Georgia, serif;
+  --worlds-stock: #073e39 url('../assets/retro/viewmaster/ink-grain.webp');
+  --worlds-overhang: 14px;
   position: relative;
-  isolation: isolate;
-  container-type: inline-size;
-  padding: clamp(16px, 3vw, 47px) clamp(17px, 4.5vw, 76px) clamp(38px, 5.4vw, 83px);
+  padding: clamp(27px, 3.1vw, 57px) clamp(15px, 3.1vw, 62px) clamp(40px, 4.4vw, 76px);
   color: var(--paper);
+  overflow-anchor: none;
+}
+.apr-worlds::before,
+.apr-worlds__tear::before {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+}
+.apr-worlds::before {
+  inset: 0 0 calc(var(--poster-tear-height) - var(--worlds-overhang) - 1px);
+  background: var(--worlds-stock) center bottom;
+}
+.apr-worlds__tear {
+  position: absolute;
+  z-index: 1;
+  inset: auto 0 calc(-1 * var(--worlds-overhang));
+  height: var(--poster-tear-height);
+  pointer-events: none;
+  filter: drop-shadow(0 3px 2px #001e1b70);
+}
+.apr-worlds__tear::before {
+  inset: 0;
   background:
-    url('../assets/retro/viewmaster/ink-grain.webp'),
-    radial-gradient(ellipse 79% 61% at 52% 55%, #09544fb0, transparent);
+    url('../assets/retro/poster-tear-fibres.webp') center bottom / var(--poster-tear-width) 100% no-repeat,
+    var(--worlds-stock) center 1px;
+  mask: url('../assets/retro/poster-tear-mask.webp') center bottom / var(--poster-tear-width) 100% no-repeat;
 }
-
 .apr-worlds__geometry { position: absolute; pointer-events: none; }
-.apr-worlds__heading { position: relative; z-index: 2; margin: 0 auto clamp(24px, 3.3vw, 53px); text-align: center; }
-.apr-worlds__heading h2 { margin: 0; }
-.apr-worlds__world-count, .apr-worlds__resort-name {
-  display: block;
-  font: italic 700 clamp(2.6rem, 5.65vw, 6rem)/.96 var(--serif);
-  letter-spacing: -.068em;
-  color: #ffc289;
-  text-shadow: .035em .044em #662b1f, .07em .085em #00362f;
-  transform: rotate(-2deg);
-}
-.apr-worlds__resort-name {
-  margin-top: .16em;
-  font-size: clamp(1.48rem, 2.7vw, 3rem);
-  letter-spacing: -.035em;
-  color: #ffe3ab;
-}
-.apr-worlds__heading p {
-  margin-top: .75em;
-  font: italic 700 clamp(.99rem, 1.55vw, 1.5rem)/1.25 Georgia, serif;
-}
 .apr-worlds__stage {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.04fr);
-  align-items: center;
-  gap: clamp(17px, 2.2vw, 40px);
-  max-width: 92rem;
+  position: relative;
+  max-width: 105rem;
   margin-inline: auto;
+  display: grid;
+  grid-template:
+    'viewer heading' auto
+    'viewer photo' auto
+    'viewer info' auto
+    / minmax(0, .94fr) minmax(0, 1.06fr);
+  align-items: start;
+  column-gap: clamp(9px, 1.7vw, 34px);
 }
-.apr-worlds__viewer { position: relative; min-width: 0; aspect-ratio: 794 / 664; z-index: 1; }
-.apr-worlds__stereo,
-.apr-worlds__flowers,
-.apr-worlds__hinge {
+.apr-worlds__heading {
+  grid-area: heading;
+  z-index: 2;
+  display: grid;
+  grid-template: 'title invitation' auto 'resort invitation' auto / minmax(0, 1fr) clamp(108px, 14vw, 229px);
+  align-items: center;
+  justify-items: start;
+  gap: 0 clamp(8px, 1vw, 18px);
+  padding-bottom: clamp(16px, 1.4vw, 26px);
+}
+.apr-worlds__heading h2 {
+  grid-area: title;
+  margin: 0;
+  transform: rotate(-3deg);
+  transform-origin: 0 50%;
+  color: #ffe2a0;
+  white-space: nowrap;
+  font: italic 700 clamp(3rem, 6.65vw, 7.4rem)/.76 var(--serif);
+  letter-spacing: -.065em;
+  text-shadow: .04em .055em #a33520, .07em .094em #53251b, .09em .116em #002a27;
+}
+.apr-worlds__heading h2 span { font-size: 1.36em; line-height: .77; }
+.apr-worlds__resort-name {
+  grid-area: resort;
+  position: relative;
+  margin: .07em 0 0 9%;
+  color: #ffe3ab;
+  transform: rotate(-3deg);
+  font: italic 700 clamp(1.64rem, 3.3vw, 4rem)/1.1 var(--serif);
+  letter-spacing: -.055em;
+  text-shadow: .065em .08em #002924;
+  white-space: nowrap;
+}
+.apr-worlds__resort-name::after {
+  content: '';
+  position: absolute;
+  inset: auto -2% -.19em 3%;
+  height: .16em;
+  border-radius: 100% 32% 92% 17%;
+  transform: rotate(-3deg);
+  background: #de6731;
+}
+.apr-worlds__invitation {
+  grid-area: invitation;
+  margin: 0;
+  padding: .72em .94em;
+  transform: rotate(-7deg);
+  background: url('../assets/retro/viewmaster/caption-stock.webp') center / 100% 100%;
+  color: #761f16;
+  font: italic 700 clamp(.8rem, 1.25vw, 1.35rem)/1.15 Georgia, serif;
+  text-align: center;
+  text-wrap: balance;
+}
+.apr-worlds__photo {
+  grid-area: photo;
+  position: relative;
+  aspect-ratio: 1.7;
+  border-radius: 18px 18px 8px 8px;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 11px 25px #00241f77;
+}
+.apr-worlds__photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+  object-position: center 48%;
+  animation: apr-worlds-project var(--turn-duration) ease-out both;
+}
+.apr-worlds__viewer {
+  grid-area: viewer;
+  position: relative;
+  container-type: inline-size;
+  min-width: 0;
+  align-self: stretch;
+}
+.apr-worlds__stereo, .apr-worlds__flowers {
   position: absolute;
   pointer-events: none;
   background: center / contain no-repeat;
 }
 .apr-worlds__stereo {
-  width: 81.6%;
-  aspect-ratio: 388 / 229;
-  left: -4.74%;
-  top: -12.5%;
-  background-image: url('../assets/retro/viewmaster/viewer.webp');
+  width: 70%;
+  aspect-ratio: 800 / 563;
+  left: 1.5%;
+  top: 0;
+  background-image: url('../assets/retro/viewmaster/stereo-housing.webp');
+  background-position: left top;
+  filter: drop-shadow(3px 6px 7px #001d17a0);
+}
+.apr-worlds__stereo span {
+  position: absolute;
+  top: 11%;
+  left: 30%;
+  color: #ffe3a5;
+  transform: rotate(-9deg);
+  font: italic 700 clamp(.88rem, 4.1cqw, 2.1rem)/1 var(--serif);
+  letter-spacing: -.05em;
+  text-shadow: 0 1px #972b19;
+  white-space: nowrap;
 }
 .apr-worlds__flowers {
-  width: 44%;
-  aspect-ratio: 209 / 251;
-  top: 56%;
-  left: -5.16%;
-  mask-image: linear-gradient(#000 65%, transparent 98%);
+  width: 33%;
+  height: 30%;
+  bottom: 1%;
+  left: 1%;
   z-index: 2;
-  background-image: url('../assets/retro/viewmaster/corner-flowers.webp');
+  background-image: url('../assets/retro/viewmaster/reel-hibiscus.webp');
+  background-position: left bottom;
 }
-.apr-worlds__hinge {
-  width: 35.1%;
-  aspect-ratio: 167 / 105;
-  top: 76.9%;
-  left: 67.4%;
-  z-index: 3;
-  background-image: url('../assets/retro/viewmaster/hinge-flowers.webp');
-}
+
 .apr-worlds__arrow {
   position: absolute;
   z-index: 4;
-  top: 50.7%;
+  top: 55%;
   translate: 0 -50%;
-  width: 9.8%;
+  width: 9.1%;
   min-width: 44px;
   aspect-ratio: 1;
   display: grid;
@@ -97,7 +184,7 @@
 .apr-worlds__arrow:last-of-type { right: 0; }
 .apr-worlds__arrow svg { width: 65%; height: 65%; }
 .apr-worlds__arrow:hover { background-color: #126c60; filter: brightness(1.18); }
-.apr-worlds__wheel { position: absolute; left: 9.2%; top: 0; width: 82%; aspect-ratio: 1; z-index: 3; }
+.apr-worlds__wheel { position: absolute; left: 6.5%; top: 17%; width: 87%; aspect-ratio: 1; z-index: 3; }
 .apr-worlds__surface { position: absolute; inset: 0; border-radius: 50%; touch-action: none; cursor: grab; user-select: none; }
 .apr-worlds__reel {
   position: absolute;
@@ -106,6 +193,7 @@
   background: url('../assets/retro/viewmaster/reel-stock.webp') center / cover;
   box-shadow: inset 0 0 0 .12cqw #fff0b5, inset 0 0 0 .28cqw #db8e48,
     0 .22cqw 0 #ca7b3f, 0 .52cqw 0 #743821, 0 .9cqw 1.3cqw #002421bc;
+  transform: rotate(var(--reel-angle));
   transition: transform var(--turn-duration) var(--turn-easing);
 }
 .apr-worlds__reel.is-dragging { transition: none; cursor: grabbing; }
@@ -162,7 +250,7 @@
   background: var(--riv-stock), radial-gradient(ellipse at 38% 28%, #ffecb1, #f2c987);
   border: .19cqw solid #9e5628;
   box-shadow: inset 0 0 0 .12cqw #fff3b7, 0 .21cqw .22cqw #60332099;
-  font: 800 max(13px, 2.45cqw)/1 system-ui, sans-serif;
+  font: 800 clamp(13px, 6cqw, 31px)/1 system-ui, sans-serif;
   pointer-events: auto;
   cursor: pointer;
   transition: rotate var(--turn-duration) var(--turn-easing);
@@ -181,6 +269,11 @@
 .apr-worlds__slide:is([aria-pressed=true], :focus-visible) { filter: drop-shadow(0 0 .38cqw #ffae13) drop-shadow(0 0 .21cqw #fff3ae); }
 .apr-worlds__slide[aria-pressed=true] .apr-worlds__number { top: -25%; border-color: #fff0b4; }
 .apr-worlds__slide:hover img { filter: brightness(1.12); }
+.riv-home .apr-worlds__slide:focus-visible { outline: none; }
+.apr-worlds__slide:focus-visible .apr-worlds__number {
+  outline: 3px solid #fff9d4;
+  outline-offset: 3px;
+}
 .apr-worlds__hub {
   position: absolute;
   inset: 33.5%;
@@ -196,7 +289,7 @@
   background: var(--riv-stock), radial-gradient(ellipse at 45% 32%, #b35734, #8e3325);
   color: #ffe5a7;
   text-align: center;
-  font: 800 clamp(.53rem, 1.13vw, 1.25rem)/1 system-ui, sans-serif;
+  font: 800 clamp(.52rem, 3.15cqw, 1.34rem)/1 system-ui, sans-serif;
   letter-spacing: .035em;
   text-transform: uppercase;
   box-shadow: 0 .18cqw 0 #92512e, 0 0 0 .12cqw #e7b478;
@@ -205,7 +298,7 @@
 .apr-worlds__hub small { display: block; margin-top: .28em; font-size: .69em; letter-spacing: .19em; }
 .apr-worlds__marker {
   position: absolute;
-  z-index: 2;
+  z-index: 3;
   left: 50%;
   top: 3.1%;
   width: 6.6%;
@@ -223,140 +316,105 @@
   background: var(--riv-stock), linear-gradient(#ee7441,#a8301d);
 }
 
-.apr-worlds__card { position: relative; min-width: 0; color: var(--ink); }
-.apr-worlds__card::before {
-  content: '';
-  position: absolute;
-  pointer-events: none;
-  right: 8%;
-  top: -4%;
-  width: 17.8%;
-  aspect-ratio: 160 / 127;
-  background: url('../assets/retro/viewmaster/scene-sunset.webp') center / contain no-repeat;
-}
-.apr-worlds__photo {
-  position: relative;
-  aspect-ratio: 1.9;
-  overflow: hidden;
-  mask-image:
-    url('../assets/retro/viewmaster/scene-mask.svg'),
-    linear-gradient(#0000 0, #000 19%);
-  mask-composite: intersect;
-  mask-size: 100% 100%;
-}
-.apr-worlds__photo img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 51%;
-  animation: apr-worlds-fade .38s ease both;
-}
+
 .apr-worlds__info {
+  grid-area: info;
   position: relative;
-  margin-top: -9%;
-  padding: 9% 8% 8%;
+  display: grid;
+  align-items: start;
   isolation: isolate;
-}
-.apr-worlds__info::before, .apr-worlds__info::after {
-  content: '';
-  position: absolute;
-  pointer-events: none;
+  z-index: 1;
+  min-width: 0;
+  margin: clamp(-59px, -3.5vw, -29px) 0 0 -1.7%;
+  padding: clamp(26px, 2.08vw, 39px) clamp(29px, 3.2vw, 62px) clamp(24px, 2.15vw, 40px);
+  color: var(--ink);
 }
 .apr-worlds__info::before {
+  content: '';
+  position: absolute;
   z-index: -1;
   inset: 0;
-  background: url('../assets/retro/viewmaster/painted-paper.webp') center / 100% 100% no-repeat;
+  pointer-events: none;
+  background: url('../assets/retro/viewmaster/caption-stock.webp') center / 100% 100% no-repeat;
+  filter: drop-shadow(1px 5px 4px #38271970);
 }
-.apr-worlds__info::after {
-  width: 18%;
-  aspect-ratio: 97 / 108;
-  z-index: -1;
-  top: 5%;
-  right: 2%;
-  opacity: .35;
-  background: url('../assets/retro/viewmaster/caption-palm.webp') center / contain no-repeat;
-}
-.apr-worlds__caption {
+.apr-worlds__caption { min-width: 0; }
+.apr-worlds__label {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  gap: .15rem clamp(10px, 1.4vw, 20px);
   align-items: center;
-  animation: apr-worlds-caption .37s ease both;
+  gap: clamp(11px, 1.1vw, 22px);
+  animation: apr-worlds-caption var(--turn-duration) ease-out both;
 }
 .apr-worlds__stamp {
-  grid-row: span 2;
   display: grid;
-  width: clamp(36px, 4.2vw, 66px);
+  width: clamp(42px, 4.45vw, 74px);
   aspect-ratio: 1;
   place-items: center;
-  align-self: start;
-  justify-self: center;
+  align-self: center;
   rotate: -8deg;
-  transform: skewX(-15deg);
-  border: .22cqw double #ffe6af;
-  border-radius: 17% 12% 16% 9%;
+  transform: skewX(-10deg);
+  border: 3px double #ffe6af;
+  border-radius: 12% 9% 15% 7%;
   background: var(--riv-stock), #a03220;
   color: var(--paper);
-  box-shadow: 0 0 0 .12cqw #96361e, inset 0 0 0 .2cqw #7f24178c;
-  font: italic bold clamp(1.7rem, 3.1vw, 3.5rem)/.92 Georgia, serif;
+  box-shadow: 0 0 0 1px #96361e, inset 0 0 0 2px #7f24178c;
+  font: italic bold clamp(1.36rem, 2.6vw, 3rem)/1 Georgia, serif;
 }
-.apr-worlds__caption h3 {
+.apr-worlds__label h3 {
   margin: 0;
-  padding-right: 1.5%;
   color: var(--ink);
-  font: italic 700 clamp(1.63rem, 3.18vw, 3.4rem)/1.04 Georgia, serif;
-  letter-spacing: -.045em;
+  font: italic 700 clamp(1.65rem, 3.08vw, 3.55rem)/1.05 var(--serif);
+  letter-spacing: -.055em;
 }
 .apr-worlds__subtitle {
   display: flex;
   align-items: center;
-  gap: .85em;
-  padding-top: .21cqw;
+  gap: .55em;
+  margin: .38em 0 0;
   color: #7d291b;
-  font: 800 clamp(.65rem, 1.05vw, .98rem)/1.25 system-ui, sans-serif;
-  letter-spacing: .12em;
+  font: 800 clamp(.66rem, .96vw, .99rem)/1.3 system-ui, sans-serif;
+  letter-spacing: .11em;
   text-transform: uppercase;
 }
-.apr-worlds__subtitle::before, .apr-worlds__subtitle::after {
+.apr-worlds__subtitle::before {
   content: '';
-  width: clamp(12px, 2vw, 30px);
+  width: clamp(10px, 1.5vw, 29px);
+  height: 1px;
   flex: none;
-  height: 2px;
   background: currentColor;
-  border-radius: 60%;
 }
 .apr-worlds__description {
-  grid-column: 1 / -1;
-  max-width: 49ch;
-  min-height: 4.1em;
-  margin: .66em 0 0;
-  font: 500 clamp(.91rem, 1.21vw, 1.13rem)/1.39 system-ui, sans-serif;
+  min-height: 2.8em;
+  max-width: 60ch;
+  margin: .61em 0 0;
+  font: 480 clamp(.97rem, 1.18vw, 1.19rem)/1.43 system-ui, sans-serif;
+  animation: apr-worlds-caption var(--turn-duration) ease-out both;
 }
 .apr-worlds__link {
-  position: relative;
-  margin-top: .8em;
+  justify-self: end;
   display: inline-flex;
-  justify-content: center;
   align-items: center;
-  gap: .42em;
+  gap: .55em;
   min-height: 44px;
-  padding: .34em 1.08em;
+  margin-top: .55em;
+  padding: .42em 1.11em;
   white-space: nowrap;
-  border: .22cqw double #ffe0a3;
+  border: 3px double #ffd095;
   border-radius: 2em;
-  color: #fff1c9;
+  color: #fff4cd;
   background: var(--riv-stock), linear-gradient(#b93f24, #9b2917);
-  box-shadow: 0 .2cqw 0 #73341f, 0 .31cqw 0 #cb9456;
-  font: 700 clamp(.89rem, 1.16vw, 1.12rem)/1.25 system-ui, sans-serif;
+  box-shadow: 0 2px 0 #75361d, 0 4px 0 #cb9456;
+  font: 700 clamp(.93rem, 1.16vw, 1.13rem)/1.25 system-ui, sans-serif;
 }
-.apr-worlds__link:hover { filter: brightness(1.15); }
+.apr-worlds__link:hover { filter: brightness(1.13); }
+.riv-home .apr-worlds__link:focus-visible { outline-color: #70291b; }
 
 .apr-worlds__tickets {
   position: relative;
   z-index: 2;
-  max-width: 81rem;
-  margin: clamp(21px, 3.4vw, 55px) auto 0;
+  max-width: 100rem;
+  margin: clamp(20px, 2.25vw, 42px) auto 0;
   display: grid;
   grid-template-columns: repeat(9, minmax(0, 1fr));
   align-items: stretch;
@@ -366,73 +424,116 @@
   display: grid;
   align-content: center;
   justify-items: center;
-  gap: .08em;
+  gap: .25em;
   min-width: 0;
-  min-height: clamp(74px, 7.7vw, 120px);
-  padding: 6px 2px;
-  cursor: pointer;
+  min-height: clamp(79px, 7.35vw, 119px);
+  padding: 7px 3px;
+  border: 2px solid transparent;
   color: #ffdf9b;
+  cursor: pointer;
   text-shadow: 0 .1em .1em #001b16;
-  font: italic 700 clamp(.93rem, 1.55vw, 1.5rem)/1.06 Georgia, serif;
+  font: italic 700 clamp(.89rem, 1.52vw, 1.57rem)/1.05 Georgia, serif;
 }
 .apr-worlds__tickets button:not(:first-child)::before {
   content: '';
   position: absolute;
-  left: 0;
-  top: 8%;
-  bottom: 10%;
+  inset: 11% auto 10% 0;
   width: 1px;
-  background: #ebc87e;
+  background: #e5bd75;
 }
-.apr-worlds__tickets button img { display: block; height: 2.9cqw; width: 4.8cqw; object-fit: contain; }
-.apr-worlds__tickets button span { display: block; max-width: 6.7em; padding-inline: .55em; text-align: center; }
+.apr-worlds__tickets button img {
+  display: block;
+  width: clamp(39px, 4.5vw, 84px);
+  height: clamp(25px, 2.7vw, 49px);
+  object-fit: contain;
+}
+.apr-worlds__tickets button span { display: block; max-width: 7em; padding-inline: .3em; text-align: center; }
 .apr-worlds__tickets button[aria-pressed=true] {
-  border: .16cqw solid #fff1bb;
-  border-radius: 1.5cqw;
-  box-shadow: inset 0 0 .46cqw .15cqw #e28029, 0 0 .35cqw .15cqw #ffc344;
-  background: var(--riv-stock), radial-gradient(ellipse at 50% 36%, #aa562b, #723222);
+  border-color: #ffecab;
+  border-radius: 17px;
+  box-shadow: inset 0 0 11px #ffad3d85, 0 0 10px #ffc344a0;
+  background: var(--riv-stock), radial-gradient(ellipse at 50% 36%, #a3502a, #722c21);
 }
 .apr-worlds__tickets button[aria-pressed=true] + button::before,
 .apr-worlds__tickets button[aria-pressed=true]::before { opacity: 0; }
 .apr-worlds__tickets button:hover { color: #fff8ce; }
-.riv-home .apr-worlds__slide:focus-visible { outline: none; }
 
-@keyframes apr-worlds-fade { from { opacity: .55; } }
-@keyframes apr-worlds-caption { from { opacity: .45; translate: 0 4px; } }
+@media (min-width: 1180px) {
+  .apr-worlds__info {
+    --action-space: clamp(195px, 17vw, 302px);
+  }
+  .apr-worlds__caption,
+  .apr-worlds__link { grid-area: 1 / 1; }
+  .apr-worlds__description {
+    max-width: none;
+    padding-inline-end: var(--action-space);
+    min-height: 4.1em;
+  }
+  .apr-worlds__link { align-self: end; }
+}
+
+@keyframes apr-worlds-project {
+  0% { opacity: .55; filter: brightness(1.19) saturate(.82); }
+  67% { opacity: 1; filter: none; }
+}
+@keyframes apr-worlds-caption { from { opacity: .55; translate: 0 4px; } }
 
 @media (max-width: 950px) {
-  .apr-worlds__stage { max-width: 39rem; grid-template-columns: minmax(0, 1fr); gap: clamp(4px, 2vw, 17px); }
-  .apr-worlds__viewer { width: min(100%, 35rem); margin-inline: auto; }
-  .apr-worlds__stereo { left: -2%; top: -10%; mask-image: linear-gradient(transparent, #000 12%); }
-  .apr-worlds__flowers { width: 33%; left: -2%; top: 65%; }
-  .apr-worlds__hinge { top: 76%; }
-  .apr-worlds__arrow { width: 9.5%; border-width: 2px; }
-  .apr-worlds__wheel { left: 10%; width: 80%; }
-  .apr-worlds__number { font-size: clamp(13px, 4cqw, 25px); border-width: 1px; }
-  .apr-worlds__hub { font-size: clamp(.53rem, 2.18vw, 1.15rem); }
-  .apr-worlds__card::before { display: none; }
-  .apr-worlds__info { padding: 9% 7% 10%; }
-  .apr-worlds__description { min-height: 0; max-width: 53ch; }
-  .apr-worlds__tickets {
-    display: flex;
+  .apr-worlds__stage {
     max-width: 43rem;
-    padding: 7px;
-    gap: 4px;
-    overflow-x: auto;
-    overscroll-behavior-inline: contain;
-    scrollbar-color: #e7b66e #003a35;
+    grid-template: 'heading' auto 'photo' auto 'viewer' auto 'info' auto / minmax(0, 1fr);
+    row-gap: clamp(14px, 2.5vw, 25px);
   }
-  .apr-worlds__tickets button { flex: 0 0 clamp(88px, 13cqw, 110px); min-height: 82px; }
-  .apr-worlds__tickets button img { width: 45px; height: 29px; }
-  .apr-worlds__tickets button[aria-pressed=true] { border-width: 2px; border-radius: 12px; }
+  .apr-worlds__heading {
+    grid-template: 'title' auto 'resort' auto 'invitation' auto / minmax(0, 1fr);
+    justify-items: center;
+    gap: .28em;
+    padding-bottom: 0;
+  }
+  .apr-worlds__heading h2 {
+    transform-origin: center;
+    font-size: clamp(3.1rem, 8.4vw, 5.35rem);
+  }
+  .apr-worlds__resort-name {
+    margin-left: 0;
+    font-size: clamp(1.75rem, 4.65vw, 3.05rem);
+  }
+  .apr-worlds__invitation {
+    margin-top: .65em;
+    padding: .35em .68em;
+    transform: rotate(-2deg);
+  }
+  .apr-worlds__photo { aspect-ratio: 1.5; }
+  .apr-worlds__viewer { width: min(100%, 35rem); margin-inline: auto; aspect-ratio: 1 / 1.02; }
+  .apr-worlds__arrow { width: 9.5%; border-width: 2px; }
+  .apr-worlds__wheel { left: 10%; top: 14%; width: 80%; }
+  .apr-worlds__number { border-width: 1px; }
+  .apr-worlds__info {
+    margin: 0;
+    padding: clamp(21px, 4.9vw, 37px) clamp(22px, 5.75vw, 48px) clamp(25px, 5.2vw, 39px);
+  }
+  .apr-worlds__label h3 { font-size: clamp(1.56rem, 4.5vw, 2.67rem); }
+  .apr-worlds__description { min-height: 3em; }
+  .apr-worlds__tickets {
+    max-width: 43rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px 3px;
+  }
+  .apr-worlds__tickets button { min-height: 75px; }
+  .apr-worlds__tickets button:nth-child(3n + 1)::before { opacity: 0; }
 }
 @media (max-width: 455px) {
-  .apr-worlds__wheel { left: 13%; width: 74%; }
-  .apr-worlds__viewer { aspect-ratio: 1.26; }
-  .apr-worlds__stereo { width: 76%; }
-  .apr-worlds__hinge { top: 69%; left: 63%; }
+  .apr-worlds__wheel { left: 12%; width: 76%; }
+  .apr-worlds__viewer { aspect-ratio: 1.08; }
+  .apr-worlds__stereo { top: 0; left: 6%; }
+  .apr-worlds__flowers { width: 28%; }
+  .apr-worlds__info { min-block-size: 250px; grid-template-rows: 1fr auto; }
+  .apr-worlds__link { justify-self: start; }
+  .apr-worlds__description { min-height: 5.7em; }
 }
 @media (prefers-reduced-motion: reduce) {
   .apr-worlds { --turn-duration: 0ms; }
-  .apr-worlds__photo img, .apr-worlds__caption { animation: none; }
+  .apr-worlds__reel { transform: rotate(var(--rest-angle)); transition: none; }
+  .apr-worlds__slide img, .apr-worlds__number { transition: none; }
+  .apr-worlds__photo img, .apr-worlds__label, .apr-worlds__description { animation: none; }
 }

@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import type { CSSProperties, PointerEvent } from 'react';
+import { useRef, useState } from 'react';
+import type { CSSProperties, KeyboardEvent, PointerEvent } from 'react';
 import { zonesData as zones } from '../data/zones';
 import palm from '../assets/retro/apr-palm-logo.svg';
 import './ParadiseViewMaster.css';
@@ -8,21 +8,21 @@ const icons = import.meta.glob<string>('../assets/retro/viewmaster/icon-*.webp',
   eager: true, import: 'default',
 });
 
-const zoneSubtitles = [
-  'Сердце курорта', 'Вкусы острова', 'Ботанические сады', 'Детская зона',
-  'Термальные бассейны', 'Бухта сокровищ', 'Затерянный город', 'Скоростные спуски', 'Морская бухта',
-];
-
 const frameSlots = [8, 33, 61, 99, 125, 155, 185, 215, 242, 274, 304, 334];
-
-const art = import.meta.glob<string>('../assets/retro/worlds/*.webp', {
+const art = import.meta.glob<string>('../assets/retro/worlds/*.avif', {
   eager: true, import: 'default',
 });
+const previews = import.meta.glob<string>('../assets/retro/worlds/previews/*.webp', {
+  eager: true, import: 'default',
+});
+const fullImage = (id: string) => art[`../assets/retro/worlds/${id}.avif`];
+const previewImage = (id: string) => previews[`../assets/retro/worlds/previews/${id}.webp`];
 const count = zones.length;
 const step = 360 / count;
+const half = Math.floor(count / 2);
 const wrap = (n: number) => ((n % count) + count) % count;
 const angleDelta = (from: number, to: number) => ((to - from + 540) % 360) - 180;
-const imageFor = (index: number) => art[`../assets/retro/worlds/${index + 1}.webp`];
+const formatNumber = (index: number) => String(index + 1).padStart(2, '0');
 
 type Gesture = {
   id: number;
@@ -39,24 +39,28 @@ type Gesture = {
 export default function ParadiseViewMaster() {
   const [turn, setTurn] = useState(0);
   const [dragAngle, setDragAngle] = useState<number | null>(null);
-  const ticketStrip = useRef<HTMLDivElement>(null);
   const gesture = useRef<Gesture | null>(null);
   const suppressClick = useRef(false);
   const selected = wrap(turn);
   const zone = zones[selected];
 
-  useEffect(() => {
-    const strip = ticketStrip.current;
-    const ticket = strip?.children[selected];
-    if (!strip || !ticket || strip.scrollWidth <= strip.clientWidth) return;
-    const stripBox = strip.getBoundingClientRect();
-    const ticketBox = ticket.getBoundingClientRect();
-    if (ticketBox.left >= stripBox.left && ticketBox.right <= stripBox.right) return;
-    strip.scrollLeft += ticketBox.left - stripBox.left - (strip.clientWidth - ticketBox.width) / 2;
-  }, [selected]);
-
   function choose(index: number) {
-    setTurn(previous => previous + wrap(index - wrap(previous) + 4) - 4);
+    setTurn(previous => previous + wrap(index - wrap(previous) + half) - half);
+  }
+
+  function navigateWithKeys(event: KeyboardEvent<HTMLElement>) {
+    let next: number;
+    switch (event.key) {
+      case 'ArrowLeft': next = wrap(selected - 1); break;
+      case 'ArrowRight': next = wrap(selected + 1); break;
+      case 'Home': next = 0; break;
+      case 'End': next = count - 1; break;
+      default: return;
+    }
+    event.preventDefault();
+    choose(next);
+    // Keep the focused control and the selected slide together without scrolling the page.
+    event.currentTarget.querySelectorAll('button')[next]?.focus({ preventScroll: true });
   }
 
   function start(event: PointerEvent<HTMLDivElement>) {
@@ -109,11 +113,6 @@ export default function ParadiseViewMaster() {
 
   return (
     <section id="worlds" tabIndex={-1} className="apr-worlds" aria-labelledby="apr-worlds-title">
-      <header className="apr-worlds__heading">
-        <h2 id="apr-worlds-title"><span className="apr-worlds__world-count">9 миров</span>{' '}<span className="apr-worlds__resort-name">Aqua Paradise</span></h2>
-        <p>Выберите мир и загляните внутрь</p>
-      </header>
-
       <svg className="apr-worlds__geometry" width="0" height="0" aria-hidden="true">
         <defs>
           <clipPath id="apr-worlds-window" clipPathUnits="objectBoundingBox">
@@ -122,11 +121,20 @@ export default function ParadiseViewMaster() {
         </defs>
       </svg>
 
+      <div className="apr-worlds__tear" aria-hidden="true" />
       <div className="apr-worlds__stage">
+        <header className="apr-worlds__heading">
+          <h2 id="apr-worlds-title"><span>9</span> миров</h2>
+          <p className="apr-worlds__resort-name">Aqua Paradise</p>
+          <p className="apr-worlds__invitation">Выберите мир и загляните внутрь</p>
+        </header>
+
+        <div className="apr-worlds__photo" style={{ backgroundImage: `url("${previewImage(zone.id)}")` }}>
+          <img key={zone.id} src={fullImage(zone.id)} alt={zone.poster.imageAlt} loading="lazy" decoding="async" />
+        </div>
         <div className="apr-worlds__viewer">
-          <div className="apr-worlds__stereo" aria-hidden="true" />
+          <div className="apr-worlds__stereo" aria-hidden="true"><span>Aqua Paradise</span></div>
           <div className="apr-worlds__flowers" aria-hidden="true" />
-          <div className="apr-worlds__hinge" aria-hidden="true" />
           <button className="apr-worlds__arrow" type="button" aria-label="Предыдущий мир" onClick={() => setTurn(n => n - 1)}><svg aria-hidden="true" viewBox="0 0 32 32"><path d="M22 3 8 16l14 13" fill="none" stroke="currentColor" strokeWidth="4" /></svg></button>
           <div className="apr-worlds__wheel">
             <div role="group" aria-label="Диск миров Aqua Paradise" className="apr-worlds__surface"
@@ -138,13 +146,12 @@ export default function ParadiseViewMaster() {
                 if (suppressClick.current && event.detail > 0) event.stopPropagation();
                 suppressClick.current = false;
               }}
-              onKeyDown={event => {
-                if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
-                event.preventDefault();
-                setTurn(n => n + (event.key === 'ArrowRight' ? 1 : -1));
-              }}>
+              onKeyDown={navigateWithKeys}>
               <div className={`apr-worlds__reel${dragAngle === null ? '' : ' is-dragging'}`}
-                style={{ transform: `rotate(${dragAngle ?? -turn * step}deg)` }}>
+                style={{
+                  '--rest-angle': `${-turn * step}deg`,
+                  '--reel-angle': `${dragAngle ?? -turn * step}deg`,
+                } as CSSProperties}>
                 <svg className="apr-worlds__rim" viewBox="0 0 640 640" aria-hidden="true">
                   <circle cx="320" cy="320" r="307" fill="none" stroke="#9c532a" strokeWidth="1.5" strokeDasharray="20 2 6 9" />
                   <circle cx="320" cy="320" r="312" fill="none" stroke="#aa60322e" strokeWidth="6" strokeDasharray="4 14 9 4" />
@@ -155,12 +162,12 @@ export default function ParadiseViewMaster() {
                     </g>
                   ))}
                 </svg>
-                {zones.map(({ name }, index) => (
-                  <button key={name} type="button" className="apr-worlds__slide"
-                    aria-label={name} aria-pressed={selected === index}
+                {zones.map(({ id, name }, index) => (
+                  <button key={id} type="button" className="apr-worlds__slide"
+                    aria-label={name} aria-pressed={selected === index} tabIndex={selected === index ? 0 : -1}
                     style={{ transform: `rotate(${index * step}deg)` }} onClick={() => choose(index)}>
                     <span className="apr-worlds__window">
-                      <img loading="lazy" src={imageFor(index)} alt="" draggable={false}
+                      <img loading="lazy" src={previewImage(id)} alt="" draggable={false}
                         style={{ '--upright': `${(turn - index) * step}deg` } as CSSProperties} />
                     </span>
                     <span className="apr-worlds__number" style={{ rotate: `${(turn - index) * step}deg` }} aria-hidden="true">
@@ -179,25 +186,24 @@ export default function ParadiseViewMaster() {
           <button className="apr-worlds__arrow" type="button" aria-label="Следующий мир" onClick={() => setTurn(n => n + 1)}><svg aria-hidden="true" viewBox="0 0 32 32"><path d="m10 3 14 13-14 13" fill="none" stroke="currentColor" strokeWidth="4" /></svg></button>
         </div>
 
-        <article className="apr-worlds__card" aria-labelledby="apr-worlds-current">
-          <div className="apr-worlds__photo">
-            <img key={zone.name} loading="lazy" src={imageFor(selected)} alt={zone.name} />
-          </div>
-          <div className="apr-worlds__info" aria-live="polite" aria-atomic="true">
-            <div key={zone.name} className="apr-worlds__caption">
-              <span className="apr-worlds__stamp" aria-hidden="true">{selected + 1}</span>
-              <h3 id="apr-worlds-current">{zone.name}</h3>
-              <p className="apr-worlds__subtitle">{zoneSubtitles[selected]}</p>
-              <p className="apr-worlds__description">{zone.desc}</p>
+        <article className="apr-worlds__info" aria-labelledby="apr-worlds-current">
+          <div className="apr-worlds__caption" aria-live="polite" aria-atomic="true">
+            <div className="apr-worlds__label" key={zone.id}>
+              <span className="apr-worlds__stamp" aria-hidden="true">{formatNumber(selected)}</span>
+              <div>
+                <h3 id="apr-worlds-current">{zone.name}</h3>
+                <p className="apr-worlds__subtitle">{zone.poster.tagline}</p>
+              </div>
             </div>
-            <a className="apr-worlds__link" href={`#/zones?zone=${zone.id}`}>Подробнее о зоне <span aria-hidden="true">→</span></a>
+            <p className="apr-worlds__description" key={`description-${zone.id}`}>{zone.poster.summary}</p>
           </div>
+          <a className="apr-worlds__link" href={`#/zones?zone=${zone.id}`}>Подробнее о зоне <span aria-hidden="true">→</span></a>
         </article>
       </div>
 
-      <div ref={ticketStrip} role="group" aria-label="Билеты в девять миров" className="apr-worlds__tickets">
-        {zones.map(({ name }, index) => (
-          <button key={name} type="button" aria-pressed={selected === index} onClick={() => choose(index)}>
+      <div role="group" aria-label="Билеты в девять миров" className="apr-worlds__tickets" onKeyDown={navigateWithKeys}>
+        {zones.map(({ id, name }, index) => (
+          <button key={id} type="button" aria-pressed={selected === index} onClick={() => choose(index)}>
             <img src={icons[`../assets/retro/viewmaster/icon-${index + 1}.webp`]} alt="" loading="lazy" />
             <span>{name}</span>
           </button>
