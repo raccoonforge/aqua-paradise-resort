@@ -34,9 +34,10 @@ for (const width of [1440, 1280, 1024, 768, 375, 320]) {
     }
   }
   report.viewports.push({ width, ...result, horizontalOverflow: result.scrollWidth > result.viewportWidth+1 });
+  if (!result.hasHome || !result.hasFooter) report.errors.push({ width, error: `Expected home and footer; got home=${result.hasHome}, footer=${result.hasFooter}, body=${result.bodyStart}` });
   await page.close();
 }
 await browser.close();
 await fs.writeFile(`${dir}/report.json`, JSON.stringify(report,null,2));
-console.log(JSON.stringify({ viewports: report.viewports.map(x => ({width:x.width,horizontalOverflow:x.horizontalOverflow,brokenImages:x.brokenImages.length})), errors:report.errors, transitions:report.transitions },null,2));
+console.log(JSON.stringify({ viewports: report.viewports.map(x => ({width:x.width,horizontalOverflow:x.horizontalOverflow,brokenImages:x.brokenImages.length,hasHome:x.hasHome,hasFooter:x.hasFooter})), errors:report.errors, transitions:report.transitions },null,2));
 if (report.errors.length || report.viewports.some(x => x.horizontalOverflow || x.brokenImages.length)) process.exitCode=1;
