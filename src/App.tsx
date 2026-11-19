@@ -82,8 +82,9 @@ function App() {
         scrollHome(section ?? 'hero');
       }
     }}>
+      <a href="#main-content" className="apr-skip-link">Перейти к основному содержимому</a>
       <Header key={currentPath} home={home} />
-      <main className={home ? 'riv-home' : 'riv-interior flex-grow'}>{renderPage()}</main>
+      <main id="main-content" tabIndex={-1} className={home ? 'riv-home' : 'riv-interior flex-grow'}>{renderPage()}</main>
       {home ? <SunsetPier /> : (
       <footer className="bg-[#0a192f] text-white py-12 mt-auto">
         <div className="max-w-7xl mx-auto px-4">
