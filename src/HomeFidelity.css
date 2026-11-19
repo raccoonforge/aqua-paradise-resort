@@ -49,23 +49,6 @@
   min-height: max(40rem, 56vw);
   padding: clamp(100px, 9vw, 168px) clamp(24px, 6vw, 104px) clamp(90px, 8vw, 134px);
 }
-.apr-hero__plate {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  background: url('./assets/retro/riviera.webp') center / cover no-repeat;
-  mask-image: linear-gradient(#000 82%, transparent 100%);
-}
-.apr-hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    linear-gradient(180deg, #002a27e6, transparent 24%),
-    radial-gradient(ellipse at 21% 51%, #003735b3 0%, #00373558 32%, transparent 64%);
-}
 .apr-hero__content { justify-self: start; min-width: 0; }
 .apr-hero__title { width: fit-content; margin: .04em 0 .19em; padding-right: .18em; transform: rotate(-6deg); }
 .apr-hero__title > span {
@@ -122,8 +105,12 @@
 
 /* The travel journal ends at the edge of its own paper. */
 .riv-home .apr-about {
-  padding: clamp(28px, 4.2vw, 78px) clamp(22px, 5vw, 86px) clamp(55px, 7.3vw, 114px);
-  background: radial-gradient(ellipse 80% 55% at 42% 52%, #0b5850af, transparent);
+  padding: clamp(82px, 8.3vw, 152px) clamp(22px, 5vw, 86px) clamp(55px, 7.3vw, 114px);
+  background:
+    url('./assets/retro/about-palm-left.webp') left clamp(26px, 2.9vw, 52px) / clamp(200px, 30vw, 550px) auto no-repeat,
+    url('./assets/retro/about-palm-right.webp') right top / clamp(122px, 17vw, 308px) auto no-repeat,
+    url('./assets/retro/about-print-grain.webp'),
+    radial-gradient(ellipse 80% 55% at 42% 52%, #0b5850af, transparent) #073835;
   overflow: clip;
 }
 .apr-about__layout { max-width: 92rem; }
@@ -137,7 +124,10 @@
 }
 .riv-home .apr-about__frame img {
   aspect-ratio: 740 / 941;
-  mask-image: linear-gradient(#000 95%, transparent);
+  /* The printed background above the postcard blends into the section's stock. */
+  mask:
+    url('./assets/retro/about-postcard-blend.webp') center top / 100% 25% no-repeat,
+    linear-gradient(#000 0 93.4%, transparent) center bottom / 100% 76% no-repeat;
 }
 .riv-home .apr-about__paper-stack { margin-left: -2%; }
 .riv-home .apr-about__paper {
@@ -454,14 +444,6 @@
   .riv-mast .apr-brand img { width: 43px; }
   .riv-mast .apr-brand__name { font-size: 14px; }
   .riv-home .apr-hero { min-height: 0; padding: 94px 18px clamp(245px, 47vw, 410px); }
-  .apr-hero__plate {
-    inset: auto 0 0;
-    height: clamp(315px, 58vw, 530px);
-    background-image: url('./assets/retro/fidelity/hero-lagoon.webp');
-    background-position: 50% 57%;
-    mask-image: linear-gradient(transparent, #000 23%, #000 84%, transparent);
-  }
-  .apr-hero::before { background: linear-gradient(#002e2c, transparent 62%); }
   .apr-hero__content { justify-self: center; width: 100%; text-align: center; }
   .apr-hero__title { margin: 0 auto; text-align: left; }
   .apr-hero__title > span { font-size: clamp(3.65rem, 12vw, 6.8rem); }
@@ -481,10 +463,17 @@
   .departure::before { width: 36%; }
 }
 @media (max-width: 800px) {
-  .riv-home .apr-about { padding-inline: clamp(15px, 5vw, 38px); }
+  .riv-home .apr-about {
+    padding-block-start: clamp(72px, 15vw, 100px);
+    padding-inline: clamp(15px, 5vw, 38px);
+  }
   .riv-home .apr-about__layout { grid-template-columns: minmax(0, 1fr); max-width: 39rem; }
   .riv-home .apr-about__frame { width: min(100%, 30rem); justify-self: center; margin-bottom: -4%; transform: none; }
-  .riv-home .apr-about__frame img { aspect-ratio: 1.07; object-position: 50% 62%; }
+  .riv-home .apr-about__frame img {
+    aspect-ratio: 1.07;
+    object-position: 50% 62%;
+    mask: linear-gradient(#000 95%, transparent);
+  }
   .riv-home .apr-about__paper-stack { margin-left: 0; }
   .riv-home .apr-about__paper { padding-top: clamp(24px, 6.3vw, 47px); }
   .riv-home .apr-about h2 { font-size: clamp(2rem, 7.3vw, 3.8rem); }
@@ -595,15 +584,6 @@
 .riv-mast .ticket-cta:active,
 .riv-home .apr-hero__actions .riv-button:active { transform: translateY(1px); }
 
-/* Retain the full-colour original artwork, with no bottom transparency. */
-.riv-home .apr-hero__plate {
-  -webkit-mask-image: none;
-  mask-image: none;
-  clip-path: polygon(0 0, 100% 0, 100% 96%, 94% 97%, 87% 95.5%, 78% 98%, 66% 96%, 55% 98.5%, 44% 96%, 33% 97.5%, 22% 95.5%, 12% 97%, 0 95.5%);
-}
-.riv-home .apr-hero::before {
-  background: linear-gradient(180deg, #002a275e 0%, transparent 20%);
-}
 .riv-home .apr-hero__content {
   position: relative;
   z-index: 1;
@@ -665,12 +645,6 @@
 .riv-home .apr-hero__actions { position: relative; z-index: 3; }
 
 @media (max-width: 950px) {
-  .riv-home .apr-hero__plate {
-    -webkit-mask-image: none;
-    mask-image: none;
-    clip-path: polygon(0 3%, 10% 1%, 22% 2%, 34% 0, 45% 2%, 57% 1%, 69% 3%, 81% 1%, 92% 2%, 100% 0, 100% 96%, 88% 98%, 76% 96%, 64% 99%, 52% 96%, 40% 98%, 28% 96%, 15% 98%, 0 96%);
-  }
-  .riv-home .apr-hero::before { background: linear-gradient(180deg, #002a2733, transparent 22%); }
   .apr-hero__palm-overlap { display: none; }
   .riv-home .apr-hero__title > span { font-size: clamp(3.7rem, 12.6vw, 8rem); }
   .riv-home .apr-hero__title em { font-size: clamp(3.4rem, 10.4vw, 7rem); }

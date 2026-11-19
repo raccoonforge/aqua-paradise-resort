@@ -211,14 +211,22 @@ try {
       assert.deepEqual(layout.unreadableText, []);
 
       await page.screenshot({ path: `${dir}/home-${width}.png`, fullPage: true, animations: 'disabled' });
-      if (width === 1440 || width === 375) {
-        for (let index = 1; index < bounds.length; index++) {
-          const prev = bounds[index - 1];
-          const next = bounds[index];
-          const y = Math.max(0, Math.round((prev.bottom + next.top) / 2 - 180));
-          await page.screenshot({ path: `${dir}/transition-${width}-${prev.id}-${next.id}.png`, fullPage: true, clip: { x: 0, y, width, height: 360 }, animations: 'disabled' });
-          report.transitions.push({ width, from: prev.id, to: next.id, gap: next.top - prev.bottom });
-        }
+      for (let index = 1; index < bounds.length; index++) {
+        const prev = bounds[index - 1];
+        const next = bounds[index];
+        const heroToAbout = prev.id === 'hero' && next.id === 'about';
+        const tablet = width === 1024 || width === 768;
+        if (width !== 1440 && width !== 375 && !(heroToAbout && tablet)) continue;
+
+        const y = Math.max(0, Math.round((prev.bottom + next.top) / 2 - (heroToAbout ? 78 : 180)));
+        const clipHeight = heroToAbout && width <= 800 ? 700 : 360;
+        await page.screenshot({
+          path: `${dir}/transition-${width}-${prev.id}-${next.id}.png`,
+          fullPage: true,
+          clip: { x: 0, y, width, height: clipHeight },
+          animations: 'disabled',
+        });
+        report.transitions.push({ width, from: prev.id, to: next.id, gap: next.top - prev.bottom });
       }
 
       await checkMenu(page, width);

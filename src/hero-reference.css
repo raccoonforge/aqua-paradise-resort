@@ -221,8 +221,24 @@
   background:#003f3d;
   isolation:isolate;
   overflow:hidden;
+
+  /* Only the last few pixels are cut. The solid mask covers the rest of the artwork. */
+  --poster-edge: 8px;
+  z-index: 1;
+  margin-block-end: calc(-1 * var(--poster-edge));
+  mask:
+    url('./assets/retro/poster-cut.webp') center bottom / 100% var(--poster-edge) no-repeat,
+    linear-gradient(#000 0 0) center top / 100% calc(100% - var(--poster-edge) + 1px) no-repeat;
 }
-.riv-home .apr-hero::before { content:none; }
+.riv-home .apr-hero::before {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: var(--poster-edge);
+  z-index: -1;
+  background: url('./assets/retro/poster-edge-fibres.webp') center bottom / 100% 100% no-repeat;
+  pointer-events: none;
+}
 .riv-home .apr-hero__art {
   position:absolute;
   inset:0;
@@ -524,102 +540,4 @@
   .riv-mast .ticket-cta,
   .riv-mast .ticket-cta::before { transition:none; }
   .riv-mast .ticket-cta:hover { transform:none; }
-}
-
-
-/* Vintage travel-poster finish: a gently hand-trimmed lower edge.
-   No gradient opacity: the poster stays fully saturated right up to its cut.
-   Pull the following section just underneath, so turquoise shows through
-   the irregular contour instead of exposing a straight background seam. */
-.riv-home .apr-hero {
-  margin-bottom: -30px;
-  -webkit-mask-image: url('./assets/retro/hero-vintage-paper-edge.svg');
-  mask-image: url('./assets/retro/hero-vintage-paper-edge.svg');
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  filter: drop-shadow(0 3px 2px rgba(0, 28, 29, .17));
-}
-@media (max-width: 767px) {
-  .riv-home .apr-hero { margin-bottom: -24px; }
-}
-
-
-/* Printed poster handoff, matching the archival travel-print reference:
-   a nearly level, lightly distressed ink seam and subdued botanical
-   ghosting beneath it, not a broad wave or an opacity fade. */
-.riv-home .apr-hero {
-  margin-bottom: -30px;
-  filter: none;
-}
-.riv-home .apr-about {
-  position: relative;
-  padding-top: clamp(100px, 9vw, 160px);
-}
-.riv-home .apr-about::before {
-  content: '';
-  position: absolute;
-  z-index: 0;
-  inset: 0 0 auto;
-  height: clamp(190px, 22vw, 315px);
-  pointer-events: none;
-  background:
-    url('./assets/retro/hero-ink-seam.svg') center 26px / 100% 20px no-repeat,
-    linear-gradient(180deg, rgba(0, 31, 33, .28), transparent 78%),
-    url('./assets/retro/fidelity/about-leaves.webp') -70px 25px / clamp(260px, 30vw, 480px) auto no-repeat,
-    url('./assets/retro/fidelity/about-leaves.webp') calc(100% + 70px) 20px / clamp(260px, 30vw, 490px) auto no-repeat;
-  opacity: .38;
-  -webkit-mask-image: linear-gradient(#000 0 58%, transparent 100%);
-  mask-image: linear-gradient(#000 0 58%, transparent 100%);
-}
-.riv-home .apr-about__layout {
-  position: relative;
-  z-index: 1;
-}
-@media (max-width: 767px) {
-  .riv-home .apr-hero { margin-bottom: -24px; }
-  .riv-home .apr-about { padding-top: clamp(68px, 12vw, 104px); }
-  .riv-home .apr-about::before {
-    height: 165px;
-    background-position: center 20px, center, -85px 16px, calc(100% + 100px) 16px;
-    opacity: .30;
-  }
-}
-
-
-/* Reference-matched poster transition. Unlike the former subtle layer,
-   this decorative underprint is directly visible on the teal field. */
-.riv-home .apr-hero {
-  margin-bottom: -5px;
-  filter: none;
-}
-.riv-home .apr-about {
-  position: relative;
-  isolation: isolate;
-  padding-top: clamp(135px, 12vw, 195px);
-}
-.riv-home .apr-about::before {
-  content: '';
-  position: absolute;
-  pointer-events: none;
-  z-index: 0;
-  inset: 0 0 auto;
-  height: clamp(190px, 24vw, 330px);
-  opacity: 1;
-  background:
-    url('./assets/retro/hero-ink-seam.svg') center top / 100% 16px no-repeat,
-    url('./assets/retro/hero-transition-palms.svg') center top / 100% 100% no-repeat,
-    linear-gradient(180deg, #052e2de0 0%, #073b38aa 45%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 64%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 64%, transparent 100%);
-}
-.riv-home .apr-about__layout {
-  position: relative;
-  z-index: 1;
-}
-@media (max-width: 767px) {
-  .riv-home .apr-hero { margin-bottom: -4px; }
-  .riv-home .apr-about { padding-top: clamp(88px, 18vw, 125px); }
-  .riv-home .apr-about::before { height: 195px; }
 }
