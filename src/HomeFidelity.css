@@ -113,7 +113,7 @@
   padding: calc(var(--poster-tear-height) + clamp(72px, 7.8vw, 138px)) clamp(22px, 5vw, 86px) clamp(55px, 7.3vw, 114px);
   background:
     url('./assets/retro/poster-tear-shadow.webp') center top / var(--poster-tear-width) calc(var(--poster-tear-height) * 4 / 3) no-repeat,
-    #c8bca6 url('./assets/retro/about-collage-paper.webp') center top;
+    #043a36;
   overflow: clip;
 }
 .apr-about__layout { max-width: 92rem; }
