@@ -21,7 +21,7 @@ jobs:
           node-version: 24
       - name: Install packages
         run: |
-          npm ci || npm install
+          npm ci
           npm install --no-save playwright
       - name: Verify preinstalled Chrome
         run: google-chrome --version
