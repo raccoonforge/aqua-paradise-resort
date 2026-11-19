@@ -440,3 +440,22 @@
   .riv-home .apr-hero__resort { margin-top: clamp(22px, 5vw, 36px); }
   .riv-home .apr-hero__tagline { margin-top: 14px; }
 }
+
+
+/* Keep the CTA row entirely above the illustrated foreground flowers.
+   Previous offset adjusted its horizontal position but left it too low. */
+@media (min-width: 1001px) {
+  .riv-home .apr-hero__tagline {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .riv-home .apr-hero__actions {
+    margin-top: 0;
+  }
+}
+@media (min-width: 768px) and (max-width: 1000px) {
+  .riv-home .apr-hero__tagline {
+    margin-top: 0;
+    margin-bottom: 4px;
+  }
+}
