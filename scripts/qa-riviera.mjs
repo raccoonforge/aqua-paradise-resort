@@ -3,7 +3,7 @@ import fs from 'node:fs/promises';
 const url = 'http://127.0.0.1:4173/aqua-paradise-resort/riviera-polish/#/';
 const dir = 'qa-output/riviera-polish';
 await fs.mkdir(dir, { recursive: true });
-const browser = await chromium.launch();
+const browser = await chromium.launch({ channel: 'chrome' });
 const report = { viewports: [], transitions: [], errors: [] };
 const ids = ['hero', 'about', 'worlds', 'attractions', 'planner'];
 for (const width of [1440, 1280, 1024, 768, 375, 320]) {
