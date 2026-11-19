@@ -525,3 +525,22 @@
   .riv-mast .ticket-cta::before { transition:none; }
   .riv-mast .ticket-cta:hover { transform:none; }
 }
+
+
+/* Vintage travel-poster finish: a gently hand-trimmed lower edge.
+   No gradient opacity: the poster stays fully saturated right up to its cut.
+   Pull the following section just underneath, so turquoise shows through
+   the irregular contour instead of exposing a straight background seam. */
+.riv-home .apr-hero {
+  margin-bottom: -30px;
+  -webkit-mask-image: url('./assets/retro/hero-vintage-paper-edge.svg');
+  mask-image: url('./assets/retro/hero-vintage-paper-edge.svg');
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  filter: drop-shadow(0 3px 2px rgba(0, 28, 29, .17));
+}
+@media (max-width: 767px) {
+  .riv-home .apr-hero { margin-bottom: -24px; }
+}
