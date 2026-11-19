@@ -375,3 +375,22 @@
   .riv-home .apr-hero *::before,
   .riv-home .apr-hero *::after { animation:none; transition:none; }
 }
+
+/* Preview's final ink treatment: apply depth behind the gradient, not as a
+   solid brown text-shadow above it. */
+.riv-home .apr-hero__title span {
+  filter: url(#apr-print-wear)
+    drop-shadow(1px 1px #efb57b)
+    drop-shadow(1px 2px #c98d66)
+    drop-shadow(2px 3px #11434a)
+    drop-shadow(2px 3px #0b3942)
+    drop-shadow(2px 3px #08333b)
+    drop-shadow(2px 3px #062c34)
+    drop-shadow(2px 3px #04252c);
+}
+.riv-home .apr-hero__resort {
+  filter: url(#apr-print-wear)
+    drop-shadow(1px 1px #dc6845)
+    drop-shadow(2px 2px #0b3942)
+    drop-shadow(2px 2px #04262d);
+}
