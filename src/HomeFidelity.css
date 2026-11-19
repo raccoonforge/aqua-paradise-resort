@@ -790,29 +790,11 @@
 }
 
 
-/* Editorial pacing: give the Hero and magazine spread breathing room.
-   The gap belongs to the page, not to the interior of the approved artwork. */
-.riv-home .apr-hero + .apr-about {
-  margin-top: clamp(48px, 5.6vw, 104px);
-}
-@media (max-width: 1000px) {
-  .riv-home .apr-hero + .apr-about {
-    margin-top: clamp(28px, 5vw, 52px);
-  }
-}
-
-
 /* Magazine pages should extend beyond the section's edges, like real layered paper.
    Keep the existing container sizing and artwork geometry unchanged. */
 .riv-home .apr-about {
   overflow: visible;
 }
-@media (max-width: 1000px) {
-  .riv-home .apr-about {
-    overflow: visible;
-  }
-}
-
 
 /* About Resort editorial typography: give the magazine copy breathing room. */
 @media (min-width: 1001px) {
@@ -834,50 +816,56 @@
 }
 
 
-/* Vintage poster torn edge — only on the Hero -> About Resort transition.
-   Keep the editorial gap, the live Hero artwork and the journal sheets intact. */
-.riv-home .apr-hero::after {
+/* The deckle matte cuts the print itself. The matching fibre layer sits below
+   it, leaving the turquoise ground open before the projecting journal sheets. */
+.riv-home {
+  --arrival-edge-depth: clamp(15px, 1.95vw, 29px);
+  --arrival-edge-mask: url('./assets/retro/arrival/deckle-mask.png');
+  --arrival-edge-stock: url('./assets/retro/arrival/deckle-fibres.webp');
+  --arrival-pause: clamp(48px, 5.6vw, 104px);
+  --arrival-ink-run: clamp(32px, 3.4vw, 62px);
+  --arrival-terrace-fade: clamp(13px, 2.14vw, 37px);
+}
+.riv-home .apr-hero {
+  mask:
+    linear-gradient(#000 0 0) top/100% calc(100% - var(--arrival-edge-depth) + 1px) no-repeat,
+    var(--arrival-edge-mask) bottom/100% var(--arrival-edge-depth) no-repeat;
+}
+.apr-arrival-gap {
+  position: relative;
+  height: var(--arrival-pause);
+  background: #043734 url('./assets/retro/arrival/arrival-ink.webp') center/100% 100% no-repeat;
+  pointer-events: none;
+}
+.apr-arrival-gap::before {
   content: '';
   position: absolute;
-  inset: auto 0 0;
-  height: clamp(13px, 1.5vw, 25px);
-  z-index: 5;
-  pointer-events: none;
-  background-image:
-    var(--riv-stock),
-    linear-gradient(180deg, #f8d9a5 0%, #e7b97d 72%, #cb915d 100%);
-  background-blend-mode: soft-light, normal;
-  clip-path: polygon(
-    0 0, 100% 0, 100% 66%,
-    97% 72%, 94% 65%, 91% 83%, 88% 71%, 85% 80%,
-    81% 67%, 78% 77%, 74% 68%, 71% 85%, 67% 70%,
-    64% 78%, 60% 64%, 57% 83%, 53% 70%, 49% 77%,
-    46% 66%, 42% 84%, 39% 72%, 35% 79%, 32% 67%,
-    28% 83%, 25% 70%, 21% 77%, 18% 65%, 14% 82%,
-    11% 69%, 8% 79%, 5% 66%, 2% 78%, 0 71%
-  );
+  z-index: 1;
+  inset: calc(-1 * var(--arrival-edge-depth)) 0 auto;
+  height: calc(var(--arrival-edge-depth) * 84 / 62);
+  background: var(--arrival-edge-stock) center/100% 100% no-repeat;
 }
-
-/* The breathing room is deliberately retained, not covered by paper layers. */
-.riv-home .apr-hero + .apr-about {
-  --apr-section-gap: clamp(48px, 5.6vw, 104px);
-  margin-top: var(--apr-section-gap);
+.riv-home .apr-arrival-gap + .apr-about {
+  background:
+    url('./assets/retro/arrival/journal-ink.webp') center top/100% var(--arrival-ink-run) no-repeat,
+    var(--riv-stock), #054c47;
 }
-.riv-home .apr-hero + .apr-about::before {
-  content: '';
-  position: absolute;
-  z-index: 0;
-  pointer-events: none;
-  left: 0;
-  right: 0;
-  top: calc(-1 * var(--apr-section-gap));
-  height: calc(var(--apr-section-gap) + 2px);
-  background-image: var(--riv-stock), linear-gradient(180deg, #073f3d 0%, #064641 65%, #054c47 100%);
-  background-blend-mode: soft-light, normal;
+.apr-arrival-gap + .apr-about .apr-about__frame img {
+  mask:
+    url('./assets/retro/arrival/journal-matte.png') top/100% var(--arrival-terrace-fade) no-repeat,
+    linear-gradient(#000 0 0) bottom/100% calc(100% - var(--arrival-terrace-fade) + 1px) no-repeat;
 }
 
 @media (max-width: 1000px) {
-  .riv-home .apr-hero + .apr-about {
-    --apr-section-gap: clamp(28px, 5vw, 52px);
+  .riv-home {
+    --arrival-pause: clamp(28px, 5vw, 52px);
+    --arrival-ink-run: clamp(20px, 4vw, 40px);
+    --arrival-terrace-fade: clamp(11px, 1.75vw, 18px);
+  }
+}
+@media (max-width: 600px) {
+  .riv-home {
+    --arrival-edge-mask: url('./assets/retro/arrival/deckle-mask-small.png');
+    --arrival-edge-stock: url('./assets/retro/arrival/deckle-fibres-small.webp');
   }
 }

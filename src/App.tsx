@@ -24,7 +24,16 @@ function scrollHome(section: string) {
 }
 
 function HomePage() {
-  return <><Hero /><AboutResort /><ParadiseViewMaster /><GoldenTickets /><DepartureBoard /></>;
+  return (
+    <>
+      <Hero />
+      <div className="apr-arrival-gap" aria-hidden="true" />
+      <AboutResort />
+      <ParadiseViewMaster />
+      <GoldenTickets />
+      <DepartureBoard />
+    </>
+  );
 }
 
 function App() {
