@@ -544,3 +544,45 @@
 @media (max-width: 767px) {
   .riv-home .apr-hero { margin-bottom: -24px; }
 }
+
+
+/* Printed poster handoff, matching the archival travel-print reference:
+   a nearly level, lightly distressed ink seam and subdued botanical
+   ghosting beneath it, not a broad wave or an opacity fade. */
+.riv-home .apr-hero {
+  margin-bottom: -30px;
+  filter: none;
+}
+.riv-home .apr-about {
+  position: relative;
+  padding-top: clamp(100px, 9vw, 160px);
+}
+.riv-home .apr-about::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  inset: 0 0 auto;
+  height: clamp(190px, 22vw, 315px);
+  pointer-events: none;
+  background:
+    url('./assets/retro/hero-ink-seam.svg') center 26px / 100% 20px no-repeat,
+    linear-gradient(180deg, rgba(0, 31, 33, .28), transparent 78%),
+    url('./assets/retro/fidelity/about-leaves.webp') -70px 25px / clamp(260px, 30vw, 480px) auto no-repeat,
+    url('./assets/retro/fidelity/about-leaves.webp') calc(100% + 70px) 20px / clamp(260px, 30vw, 490px) auto no-repeat;
+  opacity: .38;
+  -webkit-mask-image: linear-gradient(#000 0 58%, transparent 100%);
+  mask-image: linear-gradient(#000 0 58%, transparent 100%);
+}
+.riv-home .apr-about__layout {
+  position: relative;
+  z-index: 1;
+}
+@media (max-width: 767px) {
+  .riv-home .apr-hero { margin-bottom: -24px; }
+  .riv-home .apr-about { padding-top: clamp(68px, 12vw, 104px); }
+  .riv-home .apr-about::before {
+    height: 165px;
+    background-position: center 20px, center, -85px 16px, calc(100% + 100px) 16px;
+    opacity: .30;
+  }
+}
