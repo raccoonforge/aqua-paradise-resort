@@ -37,8 +37,8 @@ export default function DepartureBoard() {
         <img className="departure-traveller" src={traveller} width={398} height={692} alt="" loading="lazy" decoding="async" />
       </span>
       <div className="departure-heading-art">
-        <h2 id="departure-title" className="sr-only">Спланируйте своё идеальное прибытие в рай</h2>
-        <p className="sr-only">Выберите дату, компанию и настроение отдыха.</p>
+        <h2 id="departure-title">Спланируйте своё идеальное прибытие в рай</h2>
+        <p>Выберите дату, компанию и настроение отдыха.</p>
       </div>
     </header>
     <form className="terminal" onSubmit={event => {
