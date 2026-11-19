@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { CSSProperties, PointerEvent } from 'react';
 import { zonesData as zones } from '../data/zones';
+import palm from '../assets/retro/apr-palm-logo.svg';
 import './ParadiseViewMaster.css';
 
 const icons = import.meta.glob<string>('../assets/retro/viewmaster/icon-*.webp', {
@@ -107,9 +108,9 @@ export default function ParadiseViewMaster() {
   }
 
   return (
-    <section id="worlds" className="apr-worlds" aria-labelledby="apr-worlds-title">
+    <section id="worlds" tabIndex={-1} className="apr-worlds" aria-labelledby="apr-worlds-title">
       <header className="apr-worlds__heading">
-        <h2 id="apr-worlds-title"><span className="apr-worlds__world-count">9 миров</span><span className="apr-worlds__resort-name">Aqua Paradise</span></h2>
+        <h2 id="apr-worlds-title"><span className="apr-worlds__world-count">9 миров</span>{' '}<span className="apr-worlds__resort-name">Aqua Paradise</span></h2>
         <p>Выберите мир и загляните внутрь</p>
       </header>
 
@@ -169,7 +170,10 @@ export default function ParadiseViewMaster() {
                 ))}
               </div>
             </div>
-            <div className="apr-worlds__hub" aria-hidden="true" />
+            <div className="apr-worlds__hub" aria-hidden="true">
+              <img src={palm} alt="" width={76} height={69} loading="lazy" />
+              <span>Aqua<br />Paradise<small>Resort</small></span>
+            </div>
             <span className="apr-worlds__marker" aria-hidden="true" />
           </div>
           <button className="apr-worlds__arrow" type="button" aria-label="Следующий мир" onClick={() => setTurn(n => n + 1)}><svg aria-hidden="true" viewBox="0 0 32 32"><path d="m10 3 14 13-14 13" fill="none" stroke="currentColor" strokeWidth="4" /></svg></button>

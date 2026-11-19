@@ -4,7 +4,7 @@ const featured = ['skyfall', 'poseidons-descent', 'stormbreaker', 'crystal-passa
 const artwork = import.meta.glob<string>('../assets/retro/rides/*.webp', { eager: true, import: 'default' });
 
 export default function GoldenTickets() {
-  return <section id="attractions" className="golden-tickets poster-stock" aria-labelledby="golden-title">
+  return <section id="attractions" tabIndex={-1} className="golden-tickets poster-stock" aria-labelledby="golden-title">
     <header className="poster-heading tickets-title">
       <p className="imprint">AQUA PARADISE RESORT</p>
       <h2 id="golden-title">Легендарные аттракционы</h2>

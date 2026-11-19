@@ -96,7 +96,7 @@ export default function AboutResort() {
   }, []);
 
   return (
-    <section id="about" ref={sectionRef} aria-labelledby="about-title"
+    <section id="about" tabIndex={-1} ref={sectionRef} aria-labelledby="about-title"
       className={`apr-about ${visible ? 'apr-about--visible' : ''}`}>
       <div className="apr-about__layout">
         <figure className="apr-about__frame">
@@ -112,7 +112,7 @@ export default function AboutResort() {
             <span>AQUA PARADISE</span><img src={palm} alt="" /><small>RESORT</small>
             <svg viewBox="0 0 120 48" fill="none"><path d="M0 8q15-8 30 0t30 0t30 0t30 0M0 18q15-8 30 0t30 0t30 0t30 0M0 28q15-8 30 0t30 0t30 0t30 0M0 38q15-8 30 0t30 0t30 0t30 0" stroke="currentColor" strokeWidth="2" /></svg>
           </div>
-          <h2 id="about-title">Золотой век<br />тропического рая</h2>
+          <h2 id="about-title">Золотой век <br />тропического рая</h2>
           <svg className="apr-about__brush" viewBox="0 0 460 34" aria-hidden="true"><path d="M4 25C83 11 220 0 344 6C399 7 442 13 459 18C321 1 157 20 19 33C3 34-5 29 4 25Z" fill="currentColor" /></svg>
 
           <div className="apr-about__intro">

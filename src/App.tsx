@@ -18,7 +18,10 @@ import SunsetPier from './components/SunsetPier';
 import './HomeFidelity.css';
 
 function scrollHome(section: string) {
-  document.getElementById(section)?.scrollIntoView({
+  const target = document.getElementById(section);
+  if (!target) return;
+  target.focus({ preventScroll: true });
+  target.scrollIntoView({
     behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
   });
 }
@@ -82,7 +85,10 @@ function App() {
         scrollHome(section ?? 'hero');
       }
     }}>
-      <a href="#main-content" className="apr-skip-link">Перейти к основному содержимому</a>
+      <a href="#main-content" className="apr-skip-link" onClick={event => {
+        event.preventDefault();
+        document.getElementById('main-content')?.focus();
+      }}>Перейти к основному содержимому</a>
       <Header key={currentPath} home={home} />
       <main id="main-content" tabIndex={-1} className={home ? 'riv-home' : 'riv-interior flex-grow'}>{renderPage()}</main>
       {home ? <SunsetPier /> : (

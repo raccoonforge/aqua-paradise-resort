@@ -78,9 +78,9 @@ export default function Header({ home }: {home: boolean}) {
     if (!home) return;
     const hero = document.getElementById('hero');
     if (!hero) return;
-    // Treat the hero's bottom touching the viewport edge as having left the viewport.
+    // Switch to the compact menu before the masthead crosses the artwork.
     const observer = new IntersectionObserver(([entry]) => setCompact(!entry.isIntersecting), {
-      rootMargin: '-1px 0px 0px',
+      rootMargin: '-64px 0px 0px',
     });
     observer.observe(hero);
     const scroll = () => setScrolled(window.scrollY > 20);

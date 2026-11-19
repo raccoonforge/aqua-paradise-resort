@@ -1,535 +1,431 @@
-/* Approved home posters and their live controls. */
-.riv-home .apr-hero,
-.riv-home .apr-about,
-.golden-tickets,
-.departure {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  container-type: inline-size;
+/* Printed pieces share the same ink under their individual illustrations. */
+.riv-home, .sunset-pier { background: var(--riv-stock), #043a36; color: var(--riv-cream); }
+.riv-home { overflow: clip; }
+.poster-stock { position: relative; isolation: isolate; }
+.poster-heading { margin-inline: auto; text-align: center; }
+.poster-heading h2 {
+  color: #ffe6ac;
+  font: italic 700 clamp(2rem, 4.7vw, 4.6rem)/1.04 var(--riv-serif);
+  letter-spacing: -.055em;
+  text-shadow: .03em .04em #9e482f, .065em .08em #00322d;
+  text-wrap: balance;
+}
+.poster-heading h2::after {
+  content: '';
+  display: block;
+  width: min(30%, 9rem);
+  height: 4px;
+  margin: .23em auto .28em;
+  border-radius: 85% 40% 70% 25%;
+  transform: rotate(-2deg);
+  background: #ec7547;
 }
 
-.riv-mast.apr-header .mast-inner { height: clamp(69px,5.69vw,106px); padding-inline: 4.55vw; }
-.riv-mast .apr-brand img { width: clamp(58px,4.65vw,88px); }
-.riv-mast .apr-brand__name { font-size: clamp(16px,1.38vw,25px); }
-.riv-mast .apr-header__links { gap: clamp(12px,2.02vw,36px); }
-.riv-mast .apr-header__navigation { font: 700 clamp(13px,1vw,18px)/1.2 system-ui,sans-serif; }
-.riv-mast .ticket-cta,
-.apr-hero__actions .riv-button:first-child,
-.board-submit {
-  background: var(--riv-stock), linear-gradient(#fd8551,#ed5835 53%,#bd3928);
-  text-shadow: 0 1px 2px #832b1c;
+.riv-mast.apr-header { background: transparent !important; }
+.riv-mast.apr-header .mast-inner {
+  max-width: 108rem;
+  height: clamp(70px, 6vw, 100px);
+  margin-inline: auto;
+  padding-inline: clamp(20px, 4vw, 72px);
 }
-.riv-mast .ticket-cta { min-width: 8.8vw; padding: .9em 1.24em; border-radius: 10px; }
-.riv-mast .apr-header__dropdown { width: clamp(302px,24vw,410px); clip-path: polygon(0 0,100% 0,100% 49px,calc(100% - 9px) 59px,100% 70px,100% 100%,0 100%,0 70px,9px 59px,0 49px); }
-.riv-mast .apr-header__ticket-head { padding: 15px 21px; font-size: clamp(11px,.87vw,15px); }
-.riv-mast .apr-header__ticket-head span:last-child { font-size: .85em; }
-.riv-mast .apr-header__ticket-body { padding: 8px 15px 12px; }
-.riv-mast .apr-header__dropdown-item { padding: clamp(11px,1.02vw,19px) 12px; }
-.riv-mast .apr-header__dropdown-item strong { font-size: clamp(15px,1.12vw,20px); }
-.riv-mast .apr-header__dropdown-item small { font-size: clamp(12px,.89vw,16px); }
-.riv-mast .apr-header__ticket-foot { padding: 12px 21px; font-size: clamp(10px,.77vw,13px); }
-.back-top { bottom: max(16px,calc(env(safe-area-inset-bottom) + 10px)); }
+.riv-mast .apr-brand img { width: clamp(49px, 4.5vw, 78px); }
+.riv-mast .apr-brand__name { font-size: clamp(16px, 1.38vw, 25px); }
+.riv-mast .apr-header__links { gap: clamp(12px, 1.7vw, 30px); }
+.riv-mast .apr-header__navigation { font: 700 clamp(13px, 1vw, 18px)/1.2 system-ui, sans-serif; }
+.riv-mast .apr-header__navlink, .inner-mast .apr-header__navlink { min-height: 44px; }
+.ticket-cta, .apr-hero__actions .riv-button:first-child, .board-submit {
+  background: var(--riv-stock), linear-gradient(#c95d38, #a63f28 58%, #8d3024);
+  text-shadow: 0 1px 2px #70271e;
+}
+.ticket-cta:hover, .apr-hero__actions .riv-button:first-child:hover, .board-submit:hover {
+  background: var(--riv-stock), linear-gradient(#b04a2c, #872f20);
+}
 
 .riv-home .apr-hero {
-  width: 100%; min-height: 0;
-  aspect-ratio: 1672 / 941;
-  background: #033839;
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-items: center;
+  min-height: max(40rem, 56vw);
+  padding: clamp(100px, 9vw, 168px) clamp(24px, 6vw, 104px) clamp(90px, 8vw, 134px);
 }
-.apr-hero__plate { position: absolute; inset: 0; z-index: -1; background: url('./assets/retro/fidelity/hero-plate.webp') center / cover no-repeat; }
-.apr-hero__mobile-lettering { display: none; }
-.riv-home .apr-hero__content { position: absolute; inset: 64.8% auto auto 4.35%; padding: 0; width: 45%; max-width: none; }
-.riv-home .apr-hero__tagline {
-  max-width: none;
-  margin: 0 0 1.75cqw;
-  color: #ffe9b9;
-  font: italic 700 2.66cqw/1.13 Georgia,serif;
-  letter-spacing: -.025em;
-  white-space: nowrap;
-  text-shadow: .06em .08em #003b35;
+.apr-hero__plate {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: url('./assets/retro/riviera.webp') center / cover no-repeat;
+  mask-image: linear-gradient(#000 82%, transparent 100%);
 }
-.riv-home .apr-hero__tagline::before { content:''; display:inline-block; width:3.05cqw; height:2px; margin-right:.9cqw; background:currentColor; vertical-align:middle; }
-.riv-home .apr-hero__actions { margin: 0; display: flex; gap: 1.15cqw; flex-wrap: nowrap; }
-.riv-home .apr-hero__actions .riv-button { min-height: 3.72cqw; padding: .6em 1.05em; color: #fff1c8; font-size: 1.33cqw; white-space: nowrap; }
-.riv-home .apr-hero__actions .riv-button:first-child { min-width: 20.2cqw; }
-.riv-home .apr-hero__actions .riv-button.secondary { min-width: 17.5cqw; background: var(--riv-stock),#043a38; border-color: #f6d79b; }
+.apr-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, #002a27e6, transparent 24%),
+    radial-gradient(ellipse at 21% 51%, #003735b3 0%, #00373558 32%, transparent 64%);
+}
+.apr-hero__content { justify-self: start; min-width: 0; }
+.apr-hero__title { width: fit-content; margin: .04em 0 .19em; padding-right: .18em; transform: rotate(-6deg); }
+.apr-hero__title > span {
+  display: block;
+  color: #ffe6a7;
+  font: italic 700 clamp(4rem, 9.1vw, 10rem)/.78 Georgia, serif;
+  letter-spacing: -.095em;
+  text-transform: uppercase;
+  text-shadow: .025em .027em #995236, .05em .051em #002c29, .065em .075em #002b285e;
+}
+.apr-hero__title > span::after {
+  content: '';
+  display: block;
+  width: 87%;
+  height: .105em;
+  margin: .05em 0 0 .025em;
+  border-radius: 70% 16% 66% 23%;
+  background: var(--riv-stock), linear-gradient(175deg, #fa9b51, #d25832);
+  box-shadow: .012em .035em #e7ad54, .024em .065em #00332b;
+}
+.apr-hero__title em {
+  display: block;
+  position: relative;
+  margin: -.08em -.03em -.02em 0;
+  text-align: right;
+  color: #ffa575;
+  font: 400 clamp(3.1rem, 7.3vw, 7.8rem)/.73 'APR Script', Georgia, serif;
+  text-shadow: .024em .04em #174138;
+}
+.apr-hero__tagline {
+  margin: 1.15em 0 .67em;
+  color: #fff1c6;
+  font: italic 700 clamp(1.35rem, 2.6vw, 2.7rem)/1.15 Georgia, serif;
+  text-shadow: 0 2px 4px #002f2a;
+  text-wrap: balance;
+}
+.apr-hero__actions { display: flex; flex-wrap: wrap; gap: 11px; }
+.apr-hero__actions .riv-button { font-size: clamp(.91rem, 1.2vw, 1.2rem); }
+.water-spray { position: absolute; pointer-events: none; left: 61%; right: 20%; top: 68%; height: 4%; }
+.water-spray i {
+  position: absolute;
+  left: 8%; top: 22%; width: 3px; height: 2px; border-radius: 50%;
+  background: #fff9d6; opacity: 0; animation: spray 2.7s ease-out infinite;
+}
+.water-spray i:nth-child(even) { left: 75%; --drift: 8px; animation-delay: -1.4s; }
+.water-spray i:nth-child(3n) { left: 89%; top: 38%; animation-delay: -.7s; }
+.water-spray i:nth-child(4) { left: 4%; animation-delay: -2s; }
+@keyframes spray {
+  0%, 57%, 100% { opacity: 0; }
+  64% { opacity: .75; transform: translate(0, 0); }
+  76% { transform: translate(var(--drift, -6px), -7px); }
+  94% { transform: translate(var(--drift, -6px), 3px); opacity: 0; }
+}
 
+/* The travel journal ends at the edge of its own paper. */
 .riv-home .apr-about {
-  padding: 0;
-  aspect-ratio: 1672 / 941;
-  background: var(--riv-stock),#054c47;
+  padding: clamp(28px, 4.2vw, 78px) clamp(22px, 5vw, 86px) clamp(55px, 7.3vw, 114px);
+  background: radial-gradient(ellipse 80% 55% at 42% 52%, #0b5850af, transparent);
+  overflow: clip;
 }
-.apr-about__layout { width: 100%; max-width: none; min-height: 100%; }
+.apr-about__layout { max-width: 92rem; }
 .riv-home .apr-about__frame {
-  position: absolute; z-index: 2; left: 0; top: 0; bottom: 0; width: 44.26%; padding: 0; border: 0;
-  border-radius: 0; box-shadow: none; background: transparent; transform: none;
-}
-.apr-about__frame img { width: 100%; height: 100%; border-radius: 0; aspect-ratio: auto; }
-.apr-about__paper-stack { position: absolute; inset: 5.4% 2.9% 8.6% 43%; margin: 0; }
-.apr-about__paper { height: 100%; padding: 1.15cqw 2.5cqw 0 3.45cqw; background: url('./assets/retro/fidelity/journal-paper.webp') center / 100% 100%; }
-.apr-about__back-page { left: 6%; right: 9%; top: -2.5cqw; height: 14cqw; transform: rotate(-4.4deg); }
-.apr-about__label { width: 75%; font-size: 2.52cqw; line-height: 1.1; }
-.apr-about h2 { margin: .39em 0 0; font: italic 700 5.27cqw/.91 Georgia,serif; letter-spacing: -.06em; }
-.apr-about__brush { display: block; width: 53%; margin: .16cqw 0 1.03cqw 13%; }
-.apr-about__seal { top: 3%; right: 9%; width: 9.65cqw; }
-.apr-about__intro { grid-template-columns: 19% minmax(0,1fr); gap: 3%; }
-.apr-about__intro p { font: 500 1.43cqw/1.14 Georgia,serif; }
-.riv-home .apr-about__palm-engraving { width: 100%; max-width: none; }
-.riv-home .apr-about__stats { grid-template-columns: .9fr 1fr 1.19fr .86fr; gap: 0; margin-top: 1.28cqw; padding-top: 1.34cqw; }
-.apr-about__stats li:nth-child(3) { border-left: 1px solid #ad762e99; }
-.apr-about__stats svg { width: 3.8cqw; height: 3.8cqw; margin-bottom: .63cqw; }
-.apr-about__stats strong { font-size: 2.46cqw; line-height: .98; }
-.apr-about__stats li:nth-child(n+3) strong { font-size: 1.9cqw; }
-.apr-about__stats span { font-size: 1.31cqw; }
-.riv-home .apr-about__quote {
-  position: absolute; bottom: -2.1cqw; left: 12%; width: 60%; min-height: 8.4cqw; margin: 0; z-index: 4;
-  padding: .5cqw 1.25cqw; transform: rotate(-6deg);
-  background: var(--riv-stock),linear-gradient(122deg,#f3ce8b,#f8dfa7);
-}
-.apr-about__quote p { font-size: 1.69cqw; line-height: 1.24; }
-.apr-about__quote-flower { width: 20%; flex: none; }
-.apr-about::after { content:''; inset: auto 0 0 auto; width:25.1%; aspect-ratio:210/187; position:absolute; z-index:3; pointer-events:none; background:url('./assets/retro/fidelity/about-leaves.webp') center/contain no-repeat; }
-
-.golden-tickets {
-  aspect-ratio: 1671 / 941;
-  padding: 0;
+  z-index: 2;
+  background: none;
   border: 0;
-  background: url('./assets/retro/fidelity/tickets-decor.webp') center/100% 100% no-repeat,
-    var(--riv-stock),radial-gradient(ellipse at 54% 52%,#0a5750,#003b38);
+  box-shadow: none;
+  padding: 0;
+  transform: rotate(-1.2deg);
 }
-.golden-tickets::before { display: none; }
-.golden-tickets::after,
-.sunset-pier::after {
-  content: ''; display: block; position: absolute; inset: 0; z-index: 5; width: auto; aspect-ratio: auto;
-  pointer-events: none; transform: none; mask: none;
-  background: url('./assets/retro/fidelity/tickets-frame.webp') center/100% 100% no-repeat;
+.riv-home .apr-about__frame img {
+  aspect-ratio: 740 / 941;
+  mask-image: linear-gradient(#000 95%, transparent);
 }
-.tickets-title {
-  position: absolute; left: 13.15%; top: .85%; width: 73.1%; aspect-ratio: 611/97;
-  background: url('./assets/retro/fidelity/tickets-heading.webp') center/contain no-repeat;
+.riv-home .apr-about__paper-stack { margin-left: -2%; }
+.riv-home .apr-about__paper {
+  padding: clamp(22px, 3vw, 48px) clamp(20px, 3.5vw, 61px) 1.25rem;
+  background: #f6dca0 url('./assets/retro/fidelity/journal-paper.webp') center / 100% 100%;
+}
+.riv-home .apr-about__seal { right: 6%; top: 4%; width: clamp(64px, 7.6vw, 130px); }
+.riv-home .apr-about__label { width: 74%; }
+.riv-home .apr-about h2 { font: italic 700 clamp(2.15rem, 4.5vw, 5rem)/.97 Georgia, serif; }
+.riv-home .apr-about__brush { display: block; margin-bottom: .8rem; }
+.riv-home .apr-about__intro p { font-size: clamp(1rem, 1.28vw, 1.31rem); line-height: 1.38; }
+.riv-home .apr-about__quote {
+  width: min(95%, 31rem);
+  margin: 1.35rem auto -.95rem;
+  padding: .42rem .9rem;
+  min-height: 0;
+  transform: rotate(-3deg);
+}
+.apr-about__quote-flower { width: 18%; flex: none; }
+.riv-home .apr-about__quote p { font-size: clamp(1rem, 1.52vw, 1.4rem); }
+.apr-about::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 auto;
+  width: min(18vw, 270px);
+  aspect-ratio: 210/187;
+  pointer-events: none;
+  background: url('./assets/retro/fidelity/about-leaves.webp') center / contain no-repeat;
+  mask-image: linear-gradient(#000 75%, transparent);
+}
+
+/* The ticket stock grows with the live names and the perforated stubs. */
+.golden-tickets {
+  padding: clamp(56px, 7.2vw, 108px) clamp(23px, 6vw, 96px) clamp(49px, 7.2vw, 108px);
+  background: radial-gradient(ellipse 85% 58% at 53% 49%, #0b5550d9, transparent);
+}
+.golden-tickets::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: url('./assets/retro/fidelity/tickets-decor.webp') center / 100% 100% no-repeat;
+  mask-image: linear-gradient(transparent, #000 13%, #000 86%, transparent), linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
+  mask-composite: intersect;
+}
+.imprint, .ticket-subtitle {
+  font: 750 clamp(.69rem, 1.04vw, 1rem)/1.4 system-ui, sans-serif;
+  letter-spacing: .135em;
+  text-transform: uppercase;
+  color: #ffdc9e;
+}
+.imprint { margin-bottom: .55em; }
+.imprint::before, .imprint::after {
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  width: clamp(13px, 4vw, 62px);
+  height: 1px;
+  margin-inline: .65em;
+  background: currentColor;
 }
 .ticket-collection {
-  position: absolute; margin: 0; max-width: none; top: 21.9%; inset-inline: 3.65%; padding: 0;
-  display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: .55cqw;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
+  gap: clamp(12px, 1.65vw, 27px);
+  max-width: 91rem;
+  margin: clamp(31px, 4.7vw, 72px) auto clamp(34px, 5vw, 75px);
 }
-.golden-ticket { --tilt: -8deg; --print: #b84a2f; margin-inline: -1.65%; }
-.golden-ticket:nth-child(2) { --tilt: 4deg; --print: #0a6865; translate: 0 .7cqw; }
-.golden-ticket:nth-child(3) { --tilt: -3deg; --print: #e8982c; translate: 0 -.15cqw; }
-.golden-ticket:nth-child(4) { --tilt: 8deg; --print: #096769; translate: 0 1.65cqw; }
+.golden-ticket {
+  --tilt: -5deg;
+  --ticket-ink: #7e2d20;
+  --print: #b84a2f;
+  position: relative;
+  display: flex;
+  min-width: 0;
+  transform: rotate(var(--tilt));
+  transition: transform .22s;
+  filter: drop-shadow(3px 8px 4px #002824a6);
+}
+.golden-ticket:nth-child(2) { --tilt: 3deg; --ticket-ink: #075552; --print: #0a6865; }
+.golden-ticket:nth-child(3) { --tilt: -3deg; --ticket-ink: #734417; --print: #e8982c; }
+.golden-ticket:nth-child(4) { --tilt: 5deg; --ticket-ink: #11575b; --print: #096769; }
+.golden-ticket:is(:hover, :focus-visible) { transform: translateY(-5px) rotate(calc(var(--tilt) * .65)); z-index: 2; }
 .ticket-stock {
-  display: grid; grid-template-rows: 59% minmax(0,1fr) auto; aspect-ratio: 346 / 484;
-  border-radius: 2% 3% 2% 4%; padding: .88cqw;
-  background: url('./assets/retro/fidelity/ticket-paper.webp') center/cover;
-  mask: radial-gradient(circle at 0 0,transparent .56cqw,#000 .61cqw) left top/51% 51% no-repeat,
-        radial-gradient(circle at 100% 0,transparent .56cqw,#000 .61cqw) right top/51% 51% no-repeat,
-        radial-gradient(circle at 0 100%,transparent .56cqw,#000 .61cqw) left bottom/51% 51% no-repeat,
-        radial-gradient(circle at 100% 100%,transparent .56cqw,#000 .61cqw) right bottom/51% 51% no-repeat;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  justify-items: stretch;
+  width: 100%;
+  padding: clamp(7px, .78vw, 13px);
+  background: #f5d79e url('./assets/retro/fidelity/ticket-paper.webp') center / cover;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px #bd8b54, inset 0 0 0 5px #ffecba;
+  mask:
+    radial-gradient(circle at 0 0, transparent 6px, #000 7px) left top / 51% 51% no-repeat,
+    radial-gradient(circle at 100% 0, transparent 6px, #000 7px) right top / 51% 51% no-repeat,
+    radial-gradient(circle at 0 100%, transparent 6px, #000 7px) left bottom / 51% 51% no-repeat,
+    radial-gradient(circle at 100% 100%, transparent 6px, #000 7px) right bottom / 51% 51% no-repeat;
 }
-.ticket-stock::after { height: .58cqw; inset-inline: .3cqw; background-size: .95cqw .6cqw; }
-.ticket-picture { aspect-ratio: auto; border: 0; border-radius: 4% 4% 0 0; }
-.ticket-picture img { filter: saturate(1.12) contrast(1.07); }
-.golden-ticket .ticket-lettering {
-  isolation: isolate; display: grid; align-content: center; justify-items: center; padding: .38cqw .44cqw .22cqw; border: 0;
-  background: var(--riv-stock), repeating-conic-gradient(from 12deg at 49% 58%,transparent 0 7deg,#ffdc9a38 7deg 10deg),var(--print);
+.ticket-picture { overflow: hidden; aspect-ratio: .98; border-radius: 5px 5px 0 0; background: var(--ticket-ink); }
+.ticket-picture img { display: block; width: 100%; height: 100%; object-fit: cover; filter: saturate(1.12) contrast(1.07); }
+.ticket-lettering {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-content: center;
+  gap: .5em;
+  padding: .85em .5em;
+  color: var(--ticket-ink);
+  text-align: center;
+  background: var(--riv-stock), repeating-conic-gradient(from 12deg at 49% 58%, transparent 0 7deg, #ffdc9a38 7deg 10deg), var(--print);
 }
-.ticket-lettering::before { height: .85cqw; inset: -.59cqw 0 auto; background: var(--print); }
+.ticket-lettering::before {
+  content: '';
+  position: absolute;
+  inset: -6px 0 auto;
+  height: 7px;
+  background: var(--print);
+  clip-path: polygon(0 55%, 20% 15%, 33% 62%, 49% 7%, 65% 47%, 89% 13%, 100% 48%, 100% 100%, 0 100%);
+}
 .ticket-lettering::after {
-  content: ''; position: absolute; z-index: -1; inset: 8% 2% 4%;
-  background: var(--riv-stock),#ffe7a9;
-  clip-path: polygon(1% 40%,8% 32%,2% 25%,13% 22%,9% 14%,24% 12%,28% 4%,70% 6%,79% 0,91% 11%,86% 17%,100% 25%,92% 36%,99% 44%,91% 48%,100% 66%,91% 70%,94% 82%,79% 85%,78% 96%,39% 100%,22% 94%,12% 96%,16% 88%,4% 82%,11% 74%,0 66%,6% 53%);
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 5% 2% 4%;
+  background: var(--riv-stock), #ffeab3;
+  clip-path: polygon(1% 40%, 7% 32%, 2% 25%, 12% 21%, 7% 14%, 28% 4%, 68% 6%, 79% 1%, 93% 11%, 87% 18%, 100% 25%, 94% 37%, 99% 46%, 96% 57%, 100% 66%, 93% 75%, 96% 85%, 79% 92%, 46% 100%, 22% 94%, 6% 87%, 9% 76%, 0 66%, 4% 54%);
 }
-.ticket-lettering h3 {
-  min-height: 0; display: block; color: var(--ticket-ink); font: italic 800 3.72cqw/.91 Georgia,serif; letter-spacing: -.055em;
-  text-shadow: .024em .038em #efc388;
-}
-.ticket-lettering p { margin-top: .48cqw; padding: .22cqw .58cqw; color: var(--ticket-ink); font-size: .8cqw; line-height: 1.16; }
+.ticket-lettering h3 { font: italic 800 clamp(1.5rem, 2.9vw, 3.22rem)/.99 Georgia, serif; letter-spacing: -.045em; text-wrap: balance; }
+.ticket-lettering p { font: 750 clamp(.67rem, .88vw, .9rem)/1.2 system-ui, sans-serif; text-transform: uppercase; letter-spacing: .055em; }
 .ticket-stub {
-  display: flex; justify-content: center; gap: .15em .82em; align-items: center; padding: .57cqw .35cqw .51cqw;
-  border: 0; border-top: 1px dashed var(--ticket-ink); background: #fff1bd9e; font: 800 .82cqw/1.17 system-ui,sans-serif;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .18em .78em;
+  padding: .56em .3em;
+  border-top: 1px dashed var(--ticket-ink);
+  background: #fff1bd9e;
+  color: var(--ticket-ink);
+  font: 750 clamp(.68rem, .92vw, .94rem)/1.25 system-ui, sans-serif;
 }
-.ticket-all { position: absolute; inset: auto 0 5.9%; }
-.ticket-all .riv-button { padding: .57em 1.45em; min-width: 27%; font: 800 2.03cqw/1.1 system-ui,sans-serif; }
-.ticket-all::before,.ticket-all::after { width:6cqw; margin:0 1.3cqw; border-color:#f6c469; }
+.ticket-all { text-align: center; }
+.ticket-all .riv-button, .board-submit { font: italic 700 clamp(1.1rem, 1.65vw, 1.65rem)/1.18 Georgia, serif; border: 3px double #f4d298; }
 
+/* The traveller and lagoon sit on either side of the live departure board. */
 .departure {
-  padding: 0; aspect-ratio: 1672 / 941;
-  background: url('./assets/retro/fidelity/departure-scene.webp') center/100% 100% no-repeat, #064743;
+  padding: clamp(25px, 3.1vw, 53px) clamp(16px, 5vw, 78px) clamp(62px, 7.4vw, 116px);
+  background: radial-gradient(ellipse 78% 65% at 50% 56%, #10564d7a, transparent);
 }
-.departure::before { display: none; }
-.departure .poster-heading { max-width: none; }
-.departure-heading-art {
-  position: absolute; left: 23.45%; top: 0; width: 54.42%; aspect-ratio: 455/114;
+.departure::before {
+  content: '';
+  position: absolute;
+  inset: 5% 0 0 auto;
+  width: 30%;
+  z-index: -1;
+  pointer-events: none;
+  background: url('./assets/retro/fidelity/departure-mobile-art.webp') right center / contain no-repeat;
+  mask-image: linear-gradient(transparent, #000 18%, #000 80%, transparent);
 }
-.departure-art { inset: auto auto 0 0; width: 24.76%; z-index: 1; }
-.departure .terminal { position: absolute; inset: 0; margin: 0; width: 100%; }
-.departure .terminal-crown {
-  position: absolute; left: 22.3%; top: 24.95%; width: 57.5%; aspect-ratio: 961/157; padding: 0; margin: 0;
-  border: 0; border-radius: 0; box-shadow: none; background: transparent;
+.departure-heading { max-width: 58rem; }
+.departure-copy { position: relative; }
+.departure-copy h2 { font-size: clamp(2rem, 4.15vw, 4.4rem); }
+.departure-copy p {
+  color: #ffe5b3;
+  font: italic 600 clamp(1rem, 1.5vw, 1.35rem)/1.34 Georgia, serif;
+  text-shadow: 0 2px 3px #00342d;
 }
-.departure .terminal-crown > * {
-  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+.departure-art {
+  position: absolute;
+  inset: auto auto 3% 0;
+  z-index: -1;
+  width: min(24%, 390px);
+  aspect-ratio: 414 / 717;
+  pointer-events: none;
+  mask-image: linear-gradient(#000 85%, transparent);
 }
-.departure .board-case {
-  position: absolute; left: 24.35%; top: 41.4%; width: 54.15%; height: 35.65%; display: grid;
-  grid-template-rows: repeat(4,minmax(0,1fr)); gap: .33cqw; padding: .25cqw; border: 0; box-shadow: none; background: #0a3833;
+.departure-art img { position: absolute; left: 0; height: auto; }
+.departure-traveller { top: 0; width: 96.1353%; }
+.departure-foliage { bottom: 0; width: 100%; }
+.terminal { width: min(68%, 59rem); margin: clamp(27px, 3.6vw, 57px) auto 0; text-align: center; }
+.terminal-crown {
+  position: relative;
+  z-index: 1;
+  width: 93%;
+  margin: 0 auto -3px;
+  padding: 9px 13px 13px;
+  border: 6px double #eac184;
+  border-radius: 47% 47% 0 0 / 56% 56% 0 0;
+  background: var(--riv-stock), radial-gradient(ellipse at 50% 0%, #196056, #063834 68%);
+  color: #ffe1a5;
+  box-shadow: inset 0 0 0 2px #9f6e42;
 }
-.board-row { grid-template-columns: 30% minmax(0,1fr); gap: .4cqw; margin: 0; }
+.terminal-crown h3 { font: italic 700 clamp(1.09rem, 2.3vw, 2.28rem)/1.12 Georgia, serif; letter-spacing: .035em; text-transform: uppercase; text-wrap: balance; }
+.terminal-crown > span:last-child { display: block; margin-top: .4em; font: 700 clamp(.66rem, .89vw, .92rem)/1.25 Georgia, serif; letter-spacing: .23em; text-transform: uppercase; }
+.flight-mark { display: block; font: clamp(22px, 2.45vw, 35px)/1 Georgia, serif; color: #f8ce8e; }
+.board-case {
+  padding: clamp(6px, .95vw, 15px);
+  background: var(--riv-stock), #07322f;
+  border: 7px ridge #d9a265;
+  border-radius: 11px;
+  box-shadow: 0 5px #815632, 0 8px #edc58a, 0 14px 20px #00262180;
+}
+.board-row { display: grid; grid-template-columns: minmax(0, 28%) minmax(0, 1fr); gap: 5px; margin-block: 4px; text-align: left; }
 .board-label {
-  padding: .36cqw 1.03cqw; gap: .65cqw; font: italic 800 1.43cqw/1.03 Georgia,serif;
-  background: url('./assets/retro/fidelity/ticket-paper.webp') center / cover;
+  display: flex;
+  align-items: center;
+  gap: .46em;
+  padding: .46em .55em;
+  color: #173b30;
+  background: #f7dba3 url('./assets/retro/fidelity/ticket-paper.webp') center / cover;
+  border: 2px ridge #d3a26b;
+  border-radius: 5px;
+  font: italic 700 clamp(.91rem, 1.29vw, 1.32rem)/1.08 Georgia, serif;
 }
-.board-label svg { width: 2.9cqw; }
-.board-line { grid-template-columns: 2.7cqw minmax(0,1fr) 2.7cqw; }
-.board-line,.board-interests,.board-summary { border-color:#23514a; box-shadow: inset 0 0 0 1px #071f1d; }
-.board-line button,.board-interests button,.board-summary { min-height: 0; }
-.board-line button { font-size: 1.9cqw; }
-.board-control {
-  background: linear-gradient(transparent 47%,#001c18 48% 52%,transparent 53%),
-    repeating-linear-gradient(90deg,#133e37 0 calc(2.27cqw - 1px),#031f1a calc(2.27cqw - 1px) 2.27cqw);
+.board-label svg { flex: none; width: clamp(20px, 2.38vw, 34px); height: auto; color: #a83d23; fill: none; stroke: currentColor; stroke-width: 2; }
+.board-line, .board-interests, .board-summary { border: 2px inset #987a4e; padding: 3px; border-radius: 5px; background: #062a27; }
+.board-line { display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; gap: 2px; }
+.board-line button, .board-interests button, .board-control, .board-summary {
+  color: #ffe2a9;
+  border-radius: 4px;
+  background: linear-gradient(#16423b 0 48%, #001e19 49% 51%, #103630 52%);
+  box-shadow: inset 1px 1px 1px #7c826350, inset -1px -2px 2px #001e1b;
 }
-.board-letters i { font-size: 2.1cqw; }
-.board-interests { grid-template-columns: repeat(4,minmax(0,1fr)); }
-.board-interests button { font-size: .96cqw; padding-inline: .1em; }
-.board-summary { font-size: 1.06cqw; }
-.board-submit {
-  position: absolute; left: 31.75%; top: 81.85%; width: 37.5%; height: 10.9%; margin: 0;
-  font: italic 800 2.4cqw/1.08 Georgia,serif; white-space: nowrap; gap: .43em;
-  border-width: 5px; border-radius: 12px; padding: .39em .53em;
+.board-line button, .board-interests button { min-height: 44px; cursor: pointer; }
+.board-line button { font-size: 22px; }
+.board-line button:disabled { opacity: .45; cursor: default; }
+.board-control { display: grid; place-items: center; position: relative; min-width: 0; padding: 4px; }
+.board-control:focus-within { outline: 3px solid #ffc46d; outline-offset: -2px; }
+.board-control :is(input, select) { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; font-size: 16px; }
+.board-letters { display: flex; justify-content: center; flex-wrap: wrap; }
+.board-letters i {
+  display: grid;
+  width: .74em;
+  min-height: 1.4em;
+  place-items: center;
+  border-right: 1px solid #001d18;
+  font: 600 clamp(.94rem, 1.9vw, 1.75rem)/1.15 'Courier New', monospace;
 }
-.board-error { position: absolute; z-index: 3; top: 77.4%; left: 33%; width: 35%; margin: 0; padding: .16em; font-size: 1.1cqw; }
+.board-letters b, .board-interests b { animation: letter-flip .23s ease-out; }
+.board-interests { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3px; }
+.board-interests button { padding: .15em .25em; overflow-wrap: anywhere; text-transform: uppercase; font: 700 clamp(.73rem, 1.05vw, 1rem)/1.17 'Courier New', monospace; }
+.board-interests button[aria-pressed=true] { color: #fff4cd; background: linear-gradient(#8a602e 48%, #49351e 49% 51%, #785327 52%); box-shadow: inset 0 0 0 1px #e4ae68; }
+.board-summary { display: grid; place-items: center; min-height: 44px; padding: 7px; text-align: center; font: 700 clamp(.76rem, 1.07vw, 1rem)/1.4 'Courier New', monospace; text-transform: uppercase; }
+.board-submit { max-width: 100%; margin-top: 24px; }
+.board-error { margin: 16px auto 0; padding: 8px; background: #fff0cd; color: #7b2e20; }
+@keyframes letter-flip { from { transform: perspective(160px) rotateX(-76deg); opacity: .55; } }
 
+/* Sunset art draws the eye out to the right of the final navigation. */
 .sunset-pier {
-  position: relative; container-type: inline-size; aspect-ratio: 3 / 1; padding: 0; border: 0;
-  background: url('./assets/retro/fidelity/sunset-scene.webp') center/100% 100% no-repeat,
-    var(--riv-stock),radial-gradient(ellipse at 49% 45%,#034a43,#003431);
-}
-.sunset-pier::after { background-image: url('./assets/retro/fidelity/footer-frame.webp'); }
-.pier-content {
-  position: absolute; top: 17.9%; left: 4.8%; right: 31%; width: auto; gap: 2.45cqw;
-  align-items: center; color: #ffe4a5;
-}
-.pier-brand { width: 39%; flex: none; padding-right: 1.55cqw; border: 0; }
-.pier-brand .apr-brand { gap: 0; }
-.pier-brand img { width: 5.8cqw; filter: grayscale(1) sepia(1) brightness(1.28); }
-.pier-brand .apr-brand__name {
-  margin-top: .09em; text-transform: none; font: 400 4.02cqw/.78 'APR Script',Georgia,serif;
-  letter-spacing: -.035em; white-space: nowrap; text-shadow: .04em .05em #002a23;
-}
-.pier-resort { display: block; }
-.pier-brand p { font: 700 1.01cqw/1.2 Georgia,serif; border-top: 2px solid #dcb26b; padding-top: .52em; }
-.pier-content nav {
-  width: 100%; border-left: 1px solid #d6b481; padding-left: 2.6cqw;
-  grid-template-columns: repeat(3,minmax(0,auto)); gap: 1.83cqw;
-}
-.pier-content h2 { margin: 0 0 .7cqw; font: italic 700 2.1cqw/1.15 Georgia,serif; white-space: nowrap; }
-.pier-content h2::after { width: 85%; height: 3px; border-radius: 58% 65% 20% 20%; }
-.pier-content nav a { font: 500 1.28cqw/1.2 Georgia,serif; padding: .28em 0; white-space: nowrap; }
-.pier-legal {
-  position: absolute; inset: auto 27% 15% 12%; width: auto; margin: 0; padding: .9cqw 0 0; justify-content: center;
-  font: 500 1.02cqw/1.3 Georgia,serif;
-}
-
-@media (max-width: 1000px) {
-  .riv-home .apr-hero, .riv-home .apr-about, .golden-tickets, .departure, .sunset-pier { aspect-ratio: auto; }
-  .riv-home .apr-hero { padding-top: 69px; }
-  .apr-hero__plate {
-    inset: auto 0 0; height: 54%; mask: linear-gradient(transparent,#000 16%);
-    background-image: url('./assets/retro/fidelity/hero-lagoon.webp'); background-position: 41% 71%;
-  }
-  .apr-hero__mobile-lettering {
-    display: block; width: min(87%,650px); aspect-ratio: 442/245; margin: 0 auto;
-    background: url('./assets/retro/fidelity/hero-lettering.webp') center/contain no-repeat;
-  }
-  .riv-home .apr-hero__content { position: relative; inset: auto; width: auto; margin: auto; padding: 0 14px 51cqw; text-align: center; }
-  .riv-home .apr-hero__tagline { font-size: clamp(22px,4.8cqw,37px); margin-bottom: 13px; white-space: normal; }
-  .riv-home .apr-hero__tagline::before { display: none; }
-  .riv-home .apr-hero__actions { justify-content: center; gap: 9px; }
-  .riv-home .apr-hero__actions .riv-button { min-height: 45px; font-size: clamp(12px,2.2cqw,17px); padding: .55em .72em; white-space: normal; }
-  .water-spray { display: none; }
-
-  .riv-home .apr-about { padding: 10px 12px 23px; }
-  .apr-about__layout { grid-template-columns: minmax(0,1fr); width: min(100%,670px); }
-  .riv-home .apr-about__frame { position: relative; inset: auto; width: 100%; margin-bottom: -12px; }
-  .apr-about__frame img { aspect-ratio: 4 / 4.4; object-fit: cover; }
-  .apr-about__paper-stack { position: relative; inset: auto; }
-  .apr-about__paper { height: auto; padding: clamp(22px,4.5cqw,39px) clamp(15px,4.4cqw,46px) 5cqw; }
-  .apr-about__label { font-size: clamp(19px,4.3cqw,31px); width: 72%; }
-  .apr-about h2 { font-size: clamp(32px,6.6cqw,51px); }
-  .apr-about__brush { margin-bottom: 1.6cqw; }
-  .apr-about__seal { width: clamp(58px,14cqw,92px); right: 5%; top: 2.6%; }
-  .apr-about__intro { grid-template-columns: minmax(0,1fr); }
-  .apr-about__intro .apr-about__palm-engraving { display: none; }
-  .apr-about__intro p { font-size: clamp(16px,3.05cqw,21px); line-height: 1.31; }
-  .riv-home .apr-about__stats { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px 0; margin-top: 17px; padding-top: 14px; }
-  .apr-about__stats li:nth-child(3) { border-left: 0; }
-  .apr-about__stats svg { width: clamp(30px,8.6cqw,49px); height: clamp(30px,8.6cqw,49px); }
-  .apr-about__stats strong,.apr-about__stats li:nth-child(n+3) strong { font-size: clamp(20px,4.5cqw,32px); }
-  .apr-about__stats span { font-size: clamp(13px,3cqw,19px); }
-  .riv-home .apr-about__quote { position: relative; bottom: auto; left: auto; width: 91%; margin: 16px auto 0; padding: 13px 11px; transform: rotate(-3deg); }
-  .apr-about__quote p { font-size: clamp(16px,3.5cqw,24px); }
-  .apr-about::after { width: 27%; }
-
-  .golden-tickets { padding: 24px 14px 30px; background-size: 100% auto,auto,auto; }
-  .tickets-title { position: relative; inset: auto; width: min(100%,720px); }
-  .ticket-collection { position: relative; inset: auto; max-width: 740px; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px 10px; margin: 21px auto 29px; padding: 0 4px; }
-  .golden-ticket { margin-inline: 0; }
-  .golden-ticket:nth-child(odd) { --tilt: -3deg; }
-  .golden-ticket:nth-child(even) { --tilt: 3deg; }
-  .ticket-stock { padding: 7px; }
-  .ticket-lettering h3 { font-size: clamp(22px,6cqw,55px); }
-  .ticket-lettering p { font-size: clamp(9px,2.4cqw,14px); }
-  .ticket-stub { min-height: 32px; font-size: clamp(9px,2.3cqw,14px); padding: 4px; }
-  .ticket-all { position: relative; inset: auto; }
-  .ticket-all .riv-button { font-size: clamp(15px,3.25cqw,23px); }
-  .ticket-all::before,.ticket-all::after { display: none; }
-
-  .departure { padding: 0 12px 34px; background: var(--riv-stock),#064440; }
-  .departure::before { display: block; z-index: -1; mask: none; background: url('./assets/retro/fidelity/departure-mobile-art.webp') right top / auto 66% no-repeat; }
-  .departure .poster-heading { position: relative; width: auto; min-height: 0; padding: 14px 0 0; display: block; }
-  .departure-heading-art {
-    position: relative; inset: auto; width: min(80%,670px); margin: 0 0 15cqw auto;
-    background: url('./assets/retro/fidelity/departure-heading.webp') center/contain no-repeat;
-  }
-  .departure .poster-heading::before {
-    content: ''; position: absolute; inset: 0 0 0 20%; z-index: -1; pointer-events: none;
-    background: linear-gradient(#043533eb,#043533c9 37%,transparent 92%);
-    mask: linear-gradient(to right,transparent,#000 12%);
-  }
-  .departure-art { width: min(22%,151px); left: -12px; top: 10px; bottom: auto; mask: linear-gradient(#000 94%,transparent); }
-  .departure .terminal { position: relative; inset: auto; width: min(100%,740px); margin: 0 auto; }
-  .departure .terminal-crown {
-    position: relative; inset: auto; width: 100%; aspect-ratio: 961/157;
-    background: url('./assets/retro/fidelity/departure-crown.webp') center/contain no-repeat;
-  }
-  .departure .board-case {
-    position: relative; inset: auto; width: 100%; height: auto; grid-template-rows: auto;
-    gap: 4px; padding: 7px; border: 5px ridge #d9ab6d; border-radius: 10px;
-  }
-  .board-row { gap: 3px; grid-template-columns: minmax(0,1fr); }
-  .board-label { font-size: clamp(16px,3cqw,20px); padding: 5px 8px; gap: 8px; }
-  .board-label svg { width: 22px; }
-  .board-line { grid-template-columns: 42px minmax(0,1fr) 42px; }
-  .board-line button { font-size: 23px; }
-  .board-line button,.board-interests button { min-height: 42px; }
-  .board-interests { grid-template-columns: repeat(2,minmax(0,1fr)); }
-  .board-interests button { font-size: clamp(12px,2.4cqw,16px); }
-  .board-control { background-size: auto, 220% auto; }
-  .board-letters i { font-size: clamp(18px,3.7cqw,30px); }
-  .board-summary { min-height: 42px; font-size: clamp(12px,2.5cqw,17px); }
-  .board-submit { position: relative; inset: auto; margin: 17px auto 0; width: auto; height: auto; font-size: clamp(21px,4.5cqw,35px); }
-  .board-error { position: relative; inset: auto; width: 100%; font-size: 14px; padding: .35em; }
-
-  .sunset-pier { padding: 23px 20px 26px; background-size: auto 100%,auto,auto; background-position: right bottom; }
-  .pier-content { position: relative; inset: auto; display: block; }
-  .pier-brand { width: min(230px,65%); padding: 0; text-align: center; display: block; }
-  .pier-brand .apr-brand { flex-direction: column; text-align: center; }
-  .pier-brand img { width: clamp(40px,9cqw,65px); }
-  .pier-brand .apr-brand__name { font-size: clamp(32px,6.4cqw,49px); }
-  .pier-brand p { margin-top: 11px; max-width: none; font-size: clamp(9px,2.1cqw,12px); }
-  .pier-content nav {
-    width: 100%; grid-template-columns: repeat(3,minmax(0,1fr)); padding: 8px 0; border-left: 0; gap: 13px; margin-top: 19px;
-    background: linear-gradient(90deg,#003b3533,#003731d9);
-  }
-  .pier-content nav > :last-child { grid-column: auto; }
-  .pier-content nav > div { min-width: 0; }
-  .pier-content h2 { font-size: clamp(15px,3cqw,25px); }
-  .pier-content nav a { font-size: clamp(13px,2.6cqw,18px); white-space: normal; line-height: 1.24; padding: 5px 0; }
-  .pier-legal { position: relative; inset: auto; justify-content: start; margin-top: 16px; padding: 10px 0 0; width: 92%; font-size: 12px; }
-}
-@media (max-width: 950px) {
-  .riv-mast.apr-header .mast-inner { height: 64px; }
-  .riv-mast .apr-brand img { width: 44px; }
-  .riv-mast .apr-brand__name { font-size: 14px; }
-}
-@media (max-width: 520px) {
-  .riv-home .apr-hero__content { padding-bottom: 72cqw; }
-  .riv-home .apr-hero__actions .riv-button { flex: 1; }
-  .riv-home .apr-hero__tagline { font-size: clamp(20px,5.8cqw,29px); }
-  .departure .board-row:last-child { grid-template-columns: minmax(0,1fr); }
-  .sunset-pier { background-size: auto 80%,auto,auto; }
-  .pier-content nav { padding: 9px 0; background: #003b35bf; }
-}
-
-/* Riviera final polish — phase 1: coherent breathing room without touching poster artwork.
-   Scope deliberately limited to the home composition; interior pages and controls stay intact. */
-.riv-home {
-  --riv-section-breath: clamp(52px, 6.25vw, 116px);
-  --riv-transition-ink: #043a37;
-  background-color: var(--riv-deep);
-  background-image:
-    radial-gradient(ellipse 72% 16% at 12% 23%, #0c59504d 0%, transparent 100%),
-    radial-gradient(ellipse 80% 18% at 85% 51%, #17625838 0%, transparent 100%),
-    radial-gradient(ellipse 72% 17% at 18% 79%, #a66a2420 0%, transparent 100%),
-    linear-gradient(180deg, #043936, #064641 42%, #03403b 72%, #043a36);
-  background-repeat: no-repeat;
-}
-/* Real negative space lives on the shared canvas instead of introducing
-   a new rectangular section background between illustrated compositions. */
-.riv-home > section + section {
-  margin-block-start: var(--riv-section-breath);
-}
-/* The last gap belongs to the same canvas, not the white interior-page wrapper. */
-.riv-home {
-  padding-block-end: clamp(42px, 5vw, 94px);
-}
-/* Decorative rectangular overlay frames are separate from the collectible
-   ticket edges; keep the shaped ticket stock and its original borders. */
-.golden-tickets::after {
-  background-image: none;
-}
-/* Preserve modest spacing on tablets and phones without giant empty bands. */
-@media (max-width: 1000px) {
-  .riv-home { --riv-section-breath: clamp(42px, 6vw, 72px); padding-block-end: clamp(34px, 5vw, 60px); }
-}
-@media (max-width: 520px) {
-  .riv-home { --riv-section-breath: clamp(38px, 9vw, 54px); padding-block-end: 38px; }
-}
-
-/* Footer is part of the island landscape, not another framed poster.
-   Fade its top edge into the shared canvas; keep the actual sunset artwork. */
-.sunset-pier::after {
-  background-image: none;
+  padding: clamp(35px, 5.4vw, 88px) clamp(20px, 6vw, 100px) clamp(26px, 3.4vw, 49px);
+  background: var(--riv-stock), linear-gradient(#043a36, #032d29);
 }
 .sunset-pier::before {
   content: '';
   position: absolute;
-  inset: 0 0 auto;
-  height: clamp(25px, 4vw, 54px);
-  z-index: 2;
+  inset: 0;
+  z-index: -1;
   pointer-events: none;
-  background: linear-gradient(to bottom, #043a36 0%, #043a3699 34%, transparent 100%);
+  background: url('./assets/retro/fidelity/sunset-scene.webp') right top / auto 100% no-repeat;
+  mask-image: linear-gradient(90deg, transparent 48%, #000 74%, #000 96%, transparent), linear-gradient(transparent, #000 16%, #000 78%, transparent);
+  mask-composite: intersect;
 }
-@media (max-width: 520px) {
-  .sunset-pier::before { height: 20px; }
-}
-
-/* Live, selectable, zoomable type replaces the baked-in lettering for
-   the Golden Tickets and departure board. The illustrations remain untouched. */
-.tickets-title {
-  aspect-ratio: auto;
-  min-height: 11.5cqw;
-  padding: .65cqw 0 .4cqw;
-  background: none;
-  display: flex;
+.pier-content {
+  display: grid;
+  grid-template-columns: minmax(10rem, .78fr) minmax(0, 1.65fr);
   align-items: center;
-  justify-content: center;
-  flex-direction: column;
+  gap: clamp(25px, 4vw, 74px);
+  width: min(76%, 74rem);
 }
-.tickets-title .imprint {
-  color: #f6d6a0;
-  font-size: 1.05cqw;
-  line-height: 1.1;
-  letter-spacing: .21em;
+.pier-brand { text-align: center; }
+.pier-brand .apr-brand { flex-direction: column; gap: 3px; }
+.pier-brand img { width: clamp(46px, 5.7vw, 85px); filter: grayscale(1) sepia(1) brightness(1.28); }
+.pier-brand .apr-brand__name {
+  text-transform: none;
+  font: 400 clamp(2.1rem, 4.1vw, 4.6rem)/.82 'APR Script', Georgia, serif;
+  letter-spacing: -.04em;
+  text-shadow: .04em .05em #002a23;
 }
-.tickets-title h2 {
-  margin: .18em 0 .08em;
-  color: #ffe1a1;
-  font: italic 700 4.4cqw/.94 'APR Poster', Georgia, serif;
-  letter-spacing: -.055em;
-  text-shadow: .03em .035em #a94d30, .065em .07em #07362f;
-  text-wrap: balance;
-}
-.tickets-title h2::after { margin: .2em auto .05em; height: .3cqw; }
-.tickets-title .ticket-subtitle {
-  margin: .1em 0 0;
-  color: #f9cb88;
-  font-size: 1.06cqw;
-  line-height: 1.3;
-  letter-spacing: .1em;
-}
-.departure-heading-art {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: .4cqw 1cqw;
-  text-align: center;
-}
-.departure-heading-art h2 {
-  margin: 0;
-  color: #ffe6ac;
-  font: italic 700 3.4cqw/.98 'APR Poster', Georgia, serif;
-  letter-spacing: -.045em;
-  text-shadow: .035em .045em #9f442b, .07em .085em #033a34;
-  text-wrap: balance;
-}
-.departure-heading-art h2::after { height: .25cqw; margin: .17em auto .07em; }
-.departure-heading-art p {
-  margin: 0;
-  color: #ffdcab;
-  font: italic 600 1.2cqw/1.28 Georgia,serif;
-  letter-spacing: .03em;
-}
-/* Responsive live type: remove the bitmap title, not the adjacent illustration. */
-@media (max-width: 1000px) {
-  .tickets-title { min-height: 0; padding: 2px 4px 8px; }
-  .tickets-title .imprint { font-size: clamp(10px,1.9cqw,15px); }
-  .tickets-title h2 { font-size: clamp(31px,5.2cqw,62px); line-height: 1.04; }
-  .tickets-title h2::after { height: 4px; }
-  .tickets-title .ticket-subtitle { font-size: clamp(10px,1.8cqw,15px); }
-  .departure-heading-art {
-    width: min(80%,670px);
-    aspect-ratio: auto;
-    min-height: clamp(105px,19cqw,200px);
-    margin-bottom: clamp(24px,7cqw,68px);
-    padding: 8px;
-    background: none;
-  }
-  .departure-heading-art h2 { font-size: clamp(23px,4.4cqw,46px); line-height: 1.06; }
-  .departure-heading-art h2::after { height: 3px; }
-  .departure-heading-art p { font-size: clamp(11px,2.1cqw,17px); }
-}
-@media (max-width: 520px) {
-  .tickets-title h2 { font-size: clamp(27px,7.5cqw,41px); }
-  .tickets-title .ticket-subtitle { font-size: 11px; }
-  .departure-heading-art { min-height: 120px; margin-bottom: 12px; }
-  .departure-heading-art h2 { font-size: clamp(21px,5.4cqw,29px); }
-  .departure-heading-art p { font-size: 11px; }
-}
+.pier-resort { display: block; }
+.pier-brand p { margin-top: 12px; padding-top: .65em; border-top: 1px solid #d3a965; font: 750 clamp(.65rem, .9vw, .9rem)/1.35 system-ui, sans-serif; text-transform: uppercase; letter-spacing: .09em; }
+.pier-content nav { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(15px, 2vw, 34px); border-left: 1px solid #d3a96580; padding-left: clamp(20px, 3vw, 52px); }
+.pier-content h2 { margin-bottom: .35em; font: italic 700 clamp(1.12rem, 1.91vw, 1.82rem)/1.12 Georgia, serif; }
+.pier-content h2::after { content: ''; display: block; width: 2.2em; height: 3px; margin-top: 5px; border-radius: 75% 45%; background: #e6814f; }
+.pier-content nav a { display: flex; align-items: center; min-height: 36px; width: fit-content; padding: 4px 0; font: clamp(.91rem, 1.16vw, 1.13rem)/1.28 Georgia, serif; }
+.pier-content a:hover { color: #ffac80; text-decoration: underline; }
+.pier-legal { width: min(76%, 74rem); display: flex; flex-wrap: wrap; gap: 6px 20px; border-top: 1px solid #d5ad7180; margin-top: 24px; padding-top: 14px; font-size: .79rem; color: #f0d5a4; }
 
-/* Section-by-section edge treatment: preserve the illustrations' center
-   and all foreground controls; blend only the narrow outer poster edges. */
-.riv-home .apr-hero__plate {
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 95%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 95%, transparent 100%);
-}
-.riv-home .apr-about {
-  box-shadow: inset 0 19px 22px -18px #043a37,
-    inset 0 -25px 26px -22px #043a37;
-}
-.riv-home .apr-worlds {
-  box-shadow: inset 0 16px 18px -15px #043a37,
-    inset 0 -21px 22px -19px #043a37;
-}
-.riv-home .golden-tickets {
-  box-shadow: inset 0 20px 22px -18px #043a37,
-    inset 0 -32px 29px -27px #043a37;
-}
-.riv-home .departure {
-  box-shadow: inset 0 18px 20px -16px #043a37,
-    inset 0 -35px 30px -28px #043a37;
-}
-/* The earlier painted rectangular border on the wheel's mobile section
-   is a section frame, not part of the actual View-Master mechanism. */
-.riv-home .apr-worlds::after {
-  background: none;
-  border: 0;
-  border-radius: 0;
-}
-@media (max-width: 1000px) {
-  .riv-home .apr-hero__plate {
-    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 15%, #000 92%, transparent);
-    mask-image: linear-gradient(to bottom, transparent, #000 15%, #000 92%, transparent);
-  }
-  .riv-home .apr-about, .riv-home .apr-worlds,
-  .riv-home .golden-tickets, .riv-home .departure {
-    box-shadow: inset 0 11px 13px -11px #043a37,
-      inset 0 -18px 20px -17px #043a37;
-  }
-}
-
-/* Keyboard skip link lives outside the illustrative sections, always
-   usable before opening navigation and not obscured by the fixed masthead. */
 .apr-skip-link {
   position: fixed;
   z-index: 200;
@@ -540,12 +436,104 @@
   border-radius: 6px;
   background: #043b37;
   color: #ffedc9;
-  font: 700 16px/1.35 system-ui, sans-serif;
-  text-decoration: none;
+  font: 700 1rem/1.35 system-ui, sans-serif;
 }
-.apr-skip-link:focus-visible {
-  transform: translateY(0);
-  outline: 3px solid #ffb25f;
-  outline-offset: 3px;
+.apr-skip-link:focus { transform: translateY(0); outline: 3px solid #ffb25f; outline-offset: 3px; }
+#main-content:focus, .riv-home > section:focus { outline: none; }
+
+@media (max-width: 1050px) {
+  .riv-home .apr-about__intro { grid-template-columns: minmax(0, 1fr); }
+  .riv-home .apr-about__palm-engraving { display: none; }
+  .riv-home .apr-about__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 0; }
+  .riv-home .apr-about__stats li:nth-child(3) { border-left: 0; }
+  .pier-content, .pier-legal { width: 85%; }
+  .sunset-pier::before { mask-image: linear-gradient(90deg, transparent 54%, #000 100%), linear-gradient(transparent, #000 22%, #000 70%, transparent); }
 }
-#main-content:focus { outline: none; }
+@media (max-width: 950px) {
+  .riv-mast.apr-header .mast-inner { height: 64px; }
+  .riv-mast .apr-brand img { width: 43px; }
+  .riv-mast .apr-brand__name { font-size: 14px; }
+  .riv-home .apr-hero { min-height: 0; padding: 94px 18px clamp(245px, 47vw, 410px); }
+  .apr-hero__plate {
+    inset: auto 0 0;
+    height: clamp(315px, 58vw, 530px);
+    background-image: url('./assets/retro/fidelity/hero-lagoon.webp');
+    background-position: 50% 57%;
+    mask-image: linear-gradient(transparent, #000 23%, #000 84%, transparent);
+  }
+  .apr-hero::before { background: linear-gradient(#002e2c, transparent 62%); }
+  .apr-hero__content { justify-self: center; width: 100%; text-align: center; }
+  .apr-hero__title { margin: 0 auto; text-align: left; }
+  .apr-hero__title > span { font-size: clamp(3.65rem, 12vw, 6.8rem); }
+  .apr-hero__title em { font-size: clamp(3rem, 10vw, 6rem); }
+  .apr-hero__actions { justify-content: center; }
+  .water-spray { display: none; }
+
+  .golden-tickets { padding-inline: clamp(22px, 7vw, 60px); }
+  .ticket-collection { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(18px, 3.5vw, 31px); max-width: 43rem; }
+  .golden-ticket:nth-child(odd) { --tilt: -2.5deg; }
+  .golden-ticket:nth-child(even) { --tilt: 2.5deg; }
+  .ticket-lettering h3 { font-size: clamp(1.55rem, 4.6vw, 2.55rem); }
+  .ticket-picture { aspect-ratio: 1.25; }
+
+  .terminal { width: min(78%, 43rem); margin-inline: auto 0; }
+  .departure-art { width: 24%; }
+  .departure::before { width: 36%; }
+}
+@media (max-width: 800px) {
+  .riv-home .apr-about { padding-inline: clamp(15px, 5vw, 38px); }
+  .riv-home .apr-about__layout { grid-template-columns: minmax(0, 1fr); max-width: 39rem; }
+  .riv-home .apr-about__frame { width: min(100%, 30rem); justify-self: center; margin-bottom: -4%; transform: none; }
+  .riv-home .apr-about__frame img { aspect-ratio: 1.07; object-position: 50% 62%; }
+  .riv-home .apr-about__paper-stack { margin-left: 0; }
+  .riv-home .apr-about__paper { padding-top: clamp(24px, 6.3vw, 47px); }
+  .riv-home .apr-about h2 { font-size: clamp(2rem, 7.3vw, 3.8rem); }
+  .apr-about::after { width: min(24vw, 160px); }
+
+}
+@media (max-width: 767px) {
+  .departure-heading { display: grid; grid-template-columns: minmax(0, .43fr) minmax(0, 1fr); align-items: center; gap: .55rem; }
+  .departure-art { position: relative; inset: auto; width: 112%; margin-left: -12%; }
+  .departure-copy h2 { font-size: clamp(1.64rem, 5.4vw, 2.9rem); }
+  .departure-copy p { font-size: clamp(.91rem, 2.3vw, 1.2rem); }
+  .departure::before { inset: 0 0 auto auto; height: 57%; width: 55%; opacity: .38; mask-image: linear-gradient(90deg, transparent, #000), linear-gradient(#000 56%, transparent); mask-composite: intersect; }
+  .terminal { width: min(100%, 38rem); margin-inline: auto; }
+  .board-case { border-width: 5px; }
+
+  .sunset-pier::before {
+    background-position: calc(100% + 10px) -6px;
+    background-size: auto clamp(175px, 44vw, 260px);
+    mask-image: linear-gradient(90deg, transparent 22%, #000 88%, #000 98%, transparent), linear-gradient(transparent, #000 32px, #000 112px, transparent 196px);
+  }
+  .pier-content { width: 100%; grid-template-columns: minmax(0, 1fr); gap: 26px; }
+  .pier-brand { width: min(60%, 240px); }
+  .pier-brand .apr-brand__name { font-size: clamp(2.05rem, 6.9vw, 3.5rem); }
+  .pier-content nav { border-left: 0; padding: 0; }
+  .pier-content nav a { min-height: 44px; }
+  .pier-legal { width: 100%; padding-right: 44px; }
+}
+@media (max-width: 520px) {
+  .riv-home .apr-hero { padding-bottom: clamp(211px, 64vw, 335px); }
+  .apr-hero__title > span { font-size: clamp(3.38rem, 15vw, 5rem); }
+  .apr-hero__title em { font-size: clamp(2.7rem, 12vw, 4.4rem); }
+  .apr-hero__actions { gap: 8px; }
+  .apr-hero__actions .riv-button { flex: 1 1 7.4rem; max-width: 13rem; font-size: .87rem; padding: .52em .56em; }
+  .riv-home .apr-about h2 { font-size: clamp(1.86rem, 7.25vw, 2.9rem); }
+
+  .golden-tickets::before { background-size: auto 100%; }
+  .ticket-collection { grid-template-columns: minmax(0, 1fr); max-width: 21rem; gap: 20px; }
+  .ticket-picture { aspect-ratio: 1.65; }
+  .ticket-lettering h3 { font-size: clamp(1.65rem, 7.3vw, 2.35rem); }
+  .ticket-lettering, .ticket-stub { font-size: .79rem; }
+
+  .terminal-crown { width: 98%; padding: 8px 12px 11px; }
+  .board-row { grid-template-columns: minmax(0, 1fr); gap: 3px; margin-block: 6px; }
+  .board-letters i { font-size: clamp(.94rem, 4.3vw, 1.13rem); }
+  .board-submit { padding-inline: .8em; }
+  .pier-content nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .water-spray { display: none; }
+  .board-letters b, .board-interests b { animation: none; }
+  .golden-ticket { transition: none; }
+}

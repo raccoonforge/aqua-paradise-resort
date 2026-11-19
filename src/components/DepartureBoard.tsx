@@ -30,13 +30,13 @@ export default function DepartureBoard() {
     const index = parties.indexOf(selected);
     setParty(parties[(index + delta + parties.length) % parties.length].id);
   }
-  return <section id="planner" className="departure poster-stock" aria-labelledby="departure-title">
-    <header className="poster-heading">
+  return <section id="planner" tabIndex={-1} className="departure poster-stock" aria-labelledby="departure-title">
+    <header className="poster-heading departure-heading">
       <span className="departure-art" aria-hidden="true">
         <img className="departure-foliage" src={foreground} width={414} height={190} alt="" loading="lazy" decoding="async" />
         <img className="departure-traveller" src={traveller} width={398} height={692} alt="" loading="lazy" decoding="async" />
       </span>
-      <div className="departure-heading-art">
+      <div className="departure-copy">
         <h2 id="departure-title">Спланируйте своё идеальное прибытие в рай</h2>
         <p>Выберите дату, компанию и настроение отдыха.</p>
       </div>
