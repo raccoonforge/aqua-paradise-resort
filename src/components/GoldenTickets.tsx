@@ -6,9 +6,9 @@ const artwork = import.meta.glob<string>('../assets/retro/rides/*.webp', { eager
 export default function GoldenTickets() {
   return <section id="attractions" className="golden-tickets poster-stock" aria-labelledby="golden-title">
     <header className="poster-heading tickets-title">
-      <p className="imprint sr-only">AQUA PARADISE RESORT</p>
-      <h2 id="golden-title" className="sr-only">Легендарные аттракционы</h2>
-      <p className="ticket-subtitle sr-only">Четыре главных приключения острова</p>
+      <p className="imprint">AQUA PARADISE RESORT</p>
+      <h2 id="golden-title">Легендарные аттракционы</h2>
+      <p className="ticket-subtitle">Четыре главных приключения острова</p>
     </header>
     <div className="ticket-collection">
       {featured.map(id => {
