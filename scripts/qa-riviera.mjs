@@ -116,7 +116,7 @@ async function checkWorlds(page, width) {
     });
     assert(source.width >= 1000, 'The selected scene uses the large artwork');
     seenPhotos.add(source.src);
-    const aboveAction = await page.locator('.apr-worlds__description').evaluate((el, desktop) => {
+    const aboveAction = await page.locator('.apr-worlds__caption-slot:not([aria-hidden]) .apr-worlds__description').evaluate((el, desktop) => {
       const bounds = el.getBoundingClientRect();
       const style = getComputedStyle(el);
       return desktop ? bounds.right - parseFloat(style.paddingInlineEnd) : bounds.bottom;
@@ -125,7 +125,7 @@ async function checkWorlds(page, width) {
     const actionStart = width >= 1180 ? action.x : action.y;
     assert(actionStart >= aboveAction - 1, 'Zone link leaves its description readable');
     if (width === 375 || width === 390) {
-      assert.equal(await page.evaluate(() => scrollY), scrollBefore, 'Selecting a zone keeps the mobile scroll position');
+      assert.equal(await page.evaluate(() => scrollY), scrollBefore, `Selecting ${expected[index]} keeps the mobile scroll position`);
     }
     if (width === 1440) {
       const picture = await page.locator('.apr-worlds__photo').boundingBox();

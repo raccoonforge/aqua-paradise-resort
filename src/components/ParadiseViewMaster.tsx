@@ -188,14 +188,21 @@ export default function ParadiseViewMaster() {
 
         <article className="apr-worlds__info" aria-labelledby="apr-worlds-current">
           <div className="apr-worlds__caption" aria-live="polite" aria-atomic="true">
-            <div className="apr-worlds__label" key={zone.id}>
-              <span className="apr-worlds__stamp" aria-hidden="true">{formatNumber(selected)}</span>
-              <div>
-                <h3 id="apr-worlds-current">{zone.name}</h3>
-                <p className="apr-worlds__subtitle">{zone.poster.tagline}</p>
-              </div>
-            </div>
-            <p className="apr-worlds__description" key={`description-${zone.id}`}>{zone.poster.summary}</p>
+            {zones.map((entry, index) => {
+              const active = index === selected;
+              return (
+                <div key={entry.id} className="apr-worlds__caption-slot" aria-hidden={active ? undefined : true}>
+                  <div className="apr-worlds__label">
+                    <span className="apr-worlds__stamp" aria-hidden="true">{formatNumber(index)}</span>
+                    <div>
+                      <h3 id={active ? 'apr-worlds-current' : undefined}>{entry.name}</h3>
+                      <p className="apr-worlds__subtitle">{entry.poster.tagline}</p>
+                    </div>
+                  </div>
+                  <p className="apr-worlds__description">{entry.poster.summary}</p>
+                </div>
+              );
+            })}
           </div>
           <a className="apr-worlds__link" href={`#/zones?zone=${zone.id}`}>Подробнее о зоне <span aria-hidden="true">→</span></a>
         </article>

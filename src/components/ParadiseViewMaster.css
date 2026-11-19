@@ -338,13 +338,18 @@
   background: url('../assets/retro/viewmaster/caption-stock.webp') center / 100% 100% no-repeat;
   filter: drop-shadow(1px 5px 4px #38271970);
 }
-.apr-worlds__caption { min-width: 0; }
+/* Overlay captions so the paper and the controls below retain their height on selection. */
+.apr-worlds__caption { display: grid; min-width: 0; }
+.apr-worlds__caption-slot { grid-area: 1 / 1; min-width: 0; transition-property: none; }
+.apr-worlds__caption-slot[aria-hidden=true] { opacity: 0; pointer-events: none; }
+.apr-worlds__caption-slot:not([aria-hidden]) :is(.apr-worlds__label, .apr-worlds__description) {
+  animation: apr-worlds-caption var(--turn-duration) ease-out both;
+}
 .apr-worlds__label {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
   gap: clamp(11px, 1.1vw, 22px);
-  animation: apr-worlds-caption var(--turn-duration) ease-out both;
 }
 .apr-worlds__stamp {
   display: grid;
@@ -389,7 +394,6 @@
   max-width: 60ch;
   margin: .61em 0 0;
   font: 480 clamp(.97rem, 1.18vw, 1.19rem)/1.43 system-ui, sans-serif;
-  animation: apr-worlds-caption var(--turn-duration) ease-out both;
 }
 .apr-worlds__link {
   justify-self: end;
@@ -535,5 +539,6 @@
   .apr-worlds { --turn-duration: 0ms; }
   .apr-worlds__reel { transform: rotate(var(--rest-angle)); transition: none; }
   .apr-worlds__slide img, .apr-worlds__number { transition: none; }
-  .apr-worlds__photo img, .apr-worlds__label, .apr-worlds__description { animation: none; }
+  .apr-worlds__photo img,
+  .apr-worlds__caption-slot:not([aria-hidden]) :is(.apr-worlds__label, .apr-worlds__description) { animation: none; }
 }
