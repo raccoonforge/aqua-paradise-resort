@@ -527,3 +527,25 @@
       inset 0 -18px 20px -17px #043a37;
   }
 }
+
+/* Keyboard skip link lives outside the illustrative sections, always
+   usable before opening navigation and not obscured by the fixed masthead. */
+.apr-skip-link {
+  position: fixed;
+  z-index: 200;
+  inset: 12px auto auto 12px;
+  transform: translateY(-160%);
+  padding: 12px 18px;
+  border: 2px solid #f4c97f;
+  border-radius: 6px;
+  background: #043b37;
+  color: #ffedc9;
+  font: 700 16px/1.35 system-ui, sans-serif;
+  text-decoration: none;
+}
+.apr-skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 3px solid #ffb25f;
+  outline-offset: 3px;
+}
+#main-content:focus { outline: none; }
