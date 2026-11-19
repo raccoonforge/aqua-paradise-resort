@@ -110,10 +110,10 @@
 
 /* The journal stock sits below the Hero and curls over the next section. */
 .riv-home .apr-about {
-  --about-tear-width: max(100%, 1000px);
+  --about-tear-width: var(--poster-tear-width);
   --about-upper-offset: 14px;
   --about-upper-tear: 34px;
-  --about-bottom-tear: 38px;
+  --about-bottom-tear: var(--poster-tear-height);
   --about-overhang: 17px;
   --about-stock: #063935 url('./assets/retro/about-teal-stock.webp');
   padding: calc(var(--poster-tear-height) + clamp(72px, 7.8vw, 138px)) clamp(22px, 5vw, 86px) clamp(55px, 7.3vw, 114px);
@@ -147,9 +147,10 @@
 .apr-about__lower-edge::before {
   inset: 0;
   background:
-    url('./assets/retro/about-lower-tear-fibres.webp') center / var(--about-tear-width) 100% no-repeat,
+    url('./assets/retro/poster-tear-fibres.webp') center bottom / var(--about-tear-width) 100% no-repeat,
     var(--about-stock) center 1px;
-  mask: url('./assets/retro/about-lower-tear-mask.webp') center / var(--about-tear-width) 100% no-repeat;
+  -webkit-mask: url('./assets/retro/poster-tear-mask.webp') center bottom / var(--about-tear-width) 100% no-repeat;
+  mask: url('./assets/retro/poster-tear-mask.webp') center bottom / var(--about-tear-width) 100% no-repeat;
 }
 .apr-about__corner {
   position: absolute;
