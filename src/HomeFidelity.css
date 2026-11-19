@@ -812,3 +812,23 @@
     overflow: visible;
   }
 }
+
+
+/* About Resort editorial typography: give the magazine copy breathing room. */
+@media (min-width: 1001px) {
+  .riv-home .apr-about__label { font-size: 2.18cqw; }
+  .riv-home .apr-about h2 {
+    font-size: 4.38cqw;
+    line-height: .98;
+    margin-top: .36em;
+  }
+  .riv-home .apr-about__intro p {
+    font-size: 1.19cqw;
+    line-height: 1.29;
+  }
+}
+@media (max-width: 1000px) {
+  .riv-home .apr-about__label { font-size: clamp(18px, 3.7cqw, 28px); }
+  .riv-home .apr-about h2 { font-size: clamp(30px, 5.7cqw, 45px); line-height: 1.04; }
+  .riv-home .apr-about__intro p { font-size: clamp(15px, 2.7cqw, 19px); line-height: 1.4; }
+}
