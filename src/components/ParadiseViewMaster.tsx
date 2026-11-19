@@ -109,8 +109,8 @@ export default function ParadiseViewMaster() {
   return (
     <section id="worlds" className="apr-worlds" aria-labelledby="apr-worlds-title">
       <header className="apr-worlds__heading">
-        <h2 id="apr-worlds-title"><span className="apr-worlds__headline-art" aria-hidden="true" /><span className="apr-worlds__accessible">9 миров Aqua Paradise</span></h2>
-        <p><span className="apr-worlds__invitation-art" aria-hidden="true" /><span className="apr-worlds__accessible">Выберите мир и загляните внутрь</span></p>
+        <h2 id="apr-worlds-title"><span className="apr-worlds__world-count">9 миров</span><span className="apr-worlds__resort-name">Aqua Paradise</span></h2>
+        <p>Выберите мир и загляните внутрь</p>
       </header>
 
       <svg className="apr-worlds__geometry" width="0" height="0" aria-hidden="true">
