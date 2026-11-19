@@ -446,8 +446,8 @@
    Previous offset adjusted its horizontal position but left it too low. */
 @media (min-width: 1001px) {
   .riv-home .apr-hero__tagline {
-    margin-top: 0;
-    margin-bottom: 0;
+    margin-top: -16px;
+    margin-bottom: 20px;
   }
   .riv-home .apr-hero__actions {
     margin-top: 0;
