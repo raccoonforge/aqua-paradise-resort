@@ -439,3 +439,60 @@
   .apr-worlds { --turn-duration: 0ms; }
   .apr-worlds__photo img, .apr-worlds__caption { animation: none; }
 }
+
+
+/* Refinement: real text must occupy the same editorial title region as
+   the formerly image-only heading. Reel, card, and zone navigation stay intact. */
+.apr-worlds__heading h2 {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 0;
+  width: 35.8%;
+  aspect-ratio: 358 / 133;
+  color: #ffdea3;
+  text-align: center;
+}
+.apr-worlds__world-count {
+  display: block;
+  color: #f2a971;
+  font: italic 700 4.85cqw/.86 'APR Poster', Georgia, serif;
+  letter-spacing: -.075em;
+  text-shadow: .035em .044em #662b1f, .07em .085em #00362f;
+  transform: rotate(-2deg);
+}
+.apr-worlds__resort-name {
+  display: block;
+  margin-top: .08em;
+  font: italic 700 2.3cqw/1 'APR Poster', Georgia, serif;
+  letter-spacing: -.04em;
+  color: #ffe3ab;
+  text-shadow: .045em .055em #873d24, .085em .095em #053a33;
+  transform: rotate(-3deg);
+}
+.apr-worlds__heading p {
+  display: grid;
+  place-items: center;
+  padding: .4em .3em;
+  font: italic 700 1.32cqw/1.13 'APR Poster', Georgia, serif;
+  letter-spacing: -.02em;
+  text-align: center;
+  color: #fbd99f;
+  text-shadow: 1px 2px #07453d;
+}
+@media (max-width: 1000px) {
+  .apr-worlds__heading h2 { width: min(78%,460px); aspect-ratio: auto; padding: 12px 0 4px; }
+  .apr-worlds__world-count { font-size: clamp(39px,7.6cqw,76px); }
+  .apr-worlds__resort-name { font-size: clamp(22px,4.5cqw,43px); }
+  .apr-worlds__heading p {
+    width: min(78%,390px); aspect-ratio: auto; min-height: 34px;
+    font-size: clamp(14px,2.4cqw,20px);
+    margin: 3px auto 0; padding: 0;
+  }
+}
+@media (max-width: 455px) {
+  .apr-worlds__heading h2 { width: 90%; }
+  .apr-worlds__world-count { font-size: clamp(31px,9.3cqw,46px); }
+  .apr-worlds__resort-name { font-size: clamp(21px,6.3cqw,31px); }
+  .apr-worlds__heading p { width: 88%; font-size: 14px; }
+}
