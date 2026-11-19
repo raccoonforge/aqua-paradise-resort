@@ -402,3 +402,87 @@
 @media (max-width: 520px) {
   .sunset-pier::before { height: 20px; }
 }
+
+/* Live, selectable, zoomable type replaces the baked-in lettering for
+   the Golden Tickets and departure board. The illustrations remain untouched. */
+.tickets-title {
+  aspect-ratio: auto;
+  min-height: 11.5cqw;
+  padding: .65cqw 0 .4cqw;
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.tickets-title .imprint {
+  color: #f6d6a0;
+  font-size: 1.05cqw;
+  line-height: 1.1;
+  letter-spacing: .21em;
+}
+.tickets-title h2 {
+  margin: .18em 0 .08em;
+  color: #ffe1a1;
+  font: italic 700 4.4cqw/.94 'APR Poster', Georgia, serif;
+  letter-spacing: -.055em;
+  text-shadow: .03em .035em #a94d30, .065em .07em #07362f;
+  text-wrap: balance;
+}
+.tickets-title h2::after { margin: .2em auto .05em; height: .3cqw; }
+.tickets-title .ticket-subtitle {
+  margin: .1em 0 0;
+  color: #f9cb88;
+  font-size: 1.06cqw;
+  line-height: 1.3;
+  letter-spacing: .1em;
+}
+.departure-heading-art {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: .4cqw 1cqw;
+  text-align: center;
+}
+.departure-heading-art h2 {
+  margin: 0;
+  color: #ffe6ac;
+  font: italic 700 3.4cqw/.98 'APR Poster', Georgia, serif;
+  letter-spacing: -.045em;
+  text-shadow: .035em .045em #9f442b, .07em .085em #033a34;
+  text-wrap: balance;
+}
+.departure-heading-art h2::after { height: .25cqw; margin: .17em auto .07em; }
+.departure-heading-art p {
+  margin: 0;
+  color: #ffdcab;
+  font: italic 600 1.2cqw/1.28 Georgia,serif;
+  letter-spacing: .03em;
+}
+/* Responsive live type: remove the bitmap title, not the adjacent illustration. */
+@media (max-width: 1000px) {
+  .tickets-title { min-height: 0; padding: 2px 4px 8px; }
+  .tickets-title .imprint { font-size: clamp(10px,1.9cqw,15px); }
+  .tickets-title h2 { font-size: clamp(31px,5.2cqw,62px); line-height: 1.04; }
+  .tickets-title h2::after { height: 4px; }
+  .tickets-title .ticket-subtitle { font-size: clamp(10px,1.8cqw,15px); }
+  .departure-heading-art {
+    width: min(80%,670px);
+    aspect-ratio: auto;
+    min-height: clamp(105px,19cqw,200px);
+    margin-bottom: clamp(24px,7cqw,68px);
+    padding: 8px;
+    background: none;
+  }
+  .departure-heading-art h2 { font-size: clamp(23px,4.4cqw,46px); line-height: 1.06; }
+  .departure-heading-art h2::after { height: 3px; }
+  .departure-heading-art p { font-size: clamp(11px,2.1cqw,17px); }
+}
+@media (max-width: 520px) {
+  .tickets-title h2 { font-size: clamp(27px,7.5cqw,41px); }
+  .tickets-title .ticket-subtitle { font-size: 11px; }
+  .departure-heading-art { min-height: 120px; margin-bottom: 12px; }
+  .departure-heading-art h2 { font-size: clamp(21px,5.4cqw,29px); }
+  .departure-heading-art p { font-size: 11px; }
+}
