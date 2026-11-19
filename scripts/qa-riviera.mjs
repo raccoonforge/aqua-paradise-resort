@@ -211,6 +211,23 @@ try {
       assert.deepEqual(layout.unreadableText, []);
 
       await page.screenshot({ path: `${dir}/home-${width}.png`, fullPage: true, animations: 'disabled' });
+
+      if ([1440, 768, 375].includes(width)) {
+        const { top, bottom } = bounds.find(section => section.id === 'about');
+        const aboutViews = [
+          { name: 'full', y: top, height: bottom - top + 24 },
+          { name: 'top', y: top - 56, height: 350 },
+          { name: 'bottom', y: bottom - 300, height: 364 },
+        ];
+        for (const { name, y, height } of aboutViews) {
+          await page.screenshot({
+            path: `${dir}/about-${width}-${name}.png`,
+            fullPage: true,
+            clip: { x: 0, y, width, height },
+            animations: 'disabled',
+          });
+        }
+      }
       for (let index = 1; index < bounds.length; index++) {
         const prev = bounds[index - 1];
         const next = bounds[index];

@@ -50,6 +50,13 @@ jobs:
             qa-output/riviera-polish/transition-768-hero-about.png
             qa-output/riviera-polish/transition-375-hero-about.png
           retention-days: 14
+      - name: Upload About section screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: riviera-about-screenshots
+          path: qa-output/riviera-polish/about-*.png
+          retention-days: 14
       - name: Upload visual evidence
         if: always()
         uses: actions/upload-artifact@v4

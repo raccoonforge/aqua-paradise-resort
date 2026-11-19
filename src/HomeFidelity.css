@@ -108,13 +108,61 @@
   94% { transform: translate(var(--drift, -6px), 3px); opacity: 0; }
 }
 
-/* The tear and its contact shadow share the same crop and pixel scale. */
+/* The journal stock sits below the Hero and curls over the next section. */
 .riv-home .apr-about {
+  --about-tear-width: max(100%, 1000px);
+  --about-upper-offset: 14px;
+  --about-upper-tear: 34px;
+  --about-bottom-tear: 38px;
+  --about-overhang: 17px;
+  --about-stock: #063935 url('./assets/retro/about-teal-stock.webp');
   padding: calc(var(--poster-tear-height) + clamp(72px, 7.8vw, 138px)) clamp(22px, 5vw, 86px) clamp(55px, 7.3vw, 114px);
+  background: none;
+  isolation: auto;
+  overflow: visible;
+}
+.riv-home .apr-about::before,
+.apr-about__lower-edge::before {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+}
+.riv-home .apr-about::before {
+  inset: 0 0 calc(var(--about-bottom-tear) - var(--about-overhang) - 1px);
+  z-index: 0;
   background:
     url('./assets/retro/poster-tear-shadow.webp') center top / var(--poster-tear-width) calc(var(--poster-tear-height) * 4 / 3) no-repeat,
-    #043a36;
-  overflow: clip;
+    url('./assets/retro/about-upper-tear-fibres.webp') center var(--about-upper-offset) / var(--about-tear-width) var(--about-upper-tear) no-repeat,
+    url('./assets/retro/about-frond-ink.webp') -35px 62px / clamp(219px, 32vw, 526px) auto no-repeat,
+    var(--about-stock) center bottom;
+  mask:
+    url('./assets/retro/about-upper-tear-mask.webp') center var(--about-upper-offset) / var(--about-tear-width) var(--about-upper-tear) no-repeat,
+    linear-gradient(#000 0 0) center bottom / 100% calc(100% - var(--about-upper-offset) - var(--about-upper-tear) + 1px) no-repeat;
+}
+/* Put only the final strip and its shadow above the neighbouring section. */
+.apr-about__lower-edge {
+  position: absolute;
+  inset: auto 0 calc(-1 * var(--about-overhang));
+  z-index: 1;
+  height: var(--about-bottom-tear);
+  pointer-events: none;
+  filter: drop-shadow(0 3px 2px #001e1b75);
+}
+.apr-about__lower-edge::before {
+  inset: 0;
+  background:
+    url('./assets/retro/about-lower-tear-fibres.webp') center / var(--about-tear-width) 100% no-repeat,
+    var(--about-stock) center 1px;
+  mask: url('./assets/retro/about-lower-tear-mask.webp') center / var(--about-tear-width) 100% no-repeat;
+}
+.apr-about__corner {
+  position: absolute;
+  z-index: 1;
+  inset: auto clamp(4px, .7vw, 14px) clamp(14px, 1.2vw, 21px) auto;
+  width: clamp(166px, 23vw, 388px);
+  aspect-ratio: 736 / 532;
+  pointer-events: none;
+  background: url('./assets/retro/about-corner-cutout.webp') center / contain no-repeat;
 }
 .apr-about__layout { max-width: 92rem; }
 .riv-home .apr-about__frame {
@@ -129,6 +177,15 @@
 .riv-home .apr-about__frame img {
   aspect-ratio: 740 / 941;
   mask: url('./assets/retro/about-postcard-cutout.webp') center / 100% 100% no-repeat;
+}
+.riv-home .apr-about__frame::after {
+  content: '';
+  position: absolute;
+  inset: auto auto .8% 1.2%;
+  width: clamp(112px, 14.3vw, 235px);
+  aspect-ratio: 530 / 402;
+  pointer-events: none;
+  background: url('./assets/retro/about-hibiscus-cutout.webp') center / contain no-repeat;
 }
 .riv-home .apr-about__paper-stack { margin-left: -2%; }
 .riv-home .apr-about__paper {
@@ -149,17 +206,6 @@
 }
 .apr-about__quote-flower { width: 18%; flex: none; }
 .riv-home .apr-about__quote p { font-size: clamp(1rem, 1.52vw, 1.4rem); }
-.apr-about::after {
-  content: '';
-  position: absolute;
-  inset: auto 0 0 auto;
-  width: min(18vw, 270px);
-  aspect-ratio: 210/187;
-  pointer-events: none;
-  background: url('./assets/retro/fidelity/about-leaves.webp') center / contain no-repeat;
-  mask-image: linear-gradient(#000 75%, transparent);
-}
-
 /* The ticket stock grows with the live names and the perforated stubs. */
 .golden-tickets {
   padding: clamp(56px, 7.2vw, 108px) clamp(23px, 6vw, 96px) clamp(49px, 7.2vw, 108px);
@@ -479,7 +525,15 @@
   .riv-home .apr-about__paper-stack { margin-left: 0; }
   .riv-home .apr-about__paper { padding-top: clamp(24px, 6.3vw, 47px); }
   .riv-home .apr-about h2 { font-size: clamp(2rem, 7.3vw, 3.8rem); }
-  .apr-about::after { width: min(24vw, 160px); }
+  .riv-home .apr-about__frame::after {
+    inset: auto auto -1% -1%;
+    width: clamp(94px, 16vw, 136px);
+  }
+  .apr-about__corner {
+    right: 4px;
+    bottom: 8px;
+    width: clamp(132px, 26vw, 214px);
+  }
 
 }
 @media (max-width: 767px) {

@@ -98,6 +98,8 @@ export default function AboutResort() {
   return (
     <section id="about" tabIndex={-1} ref={sectionRef} aria-labelledby="about-title"
       className={`apr-about ${visible ? 'apr-about--visible' : ''}`}>
+      <div className="apr-about__lower-edge" aria-hidden="true" />
+      <div className="apr-about__corner" aria-hidden="true" />
       <div className="apr-about__layout">
         <figure className="apr-about__frame">
           <img src={terrace} width="740" height="941" loading="lazy" decoding="async"
