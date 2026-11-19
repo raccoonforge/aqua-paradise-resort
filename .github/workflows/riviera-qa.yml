@@ -27,9 +27,11 @@ jobs:
         run: google-chrome --version
       - name: Production build
         run: npm run build -- --base=/aqua-paradise-resort/riviera-polish/
-      - name: Start preview
+      - name: Start production-like static server
         run: |
-          npm run preview -- --host 127.0.0.1 --port 4173 > /tmp/apr-preview.log 2>&1 &
+          mkdir -p .qa-site/aqua-paradise-resort/riviera-polish
+          cp -a dist/. .qa-site/aqua-paradise-resort/riviera-polish/
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .qa-site > /tmp/apr-preview.log 2>&1 &
           for attempt in $(seq 1 30); do
             if curl -fsS http://127.0.0.1:4173/aqua-paradise-resort/riviera-polish/ >/dev/null; then exit 0; fi
             sleep 2
