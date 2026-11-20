@@ -1,4 +1,7 @@
 const paths = {
+  // Art Deco entrance of Paradise Boulevard: self-contained vector, unlike the
+  // old bitmap it contains no unwanted horizontal scan line to crop away.
+  boulevard: 'M2 29h28M5 27V11h22v16M9 27V15h14v12M12 27v-8a4 4 0 0 1 8 0v8M16 3v4m-4 0h8M7 11l2-5h14l2 5M3 15h6m14 0h6M5 19H3m26 0h-2M5 23H3m26 0h-2M12 11v4m8-4v4M7 27v-3m18 3v-3M2 30h28',
   compass: 'M16 1l2.8 12.2L31 16l-12.2 2.8L16 31l-2.8-12.2L1 16l12.2-2.8L16 1ZM7 7l6.2 6.2m5.6 5.6L25 25m0-18-6.2 6.2m-5.6 5.6L7 25',
   clock: 'M16 3a13 13 0 1 0 0 26 13 13 0 0 0 0-26Zm0 6v7l5 3',
   arch: 'M3 29h26M5 29V13a11 11 0 0 1 22 0v16M10 29V14a6 6 0 0 1 12 0v15M5 20h5m12 0h5M16 2v6',
