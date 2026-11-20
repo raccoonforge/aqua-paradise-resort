@@ -1,7 +1,7 @@
 import Brand from './Brand';
 
 const columns = [
-  { title: 'О курорте', links: [['Об острове','#/?section=about'],['9 миров','#/?section=worlds'],['Аттракционы','#/?section=attractions'],['Карта острова','#/map']] },
+  { title: 'О курорте', links: [['Об острове','#/?section=about'],['Девять миров','#/?section=worlds'],['Аттракционы','#/?section=attractions']] },
   { title: 'Ваш отдых', links: [['Билеты','#/tickets'],['Планировщик','#/planner'],['Посещение','#/visit'],['Отель','#/hotel']] },
   { title: 'Полезно', links: [['Как добраться','#/visit?section=arrival'],['Транспорт','#/visit?section=transport'],['Правила курорта','#/visit?section=rules'],['Вопросы и ответы','#/visit?section=faq']] },
 ];
