@@ -251,9 +251,9 @@
 .apr-worlds__number {
   position: absolute;
   left: 50%;
-  top: -14%;
+  top: -10%;
   translate: -50%;
-  width: 25%;
+  width: 18%;
   aspect-ratio: 1;
   border-radius: 50%;
   display: grid;
@@ -262,7 +262,7 @@
   background: radial-gradient(circle at 42% 33%, #fff1c3, #edc887 87%);
   border: .1cqw solid #ab7944;
   box-shadow: inset 0 0 0 .09cqw #fff9df8c, 0 .1cqw .17cqw #4325156b;
-  font: 800 clamp(13px, 5.6cqw, 30px)/1 system-ui, sans-serif;
+  font: 800 clamp(11px, 4.1cqw, 23px)/1 system-ui, sans-serif;
   pointer-events: auto;
   cursor: pointer;
   transition: rotate var(--turn-duration) var(--turn-easing);
