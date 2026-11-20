@@ -348,19 +348,33 @@
   width: clamp(380px, 43%, 840px);
   z-index: -1;
   pointer-events: none;
-  /* Preserve the complete palm crown: the old 150% zoom and top/right
-     gradient physically cut the fronds. Only blend toward the text at left
-     and fade into the footer stock near the bottom. */
-  background: url('./assets/retro/fidelity/sunset-scene.webp') right -28px top -18px / auto 110% no-repeat;
+  /* The original scenic print contains a mechanically clipped palm in
+     its upper quarter. Fade ONLY that damaged part, leaving sunset/water. */
+  background: url('./assets/retro/fidelity/sunset-scene.webp') right -28px top -12px / auto 110% no-repeat;
   -webkit-mask-image:
     linear-gradient(90deg, transparent 0%, #000 38%, #000 100%),
-    linear-gradient(180deg, #000 0%, #000 83%, transparent 100%);
+    linear-gradient(180deg, transparent 0%, transparent 18%, #000 42%, #000 85%, transparent 100%);
   -webkit-mask-composite: source-in;
   mask-image:
     linear-gradient(90deg, transparent 0%, #000 38%, #000 100%),
-    linear-gradient(180deg, #000 0%, #000 83%, transparent 100%);
+    linear-gradient(180deg, transparent 0%, transparent 18%, #000 42%, #000 85%, transparent 100%);
   mask-composite: intersect;
 }
+/* A complete transparent palm illustration hangs from the upper-right
+   edge. Unlike the cropped sunset print, it has no horizontal image edge. */
+.pier-canopy {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: 0;
+  width: clamp(290px, 34vw, 630px);
+  height: clamp(122px, 12vw, 215px);
+  pointer-events: none;
+  background: url('./assets/retro/rides/folio-canopy.webp') right top / auto 100% no-repeat;
+  opacity: .78;
+}
+.sunset-pier .pier-content,
+.sunset-pier .pier-legal { position: relative; z-index: 1; }
 .pier-content {
   display: grid;
   grid-template-columns: minmax(10rem, .78fr) minmax(0, 1.65fr);
@@ -466,6 +480,7 @@
     background-position: right -18px top -12px;
     background-size: auto 110%;
   }
+  .pier-canopy { width: min(70%, 360px); height: 130px; opacity: .6; }
   .pier-content { width: 100%; grid-template-columns: minmax(0, 1fr); gap: 26px; }
   .pier-brand { width: min(60%, 240px); }
   .pier-brand .apr-brand__name { font-size: clamp(2.05rem, 6.5vw, 2.85rem); }
