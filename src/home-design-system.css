@@ -57,6 +57,25 @@
 }
 .riv-home .apr-worlds__hub { border-color: #ffdcaa; }
 
+/* The SELECTED world, unlike the inactive dark-green tabs, uses precisely
+   the coral ink of the Header 'Билеты' CTA. Keep its cream trim and glow. */
+.riv-home .apr-worlds__tickets button[aria-pressed="true"] {
+  background: var(--riv-stock), var(--apr-action-coral);
+  border-color: #ffdcaa;
+  box-shadow: inset 0 0 0 1px #fff0c077, 0 0 12px #ffba7199, 0 0 22px #f35d3740;
+}
+.riv-home .apr-worlds__tickets button[aria-pressed="true"]:is(:hover, :focus-visible) {
+  background: var(--riv-stock), var(--apr-action-coral);
+  box-shadow: inset 0 0 0 1px #fff0c0b0, 0 0 15px #ffd297b0, 0 0 25px #f35d3766;
+}
+
+/* The hub's source artwork contains an orange sunset. Recolor ONLY the
+   View-Master emblem to one vintage cream/gold ink tone so palm and sun
+   remain distinct from the coral hub. Header/footer artwork is unchanged. */
+.riv-home .apr-worlds__hub img {
+  filter: brightness(0) saturate(100%) invert(88%) sepia(25%) saturate(560%) hue-rotate(338deg) brightness(104%);
+}
+
 /* Keep the Header Tickets hover identical across primary actions, including
    the moving sheen. Dark secondary controls remain dark by design. */
 .riv-mast .ticket-cta,
