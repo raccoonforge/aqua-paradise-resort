@@ -108,20 +108,24 @@
   text-align: center;
   text-wrap: balance;
 }
+/* All nine illustrated worlds share one irregular print-fade silhouette.
+   Masking the entire scene, including its low-res preview, prevents a
+   rectangular loading flash. The paper caption remains above this layer. */
 .apr-worlds__photo {
   grid-area: photo;
   position: relative;
+  min-width: 0;
+  max-width: 100%;
   aspect-ratio: 1.7;
-  border-radius: 18px 18px 8px 8px;
   background-size: cover;
   background-position: center;
-  box-shadow: 0 11px 25px #00241f77;
+  -webkit-mask: url('../assets/retro/viewmaster/world-scene-fade.svg') center / 100% 100% no-repeat;
+  mask: url('../assets/retro/viewmaster/world-scene-fade.svg') center / 100% 100% no-repeat;
 }
 .apr-worlds__photo img {
   display: block;
   width: 100%;
   height: 100%;
-  border-radius: inherit;
   object-fit: cover;
   object-position: center 48%;
   animation: apr-worlds-project var(--turn-duration) ease-out both;
