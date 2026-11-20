@@ -213,18 +213,14 @@
   /* Printed sheet underneath the attractions tear, with no hard seam. */
   margin-top: calc(-1 * var(--poster-tear-height));
   padding: calc(var(--poster-tear-height) + clamp(25px, 3.1vw, 53px)) clamp(16px, 5vw, 78px) clamp(62px, 7.4vw, 116px);
-  background: radial-gradient(ellipse 78% 65% at 50% 56%, #10564d7a, transparent);
+  /* The artwork is a clean illustration, not a screenshot of the board.
+     Keep its original aspect ratio; the HTML controls stay independent. */
+  background:
+    linear-gradient(90deg, #043a3610, #043a3628 50%, #043a3612),
+    url('./assets/retro/fidelity/mini-planner-riviera.avif') center / cover no-repeat,
+    #043a36;
 }
-.departure::before {
-  content: '';
-  position: absolute;
-  inset: 5% 0 0 auto;
-  width: 30%;
-  z-index: -1;
-  pointer-events: none;
-  background: url('./assets/retro/fidelity/departure-mobile-art.webp') right center / contain no-repeat;
-  mask-image: linear-gradient(transparent, #000 18%, #000 80%, transparent);
-}
+.departure::before { content: none; }
 .departure-heading { max-width: 58rem; }
 .departure-copy { position: relative; }
 .departure-copy h2 { font-size: clamp(2rem, 4.15vw, 4.4rem); }
@@ -234,13 +230,9 @@
   text-shadow: 0 2px 3px #00342d;
 }
 .departure-art {
-  position: absolute;
-  inset: auto auto 3% 0;
-  z-index: -1;
-  width: min(24%, 390px);
-  aspect-ratio: 414 / 717;
-  pointer-events: none;
-  mask-image: linear-gradient(#000 85%, transparent);
+  /* The new approved background already contains the traveller/foliage.
+     Do not stack the former separate artwork on top of her. */
+  display: none;
 }
 .departure-art img { position: absolute; left: 0; height: auto; }
 .departure-traveller { top: 0; width: 96.1353%; }
