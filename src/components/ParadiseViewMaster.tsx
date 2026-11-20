@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import type { CSSProperties, KeyboardEvent, PointerEvent } from 'react';
 import { zonesData as zones } from '../data/zones';
 import palm from '../assets/retro/apr-palm-logo.svg';
+import gardenIcon from '../assets/retro/viewmaster/eden-gardens-vintage.svg';
 import './ParadiseViewMaster.css';
 
 const icons = import.meta.glob<string>('../assets/retro/viewmaster/icon-*.webp', {
@@ -211,23 +212,7 @@ export default function ParadiseViewMaster() {
       <div role="group" aria-label="Билеты в девять миров" className="apr-worlds__tickets" onKeyDown={navigateWithKeys}>
         {zones.map(({ id, name }, index) => (
           <button key={id} type="button" aria-pressed={selected === index} onClick={() => choose(index)}>
-            {index === 2 ? (
-              <svg className="apr-worlds__garden-icon" viewBox="0 0 80 52" aria-hidden="true">
-                {/* Gilded botanical conservatory: an ornate little garden pavilion. */}
-                <path d="M7 45h66v4H7zM12 41h56v3H12z" />
-                <path d="M13 40V25h4v15M63 40V25h4v15M34 40V18h3v22M43 40V18h3v22" />
-                <path d="M11 24C14 10 24 5 40 4c16 1 26 6 29 20h-5C61 14 52 9 40 9S19 14 16 24z" />
-                <path d="M9 23h62v3H9zM36 1h8v3h-8zM39 0h2v7h-2z" />
-                <path d="M20 40V29m40 11V29" fill="none" stroke="currentColor" strokeWidth="2" />
-                <path d="M26 39V29m28 10V29" fill="none" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M39 38V22" fill="none" stroke="currentColor" strokeWidth="2.3" />
-                <path d="M39 32c-6-1-9-4-10-9 6-1 9 2 10 9M40 28c5-1 8-4 9-9-6-1-9 2-9 9M39 37c-6 0-10-3-12-7 6-2 10 1 12 7M40 35c6-1 10-4 11-8-6-1-10 2-11 8" />
-                <path d="M24 15c-3-5-8-7-11-5 0 5 4 8 11 9M56 15c3-5 8-7 11-5 0 5-4 8-11 9" />
-                <circle cx="40" cy="13" r="2" /><circle cx="22" cy="22" r="1.5" /><circle cx="58" cy="22" r="1.5" />
-              </svg>
-            ) : (
-              <img src={icons[`../assets/retro/viewmaster/icon-${index + 1}.webp`]} alt="" loading="lazy" />
-            )}
+            <img src={index === 2 ? gardenIcon : icons[`../assets/retro/viewmaster/icon-${index + 1}.webp`]} alt="" loading="lazy" />
             <span>{name}</span>
           </button>
         ))}
