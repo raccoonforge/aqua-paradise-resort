@@ -113,7 +113,7 @@
   border-radius: 50%;
   transform: rotate(12deg);
   color: var(--coral);
-  font: bold clamp(7px, .85vw, 16px)/1.1 Georgia, serif;
+  font: bold clamp(7px, .85vw, 16px)/1.1 'APR Poster', Georgia, serif;
   letter-spacing: .04em;
 }
 /* Light ink loss and fine printing scratches keep the resort postmark
@@ -163,7 +163,7 @@
 }
 .apr-about__intro p {
   margin: 0;
-  font: 400 clamp(16px, 1.18vw, 22px)/1.43 Georgia, 'Times New Roman', serif;
+  font: 400 clamp(16px, 1.18vw, 22px)/1.43 'APR Poster', Georgia, 'Times New Roman', serif;
   letter-spacing: normal;
   text-align: left;
   text-wrap: wrap;
