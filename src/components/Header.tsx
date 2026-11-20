@@ -123,7 +123,7 @@ export default function Header({ home }: {home: boolean}) {
         <div className="drawer-head"><Brand /><button className="riv-button secondary" type="button" aria-label="Закрыть меню" onClick={() => dialog.current?.close()}>×</button></div>
         <nav aria-label="Навигация по курорту">
           <a href="#/?section=about">О курорте</a><Accordion group={entertainment} />
-          <a href="#/map">Карта острова</a><a href="#/hotel">Отель</a>
+          <a href="#/?section=worlds">Девять миров</a><a href="#/hotel">Отель</a>
           <Accordion group={visit} /><a href="#/planner">Планировщик</a><TicketLink />
         </nav>
       </div>
