@@ -110,8 +110,9 @@
 
 /* The journal stock sits below the Hero and curls over the next section. */
 .riv-home .apr-about {
-  /* Keep the approved torn paper above the following world's stock. */
-  z-index: 1;
+  /* The About sheet and its lower fibrous edge must sit above the Worlds
+     section (z-index: 2), otherwise Worlds covers the existing tear. */
+  z-index: 3;
   --about-tear-width: var(--poster-tear-width);
   --about-upper-offset: 14px;
   --about-upper-tear: 34px;
