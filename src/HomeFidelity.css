@@ -220,9 +220,15 @@
   inset: 0 0 calc(var(--poster-tear-height) - var(--tickets-overhang));
   z-index: -1;
   pointer-events: none;
-  /* Keep the original complete illustrations at the sides. Previously the
-     vertical and horizontal masks faded away their leaves and flowers. */
+  /* Preserve palms and hibiscus, but prevent the opaque pale canvas of
+     the composite art from becoming a rectangular frame. White ink blends
+     into the dark stock; only the outermost pixels are softly clipped. */
   background: url('./assets/retro/fidelity/tickets-decor.webp') center / 100% 100% no-repeat;
+  mix-blend-mode: multiply;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 3%, #000 97%, transparent 100%), linear-gradient(to right, transparent 0%, #000 2%, #000 98%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 3%, #000 97%, transparent 100%), linear-gradient(to right, transparent 0%, #000 2%, #000 98%, transparent 100%);
+  mask-composite: intersect;
 }
 .golden-tickets__tear {
   position: absolute;
