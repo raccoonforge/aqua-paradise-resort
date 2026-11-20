@@ -155,32 +155,57 @@
   scrollbar-color: #d2ab65 #073b37;
 }
 .atlas-ticket {
+  /* A full-width name row prevents long destination names from spilling
+     beyond the ticket edge; icon and number occupy the top row. */
+  position: relative;
   display: grid;
-  grid-template-columns: minmax(28px, 34%) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: 36px minmax(0, auto);
+  align-content: center;
   align-items: center;
-  gap: clamp(3px, .43vw, 7px);
-  min-height: clamp(76px, 6.75vw, 104px);
-  padding: 8px clamp(4px, .7vw, 10px);
+  justify-items: center;
+  row-gap: 5px;
+  min-width: 0;
+  min-height: 118px;
+  padding: 9px clamp(7px, .85vw, 13px) 11px;
   border: 1px solid #efc67f;
   border-radius: 11px;
   corner-shape: scoop;
   color: #ffe2a0;
   background: var(--riv-stock), linear-gradient(145deg, #13544d, #063735 69%);
   box-shadow: inset 0 0 0 2px #eecc8a2b, 0 4px 6px #001d1a95;
-  font: italic 700 clamp(.78rem, 1.14vw, 1.12rem)/1.08 var(--riv-serif);
+  font: italic 700 clamp(.84rem, 1.12vw, 1.12rem)/1.13 var(--riv-serif);
   text-decoration: none;
   text-align: center;
   text-wrap: balance;
   transition: border-color .2s, box-shadow .2s, filter .2s;
 }
-.atlas-ticket img { width: 100%; height: 47px; object-fit: contain; }
-.atlas-ticket:first-child img { clip-path: inset(12% 0 0); }
-.atlas-ticket small {
+.atlas-ticket img {
   display: block;
-  margin-block-end: .27em;
+  justify-self: start;
+  width: 46px;
+  max-width: 45%;
+  height: 36px;
+  object-fit: contain;
+}
+/* The first source bitmap has a stray fine line above the monument.
+   Exclude the top asset margin without altering any of the other icons. */
+.atlas-ticket:first-child img { clip-path: inset(28% 0 0 0); }
+.atlas-ticket > span {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: normal;
+}
+.atlas-ticket small {
+  position: absolute;
+  top: 12px;
+  right: clamp(9px, .85vw, 14px);
+  margin: 0;
   color: inherit;
-  font-size: 1.23em;
-  letter-spacing: .06em;
+  font-size: 1.25em;
+  line-height: 1;
+  letter-spacing: .04em;
 }
 .atlas-ticket[aria-current='true'] {
   color: #30170f;
