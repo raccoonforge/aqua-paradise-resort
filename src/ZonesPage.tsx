@@ -72,8 +72,12 @@ function ZoneTickets({ activeId }: { activeId: string }) {
       {zonesData.map((zone, index) => (
         <a className="atlas-ticket" key={zone.id} href={atlasRoute(zone.id)}
           aria-current={activeId === zone.id ? 'true' : undefined} aria-label={`Открыть зону ${zone.name}`}>
-          <img src={index === 2 ? gardenIcon : ticketIcons[`./assets/retro/viewmaster/icon-${index + 1}.webp`]} alt="" />
-          <span><small aria-hidden="true">{zoneNumber(index)}</small>{zone.name}</span>
+          <small className="atlas-ticket__number" aria-hidden="true">{zoneNumber(index)}</small>
+          <span className="atlas-ticket__art" aria-hidden="true">
+            {index === 0 ? <AtlasIcon name="boulevard" /> :
+              <img src={index === 2 ? gardenIcon : ticketIcons[`./assets/retro/viewmaster/icon-${index + 1}.webp`]} alt="" />}
+          </span>
+          <span className="atlas-ticket__name">{zone.name}</span>
         </a>
       ))}
     </nav>
