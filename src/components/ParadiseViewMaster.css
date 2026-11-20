@@ -8,7 +8,9 @@
   --worlds-overhang: 14px;
   position: relative;
   z-index: 0;
-  padding: clamp(27px, 3.1vw, 57px) clamp(15px, 3.1vw, 62px) clamp(40px, 4.4vw, 76px);
+  /* The next sheet begins below the previous paper tear, not at a hard seam. */
+  margin-top: calc(-1 * var(--poster-tear-height));
+  padding: calc(var(--poster-tear-height) + clamp(27px, 3.1vw, 57px)) clamp(15px, 3.1vw, 62px) clamp(40px, 4.4vw, 76px);
   color: var(--paper);
   overflow-anchor: none;
 }
@@ -19,10 +21,9 @@
   pointer-events: none;
 }
 .apr-worlds::before {
-  /* Continue the printed stock behind the preceding section's torn edge.
-     Starting at section top used to expose a hard horizontal boundary
-     through the transparent parts of the paper fibres. */
-  inset: calc(-1 * var(--poster-tear-height)) 0 calc(var(--poster-tear-height) - var(--worlds-overhang) - 1px);
+  /* This entire section overlaps the preceding tear so the paper fibres
+     reveal uninterrupted printed stock behind them. */
+  inset: 0 0 calc(var(--poster-tear-height) - var(--worlds-overhang) - 1px);
   background: var(--worlds-stock) center bottom;
 }
 .apr-worlds__tear {
