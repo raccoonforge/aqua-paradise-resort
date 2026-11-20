@@ -299,7 +299,7 @@ async function checkTicketLayout(page) {
     const ride = ATTRACTIONS.find(attraction => attraction.id === card.id);
     assert(ride && card.title === ride.name && card.zone === ride.zone);
     assert.equal(card.limits, `${ride.minAge}+ · от ${ride.minHeight} см`);
-    assert(card.frame && card.artwork && !card.clipped && inViewport(card.rect), `${card.title} fits its complete frame`);
+    assert(card.frame && card.artwork && !card.clipped && inViewport(card.rect), `${card.title} fits its complete frame: ${JSON.stringify(card)}`);
     if (card.id === 'stormbreaker') assert.equal(card.titleLines, 1, 'Stormbreaker fits on one line');
     assert(layout.cards.slice(index + 1).every(next => !intersects(card.rect, next.rect)), `${card.title} has room around its edges`);
   }
