@@ -366,7 +366,7 @@
 .pier-palm-extension {
   position: absolute;
   z-index: 0;
-  right: -2px;
+  right: 0;
   top: -20px;
   width: clamp(230px, 15vw, 290px);
   aspect-ratio: 310 / 202;
@@ -485,7 +485,7 @@
     background-position: right -18px top -12px;
     background-size: auto 110%;
   }
-  .pier-palm-extension { width: clamp(185px, 56vw, 240px); top: -18px; right: -6px; }
+  .pier-palm-extension { width: clamp(185px, 56vw, 240px); top: -18px; right: 0; }
   .pier-content { width: 100%; grid-template-columns: minmax(0, 1fr); gap: 26px; }
   .pier-brand { width: min(60%, 240px); }
   .pier-brand .apr-brand__name { font-size: clamp(2.05rem, 6.5vw, 2.85rem); }
