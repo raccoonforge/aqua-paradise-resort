@@ -3,6 +3,7 @@ import { ATTRACTIONS, ATTRACTION_IDS_BY_ZONE } from './data/attractions';
 import { zonesData } from './data/zones';
 import AtlasIcon, { type AtlasIconName } from './components/AtlasIcon';
 import gardenIcon from './assets/retro/viewmaster/eden-gardens-vintage.svg';
+import boulevardGateway from './assets/retro/atlas/paradise-boulevard-gateway-clean.svg';
 
 type Zone = (typeof zonesData)[number];
 const TABS = [
@@ -74,7 +75,7 @@ function ZoneTickets({ activeId }: { activeId: string }) {
           aria-current={activeId === zone.id ? 'true' : undefined} aria-label={`Открыть зону ${zone.name}`}>
           <small className="atlas-ticket__number" aria-hidden="true">{zoneNumber(index)}</small>
           <span className="atlas-ticket__art" aria-hidden="true">
-            <img src={index === 2 ? gardenIcon : ticketIcons[`./assets/retro/viewmaster/icon-${index + 1}.webp`]} alt="" />
+            <img src={index === 0 ? boulevardGateway : index === 2 ? gardenIcon : ticketIcons[`./assets/retro/viewmaster/icon-${index + 1}.webp`]} alt="" />
           </span>
           <span className="atlas-ticket__name">{zone.name}</span>
         </a>
