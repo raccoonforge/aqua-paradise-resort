@@ -464,13 +464,14 @@
 }
 /* The first icon asset contains a stray thin line along its top edge. */
 .apr-worlds__tickets button:first-child img { clip-path: inset(11% 0 0 0); }
-/* Inline botanical engraving for Eden Gardens, distinct from the spa lotus. */
+/* Gilded pavilion emblem uses the same solid gold visual weight as the printed icons. */
 .apr-worlds__tickets button .apr-worlds__garden-icon {
+  display: block;
   width: clamp(39px, 4.5vw, 84px);
   height: clamp(25px, 2.7vw, 49px);
-  fill: none;
-  stroke: #f7d894;
-  stroke-width: 2.1;
+  color: #f7d894;
+  fill: currentColor;
+  stroke: currentColor;
   stroke-linecap: round;
   stroke-linejoin: round;
   filter: drop-shadow(0 1px 1px #032c26);
