@@ -124,7 +124,7 @@ export default function ParadiseViewMaster() {
       <div className="apr-worlds__tear" aria-hidden="true" />
       <div className="apr-worlds__stage">
         <header className="apr-worlds__heading">
-          <h2 id="apr-worlds-title"><span>9</span> миров</h2>
+          <h2 id="apr-worlds-title">Девять миров</h2>
           <p className="apr-worlds__resort-name">Aqua Paradise</p>
           <p className="apr-worlds__invitation">Выберите мир и загляните внутрь</p>
         </header>
