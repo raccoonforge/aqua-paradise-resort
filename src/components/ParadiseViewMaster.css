@@ -59,7 +59,7 @@
   grid-area: heading;
   z-index: 2;
   display: grid;
-  grid-template: 'title invitation' auto 'resort invitation' auto / minmax(0, 1fr) clamp(108px, 14vw, 229px);
+  grid-template: 'title title' auto 'resort invitation' auto / minmax(0, 1fr) clamp(108px, 14vw, 229px);
   align-items: center;
   justify-items: start;
   gap: 0 clamp(8px, 1vw, 18px);
@@ -72,7 +72,8 @@
   transform-origin: 0 50%;
   color: #ffe2a0;
   white-space: nowrap;
-  font: italic 700 clamp(2.1rem, 3.65vw, 4.7rem)/1.04 var(--serif);
+  /* Match the approved About headline's visual scale. */
+  font: italic 700 clamp(2.15rem, 4.5vw, 5rem)/.97 Georgia, serif;
   letter-spacing: -.065em;
   text-shadow: .04em .055em #a33520, .07em .094em #53251b, .09em .116em #002a27;
 }
@@ -149,9 +150,12 @@
 .apr-worlds__stereo span {
   position: absolute;
   top: 11%;
-  left: 30%;
+  left: 50%;
+  width: max-content;
+  max-width: 84%;
+  text-align: center;
   color: #ffe3a5;
-  transform: rotate(-9deg);
+  transform: translateX(-50%) rotate(-9deg);
   font: italic 700 clamp(.88rem, 4.1cqw, 2.1rem)/1 var(--serif);
   letter-spacing: -.05em;
   text-shadow: 0 1px #972b19;
@@ -172,16 +176,16 @@
   z-index: 4;
   top: 55%;
   translate: 0 -50%;
-  width: 9.1%;
+  width: 8.3%;
   min-width: 44px;
   aspect-ratio: 1;
   display: grid;
   place-items: center;
   color: #ffe2a5;
   background: var(--riv-stock), radial-gradient(ellipse at 38% 38%, #0b5247, #023931 70%, #012820);
-  border: .22cqw solid #f1cc90;
+  border: .14cqw solid #f1cc90;
   border-radius: 50%;
-  box-shadow: inset -.14em -.14em 0 #002c28, 0 .22em 0 #9c5029, 0 .36em .22em #001f1c8c;
+  box-shadow: inset 0 0 0 1px #ffe6ac70, 0 .16em 0 #9c5029, 0 .3em .25em #001f1c70;
   cursor: pointer;
 }
 .apr-worlds__arrow:first-of-type { left: 0; }
@@ -245,16 +249,16 @@
   left: 50%;
   top: -14%;
   translate: -50%;
-  width: 25%;
+  width: 22%;
   aspect-ratio: 1;
   border-radius: 50%;
   display: grid;
   place-items: center;
   color: #002f28;
   background: var(--riv-stock), radial-gradient(ellipse at 38% 28%, #ffecb1, #f2c987);
-  border: .19cqw solid #9e5628;
-  box-shadow: inset 0 0 0 .12cqw #fff3b7, 0 .21cqw .22cqw #60332099;
-  font: 800 clamp(13px, 6cqw, 31px)/1 system-ui, sans-serif;
+  border: .12cqw solid #9e5628;
+  box-shadow: inset 0 0 0 .08cqw #fff3b7, 0 .16cqw .2cqw #60332070;
+  font: 700 clamp(13px, 4.75cqw, 26px)/1 Georgia, serif;
   pointer-events: auto;
   cursor: pointer;
   transition: rotate var(--turn-duration) var(--turn-easing);
@@ -455,6 +459,19 @@
   height: clamp(25px, 2.7vw, 49px);
   object-fit: contain;
 }
+/* The first icon asset contains a stray thin line along its top edge. */
+.apr-worlds__tickets button:first-child img { clip-path: inset(11% 0 0 0); }
+/* Inline botanical engraving for Eden Gardens, distinct from the spa lotus. */
+.apr-worlds__tickets button .apr-worlds__garden-icon {
+  width: clamp(39px, 4.5vw, 84px);
+  height: clamp(25px, 2.7vw, 49px);
+  fill: none;
+  stroke: #f7d894;
+  stroke-width: 2.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 1px 1px #032c26);
+}
 .apr-worlds__tickets button span { display: block; max-width: 7em; padding-inline: .3em; text-align: center; }
 .apr-worlds__tickets button[aria-pressed=true] {
   border-color: #ffecab;
@@ -500,7 +517,7 @@
   }
   .apr-worlds__heading h2 {
     transform-origin: center;
-    font-size: clamp(2.15rem, 7.5vw, 4.7rem);
+    font-size: clamp(2rem, 7.3vw, 3.8rem);
   }
   .apr-worlds__resort-name {
     margin-left: 0;
