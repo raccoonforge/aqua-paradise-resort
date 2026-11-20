@@ -30,9 +30,24 @@
 .riv-home .ticket-all .riv-button,
 .riv-home .board-submit,
 .riv-home .apr-worlds__link {
-  background-color: var(--apr-action-coral);
+  background: var(--riv-stock), var(--apr-action-coral);
   border-color: #ffc08a;
 }
+/* Tickets and Hero use the same subtly worn vertical ink gradient. */
+.riv-mast .ticket-cta::before,
+.riv-drawer .ticket-cta::before,
+.riv-home .apr-hero__button--primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg,#ff9369 0%,#f35d37 34%,#d8492c 100%);
+  pointer-events: none;
+  transition: opacity .2s ease;
+}
+.riv-mast .ticket-cta:hover::before,
+.riv-drawer .ticket-cta:hover::before,
+.riv-home .apr-hero__button--primary:hover::before { opacity: .88; }
 .riv-home .apr-worlds__hub,
 .riv-home .apr-worlds__stamp {
   background: var(--riv-stock), var(--apr-action-coral);
