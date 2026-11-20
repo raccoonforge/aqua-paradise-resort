@@ -17,6 +17,7 @@ import DepartureBoard from './components/DepartureBoard';
 import SunsetPier from './components/SunsetPier';
 import './HomeFidelity.css';
 import './hero-reference.css';
+import './home-design-system.css';
 
 function scrollHome(section: string) {
   const target = document.getElementById(section);
