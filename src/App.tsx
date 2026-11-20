@@ -106,7 +106,7 @@ function App() {
                 <li><button onClick={() => navigate('#/')} className="hover:text-white">О курорте</button></li>
                 <li><button onClick={() => navigate('#/zones')} className="hover:text-white">Девять миров</button></li>
                 <li><button onClick={() => navigate('#/attractions')} className="hover:text-white">Аттракционы</button></li>
-                <li><button onClick={() => navigate('#/map')} className="hover:text-white">Карта острова</button></li>
+
               </ul>
             </div>
             <div>
