@@ -190,7 +190,7 @@
 }
 .apr-worlds__arrow:first-of-type { left: 0; }
 .apr-worlds__arrow:last-of-type { right: 0; }
-.apr-worlds__arrow svg { width: 65%; height: 65%; }
+.apr-worlds__arrow svg { width: 52%; height: 52%; }
 .apr-worlds__arrow:hover { background-color: #126c60; filter: brightness(1.18); }
 .apr-worlds__wheel { position: absolute; left: 6.5%; top: 17%; width: 87%; aspect-ratio: 1; z-index: 3; }
 .apr-worlds__surface { position: absolute; inset: 0; border-radius: 50%; touch-action: none; cursor: grab; user-select: none; }
@@ -275,7 +275,7 @@
   background: #fff1b1;
 }
 .apr-worlds__slide:is([aria-pressed=true], :focus-visible) { filter: drop-shadow(0 0 .38cqw #ffae13) drop-shadow(0 0 .21cqw #fff3ae); }
-.apr-worlds__slide[aria-pressed=true] .apr-worlds__number { top: -25%; border-color: #fff0b4; }
+.apr-worlds__slide[aria-pressed=true] .apr-worlds__number { top: -20%; border-color: #fff0b4; }
 .apr-worlds__slide:hover img { filter: brightness(1.12); }
 .riv-home .apr-worlds__slide:focus-visible { outline: none; }
 .apr-worlds__slide:focus-visible .apr-worlds__number {
