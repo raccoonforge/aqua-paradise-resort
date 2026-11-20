@@ -4,10 +4,8 @@
   font-family: 'Inter', system-ui, sans-serif;
   background: #043a36;
 }
-.atlas-shell .riv-mast.apr-header {
-  background: var(--riv-stock), #062f2def !important;
-  border-bottom: 1px solid #d9aa675e;
-}
+/* The Atlas reuses the EXACT transparent masthead treatment from the
+   homepage. Do not paint an atlas-specific opaque strip or divider. */
 .atlas-main:focus { outline-offset: -3px; }
 .atlas-loading { padding: calc(var(--atlas-mast-height) + 42px) 20px 35px; color: var(--riv-cream); text-align: center; }
 .atlas-page {
