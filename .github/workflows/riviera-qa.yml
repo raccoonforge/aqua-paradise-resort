@@ -111,6 +111,20 @@ jobs:
           name: riviera-footer-full
           path: qa-output/riviera-polish/footer-full-*.png
           retention-days: 14
+      - name: Upload Grand Paradise Atlas screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: riviera-atlas-pages
+          path: qa-output/riviera-polish/atlas-page-*.png
+          retention-days: 14
+      - name: Upload all nine Atlas spreads
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: riviera-atlas-worlds
+          path: qa-output/riviera-polish/atlas-zone-*.png
+          retention-days: 14
       - name: Upload visual evidence
         if: always()
         uses: actions/upload-artifact@v4

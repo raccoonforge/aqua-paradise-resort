@@ -2,14 +2,14 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import { chromium } from 'playwright';
 import { zonesData } from '../src/data/zones.ts';
-import { ATTRACTIONS } from '../src/data/attractions.ts';
+import { ATTRACTIONS, ATTRACTION_IDS_BY_ZONE } from '../src/data/attractions.ts';
 
 const url = process.env.RIVIERA_QA_URL || 'http://127.0.0.1:4173/aqua-paradise-resort/riviera-polish/#/';
 const dir = 'qa-output/riviera-polish';
 const sections = ['hero', 'about', 'worlds', 'attractions', 'planner', 'footer'];
 const widths = [1920, 1440, 1280, 1024, 768, 390, 375, 320];
 const screenshotWidths = [1920, 1440, 768, 390, 375];
-const report = { viewports: [], transitions: [], errors: [] };
+const report = { viewports: [], transitions: [], atlas: [], errors: [] };
 const executablePath = process.env.RIVIERA_CHROMIUM_PATH;
 const browser = await chromium.launch(executablePath ? { executablePath } : { channel: 'chrome' });
 
@@ -404,6 +404,128 @@ async function captureFooter(page, width, { top, bottom }) {
   });
 }
 
+async function checkAtlas(page, width) {
+  await page.setViewportSize({ width, height: width < 800 ? 812 : 900 });
+  const target = new URL(url);
+  target.hash = '/zones?zone=ocean-bay';
+  await page.goto(target.toString());
+  await page.evaluate(() => document.fonts.ready);
+
+  const atlas = page.locator('.atlas-page');
+  const strip = atlas.getByRole('navigation', { name: 'Тематические зоны' });
+  const panorama = atlas.locator('.atlas-picture img');
+  const panel = atlas.getByRole('tabpanel');
+  const title = atlas.locator('#atlas-zone-name');
+  const tabs = ['Обзор', 'Развлечения', 'Инфраструктура', 'Правила'];
+  await title.waitFor();
+  assert.equal(await strip.getByRole('link').count(), 9);
+  assert.equal(await page.locator('.riv-mast .apr-brand').count(), 1);
+  assert.equal(await page.locator('.sunset-pier .pier-sunset').count(), 1);
+  assert.match(await atlas.evaluate(el => getComputedStyle(el, '::before').maskImage), /poster-tear-mask/);
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), width);
+  await atlas.locator('.atlas-cover img').evaluate(img => img.decode());
+  await panorama.evaluate(img => img.decode());
+  await page.screenshot({ path: `${dir}/atlas-page-${width}.png`, fullPage: true, animations: 'disabled', timeout: 25000 });
+
+  if (width < 800) {
+    assert(await strip.evaluate(el => el.scrollWidth > el.clientWidth));
+    await strip.evaluate(el => { el.scrollLeft = 0; });
+    await page.waitForFunction(() => document.querySelector('.atlas-tickets').scrollLeft === 0);
+    const picture = await atlas.locator('.atlas-picture').boundingBox();
+    const sheet = await atlas.locator('.atlas-sheet').boundingBox();
+    assert(picture.y + picture.height <= sheet.y + 2, 'The illustration sits above its text on narrow screens');
+  }
+
+  const zones = width === 1440 ? zonesData : zonesData.filter(zone => ['paradise-boulevard', 'atlantis-realm'].includes(zone.id));
+  const sources = new Set();
+  for (const zone of zones) {
+    const ticket = strip.getByRole('link', { name: `Открыть зону ${zone.name}` });
+    await ticket.click();
+    await page.waitForURL(`**/#/zones?zone=${zone.id}`);
+    await page.waitForFunction(name => document.querySelector('#atlas-zone-name').textContent === name, zone.name);
+    assert.equal(await ticket.getAttribute('aria-current'), 'true');
+    assert.equal(await title.innerText(), zone.name);
+    const source = await panorama.evaluate(async img => {
+      await img.decode();
+      return { url: img.currentSrc, width: img.naturalWidth, animation: getComputedStyle(img).animationName };
+    });
+    assert(source.width >= 1200 && source.url.includes(zone.id));
+    assert.equal(source.animation, 'none', 'Reduced motion disables the picture transition');
+    sources.add(source.url);
+    assert.deepEqual(await panel.locator('.atlas-features li').allTextContents(), zone.features);
+    if (width === 1440) {
+      const spread = atlas.locator('.atlas-spread');
+      const { x, y, width: w, height: h } = await spread.boundingBox();
+      const scroll = await page.evaluate(() => scrollY);
+      await page.screenshot({
+        path: `${dir}/atlas-zone-${zone.id}.png`, fullPage: true, animations: 'disabled',
+        clip: { x: Math.floor(x) - 12, y: Math.floor(y + scroll) - 8, width: Math.ceil(w) + 24, height: Math.ceil(h) + 26 },
+      });
+    }
+    for (const label of tabs.slice(1)) {
+      const tab = atlas.getByRole('tab', { name: label, exact: true });
+      await tab.click();
+      await page.waitForFunction(text => [...document.querySelectorAll('.atlas-tabs button')].some(
+        item => item.textContent.trim() === text && item.getAttribute('aria-selected') === 'true'), label);
+      assert.equal(await panel.getAttribute('aria-labelledby'), await tab.getAttribute('id'));
+      assert.equal(await panorama.evaluate(img => img.currentSrc), source.url);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), width);
+      if (label === 'Развлечения') {
+        const rides = await panel.locator('.atlas-rides a').evaluateAll(links => links.map(link => new URL(link.href).hash));
+        assert.deepEqual(rides, (ATTRACTION_IDS_BY_ZONE[zone.name] ?? []).map(id => `#/attractions?ride=${id}`));
+        assert.deepEqual(await panel.locator('.atlas-list li').allTextContents(), zone.activities);
+      }
+      if (label === 'Инфраструктура') {
+        assert.equal(await panel.locator('.atlas-list li').count(), Object.values(zone.infrastructure).flat().length);
+      }
+      if (label === 'Правила') assert.deepEqual(await panel.locator('.atlas-rules li span').allTextContents(), zone.rules);
+    }
+  }
+  assert.equal(sources.size, zones.length);
+
+  target.hash = '/zones?zone=atlantis-realm';
+  await page.goto(target.toString());
+  await page.waitForFunction(() => document.querySelector('#atlas-zone-name').textContent === 'Atlantis Realm');
+  const overview = atlas.getByRole('tab', { name: 'Обзор' });
+  const rules = atlas.getByRole('tab', { name: 'Правила' });
+  const attractions = atlas.getByRole('tab', { name: 'Развлечения' });
+  await overview.scrollIntoViewIfNeeded();
+  const initialY = await page.evaluate(() => scrollY);
+  await overview.press('ArrowRight');
+  await page.waitForURL('**/#/zones?zone=atlantis-realm&tab=attractions');
+  assert(await attractions.evaluate(el => el === document.activeElement && el.matches(':focus-visible')));
+  assert.equal(await page.evaluate(() => scrollY), initialY, 'A tab change keeps the page scroll position');
+  await attractions.press('End');
+  await page.waitForURL('**/#/zones?zone=atlantis-realm&tab=rules');
+  assert(await rules.evaluate(el => el === document.activeElement));
+  await page.goBack();
+  await attractions.waitFor();
+  await page.waitForFunction(() => document.querySelector('#zone-tab-attractions').getAttribute('aria-selected') === 'true');
+  await page.goForward();
+  await page.waitForFunction(() => document.querySelector('#zone-tab-rules').getAttribute('aria-selected') === 'true');
+  await rules.press('Home');
+  await page.waitForURL('**/#/zones?zone=atlantis-realm');
+  await atlas.getByRole('button', { name: 'Посмотреть аттракционы' }).click();
+  await panel.getByRole('link', { name: /Crystal Passage/ }).click();
+  await page.waitForURL('**/#/attractions?ride=crystal-passage');
+  await page.getByRole('dialog', { name: 'Crystal Passage', exact: true }).waitFor();
+  await page.goBack();
+  await page.waitForFunction(() => document.querySelector('#zone-tab-attractions')?.getAttribute('aria-selected') === 'true');
+  const market = strip.getByRole('link', { name: 'Открыть зону Paradise Market' });
+  await market.click();
+  await page.waitForURL('**/#/zones?zone=paradise-market');
+  await page.goBack();
+  await page.waitForFunction(() => document.querySelector('#atlas-zone-name')?.textContent === 'Atlantis Realm');
+  await page.goForward();
+  await page.waitForFunction(() => document.querySelector('#atlas-zone-name')?.textContent === 'Paradise Market');
+  const fallback = new URL(url);
+  fallback.hash = '/zones?zone=unknown&tab=unknown';
+  await page.goto(fallback.toString());
+  await page.waitForFunction(() => document.querySelector('#atlas-zone-name')?.textContent === 'Ocean Bay');
+  assert.equal(await overview.getAttribute('aria-selected'), 'true');
+  report.atlas.push({ width, zones: zones.length, tabs: tabs.length });
+}
+
 try {
   await fs.mkdir(dir, { recursive: true });
   const page = await browser.newPage({ reducedMotion: 'reduce' });
@@ -516,6 +638,13 @@ try {
       if (width === 1440 || width === 375) await checkResortPages(page);
     } catch (error) {
       entry(error.message);
+    }
+  }
+  for (width of [1440, 768, 390]) {
+    try {
+      await checkAtlas(page, width);
+    } catch (error) {
+      entry(`Atlas: ${error.message}`);
     }
   }
 } finally {

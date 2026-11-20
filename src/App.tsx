@@ -4,8 +4,7 @@ import HotelPage from './HotelPage';
 import VisitPage from './VisitPage';
 import TicketsPage from './TicketsPage';
 import AttractionsPage from './AttractionsPage';
-import ZonesPage from './ZonesPage';
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import './retro-hero.css';
 import './riviera.css';
 import Header from './components/Header';
@@ -18,6 +17,9 @@ import SunsetPier from './components/SunsetPier';
 import './HomeFidelity.css';
 import './hero-reference.css';
 import './home-design-system.css';
+import './ZonesPage.css';
+
+const ZonesPage = lazy(() => import('./ZonesPage'));
 
 function scrollHome(section: string) {
   const target = document.getElementById(section);
@@ -36,6 +38,8 @@ function App() {
   const [currentPath, setCurrentPath] = useState(window.location.hash || '#/');
   const basePath = currentPath.split('?')[0];
   const home = basePath === '#/';
+  const atlas = basePath === '#/zones';
+  const previousBasePath = useRef<string | null>(null);
   const navigate = (path: string) => { window.location.hash = path; };
   useEffect(() => {
     const update = () => setCurrentPath(window.location.hash || '#/');
@@ -43,13 +47,16 @@ function App() {
     return () => window.removeEventListener('hashchange', update);
   }, []);
   useEffect(() => {
+    const previous = previousBasePath.current;
+    previousBasePath.current = basePath;
+    if (atlas && previous === basePath) return;
     const section = new URLSearchParams(currentPath.split('?')[1]).get('section');
     if (home && section) {
       const frame = requestAnimationFrame(() => scrollHome(section));
       return () => cancelAnimationFrame(frame);
     }
     if (!(basePath === '#/visit' && section)) window.scrollTo({top: 0, behavior: 'instant'});
-  }, [home, basePath, currentPath]);
+  }, [home, atlas, basePath, currentPath]);
 
   const renderPage = () => {
     const [base, queryString] = currentPath.split('?');
@@ -57,10 +64,9 @@ function App() {
     switch (base) {
       case '#/zones': {
         const urlParams = new URLSearchParams(queryString);
-        return <ZonesPage
-          initialZone={urlParams.get('zone') || undefined}
-          initialTab={(urlParams.get('tab') as 'overview' | 'attractions' | 'infrastructure' | 'rules') || undefined}
-        />;
+        return <Suspense fallback={<p className="atlas-loading" role="status">Загрузка атласа…</p>}>
+          <ZonesPage zoneId={urlParams.get('zone')} tabId={urlParams.get('tab')} navigate={navigate} />
+        </Suspense>;
       }
       case '#/attractions': {
         const attrParams = new URLSearchParams(queryString);
@@ -79,7 +85,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f8f9fa] font-sans" onClick={event => {
+    <div className={`min-h-screen flex flex-col bg-[#f8f9fa] font-sans${atlas ? ' atlas-shell' : ''}`} onClick={event => {
       if (!home || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       const link = (event.target as Element).closest<HTMLAnchorElement>('a[href]');
       if (link?.hash === currentPath) {
@@ -91,9 +97,9 @@ function App() {
         event.preventDefault();
         document.getElementById('main-content')?.focus();
       }}>Перейти к основному содержимому</a>
-      <Header key={currentPath} home={home} />
-      <main id="main-content" tabIndex={-1} className={home ? 'riv-home' : 'riv-interior flex-grow'}>{renderPage()}</main>
-      {home ? <SunsetPier /> : (
+      <Header key={atlas ? basePath : currentPath} home={home || atlas} />
+      <main id="main-content" tabIndex={-1} className={home ? 'riv-home' : atlas ? 'atlas-main flex-grow' : 'riv-interior flex-grow'}>{renderPage()}</main>
+      {home || atlas ? <SunsetPier /> : (
       <footer className="bg-[#0a192f] text-white py-12 mt-auto">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
