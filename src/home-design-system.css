@@ -1,0 +1,157 @@
+/* Homepage-wide style contract (Retro Tropical Riviera).
+   Loaded AFTER the individual section styles: approved artwork/layout stays
+   untouched; tokens, heading scale and interactive states are unified here. */
+:root {
+  --apr-action-coral: #f35d37;
+  --apr-poster-heading: clamp(2.15rem, 4.5vw, 5rem);
+}
+.riv-home, .sunset-pier, .riv-mast, .riv-drawer {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* Four MAIN section headings, not the Hero lettering or smaller card titles. */
+.riv-home .apr-about h2,
+.riv-home .apr-worlds__heading h2,
+.riv-home .tickets-title h2,
+.riv-home .departure-copy h2 {
+  font-family: 'APR Poster', Georgia, serif;
+  font-size: var(--apr-poster-heading);
+  font-style: italic;
+  font-weight: 700;
+  line-height: 1.04;
+  text-wrap: balance;
+}
+
+/* Identical coral used on the Tickets button, all prominent coral CTAs,
+   the destination stamp, and the centre of the View-Master. */
+.riv-mast .ticket-cta,
+.riv-drawer .ticket-cta,
+.riv-home .apr-hero__button--primary,
+.riv-home .ticket-all .riv-button,
+.riv-home .board-submit,
+.riv-home .apr-worlds__link {
+  background-color: var(--apr-action-coral);
+  border-color: #ffc08a;
+}
+.riv-home .apr-worlds__hub,
+.riv-home .apr-worlds__stamp {
+  background: var(--riv-stock), var(--apr-action-coral);
+}
+.riv-home .apr-worlds__stamp {
+  border-color: #ffd9a4;
+}
+.riv-home .apr-worlds__hub { border-color: #ffdcaa; }
+
+/* Keep the Header Tickets hover identical across primary actions, including
+   the moving sheen. Dark secondary controls remain dark by design. */
+.riv-mast .ticket-cta,
+.riv-drawer .ticket-cta,
+.riv-home .apr-hero__button--primary,
+.riv-home .ticket-all .riv-button,
+.riv-home .board-submit,
+.riv-home .apr-worlds__link {
+  position: relative;
+  isolation: isolate;
+  transition: transform .28s cubic-bezier(.2,.7,.2,1),
+              filter .28s ease, box-shadow .28s ease;
+}
+.riv-home .ticket-all .riv-button,
+.riv-home .board-submit,
+.riv-home .apr-worlds__link {
+  overflow: hidden;
+}
+.riv-mast .ticket-cta:hover,
+.riv-drawer .ticket-cta:hover,
+.riv-home .apr-hero__button--primary:hover,
+.riv-home .ticket-all .riv-button:hover,
+.riv-home .board-submit:hover,
+.riv-home .apr-worlds__link:hover {
+  transform: translateY(-4px);
+  filter: brightness(1.09) saturate(1.08);
+  box-shadow: inset 0 0 0 2px #ffffff3d, 0 7px 0 #512720,
+              0 13px 23px #001d1a6e;
+}
+.riv-mast .ticket-cta:active,
+.riv-drawer .ticket-cta:active,
+.riv-home .apr-hero__button--primary:active,
+.riv-home .ticket-all .riv-button:active,
+.riv-home .board-submit:active,
+.riv-home .apr-worlds__link:active {
+  transform: translateY(1px);
+}
+/* ::after is reserved for the same light sweep on each approved primary CTA. */
+.riv-drawer .ticket-cta::after,
+.riv-home .apr-hero__button--primary::after,
+.riv-home .ticket-all .riv-button::after,
+.riv-home .board-submit::after,
+.riv-home .apr-worlds__link::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 22%, #fff6cf54 47%, transparent 68%);
+  transform: translateX(-135%);
+  transition: transform .52s ease;
+  pointer-events: none;
+}
+.riv-drawer .ticket-cta:hover::after,
+.riv-home .apr-hero__button--primary:hover::after,
+.riv-home .ticket-all .riv-button:hover::after,
+.riv-home .board-submit:hover::after,
+.riv-home .apr-worlds__link:hover::after {
+  transform: translateX(135%);
+}
+
+/* Coral interaction ink is shared between top nav, drawer and footer. */
+.riv-mast .apr-header__navlink:is(:hover, :focus-visible),
+.riv-drawer .drawer-body nav :is(a, summary):is(:hover, :focus-visible),
+.riv-drawer .apr-header__dropdown-item:is(:hover, :focus-visible),
+.sunset-pier .pier-content nav a:is(:hover, :focus-visible) {
+  color: var(--apr-action-coral);
+  text-decoration-color: var(--apr-action-coral);
+}
+.riv-drawer .drawer-body nav :is(a, summary):is(:hover, :focus-visible) {
+  background: #f35d371b;
+}
+.riv-drawer .apr-header__dropdown-item:is(:hover, :focus-visible) {
+  background: #f35d3725;
+}
+.sunset-pier .pier-content nav a:is(:hover, :focus-visible) {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Exactly three branded type families: Inter (UI/body), local Libre Baskerville
+   alias APR Poster (editorial), and local Allura alias APR Script (signature).
+   Tabular figures preserve the split-flap board's mechanical rhythm. */
+.riv-home .board-letters i,
+.riv-home .board-interests button,
+.riv-home .board-summary {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 800px) {
+  :root { --apr-poster-heading: clamp(1.86rem, 7.25vw, 3.8rem); }
+}
+@media (max-width: 480px) {
+  :root { --apr-poster-heading: clamp(1.86rem, 7.25vw, 2.9rem); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .riv-mast .ticket-cta,
+  .riv-drawer .ticket-cta,
+  .riv-home .apr-hero__button--primary,
+  .riv-home .ticket-all .riv-button,
+  .riv-home .board-submit,
+  .riv-home .apr-worlds__link,
+  .riv-drawer .ticket-cta::after,
+  .riv-home .apr-hero__button--primary::after,
+  .riv-home .ticket-all .riv-button::after,
+  .riv-home .board-submit::after,
+  .riv-home .apr-worlds__link::after { transition: none; }
+  .riv-mast .ticket-cta:hover,
+  .riv-drawer .ticket-cta:hover,
+  .riv-home .apr-hero__button--primary:hover,
+  .riv-home .ticket-all .riv-button:hover,
+  .riv-home .board-submit:hover,
+  .riv-home .apr-worlds__link:hover { transform: none; }
+}
