@@ -314,8 +314,12 @@ async function checkPlanner(page) {
 }
 
 async function checkResortPages(page) {
+  // The island map link was intentionally removed from the footer.
+  await page.goto(url);
+  const footer = page.locator('.sunset-pier');
+  assert.equal(await footer.getByRole('link', { name: 'Карта острова', exact: true }).count(), 0);
+  assert.equal(await footer.getByRole('link', { name: 'Девять миров', exact: true }).count(), 1);
   const destinations = [
-    ['Карта острова', '#/map', page.getByRole('region', { name: 'Схематическая карта острова' })],
     ['Отель', '#/hotel', page.getByRole('heading', { name: 'Искусство безупречного отдыха' })],
     ['Посещение', '#/visit', page.getByRole('heading', { name: 'Ваше путешествие начинается здесь' })],
     ['Билеты', '#/tickets', page.getByRole('heading', { name: 'Билеты', exact: true })],
