@@ -201,13 +201,11 @@
   height: 100%;
   object-fit: contain;
 }
-/* Custom clean gateway vector; align its ink size with the vintage icons. */
-.atlas-ticket__art .atlas-icon {
-  display: block;
-  width: 42px;
-  height: 43px;
-  color: currentColor;
-  stroke-width: 1.4;
+/* Original homepage gateway icon has a thin baked-in horizontal stripe
+   along its upper corners. Mask only those empty side margins; keep the
+   central tower and spire intact (never crop the complete image top). */
+.atlas-ticket:first-child .atlas-ticket__art img {
+  clip-path: polygon(30% 0, 70% 0, 70% 20%, 100% 20%, 100% 100%, 0 100%, 0 20%, 30% 20%);
 }
 .atlas-ticket__name {
   display: block;
