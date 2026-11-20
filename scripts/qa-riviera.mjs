@@ -274,6 +274,11 @@ async function checkTicketLayout(page) {
           zone: link.querySelector('.ticket-lettering p').textContent,
           limits: link.querySelector('.ticket-stub span:last-child').textContent,
           clipped: [...link.querySelectorAll('.ticket-lettering, h3, .ticket-stub')].some(clipped),
+          overflowNodes: [...link.querySelectorAll('.ticket-lettering, h3, .ticket-stub')].map(el => ({
+            element: el.tagName.toLowerCase() + '.' + el.className,
+            scrollW: el.scrollWidth, clientW: el.clientWidth,
+            scrollH: el.scrollHeight, clientH: el.clientHeight,
+          })).filter(el => el.scrollW > el.clientW + 1 || el.scrollH > el.clientH + 1),
           frame: styles.maskImage === 'none' && ['Top','Right','Bottom','Left'].every(side => parseFloat(styles[`border${side}Width`]) >= 1),
           artwork: image.naturalWidth >= 900 && image.currentSrc.endsWith('.avif'),
         };
