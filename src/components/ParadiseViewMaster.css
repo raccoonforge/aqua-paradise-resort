@@ -150,7 +150,8 @@
 .apr-worlds__stereo span {
   position: absolute;
   top: 11%;
-  left: 17%;
+  /* The red face of the photographed housing is optically right of canvas centre. */
+  left: 24%;
   width: 66%;
   max-width: none;
   text-align: center;
@@ -464,18 +465,6 @@
 }
 /* The first icon asset contains a stray thin line along its top edge. */
 .apr-worlds__tickets button:first-child img { clip-path: inset(11% 0 0 0); }
-/* Gilded pavilion emblem uses the same solid gold visual weight as the printed icons. */
-.apr-worlds__tickets button .apr-worlds__garden-icon {
-  display: block;
-  width: clamp(39px, 4.5vw, 84px);
-  height: clamp(25px, 2.7vw, 49px);
-  color: #f7d894;
-  fill: currentColor;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  filter: drop-shadow(0 1px 1px #032c26);
-}
 .apr-worlds__tickets button span { display: block; max-width: 7em; padding-inline: .3em; text-align: center; }
 .apr-worlds__tickets button[aria-pressed=true] {
   border-color: #ffecab;
