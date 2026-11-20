@@ -12,7 +12,7 @@
   display: inline-flex; justify-content: center; align-items: center; gap: .65em;
   min-height: 44px; padding: .74em 1.4em; color: #fff5d9; background: var(--riv-stock), var(--riv-coral);
   border: 1px solid #f3bd77; border-radius: 7px; box-shadow: inset 0 0 0 2px #ffffff24, 0 3px 0 #612b1e;
-  font: 700 1rem/1.3 system-ui, sans-serif; text-decoration: none; cursor: pointer;
+  font: 700 1rem/1.3 'Inter', system-ui, sans-serif; text-decoration: none; cursor: pointer;
   transition: background-color .18s, transform .18s, color .18s;
 }
 .riv-button.secondary { background-color: var(--riv-ink); box-shadow: inset 0 0 0 1px #ffffff18, 0 3px 0 #012826; }
@@ -40,13 +40,13 @@
 .mast-inner.compact { opacity: 0; visibility: hidden; transform: translateY(-100%); }
 .inner-mast .mast-inner { max-width: 80rem; margin: auto; min-height: 64px; padding: 8px 1rem; }
 .mast-inner .apr-header__navigation { display: flex; align-items: center; flex: 1; }
-.mast-inner .apr-brand__name, .drawer-head .apr-brand__name { font: italic 700 clamp(15px,1.35vw,22px)/.96 Georgia,serif; }
+.mast-inner .apr-brand__name, .drawer-head .apr-brand__name { font: italic 700 clamp(15px,1.35vw,22px)/.96 'APR Poster', Georgia,serif; }
 .apr-brand { text-decoration: none; }
 .apr-header .apr-header__navlink:hover { color: #ff966e; border-bottom-color: #ff966e; }
 .nav-burger, .back-top { position: fixed; z-index: 46; right: max(14px,env(safe-area-inset-right)); width: 46px; height: 44px; padding: 0; }
 .nav-burger { top: max(14px,env(safe-area-inset-top)); visibility: hidden; opacity: 0; }
 .nav-burger.visible-compact { visibility: visible; opacity: 1; }
-.back-top { bottom: max(16px,env(safe-area-inset-bottom)); font: 26px/1 Georgia,serif; }
+.back-top { bottom: max(16px,env(safe-area-inset-bottom)); font: 26px/1 'APR Poster', Georgia,serif; }
 .ticket-cta svg { width: 23px; height: 23px; }
 .apr-header__menu:last-child .apr-header__dropdown { right: 0; left: auto; }
 .riv-drawer { position: fixed; inset: 0 0 0 auto; margin: 0; width: min(380px,91vw); max-width: 100%; height: 100dvh; max-height: 100dvh; border: 0; color: var(--riv-cream); background: var(--riv-stock), var(--riv-ink); }
@@ -57,7 +57,7 @@
 .drawer-head img { width: 54px; }
 .drawer-head button { padding: 0; width: 44px; font-size: 24px; }
 .drawer-body nav { display: grid; padding: 1rem 0; }
-.drawer-body nav > a:not(.riv-button), .drawer-body summary { padding: 13px 4px; border-bottom: 1px solid #e9c58252; font: italic bold 21px/1.15 Georgia,serif; cursor:pointer; }
+.drawer-body nav > a:not(.riv-button), .drawer-body summary { padding: 13px 4px; border-bottom: 1px solid #e9c58252; font: italic bold 21px/1.15 'APR Poster', Georgia,serif; cursor:pointer; }
 .drawer-body nav > .riv-button { margin-top: 24px; }
 .drawer-body .apr-header__dropdown-item { background: #f6dfb2; color: #193d35; }
 @keyframes drawer-enter { from { transform: translateX(100%); } }
