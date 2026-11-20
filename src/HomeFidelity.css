@@ -360,6 +360,26 @@
     linear-gradient(180deg, #000 0%, #000 83%, transparent 100%);
   mask-composite: intersect;
 }
+/* Restore only the missing upper tips of the SAME golden palm.
+   Transparent bitmap, no second tree, no moving of the sunset artwork.
+   The lower fade joins the original fronds without covering the sun. */
+.pier-palm-extension {
+  position: absolute;
+  z-index: 0;
+  right: -2px;
+  top: 2px;
+  width: clamp(240px, 19vw, 330px);
+  aspect-ratio: 310 / 202;
+  pointer-events: none;
+  background: url('./assets/retro/fidelity/sunset-palm-extension.avif') right top / contain no-repeat;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 78%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 78%);
+}
+.sunset-pier .pier-content,
+.sunset-pier .pier-legal {
+  position: relative;
+  z-index: 1;
+}
 .pier-content {
   display: grid;
   grid-template-columns: minmax(10rem, .78fr) minmax(0, 1.65fr);
@@ -465,6 +485,7 @@
     background-position: right -18px top -12px;
     background-size: auto 110%;
   }
+  .pier-palm-extension { width: clamp(185px, 56vw, 270px); top: 2px; right: -6px; }
   .pier-content { width: 100%; grid-template-columns: minmax(0, 1fr); gap: 26px; }
   .pier-brand { width: min(60%, 240px); }
   .pier-brand .apr-brand__name { font-size: clamp(2.05rem, 6.5vw, 2.85rem); }
