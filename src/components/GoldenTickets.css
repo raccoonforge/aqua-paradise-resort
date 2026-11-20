@@ -28,13 +28,14 @@
   inset: 0;
 }
 .tickets-scenery::before {
-  /* Width-only sizing preserves each illustration's intrinsic proportions.
-     The previous 100% height forced the palms and hibiscus into tall strips. */
-  --border-width: clamp(180px, 24vw, 430px);
-  inset: var(--poster-tear-height) 0 0;
+  /* Each 680 x 907 transparent folio illustration fills the available
+     section height at its ORIGINAL aspect ratio. Anchoring to the full
+     scenery removes the two horizontal truncation lines caused by the
+     cropped inset and width-only center placement. */
+  inset: 0;
   background:
-    url('../assets/retro/rides/folio-left.webp') left center / var(--border-width) auto no-repeat,
-    url('../assets/retro/rides/folio-right.webp') right center / var(--border-width) auto no-repeat;
+    url('../assets/retro/rides/folio-left.webp') left top / auto 100% no-repeat,
+    url('../assets/retro/rides/folio-right.webp') right top / auto 100% no-repeat;
 }
 .tickets-scenery::after {
   display: none;
@@ -199,7 +200,7 @@
 
 @media (max-width: 1099px) {
   .tickets-scenery::before {
-    inset: var(--poster-tear-height) 0 0;
+    inset: 0;
     background: url('../assets/retro/rides/folio-canopy.webp') center top / 100% auto no-repeat;
   }
   .tickets-scenery::after {
