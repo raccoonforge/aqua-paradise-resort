@@ -155,57 +155,67 @@
   scrollbar-color: #d2ab65 #073b37;
 }
 .atlas-ticket {
-  /* A full-width name row prevents long destination names from spilling
-     beyond the ticket edge; icon and number occupy the top row. */
   position: relative;
   display: grid;
+  /* One coherent vertical composition on every ticket: emblem, then name. */
   grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: 36px minmax(0, auto);
+  grid-template-rows: 47px minmax(36px, auto);
+  justify-items: center;
   align-content: center;
   align-items: center;
-  justify-items: center;
-  row-gap: 5px;
+  row-gap: 7px;
   min-width: 0;
-  min-height: 118px;
-  padding: 9px clamp(7px, .85vw, 13px) 11px;
+  min-height: 139px;
+  padding: 15px clamp(7px, .85vw, 13px) 11px;
   border: 1px solid #efc67f;
   border-radius: 11px;
   corner-shape: scoop;
   color: #ffe2a0;
   background: var(--riv-stock), linear-gradient(145deg, #13544d, #063735 69%);
   box-shadow: inset 0 0 0 2px #eecc8a2b, 0 4px 6px #001d1a95;
-  font: italic 700 clamp(.84rem, 1.12vw, 1.12rem)/1.13 var(--riv-serif);
+  font: italic 700 clamp(.81rem, 1.08vw, 1.05rem)/1.16 var(--riv-serif);
   text-decoration: none;
   text-align: center;
   text-wrap: balance;
   transition: border-color .2s, box-shadow .2s, filter .2s;
 }
-.atlas-ticket img {
+.atlas-ticket__number {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: inherit;
+  font-size: 1.1em;
+  line-height: 1;
+  letter-spacing: .03em;
+}
+.atlas-ticket__art {
+  display: grid;
+  width: 67px;
+  max-width: 66%;
+  height: 47px;
+  place-items: center;
+}
+.atlas-ticket__art img {
   display: block;
-  justify-self: start;
-  width: 46px;
-  max-width: 45%;
-  height: 36px;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
 }
-/* The first source bitmap has a stray fine line above the monument.
-   Exclude the top asset margin without altering any of the other icons. */
-.atlas-ticket:first-child img { clip-path: inset(28% 0 0 0); }
-.atlas-ticket > span {
+/* Custom clean gateway vector; align its ink size with the vintage icons. */
+.atlas-ticket__art .atlas-icon {
   display: block;
+  width: 42px;
+  height: 43px;
+  color: currentColor;
+  stroke-width: 1.4;
+}
+.atlas-ticket__name {
+  display: block;
+  align-self: center;
   min-width: 0;
   max-width: 100%;
   overflow-wrap: normal;
-}
-.atlas-ticket small {
-  position: absolute;
-  top: 12px;
-  right: clamp(9px, .85vw, 14px);
-  margin: 0;
-  color: inherit;
-  font-size: 1.25em;
-  line-height: 1;
-  letter-spacing: .04em;
+  text-wrap: balance;
 }
 .atlas-ticket[aria-current='true'] {
   color: #30170f;
@@ -467,7 +477,7 @@
   .atlas-cover__seal { right: 13px; bottom: 16px; }
   .atlas-cover__edition { letter-spacing: .16em; }
   .atlas-tickets { grid-auto-columns: 132px; }
-  .atlas-ticket { font-size: .93rem; }
+  .atlas-ticket { font-size: .89rem; }
   .atlas-picture { margin-inline: 4px; transform: rotate(-.85deg); }
 }
 @media (max-width: 465px) {
