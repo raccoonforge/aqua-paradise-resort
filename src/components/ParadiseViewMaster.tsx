@@ -135,7 +135,7 @@ export default function ParadiseViewMaster() {
         <div className="apr-worlds__viewer">
           <div className="apr-worlds__stereo" aria-hidden="true"><span>Aqua Paradise</span></div>
           <div className="apr-worlds__flowers" aria-hidden="true" />
-          <button className="apr-worlds__arrow" type="button" aria-label="Предыдущий мир" onClick={() => setTurn(n => n - 1)}><svg aria-hidden="true" viewBox="0 0 32 32"><path d="M22 3 8 16l14 13" fill="none" stroke="currentColor" strokeWidth="4" /></svg></button>
+          <button className="apr-worlds__arrow" type="button" aria-label="Предыдущий мир" onClick={() => setTurn(n => n - 1)}><svg aria-hidden="true" viewBox="0 0 32 32"><path d="m21 6-10 10 10 10" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" /></svg></button>
           <div className="apr-worlds__wheel">
             <div role="group" aria-label="Диск миров Aqua Paradise" className="apr-worlds__surface"
               onPointerDown={start} onPointerMove={move}
@@ -183,7 +183,7 @@ export default function ParadiseViewMaster() {
             </div>
             <span className="apr-worlds__marker" aria-hidden="true" />
           </div>
-          <button className="apr-worlds__arrow" type="button" aria-label="Следующий мир" onClick={() => setTurn(n => n + 1)}><svg aria-hidden="true" viewBox="0 0 32 32"><path d="m10 3 14 13-14 13" fill="none" stroke="currentColor" strokeWidth="4" /></svg></button>
+          <button className="apr-worlds__arrow" type="button" aria-label="Следующий мир" onClick={() => setTurn(n => n + 1)}><svg aria-hidden="true" viewBox="0 0 32 32"><path d="m11 6 10 10-10 10" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" /></svg></button>
         </div>
 
         <article className="apr-worlds__info" aria-labelledby="apr-worlds-current">
@@ -211,7 +211,16 @@ export default function ParadiseViewMaster() {
       <div role="group" aria-label="Билеты в девять миров" className="apr-worlds__tickets" onKeyDown={navigateWithKeys}>
         {zones.map(({ id, name }, index) => (
           <button key={id} type="button" aria-pressed={selected === index} onClick={() => choose(index)}>
-            <img src={icons[`../assets/retro/viewmaster/icon-${index + 1}.webp`]} alt="" loading="lazy" />
+            {index === 2 ? (
+              <svg className="apr-worlds__garden-icon" viewBox="0 0 80 52" aria-hidden="true">
+                <path d="M40 46V17M40 31C29 21 25 18 16 16M40 27c11-11 16-15 26-18M40 42C28 34 22 32 11 33M40 38c10-9 18-11 30-11" />
+                <path d="M16 16C10 12 9 5 10 2c8 1 13 5 14 13M16 16C11 21 5 23 2 22c1-8 6-12 14-13M66 9C66 2 72 1 78 3c-1 8-6 13-15 14M11 33C5 29 3 24 4 20c10 0 15 5 18 12M70 27c6-3 8-8 7-13-10 1-15 6-18 14" />
+                <path d="M40 18c-7-5-10-10-9-15 5 0 9 3 10 8 2-6 7-9 12-9 0 6-4 11-12 16" />
+                <path d="M29 48q11-7 22 0" />
+              </svg>
+            ) : (
+              <img src={icons[`../assets/retro/viewmaster/icon-${index + 1}.webp`]} alt="" loading="lazy" />
+            )}
             <span>{name}</span>
           </button>
         ))}
