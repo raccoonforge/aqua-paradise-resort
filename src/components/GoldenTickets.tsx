@@ -23,5 +23,6 @@ export default function GoldenTickets() {
       })}
     </div>
     <div className="ticket-all"><a className="riv-button" href="#/attractions">Все аттракционы <span aria-hidden="true">→</span></a></div>
+    <div className="golden-tickets__tear" aria-hidden="true" />
   </section>;
 }
