@@ -80,10 +80,11 @@
 .apr-worlds__resort-name {
   grid-area: resort;
   position: relative;
-  /* Pull the signature under the main title as one editorial lockup. */
-  margin: -.23em 0 0 12%;
+  /* Lift the signature into the title's descender space. A grid-margin
+     alone was absorbed by row sizing and barely changed the visual gap. */
+  margin: 0 0 calc(-1 * clamp(16px, 1.65vw, 30px)) 12%;
   color: #ffe3ab;
-  transform: rotate(-3deg);
+  transform: translateY(calc(-1 * clamp(16px, 1.65vw, 30px))) rotate(-3deg);
   font: italic 700 clamp(1.64rem, 3.3vw, 4rem)/1.1 var(--serif);
   letter-spacing: -.055em;
   text-shadow: .065em .08em #002924;
@@ -518,7 +519,8 @@
     font-size: clamp(2rem, 7.3vw, 3.8rem);
   }
   .apr-worlds__resort-name {
-    margin: -.12em 0 0;
+    margin: 0 0 -14px;
+    transform: translateY(-14px) rotate(-3deg);
     font-size: clamp(1.75rem, 4.65vw, 3.05rem);
   }
   .apr-worlds__invitation {
