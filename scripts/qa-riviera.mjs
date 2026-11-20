@@ -39,6 +39,42 @@ async function checkLayout(page) {
   return geometry;
 }
 
+async function checkHomeDesignSystem(page) {
+  const style = await page.evaluate(() => {
+    const css = selector => {
+      const node = document.querySelector(selector);
+      if (!node) throw Error('Missing design element: ' + selector);
+      return getComputedStyle(node);
+    };
+    const headings = ['.apr-about h2','.apr-worlds__heading h2','.tickets-title h2','.departure-copy h2']
+      .map(sel => parseFloat(css(sel).fontSize));
+    const actions = ['.riv-mast .ticket-cta','.apr-hero__button--primary','.apr-worlds__link',
+      '.ticket-all .riv-button','.board-submit'].map(sel => css(sel).backgroundColor);
+    const routes = [...document.querySelectorAll('.riv-mast a[href], .riv-drawer a[href], .riv-home a[href], .sunset-pier a[href]')]
+      .map(a => a.getAttribute('href'))
+      .filter(href => href.startsWith('#/'))
+      .map(href => href.slice(2).split('?')[0]);
+    return {
+      headings, actions, hub: css('.apr-worlds__hub').backgroundColor,
+      stamp: css('.apr-worlds__stamp').backgroundColor,
+      headerFont: css('.riv-mast').fontFamily,
+      headlineFont: css('.apr-about h2').fontFamily,
+      scriptFont: css('.pier-brand .apr-brand__name').fontFamily,
+      routes,
+      hasMapLinks: !!document.querySelector('.riv-drawer a[href="#/map"],.sunset-pier a[href="#/map"]'),
+    };
+  });
+  assert(style.headings.every(size => Math.abs(size - style.headings[0]) < .2), 'Same main-section title size');
+  assert(style.actions.every(color => color === 'rgb(243, 93, 55)'), 'Same coral as header Tickets');
+  assert.equal(style.hub, 'rgb(243, 93, 55)');
+  assert.equal(style.stamp, 'rgb(243, 93, 55)');
+  assert(style.routes.every(path => ['', 'zones','attractions','hotel','visit','planner','tickets'].includes(path)), 'All home links lead to known pages');
+  assert.equal(style.hasMapLinks, false);
+  assert.match(style.headerFont, /Inter/);
+  assert.match(style.headlineFont, /APR Poster/);
+  assert.match(style.scriptFont, /APR Script/);
+}
+
 async function checkMenu(page, width) {
   await page.keyboard.press('Tab');
   const skip = page.getByRole('link', { name: 'Перейти к основному содержимому' });
@@ -394,6 +430,7 @@ try {
       assert(!layout.horizontalOverflow, 'Document exceeds the viewport');
       assert.deepEqual(layout.brokenImages, []);
       assert.deepEqual(layout.unreadableText, []);
+      await checkHomeDesignSystem(page);
 
       await page.screenshot({ path: `${dir}/home-${width}.png`, fullPage: true, animations: 'disabled', timeout: 25000 });
 
