@@ -1,7 +1,10 @@
 .golden-tickets {
   --tickets-overhang: 14px;
   z-index: 1;
-  padding: clamp(54px, 4vw, 76px) clamp(24px, 6.4vw, 112px) clamp(96px, 7vw, 140px);
+  /* The preceding sheet overlaps this section. Preserve the original
+     heading position while hiding the straight top seam beneath its tear. */
+  margin-top: calc(-1 * var(--poster-tear-height));
+  padding: calc(var(--poster-tear-height) + clamp(54px, 4vw, 76px)) clamp(24px, 6.4vw, 112px) clamp(96px, 7vw, 140px);
   scroll-margin-top: 90px;
 }
 .tickets-scenery {
@@ -25,10 +28,13 @@
   inset: 0;
 }
 .tickets-scenery::before {
-  --border-size: min(27vw, 32rem) 100%;
+  /* Width-only sizing preserves each illustration's intrinsic proportions.
+     The previous 100% height forced the palms and hibiscus into tall strips. */
+  --border-width: clamp(180px, 24vw, 430px);
+  inset: var(--poster-tear-height) 0 0;
   background:
-    url('../assets/retro/rides/folio-left.webp') left center / var(--border-size) no-repeat,
-    url('../assets/retro/rides/folio-right.webp') right center / var(--border-size) no-repeat;
+    url('../assets/retro/rides/folio-left.webp') left center / var(--border-width) auto no-repeat,
+    url('../assets/retro/rides/folio-right.webp') right center / var(--border-width) auto no-repeat;
 }
 .tickets-scenery::after {
   display: none;
@@ -193,7 +199,8 @@
 
 @media (max-width: 1099px) {
   .tickets-scenery::before {
-    background: url('../assets/retro/rides/folio-canopy.webp') center max(-60px, -5vw) / 100% auto no-repeat;
+    inset: var(--poster-tear-height) 0 0;
+    background: url('../assets/retro/rides/folio-canopy.webp') center top / 100% auto no-repeat;
   }
   .tickets-scenery::after {
     display: block;
