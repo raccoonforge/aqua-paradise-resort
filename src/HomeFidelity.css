@@ -219,27 +219,9 @@
     linear-gradient(90deg, #043a3610, #043a3628 50%, #043a3612),
     url('./assets/retro/fidelity/mini-planner-riviera-high-quality.avif') center / cover no-repeat,
     #043a36;
-  /* Same fibrous paper edge as the preceding resort sections; the sunset
-     footer begins beneath this uneven edge rather than at a hard rectangle. */
-  -webkit-mask:
-    linear-gradient(#000 0 0) top / 100% calc(100% - var(--poster-tear-height) + 1px) no-repeat,
-    url('./assets/retro/poster-tear-mask.webp') center bottom / var(--poster-tear-width) var(--poster-tear-height) no-repeat;
-  mask:
-    linear-gradient(#000 0 0) top / 100% calc(100% - var(--poster-tear-height) + 1px) no-repeat,
-    url('./assets/retro/poster-tear-mask.webp') center bottom / var(--poster-tear-width) var(--poster-tear-height) no-repeat;
 }
 .departure::before { content: none; }
-.departure::after {
-  content: '';
-  position: absolute;
-  z-index: 3;
-  inset: auto 0 0;
-  height: var(--poster-tear-height);
-  pointer-events: none;
-  background: url('./assets/retro/poster-tear-fibres.webp') center bottom / var(--poster-tear-width) 100% no-repeat;
-  -webkit-mask: url('./assets/retro/poster-tear-mask.webp') center bottom / var(--poster-tear-width) 100% no-repeat;
-  mask: url('./assets/retro/poster-tear-mask.webp') center bottom / var(--poster-tear-width) 100% no-repeat;
-}
+
 .departure-heading { max-width: 58rem; }
 .departure-copy { position: relative; }
 .departure-copy h2 { font-size: clamp(2rem, 4.15vw, 4.4rem); }
@@ -327,11 +309,22 @@
 /* Sunset art draws the eye out to the right of the final navigation. */
 .sunset-pier {
   --poster-tear-height: 54px;
-  /* Tuck the footer beneath the planner's torn edge. Extra top padding
-     preserves the approved footer layout and text positions. */
-  margin-top: calc(-1 * var(--poster-tear-height));
-  padding: calc(var(--poster-tear-height) + clamp(35px, 5.4vw, 88px)) clamp(20px, 6vw, 100px) clamp(26px, 3.4vw, 49px);
+  /* The footer is outside <main>, so it must own the visible separator.
+     Keep the existing footer content at its approved vertical position. */
+  margin-top: 0;
+  padding: clamp(35px, 5.4vw, 88px) clamp(20px, 6vw, 100px) clamp(26px, 3.4vw, 49px);
   background: var(--riv-stock), linear-gradient(#043a36, #032d29);
+  position: relative;
+}
+.sunset-pier::after {
+  content: '';
+  position: absolute;
+  z-index: 4;
+  inset: -27px 0 auto;
+  height: 54px;
+  pointer-events: none;
+  background: url('./assets/retro/poster-tear-fibres.webp') center bottom / max(100%, 1080px) 100% no-repeat;
+  filter: drop-shadow(0 3px 2px #001b1877);
 }
 .sunset-pier::before {
   content: '';
