@@ -2,12 +2,13 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import { chromium } from 'playwright';
 import { zonesData } from '../src/data/zones.ts';
+import { ATTRACTIONS } from '../src/data/attractions.ts';
 
 const url = process.env.RIVIERA_QA_URL || 'http://127.0.0.1:4173/aqua-paradise-resort/riviera-polish/#/';
 const dir = 'qa-output/riviera-polish';
 const sections = ['hero', 'about', 'worlds', 'attractions', 'planner', 'footer'];
 const widths = [1920, 1440, 1280, 1024, 768, 390, 375, 320];
-const worldsWidths = [1920, 1440, 768, 390, 375];
+const screenshotWidths = [1920, 1440, 768, 390, 375];
 const report = { viewports: [], transitions: [], errors: [] };
 const executablePath = process.env.RIVIERA_CHROMIUM_PATH;
 const browser = await chromium.launch(executablePath ? { executablePath } : { channel: 'chrome' });
@@ -204,6 +205,57 @@ async function checkWorldsMotion(page) {
   assert.equal(await page.locator('.apr-worlds__photo img').evaluate(el => getComputedStyle(el).animationName), 'none');
 }
 
+async function checkTicketLayout(page) {
+  const layout = await page.locator('#attractions').evaluate(section => {
+    const bounds = el => el.getBoundingClientRect().toJSON();
+    const clipped = el => el.scrollWidth > el.clientWidth + 1 || el.scrollHeight > el.clientHeight + 1;
+    return {
+      viewport: innerWidth,
+      heading: bounds(section.querySelector('.tickets-title__copy')),
+      action: bounds(section.querySelector('.ticket-all a')),
+      tear: getComputedStyle(section.querySelector('.golden-tickets__tear'), '::before').maskImage,
+      cards: [...section.querySelectorAll('.golden-ticket')].map(link => {
+        const stock = link.querySelector('.ticket-stock');
+        const styles = getComputedStyle(stock);
+        const image = link.querySelector('.ticket-picture img');
+        return {
+          id: new URL(link.href).hash.split('ride=')[1],
+          rect: bounds(link),
+          title: link.querySelector('h3').textContent,
+          zone: link.querySelector('.ticket-lettering p').textContent,
+          limits: link.querySelector('.ticket-stub span:last-child').textContent,
+          clipped: [...link.querySelectorAll('.ticket-lettering, h3, .ticket-stub')].some(clipped),
+          frame: styles.maskImage === 'none' && ['Top','Right','Bottom','Left'].every(side => parseFloat(styles[`border${side}Width`]) >= 1),
+          artwork: image.naturalWidth >= 900 && image.currentSrc.endsWith('.avif'),
+        };
+      }),
+      flora: [...section.querySelectorAll('.tickets-flora')].map(image => {
+        const style = getComputedStyle(image);
+        const rect = bounds(image);
+        return { rect, intact: style.objectFit === 'contain' && style.maskImage === 'none' &&
+          style.filter === 'none' && image.naturalWidth >= rect.width && image.naturalHeight >= rect.height };
+      }),
+    };
+  });
+  const intersects = (a, b) => a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+  const inViewport = rect => rect.left >= 0 && rect.right <= layout.viewport;
+  assert.equal(layout.cards.length, 4);
+  assert.equal(layout.flora.length, 2);
+  assert.match(layout.tear, /poster-tear-mask/);
+  for (const [index, card] of layout.cards.entries()) {
+    const ride = ATTRACTIONS.find(attraction => attraction.id === card.id);
+    assert(ride && card.title === ride.name && card.zone === ride.zone);
+    assert.equal(card.limits, `${ride.minAge}+ · от ${ride.minHeight} см`);
+    assert(card.frame && card.artwork && !card.clipped && inViewport(card.rect), `${card.title} fits its complete frame`);
+    assert(layout.cards.slice(index + 1).every(next => !intersects(card.rect, next.rect)), `${card.title} has room around its edges`);
+  }
+  for (const plant of layout.flora) {
+    assert(plant.intact && inViewport(plant.rect), 'Botanical artwork fits at native scale without clipping');
+    assert([layout.heading, layout.action, ...layout.cards.map(card => card.rect)]
+      .every(rect => !intersects(plant.rect, rect)), 'Botanical artwork stays clear of content');
+  }
+}
+
 async function checkTickets(page, all) {
   const tickets = page.locator('.golden-ticket');
   assert.equal(await tickets.count(), 4);
@@ -297,7 +349,26 @@ try {
 
       await page.screenshot({ path: `${dir}/home-${width}.png`, fullPage: true, animations: 'disabled', timeout: 25000 });
 
-      if (worldsWidths.includes(width)) {
+      await checkTicketLayout(page);
+      if (screenshotWidths.includes(width)) {
+        const { top, bottom } = bounds.find(section => section.id === 'attractions');
+        await page.screenshot({
+          path: `${dir}/rides-${width}.png`, fullPage: true,
+          clip: { x: 0, y: top - 32, width, height: bottom - top + 60 },
+          animations: 'disabled', timeout: 25000,
+        });
+      }
+      if (width === 1440) {
+        const { x, y, width: cardWidth, height } = await page.locator('.ride-stormbreaker').boundingBox();
+        const dy = await page.evaluate(() => scrollY);
+        await page.screenshot({
+          path: `${dir}/rides-stormbreaker-1440.png`, fullPage: true,
+          clip: { x: Math.floor(x) - 10, y: Math.floor(y + dy) - 10, width: Math.ceil(cardWidth) + 20, height: Math.ceil(height) + 20 },
+          animations: 'disabled',
+        });
+      }
+
+      if (screenshotWidths.includes(width)) {
         const { top, bottom } = bounds.find(section => section.id === 'worlds');
         await page.screenshot({
           path: `${dir}/worlds-${width}.png`, fullPage: true,

@@ -205,141 +205,7 @@
 }
 .apr-about__quote-flower { width: 18%; flex: none; }
 .riv-home .apr-about__quote p { font-size: clamp(1rem, 1.52vw, 1.4rem); }
-/* The ticket stock grows with the live names and the perforated stubs. */
-.golden-tickets {
-  --tickets-overhang: 14px;
-  --tickets-stock: #06433e url('./assets/retro/viewmaster/ink-grain.webp');
-  z-index: 1;
-  padding: clamp(56px, 7.2vw, 108px) clamp(23px, 6vw, 96px) calc(clamp(49px, 7.2vw, 108px) + var(--poster-tear-height));
-  background: radial-gradient(ellipse 85% 58% at 53% 49%, #0b5550d9, transparent);
-  overflow: visible;
-}
-.golden-tickets::before {
-  content: '';
-  position: absolute;
-  inset: 0 0 calc(var(--poster-tear-height) - var(--tickets-overhang));
-  z-index: -1;
-  pointer-events: none;
-  /* Actual approved generated RGBA illustration, optimized to AVIF.
-     Intrinsic transparent center; no masks or SVG imitation. */
-  background: url('./assets/retro/fidelity/attractions-approved-foliage.avif') center / 100% 100% no-repeat;
-}
-.golden-tickets__tear {
-  position: absolute;
-  z-index: 2;
-  inset: auto 0 calc(-1 * var(--tickets-overhang));
-  height: var(--poster-tear-height);
-  pointer-events: none;
-  filter: drop-shadow(0 3px 2px #001e1b70);
-}
-.golden-tickets__tear::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    url('./assets/retro/poster-tear-fibres.webp') center bottom / var(--poster-tear-width) 100% no-repeat,
-    var(--tickets-stock) center 1px;
-  -webkit-mask: url('./assets/retro/poster-tear-mask.webp') center bottom / var(--poster-tear-width) 100% no-repeat;
-  mask: url('./assets/retro/poster-tear-mask.webp') center bottom / var(--poster-tear-width) 100% no-repeat;
-}
-.imprint, .ticket-subtitle {
-  font: 750 clamp(.69rem, 1.04vw, 1rem)/1.4 system-ui, sans-serif;
-  letter-spacing: .135em;
-  text-transform: uppercase;
-  color: #ffdc9e;
-}
-.imprint { margin-bottom: .55em; }
-.imprint::before, .imprint::after {
-  content: '';
-  display: inline-block;
-  vertical-align: middle;
-  width: clamp(13px, 4vw, 62px);
-  height: 1px;
-  margin-inline: .65em;
-  background: currentColor;
-}
-.ticket-collection {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  align-items: stretch;
-  gap: clamp(12px, 1.65vw, 27px);
-  max-width: 91rem;
-  margin: clamp(31px, 4.7vw, 72px) auto clamp(34px, 5vw, 75px);
-}
-.golden-ticket {
-  --tilt: -5deg;
-  --ticket-ink: #7e2d20;
-  --print: #b84a2f;
-  position: relative;
-  display: flex;
-  min-width: 0;
-  transform: rotate(var(--tilt));
-  transition: transform .22s;
-  filter: drop-shadow(3px 8px 4px #002824a6);
-}
-.golden-ticket:nth-child(2) { --tilt: 3deg; --ticket-ink: #075552; --print: #0a6865; }
-.golden-ticket:nth-child(3) { --tilt: -3deg; --ticket-ink: #734417; --print: #e8982c; }
-.golden-ticket:nth-child(4) { --tilt: 5deg; --ticket-ink: #11575b; --print: #096769; }
-.golden-ticket:is(:hover, :focus-visible) { transform: translateY(-5px) rotate(calc(var(--tilt) * .65)); z-index: 2; }
-.ticket-stock {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  justify-items: stretch;
-  width: 100%;
-  padding: clamp(7px, .78vw, 13px);
-  background: #f5d79e url('./assets/retro/fidelity/ticket-paper.webp') center / cover;
-  border-radius: 4px;
-  box-shadow: inset 0 0 0 1px #bd8b54, inset 0 0 0 5px #ffecba;
-  mask:
-    radial-gradient(circle at 0 0, transparent 6px, #000 7px) left top / 51% 51% no-repeat,
-    radial-gradient(circle at 100% 0, transparent 6px, #000 7px) right top / 51% 51% no-repeat,
-    radial-gradient(circle at 0 100%, transparent 6px, #000 7px) left bottom / 51% 51% no-repeat,
-    radial-gradient(circle at 100% 100%, transparent 6px, #000 7px) right bottom / 51% 51% no-repeat;
-}
-.ticket-picture { overflow: hidden; aspect-ratio: .98; border-radius: 5px 5px 0 0; background: var(--ticket-ink); }
-.ticket-picture img { display: block; width: 100%; height: 100%; object-fit: cover; filter: saturate(1.12) contrast(1.07); }
-.ticket-lettering {
-  position: relative;
-  isolation: isolate;
-  display: grid;
-  align-content: center;
-  gap: .5em;
-  padding: .85em .5em;
-  color: var(--ticket-ink);
-  text-align: center;
-  background: var(--riv-stock), repeating-conic-gradient(from 12deg at 49% 58%, transparent 0 7deg, #ffdc9a38 7deg 10deg), var(--print);
-}
-.ticket-lettering::before {
-  content: '';
-  position: absolute;
-  inset: -6px 0 auto;
-  height: 7px;
-  background: var(--print);
-  clip-path: polygon(0 55%, 20% 15%, 33% 62%, 49% 7%, 65% 47%, 89% 13%, 100% 48%, 100% 100%, 0 100%);
-}
-.ticket-lettering::after {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  inset: 5% 2% 4%;
-  background: var(--riv-stock), #ffeab3;
-  clip-path: polygon(1% 40%, 7% 32%, 2% 25%, 12% 21%, 7% 14%, 28% 4%, 68% 6%, 79% 1%, 93% 11%, 87% 18%, 100% 25%, 94% 37%, 99% 46%, 96% 57%, 100% 66%, 93% 75%, 96% 85%, 79% 92%, 46% 100%, 22% 94%, 6% 87%, 9% 76%, 0 66%, 4% 54%);
-}
-.ticket-lettering h3 { font: italic 800 clamp(1.5rem, 2.9vw, 3.22rem)/.99 Georgia, serif; letter-spacing: -.045em; text-wrap: balance; }
-.ticket-lettering p { font: 750 clamp(.67rem, .88vw, .9rem)/1.2 system-ui, sans-serif; text-transform: uppercase; letter-spacing: .055em; }
-.ticket-stub {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: .18em .78em;
-  padding: .56em .3em;
-  border-top: 1px dashed var(--ticket-ink);
-  background: #fff1bd9e;
-  color: var(--ticket-ink);
-  font: 750 clamp(.68rem, .92vw, .94rem)/1.25 system-ui, sans-serif;
-}
-.ticket-all { text-align: center; }
-.ticket-all .riv-button, .board-submit { font: italic 700 clamp(1.1rem, 1.65vw, 1.65rem)/1.18 Georgia, serif; border: 3px double #f4d298; }
+.board-submit { font: italic 700 clamp(1.1rem, 1.65vw, 1.65rem)/1.18 Georgia, serif; border: 3px double #f4d298; }
 
 /* The traveller and lagoon sit on either side of the live departure board. */
 .departure {
@@ -522,13 +388,6 @@
   .apr-hero__actions { justify-content: center; }
   .water-spray { display: none; }
 
-  .golden-tickets { padding-inline: clamp(22px, 7vw, 60px); }
-  .ticket-collection { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(18px, 3.5vw, 31px); max-width: 43rem; }
-  .golden-ticket:nth-child(odd) { --tilt: -2.5deg; }
-  .golden-ticket:nth-child(even) { --tilt: 2.5deg; }
-  .ticket-lettering h3 { font-size: clamp(1.55rem, 4.6vw, 2.55rem); }
-  .ticket-picture { aspect-ratio: 1.25; }
-
   .terminal { width: min(78%, 43rem); margin-inline: auto 0; }
   .departure-art { width: 24%; }
   .departure::before { width: 36%; }
@@ -589,12 +448,6 @@
   .apr-hero__actions .riv-button { flex: 1 1 7.4rem; max-width: 13rem; font-size: .87rem; padding: .52em .56em; }
   .riv-home .apr-about h2 { font-size: clamp(1.86rem, 7.25vw, 2.9rem); }
 
-  .golden-tickets::before { background-size: 100% 100%; }
-  .ticket-collection { grid-template-columns: minmax(0, 1fr); max-width: 21rem; gap: 20px; }
-  .ticket-picture { aspect-ratio: 1.65; }
-  .ticket-lettering h3 { font-size: clamp(1.65rem, 7.3vw, 2.35rem); }
-  .ticket-lettering, .ticket-stub { font-size: .79rem; }
-
   .terminal-crown { width: 98%; padding: 8px 12px 11px; }
   .board-row { grid-template-columns: minmax(0, 1fr); gap: 3px; margin-block: 6px; }
   .board-letters i { font-size: clamp(.94rem, 4.3vw, 1.13rem); }
@@ -604,7 +457,6 @@
 @media (prefers-reduced-motion: reduce) {
   .water-spray { display: none; }
   .board-letters b, .board-interests b { animation: none; }
-  .golden-ticket { transition: none; }
 }
 
 

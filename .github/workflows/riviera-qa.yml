@@ -77,6 +77,26 @@ jobs:
             qa-output/riviera-polish/worlds-375.png
             qa-output/riviera-polish/worlds-390.png
           retention-days: 14
+      - name: Upload desktop attraction screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: riviera-attractions-desktop
+          path: |
+            qa-output/riviera-polish/rides-1920.png
+            qa-output/riviera-polish/rides-1440.png
+            qa-output/riviera-polish/rides-stormbreaker-1440.png
+          retention-days: 14
+      - name: Upload tablet and phone attraction screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: riviera-attractions-mobile
+          path: |
+            qa-output/riviera-polish/rides-768.png
+            qa-output/riviera-polish/rides-390.png
+            qa-output/riviera-polish/rides-375.png
+          retention-days: 14
       - name: Upload visual evidence
         if: always()
         uses: actions/upload-artifact@v4

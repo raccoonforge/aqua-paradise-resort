@@ -1,0 +1,181 @@
+.golden-tickets {
+  --tickets-overhang: 14px;
+  --tickets-stock: #06433e url('../assets/retro/viewmaster/ink-grain.webp');
+  z-index: 1;
+  --flora-rail: clamp(108px, 13vw, 205px);
+  padding: clamp(38px, 4.2vw, 74px) clamp(25px, 5.4vw, 96px) calc(clamp(24px, 2.6vw, 45px) + var(--poster-tear-height) / 2);
+  scroll-margin-top: 90px;
+}
+.golden-tickets::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 calc(var(--poster-tear-height) - var(--tickets-overhang) - 1px);
+  z-index: -1;
+  pointer-events: none;
+  background: var(--tickets-stock) center bottom;
+}
+.golden-tickets__tear {
+  position: absolute;
+  z-index: 2;
+  inset: auto 0 calc(-1 * var(--tickets-overhang));
+  height: var(--poster-tear-height);
+  pointer-events: none;
+  filter: drop-shadow(0 3px 2px #001e1b70);
+}
+.golden-tickets__tear::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    url('../assets/retro/poster-tear-fibres.webp') center bottom / var(--poster-tear-width) 100% no-repeat,
+    var(--tickets-stock) center 1px;
+  mask: url('../assets/retro/poster-tear-mask.webp') center bottom / var(--poster-tear-width) 100% no-repeat;
+}
+.tickets-title,
+.ticket-all {
+  display: grid;
+  grid-template-columns: var(--flora-rail) minmax(0, 1fr) var(--flora-rail);
+  align-items: center;
+  max-width: 91rem;
+  margin-inline: auto;
+}
+.tickets-title__copy,
+.ticket-all .riv-button { grid-column: 2; }
+.tickets-title__copy { min-width: 0; }
+.tickets-flora {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-block-size: clamp(92px, 10.2vw, 166px);
+  object-fit: contain;
+  pointer-events: none;
+}
+.tickets-flora--opening { grid-column: 1; grid-row: 1; object-position: left center; }
+.tickets-flora--closing { grid-column: 3; grid-row: 1; object-position: right center; }
+.ticket-all .riv-button { grid-row: 1; justify-self: center; }
+
+.imprint, .ticket-subtitle {
+  font: 750 clamp(.69rem, 1.04vw, 1rem)/1.4 system-ui, sans-serif;
+  letter-spacing: .135em;
+  text-transform: uppercase;
+  color: #ffdc9e;
+}
+.imprint { margin-bottom: .55em; }
+.imprint::before, .imprint::after {
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  width: clamp(13px, 4vw, 62px);
+  height: 1px;
+  margin-inline: .65em;
+  background: currentColor;
+}
+.ticket-collection {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
+  gap: clamp(22px, 2vw, 32px);
+  max-width: 91rem;
+  margin: clamp(30px, 3.3vw, 57px) auto clamp(26px, 3.5vw, 58px);
+}
+.golden-ticket {
+  --tilt: -2.8deg;
+  --ticket-ink: #7e2d20;
+  --print: #b84a2f;
+  position: relative;
+  display: flex;
+  min-width: 0;
+  transform: rotate(var(--tilt));
+  transition: transform .22s;
+  filter: drop-shadow(3px 8px 4px #002824a6);
+}
+.golden-ticket:nth-child(2) { --tilt: 1.35deg; --ticket-ink: #075552; --print: #0a6865; }
+.golden-ticket:nth-child(3) { --tilt: -1.45deg; --ticket-ink: #734417; --print: #e8982c; }
+.golden-ticket:nth-child(4) { --tilt: 2.6deg; --ticket-ink: #11575b; --print: #096769; }
+.golden-ticket:is(:hover, :focus-visible) { transform: translateY(-5px) rotate(calc(var(--tilt) * .65)); z-index: 2; }
+.ticket-stock {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-width: 0;
+  width: 100%;
+  container-type: inline-size;
+  padding: clamp(7px, .78vw, 13px);
+  border: 1px solid #bb8b55;
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 3px #ffebba, inset 0 0 8px #9c5d2644;
+  background: #f5d79e url('../assets/retro/fidelity/ticket-paper.webp') center / cover;
+}
+.ticket-picture {
+  aspect-ratio: 1;
+  border-radius: 4px 4px 0 0;
+  background: var(--ticket-ink);
+}
+.ticket-picture img { display: block; width: 100%; height: 100%; border-radius: inherit; object-fit: cover; }
+.ticket-lettering {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-content: center;
+  min-width: 0;
+  gap: .55rem;
+  padding: .95rem clamp(6px, 4cqi, 14px);
+  overflow-wrap: anywhere;
+  color: var(--ticket-ink);
+  text-align: center;
+  background: var(--riv-stock), repeating-conic-gradient(from 12deg at 49% 58%, transparent 0 7deg, #ffdc9a38 7deg 10deg), var(--print);
+}
+.ticket-lettering::before {
+  content: '';
+  position: absolute;
+  inset: -6px 0 auto;
+  height: 7px;
+  background: var(--print);
+  clip-path: polygon(0 55%, 20% 15%, 33% 62%, 49% 7%, 65% 47%, 89% 13%, 100% 48%, 100% 100%, 0 100%);
+}
+.ticket-lettering::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 5% 2% 4%;
+  background: var(--riv-stock), #ffeab3;
+  clip-path: polygon(1% 40%, 7% 32%, 2% 25%, 12% 21%, 7% 14%, 28% 4%, 68% 6%, 79% 1%, 93% 11%, 87% 18%, 100% 25%, 94% 37%, 99% 46%, 96% 57%, 100% 66%, 93% 75%, 96% 85%, 79% 92%, 46% 100%, 22% 94%, 6% 87%, 9% 76%, 0 66%, 4% 54%);
+}
+.ticket-lettering h3 { font: italic 800 clamp(1.25rem, 11.65cqi, 2.95rem)/1.04 Georgia, serif; letter-spacing: -.045em; text-wrap: balance; }
+.ticket-lettering p { font: 750 clamp(.67rem, .88vw, .9rem)/1.2 system-ui, sans-serif; text-transform: uppercase; letter-spacing: .055em; }
+.ticket-stub {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .18em .78em;
+  padding: .56em .3em;
+  border-top: 1px dashed var(--ticket-ink);
+  background: #fff1bd9e;
+  color: var(--ticket-ink);
+  font: 750 clamp(.75rem, 4.6cqi, .95rem)/1.25 system-ui, sans-serif;
+}
+.ticket-all .riv-button { font: italic 700 clamp(1.1rem, 1.65vw, 1.65rem)/1.18 Georgia, serif; border: 3px double #f4d298; }
+
+
+@media (max-width: 1099px) {
+  .golden-tickets { --flora-rail: clamp(74px, 11.4vw, 122px); }
+  .ticket-collection { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 43rem; }
+  .golden-ticket:nth-child(odd) { --tilt: -2deg; }
+  .golden-ticket:nth-child(even) { --tilt: 2deg; }
+}
+@media (max-width: 610px) {
+  .golden-tickets { padding-block-start: 20px; }
+  .tickets-title,
+  .ticket-all { grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 10px; }
+  .tickets-title__copy,
+  .ticket-all .riv-button,
+  .tickets-flora--opening,
+  .tickets-flora--closing { grid-area: auto; }
+  .tickets-flora--opening { justify-self: start; width: 100px; max-block-size: 77px; }
+  .tickets-flora--closing { justify-self: end; width: 126px; max-block-size: 80px; }
+  .ticket-collection { grid-template-columns: minmax(0, 1fr); max-width: 22rem; gap: 24px; }
+  .golden-ticket:nth-child(odd) { --tilt: -1.6deg; }
+  .golden-ticket:nth-child(even) { --tilt: 1.6deg; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .golden-ticket { transition: none; }
+}
