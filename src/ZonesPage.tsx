@@ -74,8 +74,7 @@ function ZoneTickets({ activeId }: { activeId: string }) {
           aria-current={activeId === zone.id ? 'true' : undefined} aria-label={`Открыть зону ${zone.name}`}>
           <small className="atlas-ticket__number" aria-hidden="true">{zoneNumber(index)}</small>
           <span className="atlas-ticket__art" aria-hidden="true">
-            {index === 0 ? <AtlasIcon name="boulevard" /> :
-              <img src={index === 2 ? gardenIcon : ticketIcons[`./assets/retro/viewmaster/icon-${index + 1}.webp`]} alt="" />}
+            <img src={index === 2 ? gardenIcon : ticketIcons[`./assets/retro/viewmaster/icon-${index + 1}.webp`]} alt="" />
           </span>
           <span className="atlas-ticket__name">{zone.name}</span>
         </a>
