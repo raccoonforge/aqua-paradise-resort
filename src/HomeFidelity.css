@@ -344,11 +344,20 @@
 .sunset-pier::before {
   content: '';
   position: absolute;
-  inset: 0;
+  inset: 0 0 0 auto;
+  width: clamp(380px, 43%, 840px);
   z-index: -1;
   pointer-events: none;
-  background: url('./assets/retro/fidelity/sunset-scene.webp') right top / auto 100% no-repeat;
-  mask-image: linear-gradient(90deg, transparent 48%, #000 74%, #000 96%, transparent), linear-gradient(transparent, #000 16%, #000 78%, transparent);
+  /* Only show the undamaged sunset panel from the existing artwork.
+     Zoom/crop removes its baked-in pale border and stray horizontal streaks. */
+  background: url('./assets/retro/fidelity/sunset-scene.webp') right -34px center / auto 150% no-repeat;
+  -webkit-mask-image:
+    linear-gradient(90deg, transparent 0%, #000 48%, #000 91%, transparent 100%),
+    linear-gradient(180deg, transparent 0%, #000 15%, #000 86%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(90deg, transparent 0%, #000 48%, #000 91%, transparent 100%),
+    linear-gradient(180deg, transparent 0%, #000 15%, #000 86%, transparent 100%);
   mask-composite: intersect;
 }
 .pier-content {
@@ -360,7 +369,7 @@
 }
 .pier-brand { text-align: center; }
 .pier-brand .apr-brand { flex-direction: column; gap: 1px; }
-.pier-brand img { width: clamp(38px, 3.3vw, 58px); filter: grayscale(1) sepia(1) brightness(1.28); }
+.pier-brand img { width: clamp(38px, 3.3vw, 58px); filter: none; }
 .pier-brand .apr-brand__name {
   text-transform: none;
   font: 400 clamp(1.9rem, 2.45vw, 2.85rem)/.84 'APR Script', Georgia, serif;
@@ -397,7 +406,7 @@
   .riv-home .apr-about__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 0; }
   .riv-home .apr-about__stats li:nth-child(3) { border-left: 0; }
   .pier-content, .pier-legal { width: 85%; }
-  .sunset-pier::before { mask-image: linear-gradient(90deg, transparent 54%, #000 100%), linear-gradient(transparent, #000 22%, #000 70%, transparent); }
+  .sunset-pier::before { width: 52%; }
 }
 @media (max-width: 950px) {
   .riv-mast.apr-header .mast-inner { height: 64px; }
@@ -452,9 +461,9 @@
   .board-case { border-width: 5px; }
 
   .sunset-pier::before {
-    background-position: calc(100% + 10px) -6px;
-    background-size: auto clamp(175px, 44vw, 260px);
-    mask-image: linear-gradient(90deg, transparent 22%, #000 88%, #000 98%, transparent), linear-gradient(transparent, #000 32px, #000 112px, transparent 196px);
+    width: min(85%, 420px);
+    background-position: right -24px center;
+    background-size: auto 150%;
   }
   .pier-content { width: 100%; grid-template-columns: minmax(0, 1fr); gap: 26px; }
   .pier-brand { width: min(60%, 240px); }
