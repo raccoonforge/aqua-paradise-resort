@@ -8,8 +8,7 @@ const columns = [
 
 export default function SunsetPier() {
   return <footer className="sunset-pier poster-stock">
-
-    <div className="pier-palm-extension" aria-hidden="true" />
+    <div className="pier-sunset" aria-hidden="true" />
     <div className="pier-content">
       <div className="pier-brand"><Brand sunset /><p>Остров бесконечного лета</p></div>
       <nav aria-label="Навигация в подвале">{columns.map(column => <div key={column.title}>

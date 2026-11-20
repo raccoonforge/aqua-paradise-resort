@@ -332,6 +332,37 @@ async function checkResortPages(page) {
   }
 }
 
+async function captureFooter(page, width, { top, bottom }) {
+  const footer = page.locator('.sunset-pier');
+  const scene = footer.locator('.pier-sunset');
+  assert.equal(await scene.count(), 1);
+  assert.equal(await footer.locator('.pier-palm-extension').count(), 0);
+  const artwork = await scene.evaluate(async el => {
+    const style = getComputedStyle(el);
+    const source = style.backgroundImage.match(/^url\("(.*)"\)$/)?.[1];
+    if (!source) return null;
+    const image = new Image();
+    image.src = source;
+    await image.decode();
+    return { width: image.naturalWidth, height: image.naturalHeight, mask: style.maskImage };
+  });
+  assert(artwork && artwork.width === 2172 && artwork.height === 868, 'The footer loads one restored sunset illustration');
+  assert.match(artwork.mask, /poster-tear-mask/);
+
+  const y = top - 45;
+  const height = bottom - y;
+  const detailWidth = Math.min(width, 500);
+  await page.screenshot({
+    path: `${dir}/footer-full-${width}.png`, fullPage: true,
+    clip: { x: 0, y, width, height }, animations: 'disabled', timeout: 25000,
+  });
+  await page.screenshot({
+    path: `${dir}/footer-palm-${width}.png`, fullPage: true,
+    clip: { x: width - detailWidth, y, width: detailWidth, height: Math.min(370, height) },
+    animations: 'disabled', timeout: 25000,
+  });
+}
+
 try {
   await fs.mkdir(dir, { recursive: true });
   const page = await browser.newPage({ reducedMotion: 'reduce' });
@@ -392,6 +423,7 @@ try {
           clip: { x: 0, y: top - 35, width, height: bottom - top + 65 },
           animations: 'disabled',
         });
+        await captureFooter(page, width, bounds.find(section => section.id === 'footer'));
       }
 
       if ([1440, 768, 375].includes(width)) {

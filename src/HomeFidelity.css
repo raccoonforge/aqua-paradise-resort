@@ -341,39 +341,29 @@
   background: url('./assets/retro/poster-tear-fibres.webp') center bottom / max(100%, 1080px) 100% no-repeat;
   filter: drop-shadow(0 3px 2px #001b1877);
 }
-.sunset-pier::before {
-  content: '';
+.pier-sunset {
+  --scene-width: clamp(380px, 43%, 840px);
+  --scene-top: 18px;
+  --scene-right: -28px;
+  --scene-bleed: calc(1.1 * 144 / 724);
+  --scene-scale: calc(1.1 + var(--scene-bleed));
   position: absolute;
-  inset: 0 0 0 auto;
-  width: clamp(380px, 43%, 840px);
+  inset: calc(-1 * var(--poster-tear-height)) 0 0;
   z-index: -1;
   pointer-events: none;
-  /* One original sunset illustration only. No second canopy, no masking
-     out the sun to replace the palm with unrelated artwork. */
-  background: url('./assets/retro/fidelity/sunset-scene.webp') right -28px top -18px / auto 110% no-repeat;
-  -webkit-mask-image:
-    linear-gradient(90deg, transparent 0%, #000 38%, #000 100%),
-    linear-gradient(180deg, #000 0%, #000 83%, transparent 100%);
-  -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(90deg, transparent 0%, #000 38%, #000 100%),
-    linear-gradient(180deg, #000 0%, #000 83%, transparent 100%);
-  mask-composite: intersect;
-}
-/* Restore only the missing upper tips of the SAME golden palm.
-   Transparent bitmap, no second tree, no moving of the sunset artwork.
-   The lower fade joins the original fronds without covering the sun. */
-.pier-palm-extension {
-  position: absolute;
-  z-index: 0;
-  right: 0;
-  top: -20px;
-  width: clamp(230px, 15vw, 290px);
-  aspect-ratio: 310 / 202;
-  pointer-events: none;
-  background: url('./assets/retro/fidelity/sunset-palm-extension.avif') right top / contain no-repeat;
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 78%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 78%);
+  /* Keep the 724 original rows at their existing scale and origin. The
+     extra 144 rows paint into the transparent border beneath the tear. */
+  border-block-start: var(--poster-tear-height) solid transparent;
+  background: url('./assets/retro/fidelity/sunset-scene.webp') right var(--scene-right)
+    top calc(100% * var(--scene-bleed) / (var(--scene-scale) - 1) - var(--scene-top))
+    / auto calc(100% * var(--scene-scale)) no-repeat;
+  /* Subtract the planner's existing paper silhouette from the overlap. */
+  mask:
+    linear-gradient(to left, #000 calc(var(--scene-width) * .62), transparent var(--scene-width)),
+    linear-gradient(#000 calc(83% + var(--poster-tear-height) * .17), transparent),
+    linear-gradient(#000 0 0),
+    url('./assets/retro/poster-tear-mask.webp') center top / max(100%, 1080px) var(--poster-tear-height) no-repeat;
+  mask-composite: intersect, intersect, subtract;
 }
 .sunset-pier .pier-content,
 .sunset-pier .pier-legal {
@@ -426,7 +416,7 @@
   .riv-home .apr-about__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 0; }
   .riv-home .apr-about__stats li:nth-child(3) { border-left: 0; }
   .pier-content, .pier-legal { width: 85%; }
-  .sunset-pier::before { width: 52%; }
+  .pier-sunset { --scene-width: 52%; }
 }
 @media (max-width: 950px) {
   .riv-mast.apr-header .mast-inner { height: 64px; }
@@ -480,12 +470,11 @@
   .terminal { width: min(100%, 38rem); margin-inline: auto; }
   .board-case { border-width: 5px; }
 
-  .sunset-pier::before {
-    width: min(85%, 420px);
-    background-position: right -18px top -12px;
-    background-size: auto 110%;
+  .pier-sunset {
+    --scene-width: min(85%, 420px);
+    --scene-right: -18px;
+    --scene-top: 12px;
   }
-  .pier-palm-extension { width: clamp(185px, 56vw, 240px); top: -18px; right: 0; }
   .pier-content { width: 100%; grid-template-columns: minmax(0, 1fr); gap: 26px; }
   .pier-brand { width: min(60%, 240px); }
   .pier-brand .apr-brand__name { font-size: clamp(2.05rem, 6.5vw, 2.85rem); }
