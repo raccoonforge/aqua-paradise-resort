@@ -348,16 +348,17 @@
   width: clamp(380px, 43%, 840px);
   z-index: -1;
   pointer-events: none;
-  /* Only show the undamaged sunset panel from the existing artwork.
-     Zoom/crop removes its baked-in pale border and stray horizontal streaks. */
-  background: url('./assets/retro/fidelity/sunset-scene.webp') right -34px center / auto 150% no-repeat;
+  /* Preserve the complete palm crown: the old 150% zoom and top/right
+     gradient physically cut the fronds. Only blend toward the text at left
+     and fade into the footer stock near the bottom. */
+  background: url('./assets/retro/fidelity/sunset-scene.webp') right -28px top -18px / auto 110% no-repeat;
   -webkit-mask-image:
-    linear-gradient(90deg, transparent 0%, #000 48%, #000 91%, transparent 100%),
-    linear-gradient(180deg, transparent 0%, #000 15%, #000 86%, transparent 100%);
+    linear-gradient(90deg, transparent 0%, #000 38%, #000 100%),
+    linear-gradient(180deg, #000 0%, #000 83%, transparent 100%);
   -webkit-mask-composite: source-in;
   mask-image:
-    linear-gradient(90deg, transparent 0%, #000 48%, #000 91%, transparent 100%),
-    linear-gradient(180deg, transparent 0%, #000 15%, #000 86%, transparent 100%);
+    linear-gradient(90deg, transparent 0%, #000 38%, #000 100%),
+    linear-gradient(180deg, #000 0%, #000 83%, transparent 100%);
   mask-composite: intersect;
 }
 .pier-content {
@@ -369,10 +370,10 @@
 }
 .pier-brand { text-align: center; }
 .pier-brand .apr-brand { flex-direction: column; gap: 1px; }
-.pier-brand img { width: clamp(38px, 3.3vw, 58px); filter: none; }
+.pier-brand img { width: clamp(46px, 4.1vw, 70px); filter: none; }
 .pier-brand .apr-brand__name {
   text-transform: none;
-  font: 400 clamp(1.9rem, 2.45vw, 2.85rem)/.84 'APR Script', Georgia, serif;
+  font: 400 clamp(2.05rem, 2.8vw, 3.25rem)/.84 'APR Script', Georgia, serif;
   letter-spacing: -.04em;
   text-shadow: .04em .05em #002a23;
 }
@@ -462,12 +463,12 @@
 
   .sunset-pier::before {
     width: min(85%, 420px);
-    background-position: right -24px center;
-    background-size: auto 150%;
+    background-position: right -18px top -12px;
+    background-size: auto 110%;
   }
   .pier-content { width: 100%; grid-template-columns: minmax(0, 1fr); gap: 26px; }
   .pier-brand { width: min(60%, 240px); }
-  .pier-brand .apr-brand__name { font-size: clamp(1.95rem, 6.2vw, 2.65rem); }
+  .pier-brand .apr-brand__name { font-size: clamp(2.05rem, 6.5vw, 2.85rem); }
   .pier-content nav { border-left: 0; padding: 0; }
   .pier-content nav a { min-height: 44px; }
   .pier-legal { width: 100%; padding-right: 44px; }
