@@ -7,7 +7,9 @@
   --worlds-stock: #073e39 url('../assets/retro/viewmaster/ink-grain.webp');
   --worlds-overhang: 14px;
   position: relative;
-  z-index: 0;
+  /* This printed sheet must cover the following section's background at the
+     overlap; otherwise the lower fibres become a straight horizontal cut. */
+  z-index: 2;
   /* The next sheet begins below the previous paper tear, not at a hard seam. */
   margin-top: calc(-1 * var(--poster-tear-height));
   padding: calc(var(--poster-tear-height) + clamp(27px, 3.1vw, 57px)) clamp(15px, 3.1vw, 62px) clamp(40px, 4.4vw, 76px);
