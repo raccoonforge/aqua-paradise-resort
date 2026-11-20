@@ -80,7 +80,8 @@
 .apr-worlds__resort-name {
   grid-area: resort;
   position: relative;
-  margin: .07em 0 0 9%;
+  /* Pull the signature under the main title as one editorial lockup. */
+  margin: -.23em 0 0 12%;
   color: #ffe3ab;
   transform: rotate(-3deg);
   font: italic 700 clamp(1.64rem, 3.3vw, 4rem)/1.1 var(--serif);
@@ -517,7 +518,7 @@
     font-size: clamp(2rem, 7.3vw, 3.8rem);
   }
   .apr-worlds__resort-name {
-    margin-left: 0;
+    margin: -.12em 0 0;
     font-size: clamp(1.75rem, 4.65vw, 3.05rem);
   }
   .apr-worlds__invitation {
