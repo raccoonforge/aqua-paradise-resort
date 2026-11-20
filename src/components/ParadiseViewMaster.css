@@ -75,7 +75,7 @@
   color: #ffe2a0;
   white-space: nowrap;
   /* Match the approved About headline's visual scale. */
-  font: italic 700 clamp(2.15rem, 4.5vw, 5rem)/.97 Georgia, serif;
+  font: italic 700 clamp(2.15rem, 4.5vw, 5rem)/.97 'APR Poster', Georgia, serif;
   letter-spacing: -.065em;
   text-shadow: .04em .055em #a33520, .07em .094em #53251b, .09em .116em #002a27;
 }
@@ -108,7 +108,7 @@
   transform: rotate(-7deg);
   background: url('../assets/retro/viewmaster/caption-stock.webp') center / 100% 100%;
   color: #761f16;
-  font: italic 700 clamp(.8rem, 1.25vw, 1.35rem)/1.15 Georgia, serif;
+  font: italic 700 clamp(.8rem, 1.25vw, 1.35rem)/1.15 'APR Poster', Georgia, serif;
   text-align: center;
   text-wrap: balance;
 }
@@ -270,7 +270,7 @@
   background: radial-gradient(circle at 42% 33%, #fff1c3, #edc887 87%);
   border: .1cqw solid #ab7944;
   box-shadow: inset 0 0 0 .09cqw #fff9df8c, 0 .1cqw .17cqw #4325156b;
-  font: 800 clamp(11px, 4.1cqw, 23px)/1 system-ui, sans-serif;
+  font: 800 clamp(11px, 4.1cqw, 23px)/1 'Inter', system-ui, sans-serif;
   pointer-events: auto;
   cursor: pointer;
   transition: rotate var(--turn-duration) var(--turn-easing);
@@ -309,7 +309,7 @@
   background: var(--riv-stock), radial-gradient(ellipse at 45% 32%, #b35734, #8e3325);
   color: #ffe5a7;
   text-align: center;
-  font: 800 clamp(.52rem, 3.15cqw, 1.34rem)/1 system-ui, sans-serif;
+  font: 800 clamp(.52rem, 3.15cqw, 1.34rem)/1 'Inter', system-ui, sans-serif;
   letter-spacing: .035em;
   text-transform: uppercase;
   box-shadow: 0 .18cqw 0 #92512e, 0 0 0 .12cqw #e7b478;
@@ -384,7 +384,7 @@
   background: var(--riv-stock), #a03220;
   color: var(--paper);
   box-shadow: 0 0 0 1px #96361e, inset 0 0 0 2px #7f24178c;
-  font: italic bold clamp(1.36rem, 2.6vw, 3rem)/1 Georgia, serif;
+  font: italic bold clamp(1.36rem, 2.6vw, 3rem)/1 'APR Poster', Georgia, serif;
 }
 .apr-worlds__label h3 {
   margin: 0;
@@ -398,7 +398,7 @@
   gap: .55em;
   margin: .38em 0 0;
   color: #7d291b;
-  font: 800 clamp(.66rem, .96vw, .99rem)/1.3 system-ui, sans-serif;
+  font: 800 clamp(.66rem, .96vw, .99rem)/1.3 'Inter', system-ui, sans-serif;
   letter-spacing: .11em;
   text-transform: uppercase;
 }
@@ -413,7 +413,7 @@
   min-height: 2.8em;
   max-width: 60ch;
   margin: .61em 0 0;
-  font: 480 clamp(.97rem, 1.18vw, 1.19rem)/1.43 system-ui, sans-serif;
+  font: 480 clamp(.97rem, 1.18vw, 1.19rem)/1.43 'Inter', system-ui, sans-serif;
 }
 .apr-worlds__link {
   justify-self: end;
@@ -429,7 +429,7 @@
   color: #fff4cd;
   background: var(--riv-stock), linear-gradient(#b93f24, #9b2917);
   box-shadow: 0 2px 0 #75361d, 0 4px 0 #cb9456;
-  font: 700 clamp(.93rem, 1.16vw, 1.13rem)/1.25 system-ui, sans-serif;
+  font: 700 clamp(.93rem, 1.16vw, 1.13rem)/1.25 'Inter', system-ui, sans-serif;
 }
 .apr-worlds__link:hover { filter: brightness(1.13); }
 .riv-home .apr-worlds__link:focus-visible { outline-color: #70291b; }
@@ -456,7 +456,7 @@
   color: #ffdf9b;
   cursor: pointer;
   text-shadow: 0 .1em .1em #001b16;
-  font: italic 700 clamp(.89rem, 1.52vw, 1.57rem)/1.05 Georgia, serif;
+  font: italic 700 clamp(.89rem, 1.52vw, 1.57rem)/1.05 'APR Poster', Georgia, serif;
 }
 .apr-worlds__tickets button:not(:first-child)::before {
   content: '';
