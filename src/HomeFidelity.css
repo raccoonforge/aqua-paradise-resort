@@ -326,7 +326,7 @@
   /* The footer is outside <main>, so it must own the visible separator.
      Keep the existing footer content at its approved vertical position. */
   margin-top: 0;
-  padding: clamp(35px, 5.4vw, 88px) clamp(20px, 6vw, 100px) clamp(26px, 3.4vw, 49px);
+  padding: clamp(22px, 2.2vw, 36px) clamp(20px, 6vw, 100px) clamp(16px, 1.6vw, 26px);
   background: var(--riv-stock), linear-gradient(#043a36, #032d29);
   position: relative;
 }
@@ -355,26 +355,26 @@
   display: grid;
   grid-template-columns: minmax(10rem, .78fr) minmax(0, 1.65fr);
   align-items: center;
-  gap: clamp(25px, 4vw, 74px);
-  width: min(76%, 74rem);
+  gap: clamp(18px, 2.6vw, 48px);
+  width: min(82%, 78rem);
 }
 .pier-brand { text-align: center; }
-.pier-brand .apr-brand { flex-direction: column; gap: 3px; }
-.pier-brand img { width: clamp(46px, 5.7vw, 85px); filter: grayscale(1) sepia(1) brightness(1.28); }
+.pier-brand .apr-brand { flex-direction: column; gap: 1px; }
+.pier-brand img { width: clamp(38px, 3.3vw, 58px); filter: grayscale(1) sepia(1) brightness(1.28); }
 .pier-brand .apr-brand__name {
   text-transform: none;
-  font: 400 clamp(2.1rem, 4.1vw, 4.6rem)/.82 'APR Script', Georgia, serif;
+  font: 400 clamp(1.9rem, 2.45vw, 2.85rem)/.84 'APR Script', Georgia, serif;
   letter-spacing: -.04em;
   text-shadow: .04em .05em #002a23;
 }
 .pier-resort { display: block; }
-.pier-brand p { margin-top: 12px; padding-top: .65em; border-top: 1px solid #d3a965; font: 750 clamp(.65rem, .9vw, .9rem)/1.35 system-ui, sans-serif; text-transform: uppercase; letter-spacing: .09em; }
-.pier-content nav { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(15px, 2vw, 34px); border-left: 1px solid #d3a96580; padding-left: clamp(20px, 3vw, 52px); }
-.pier-content h2 { margin-bottom: .35em; font: italic 700 clamp(1.12rem, 1.91vw, 1.82rem)/1.12 Georgia, serif; }
-.pier-content h2::after { content: ''; display: block; width: 2.2em; height: 3px; margin-top: 5px; border-radius: 75% 45%; background: #e6814f; }
-.pier-content nav a { display: flex; align-items: center; min-height: 36px; width: fit-content; padding: 4px 0; font: clamp(.91rem, 1.16vw, 1.13rem)/1.28 Georgia, serif; }
+.pier-brand p { margin-top: 6px; padding-top: .4em; border-top: 1px solid #d3a965; font: 750 clamp(.62rem, .75vw, .78rem)/1.25 system-ui, sans-serif; text-transform: uppercase; letter-spacing: .07em; }
+.pier-content nav { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 1.6vw, 28px); border-left: 1px solid #d3a96580; padding-left: clamp(18px, 2.3vw, 38px); }
+.pier-content h2 { margin-bottom: .24em; font: italic 700 clamp(1.05rem, 1.38vw, 1.42rem)/1.12 Georgia, serif; }
+.pier-content h2::after { content: ''; display: block; width: 2.2em; height: 2px; margin-top: 3px; border-radius: 75% 45%; background: #e6814f; }
+.pier-content nav a { display: flex; align-items: center; min-height: 27px; width: fit-content; padding: 2px 0; font: clamp(.87rem, 1vw, 1rem)/1.2 Georgia, serif; }
 .pier-content a:hover { color: #ffac80; text-decoration: underline; }
-.pier-legal { width: min(76%, 74rem); display: flex; flex-wrap: wrap; gap: 6px 20px; border-top: 1px solid #d5ad7180; margin-top: 24px; padding-top: 14px; font-size: .79rem; color: #f0d5a4; }
+.pier-legal { width: min(82%, 78rem); display: flex; flex-wrap: wrap; gap: 4px 20px; border-top: 1px solid #d5ad7180; margin-top: 12px; padding-top: 9px; font-size: .76rem; color: #f0d5a4; }
 
 .apr-skip-link {
   position: fixed;
@@ -458,7 +458,7 @@
   }
   .pier-content { width: 100%; grid-template-columns: minmax(0, 1fr); gap: 26px; }
   .pier-brand { width: min(60%, 240px); }
-  .pier-brand .apr-brand__name { font-size: clamp(2.05rem, 6.9vw, 3.5rem); }
+  .pier-brand .apr-brand__name { font-size: clamp(1.95rem, 6.2vw, 2.65rem); }
   .pier-content nav { border-left: 0; padding: 0; }
   .pier-content nav a { min-height: 44px; }
   .pier-legal { width: 100%; padding-right: 44px; }
