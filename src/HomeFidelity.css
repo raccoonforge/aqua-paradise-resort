@@ -217,7 +217,7 @@
      Keep its original aspect ratio; the HTML controls stay independent. */
   background:
     linear-gradient(90deg, #043a3610, #043a3628 50%, #043a3612),
-    url('./assets/retro/fidelity/mini-planner-riviera.avif') center / cover no-repeat,
+    url('./assets/retro/fidelity/mini-planner-riviera-high-quality.avif') center / cover no-repeat,
     #043a36;
 }
 .departure::before { content: none; }
