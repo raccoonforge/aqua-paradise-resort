@@ -133,7 +133,7 @@ export default function VisitPage() {
             })}
           </div>
           <div className="mt-6 text-center">
-            <button type="button" onClick={() => { window.location.hash = '#/map'; }} className="bg-teal-600 text-white px-8 py-3 rounded-full font-medium hover:bg-teal-700 transition shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600">Построить маршрут на карте</button>
+            <button type="button" onClick={() => { window.location.hash = '#/planner'; }} className="bg-teal-600 text-white px-8 py-3 rounded-full font-medium hover:bg-teal-700 transition shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600">Спланировать маршрут</button>
           </div>
         </section>
 
