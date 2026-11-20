@@ -213,14 +213,28 @@
   /* Printed sheet underneath the attractions tear, with no hard seam. */
   margin-top: calc(-1 * var(--poster-tear-height));
   padding: calc(var(--poster-tear-height) + clamp(25px, 3.1vw, 53px)) clamp(16px, 5vw, 78px) clamp(62px, 7.4vw, 116px);
-  /* The artwork is a clean illustration, not a screenshot of the board.
-     Keep its original aspect ratio; the HTML controls stay independent. */
+  /* Keep the section itself transparent: only its illustrated paper layer
+     is torn. This prevents the photo from continuing below the fibres. */
+  background: transparent;
+}
+.departure::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
   background:
     linear-gradient(90deg, #043a3610, #043a3628 50%, #043a3612),
     url('./assets/retro/fidelity/mini-planner-riviera-high-quality.avif') center / cover no-repeat,
     #043a36;
+  /* Use exactly the same 54px jagged silhouette as the paper seams above. */
+  -webkit-mask:
+    linear-gradient(#000 0 0) top / 100% calc(100% - var(--poster-tear-height) + 1px) no-repeat,
+    url('./assets/retro/poster-tear-mask.webp') center bottom / var(--poster-tear-width) var(--poster-tear-height) no-repeat;
+  mask:
+    linear-gradient(#000 0 0) top / 100% calc(100% - var(--poster-tear-height) + 1px) no-repeat,
+    url('./assets/retro/poster-tear-mask.webp') center bottom / var(--poster-tear-width) var(--poster-tear-height) no-repeat;
 }
-.departure::before { content: none; }
 
 .departure-heading { max-width: 58rem; }
 .departure-copy { position: relative; }
@@ -320,8 +334,9 @@
   content: '';
   position: absolute;
   z-index: 4;
-  inset: -27px 0 auto;
-  height: 54px;
+  /* Precisely cover the final 54px of the planner illustration. */
+  inset: calc(-1 * var(--poster-tear-height)) 0 auto;
+  height: var(--poster-tear-height);
   pointer-events: none;
   background: url('./assets/retro/poster-tear-fibres.webp') center bottom / max(100%, 1080px) 100% no-repeat;
   filter: drop-shadow(0 3px 2px #001b1877);
