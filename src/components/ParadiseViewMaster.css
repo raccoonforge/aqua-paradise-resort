@@ -72,11 +72,10 @@
   transform-origin: 0 50%;
   color: #ffe2a0;
   white-space: nowrap;
-  font: italic 700 clamp(3rem, 6.65vw, 7.4rem)/.76 var(--serif);
+  font: italic 700 clamp(2.1rem, 3.65vw, 4.7rem)/1.04 var(--serif);
   letter-spacing: -.065em;
   text-shadow: .04em .055em #a33520, .07em .094em #53251b, .09em .116em #002a27;
 }
-.apr-worlds__heading h2 span { font-size: 1.36em; line-height: .77; }
 .apr-worlds__resort-name {
   grid-area: resort;
   position: relative;
@@ -501,7 +500,7 @@
   }
   .apr-worlds__heading h2 {
     transform-origin: center;
-    font-size: clamp(3.1rem, 8.4vw, 5.35rem);
+    font-size: clamp(2.15rem, 7.5vw, 4.7rem);
   }
   .apr-worlds__resort-name {
     margin-left: 0;
