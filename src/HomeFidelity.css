@@ -207,18 +207,40 @@
 .riv-home .apr-about__quote p { font-size: clamp(1rem, 1.52vw, 1.4rem); }
 /* The ticket stock grows with the live names and the perforated stubs. */
 .golden-tickets {
-  padding: clamp(56px, 7.2vw, 108px) clamp(23px, 6vw, 96px) clamp(49px, 7.2vw, 108px);
+  --tickets-overhang: 14px;
+  --tickets-stock: #06433e url('./assets/retro/viewmaster/ink-grain.webp');
+  z-index: 1;
+  padding: clamp(56px, 7.2vw, 108px) clamp(23px, 6vw, 96px) calc(clamp(49px, 7.2vw, 108px) + var(--poster-tear-height));
   background: radial-gradient(ellipse 85% 58% at 53% 49%, #0b5550d9, transparent);
+  overflow: visible;
 }
 .golden-tickets::before {
   content: '';
   position: absolute;
-  inset: 0;
+  inset: 0 0 calc(var(--poster-tear-height) - var(--tickets-overhang));
   z-index: -1;
   pointer-events: none;
+  /* Keep the original complete illustrations at the sides. Previously the
+     vertical and horizontal masks faded away their leaves and flowers. */
   background: url('./assets/retro/fidelity/tickets-decor.webp') center / 100% 100% no-repeat;
-  mask-image: linear-gradient(transparent, #000 13%, #000 86%, transparent), linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
-  mask-composite: intersect;
+}
+.golden-tickets__tear {
+  position: absolute;
+  z-index: 2;
+  inset: auto 0 calc(-1 * var(--tickets-overhang));
+  height: var(--poster-tear-height);
+  pointer-events: none;
+  filter: drop-shadow(0 3px 2px #001e1b70);
+}
+.golden-tickets__tear::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    url('./assets/retro/poster-tear-fibres.webp') center bottom / var(--poster-tear-width) 100% no-repeat,
+    var(--tickets-stock) center 1px;
+  -webkit-mask: url('./assets/retro/poster-tear-mask.webp') center bottom / var(--poster-tear-width) 100% no-repeat;
+  mask: url('./assets/retro/poster-tear-mask.webp') center bottom / var(--poster-tear-width) 100% no-repeat;
 }
 .imprint, .ticket-subtitle {
   font: 750 clamp(.69rem, 1.04vw, 1rem)/1.4 system-ui, sans-serif;
@@ -321,7 +343,10 @@
 
 /* The traveller and lagoon sit on either side of the live departure board. */
 .departure {
-  padding: clamp(25px, 3.1vw, 53px) clamp(16px, 5vw, 78px) clamp(62px, 7.4vw, 116px);
+  z-index: 0;
+  /* Printed sheet underneath the attractions tear, with no hard seam. */
+  margin-top: calc(-1 * var(--poster-tear-height));
+  padding: calc(var(--poster-tear-height) + clamp(25px, 3.1vw, 53px)) clamp(16px, 5vw, 78px) clamp(62px, 7.4vw, 116px);
   background: radial-gradient(ellipse 78% 65% at 50% 56%, #10564d7a, transparent);
 }
 .departure::before {
