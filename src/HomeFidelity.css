@@ -220,15 +220,9 @@
   inset: 0 0 calc(var(--poster-tear-height) - var(--tickets-overhang));
   z-index: -1;
   pointer-events: none;
-  /* Preserve palms and hibiscus, but prevent the opaque pale canvas of
-     the composite art from becoming a rectangular frame. White ink blends
-     into the dark stock; only the outermost pixels are softly clipped. */
-  background: url('./assets/retro/fidelity/tickets-decor.webp') center / 100% 100% no-repeat;
-  mix-blend-mode: multiply;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 3%, #000 97%, transparent 100%), linear-gradient(to right, transparent 0%, #000 2%, #000 98%, transparent 100%);
-  -webkit-mask-composite: source-in;
-  mask-image: linear-gradient(to bottom, transparent 0%, #000 3%, #000 97%, transparent 100%), linear-gradient(to right, transparent 0%, #000 2%, #000 98%, transparent 100%);
-  mask-composite: intersect;
+  /* Separate transparent botanical illustrations: no faded corners,
+     no rectangular matte and no blending of the paper texture. */
+  background: url('./assets/retro/fidelity/attractions-botanical.svg') center / 100% 100% no-repeat;
 }
 .golden-tickets__tear {
   position: absolute;
@@ -595,7 +589,7 @@
   .apr-hero__actions .riv-button { flex: 1 1 7.4rem; max-width: 13rem; font-size: .87rem; padding: .52em .56em; }
   .riv-home .apr-about h2 { font-size: clamp(1.86rem, 7.25vw, 2.9rem); }
 
-  .golden-tickets::before { background-size: auto 100%; }
+  .golden-tickets::before { background-size: 100% 100%; }
   .ticket-collection { grid-template-columns: minmax(0, 1fr); max-width: 21rem; gap: 20px; }
   .ticket-picture { aspect-ratio: 1.65; }
   .ticket-lettering h3 { font-size: clamp(1.65rem, 7.3vw, 2.35rem); }
