@@ -222,9 +222,10 @@
   isolation:isolate;
   overflow:hidden;
 
-  /* Hero must paint ABOVE About, otherwise the later section covers
-     the masked fibres and turns the torn edge into a straight cut. */
-  z-index: 2;
+  /* The three overlapping printed sheets must stack in document order:
+     Hero (4) above About (3), About above Worlds (2). This preserves
+     the fibrous lower tear of BOTH Hero and About. */
+  z-index: 4;
   margin-block-end: calc(-1 * var(--poster-tear-height));
   /* Join the textured tear to the solid body of the poster. */
   mask:
