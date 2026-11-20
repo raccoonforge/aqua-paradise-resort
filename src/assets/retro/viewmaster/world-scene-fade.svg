@@ -1,32 +1,121 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="730" viewBox="0 0 1200 730">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 730" width="1200" height="730">
+  <!-- The picture has the perforated upper and side edges of a vintage stamp;
+       the lower edge fades into the real HTML paper caption, not a hard border. -->
   <defs>
-    <!-- Uneven printed edge: irregular ink loss, but no hard rectangle. -->
-    <linearGradient id="horizontal" x1="0" x2="1">
-      <stop offset="0" stop-color="white" stop-opacity=".75"/>
-      <stop offset=".055" stop-color="white"/>
-      <stop offset=".74" stop-color="white"/>
-      <stop offset=".87" stop-color="white" stop-opacity=".97"/>
-      <stop offset=".95" stop-color="white" stop-opacity=".44"/>
-      <stop offset="1" stop-color="white" stop-opacity="0"/>
+    <linearGradient id="bottomFade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset=".67" stop-color="#fff"/>
+      <stop offset=".79" stop-color="#fff" stop-opacity=".97"/>
+      <stop offset=".88" stop-color="#fff" stop-opacity=".76"/>
+      <stop offset=".95" stop-color="#fff" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
     </linearGradient>
-    <linearGradient id="vertical" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="white" stop-opacity=".65"/>
-      <stop offset=".065" stop-color="white"/>
-      <stop offset=".70" stop-color="white"/>
-      <stop offset=".83" stop-color="white" stop-opacity=".93"/>
-      <stop offset=".94" stop-color="white" stop-opacity=".44"/>
-      <stop offset="1" stop-color="white" stop-opacity="0"/>
-    </linearGradient>
-    <mask id="h"><rect width="1200" height="730" fill="url(#horizontal)"/></mask>
-    <mask id="v"><rect width="1200" height="730" fill="url(#vertical)"/></mask>
+    <mask id="perforation" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height="730">
+      <rect x="19" y="19" width="1162" height="711" fill="#fff"/>
+      <!-- Small semicircular notches, never a decorative white outline. -->
+      <g fill="#000">
+      <circle cx="34" cy="19" r="8.5"/>
+      <circle cx="58" cy="19" r="8.5"/>
+      <circle cx="82" cy="19" r="8.5"/>
+      <circle cx="106" cy="19" r="8.5"/>
+      <circle cx="130" cy="19" r="8.5"/>
+      <circle cx="154" cy="19" r="8.5"/>
+      <circle cx="178" cy="19" r="8.5"/>
+      <circle cx="202" cy="19" r="8.5"/>
+      <circle cx="226" cy="19" r="8.5"/>
+      <circle cx="250" cy="19" r="8.5"/>
+      <circle cx="274" cy="19" r="8.5"/>
+      <circle cx="298" cy="19" r="8.5"/>
+      <circle cx="322" cy="19" r="8.5"/>
+      <circle cx="346" cy="19" r="8.5"/>
+      <circle cx="370" cy="19" r="8.5"/>
+      <circle cx="394" cy="19" r="8.5"/>
+      <circle cx="418" cy="19" r="8.5"/>
+      <circle cx="442" cy="19" r="8.5"/>
+      <circle cx="466" cy="19" r="8.5"/>
+      <circle cx="490" cy="19" r="8.5"/>
+      <circle cx="514" cy="19" r="8.5"/>
+      <circle cx="538" cy="19" r="8.5"/>
+      <circle cx="562" cy="19" r="8.5"/>
+      <circle cx="586" cy="19" r="8.5"/>
+      <circle cx="610" cy="19" r="8.5"/>
+      <circle cx="634" cy="19" r="8.5"/>
+      <circle cx="658" cy="19" r="8.5"/>
+      <circle cx="682" cy="19" r="8.5"/>
+      <circle cx="706" cy="19" r="8.5"/>
+      <circle cx="730" cy="19" r="8.5"/>
+      <circle cx="754" cy="19" r="8.5"/>
+      <circle cx="778" cy="19" r="8.5"/>
+      <circle cx="802" cy="19" r="8.5"/>
+      <circle cx="826" cy="19" r="8.5"/>
+      <circle cx="850" cy="19" r="8.5"/>
+      <circle cx="874" cy="19" r="8.5"/>
+      <circle cx="898" cy="19" r="8.5"/>
+      <circle cx="922" cy="19" r="8.5"/>
+      <circle cx="946" cy="19" r="8.5"/>
+      <circle cx="970" cy="19" r="8.5"/>
+      <circle cx="994" cy="19" r="8.5"/>
+      <circle cx="1018" cy="19" r="8.5"/>
+      <circle cx="1042" cy="19" r="8.5"/>
+      <circle cx="1066" cy="19" r="8.5"/>
+      <circle cx="1090" cy="19" r="8.5"/>
+      <circle cx="1114" cy="19" r="8.5"/>
+      <circle cx="1138" cy="19" r="8.5"/>
+      <circle cx="1162" cy="19" r="8.5"/>
+      <circle cx="19" cy="42" r="8.5"/>
+      <circle cx="19" cy="66" r="8.5"/>
+      <circle cx="19" cy="90" r="8.5"/>
+      <circle cx="19" cy="114" r="8.5"/>
+      <circle cx="19" cy="138" r="8.5"/>
+      <circle cx="19" cy="162" r="8.5"/>
+      <circle cx="19" cy="186" r="8.5"/>
+      <circle cx="19" cy="210" r="8.5"/>
+      <circle cx="19" cy="234" r="8.5"/>
+      <circle cx="19" cy="258" r="8.5"/>
+      <circle cx="19" cy="282" r="8.5"/>
+      <circle cx="19" cy="306" r="8.5"/>
+      <circle cx="19" cy="330" r="8.5"/>
+      <circle cx="19" cy="354" r="8.5"/>
+      <circle cx="19" cy="378" r="8.5"/>
+      <circle cx="19" cy="402" r="8.5"/>
+      <circle cx="19" cy="426" r="8.5"/>
+      <circle cx="19" cy="450" r="8.5"/>
+      <circle cx="19" cy="474" r="8.5"/>
+      <circle cx="19" cy="498" r="8.5"/>
+      <circle cx="19" cy="522" r="8.5"/>
+      <circle cx="19" cy="546" r="8.5"/>
+      <circle cx="19" cy="570" r="8.5"/>
+      <circle cx="19" cy="594" r="8.5"/>
+      <circle cx="19" cy="618" r="8.5"/>
+      <circle cx="1181" cy="42" r="8.5"/>
+      <circle cx="1181" cy="66" r="8.5"/>
+      <circle cx="1181" cy="90" r="8.5"/>
+      <circle cx="1181" cy="114" r="8.5"/>
+      <circle cx="1181" cy="138" r="8.5"/>
+      <circle cx="1181" cy="162" r="8.5"/>
+      <circle cx="1181" cy="186" r="8.5"/>
+      <circle cx="1181" cy="210" r="8.5"/>
+      <circle cx="1181" cy="234" r="8.5"/>
+      <circle cx="1181" cy="258" r="8.5"/>
+      <circle cx="1181" cy="282" r="8.5"/>
+      <circle cx="1181" cy="306" r="8.5"/>
+      <circle cx="1181" cy="330" r="8.5"/>
+      <circle cx="1181" cy="354" r="8.5"/>
+      <circle cx="1181" cy="378" r="8.5"/>
+      <circle cx="1181" cy="402" r="8.5"/>
+      <circle cx="1181" cy="426" r="8.5"/>
+      <circle cx="1181" cy="450" r="8.5"/>
+      <circle cx="1181" cy="474" r="8.5"/>
+      <circle cx="1181" cy="498" r="8.5"/>
+      <circle cx="1181" cy="522" r="8.5"/>
+      <circle cx="1181" cy="546" r="8.5"/>
+      <circle cx="1181" cy="570" r="8.5"/>
+      <circle cx="1181" cy="594" r="8.5"/>
+      <circle cx="1181" cy="618" r="8.5"/>
+      </g>
+    </mask>
   </defs>
-  <g mask="url(#h)"><g mask="url(#v)">
-    <path fill="white" d="M0 63 L21 44 42 50 65 26 83 35 102 18 122 25 145 13 159 20 181 9 204 21 219 16 247 9 266 13 291 8 311 22 332 12 358 20 383 9 403 18 426 10 447 24 469 16 491 10 516 17 538 11 565 23 584 17 604 13 632 21 651 15 675 24 699 11 722 18 742 10 763 25 783 16 805 22 825 11 847 17 870 9 895 24 913 14 934 21 955 11 978 20 1006 14 1028 30 1052 18 1073 39 1096 34 1115 47 1144 42 1165 58 1199 53 L1200 632 1184 639 1172 630 1156 649 1138 638 1118 657 1098 652 1074 665 1057 656 1032 680 1014 665 992 690 972 678 949 697 929 682 911 702 887 691 862 709 840 694 819 715 793 702 777 719 750 705 735 720 710 707 686 726 663 708 641 723 615 710 596 725 571 706 549 723 524 704 504 715 477 700 459 710 434 696 411 704 387 681 368 703 348 676 322 696 302 674 279 684 257 663 237 680 219 654 193 663 177 640 153 652 130 630 111 644 91 626 73 637 54 615 36 624 19 606 0 613 Z"/>
-    <!-- Sparse scratches along the print edge; small and irregular, not a border. -->
-    <g fill="#000" opacity=".6">
-      <path d="M22 79l26 -5 -6 3 -11 9 -7 -2Z M71 53l13 -7 24 4 -14 7Z M156 36l35 -9 -13 14Z M293 35l15 -6 28 10 -20 2Z M397 31l32 -7 -8 9 -15 5Z M531 33l19 -5 14 9 -30 3Z M702 36l16 -8 37 6 -29 8Z M857 32l30 -5 -9 7Z M1018 43l28 -3 -10 12Z"/>
-      <path d="M26 580l21 17 -14 4Z M66 597l26 15 -19 5Z M164 623l29 9 -19 6Z M271 653l20 10 -13 3Z M365 667l28 13 -19 6Z M476 685l24 8 -17 7Z M590 691l20 12 -14 5Z M744 688l22 13 -13 6Z M897 662l32 17 -23 2Z M1008 648l22 14 -13 7Z"/>
-      <path d="M1089 135l19 8 -15 7Z M1117 218l22 12 -21 3Z M1146 331l23 7 -14 10Z M1120 467l24 11 -15 8Z"/>
-    </g>
-  </g></g>
+  <g mask="url(#perforation)">
+    <rect x="0" y="0" width="1200" height="730" fill="url(#bottomFade)"/>
+  </g>
 </svg>
