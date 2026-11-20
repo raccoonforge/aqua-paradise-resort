@@ -1,6 +1,4 @@
 import { ATTRACTIONS } from '../data/attractions';
-import openingFlowers from '../assets/retro/rides/botanical-opening.webp';
-import closingFlowers from '../assets/retro/rides/botanical-closing.webp';
 import './GoldenTickets.css';
 
 const featured = ['skyfall', 'poseidons-descent', 'stormbreaker', 'crystal-passage'];
@@ -8,13 +6,11 @@ const artwork = import.meta.glob<string>('../assets/retro/rides/*.avif', { eager
 
 export default function GoldenTickets() {
   return <section id="attractions" tabIndex={-1} className="golden-tickets poster-stock" aria-labelledby="golden-title">
+    <div className="tickets-scenery" aria-hidden="true" />
     <header className="poster-heading tickets-title">
-      <img className="tickets-flora tickets-flora--opening" src={openingFlowers} alt="" width="738" height="670" loading="lazy" decoding="async" />
-      <div className="tickets-title__copy">
-        <p className="imprint">AQUA PARADISE RESORT</p>
-        <h2 id="golden-title">Легендарные аттракционы</h2>
-        <p className="ticket-subtitle">Четыре главных приключения острова</p>
-      </div>
+      <p className="imprint">AQUA PARADISE RESORT</p>
+      <h2 id="golden-title">Легендарные аттракционы</h2>
+      <p className="ticket-subtitle">Четыре главных приключения острова</p>
     </header>
     <div className="ticket-collection">
       {featured.map(id => {
@@ -30,7 +26,6 @@ export default function GoldenTickets() {
     </div>
     <div className="ticket-all">
       <a className="riv-button" href="#/attractions">Все аттракционы <span aria-hidden="true">→</span></a>
-      <img className="tickets-flora tickets-flora--closing" src={closingFlowers} alt="" width="820" height="309" loading="lazy" decoding="async" />
     </div>
     <div className="golden-tickets__tear" aria-hidden="true" />
   </section>;

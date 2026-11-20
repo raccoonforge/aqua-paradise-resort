@@ -1,18 +1,37 @@
 .golden-tickets {
   --tickets-overhang: 14px;
-  --tickets-stock: #06433e url('../assets/retro/viewmaster/ink-grain.webp');
   z-index: 1;
-  --flora-rail: clamp(108px, 13vw, 205px);
-  padding: clamp(38px, 4.2vw, 74px) clamp(25px, 5.4vw, 96px) calc(clamp(24px, 2.6vw, 45px) + var(--poster-tear-height) / 2);
+  padding: clamp(54px, 4vw, 76px) clamp(24px, 6.4vw, 112px) clamp(96px, 7vw, 140px);
   scroll-margin-top: 90px;
 }
-.golden-tickets::before {
-  content: '';
+.tickets-scenery {
   position: absolute;
-  inset: 0 0 calc(var(--poster-tear-height) - var(--tickets-overhang) - 1px);
+  inset: 0 0 calc(-1 * var(--tickets-overhang));
   z-index: -1;
   pointer-events: none;
-  background: var(--tickets-stock) center bottom;
+  background:
+    url('../assets/retro/rides/folio-bay.webp') center bottom / max(100%, 42rem) auto no-repeat,
+    linear-gradient(#073c38a8, #073c38a8),
+    #073c38 url('../assets/retro/viewmaster/ink-grain.webp') center bottom;
+  /* The foliage prints on the same paper right up to the torn edge. */
+  mask:
+    linear-gradient(#000 0 0) top / 100% calc(100% - var(--poster-tear-height) + 1px) no-repeat,
+    url('../assets/retro/poster-tear-mask.webp') center bottom / var(--poster-tear-width) var(--poster-tear-height) no-repeat;
+}
+.tickets-scenery::before,
+.tickets-scenery::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+.tickets-scenery::before {
+  --border-size: min(27vw, 32rem) 100%;
+  background:
+    url('../assets/retro/rides/folio-left.webp') left center / var(--border-size) no-repeat,
+    url('../assets/retro/rides/folio-right.webp') right center / var(--border-size) no-repeat;
+}
+.tickets-scenery::after {
+  display: none;
 }
 .golden-tickets__tear {
   position: absolute;
@@ -26,36 +45,14 @@
   content: '';
   position: absolute;
   inset: 0;
-  background:
-    url('../assets/retro/poster-tear-fibres.webp') center bottom / var(--poster-tear-width) 100% no-repeat,
-    var(--tickets-stock) center 1px;
+  background: url('../assets/retro/poster-tear-fibres.webp') center bottom / var(--poster-tear-width) 100% no-repeat;
   mask: url('../assets/retro/poster-tear-mask.webp') center bottom / var(--poster-tear-width) 100% no-repeat;
 }
-.tickets-title,
-.ticket-all {
-  display: grid;
-  grid-template-columns: var(--flora-rail) minmax(0, 1fr) var(--flora-rail);
-  align-items: center;
-  max-width: 91rem;
-  margin-inline: auto;
-}
-.tickets-title__copy,
-.ticket-all .riv-button { grid-column: 2; }
-.tickets-title__copy { min-width: 0; }
-.tickets-flora {
-  display: block;
-  width: 100%;
-  height: auto;
-  max-block-size: clamp(92px, 10.2vw, 166px);
-  object-fit: contain;
-  pointer-events: none;
-}
-.tickets-flora--opening { grid-column: 1; grid-row: 1; object-position: left center; }
-.tickets-flora--closing { grid-column: 3; grid-row: 1; object-position: right center; }
-.ticket-all .riv-button { grid-row: 1; justify-self: center; }
-
+.tickets-title { max-width: 82rem; }
+.tickets-title h2 { font-size: clamp(2rem, 5.32vw, 6.1rem); }
+.tickets-title h2::after { width: min(32%, 14rem); }
 .imprint, .ticket-subtitle {
-  font: 750 clamp(.69rem, 1.04vw, 1rem)/1.4 system-ui, sans-serif;
+  font: 750 clamp(.7rem, 1.13vw, 1.12rem)/1.4 system-ui, sans-serif;
   letter-spacing: .135em;
   text-transform: uppercase;
   color: #ffdc9e;
@@ -74,14 +71,14 @@
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   align-items: stretch;
-  gap: clamp(22px, 2vw, 32px);
+  gap: clamp(26px, 2.15vw, 36px);
   max-width: 91rem;
-  margin: clamp(30px, 3.3vw, 57px) auto clamp(26px, 3.5vw, 58px);
+  margin: clamp(32px, 3.45vw, 59px) auto clamp(32px, 3.6vw, 65px);
 }
 .golden-ticket {
-  --tilt: -2.8deg;
-  --ticket-ink: #7e2d20;
-  --print: #b84a2f;
+  --tilt: -4deg;
+  --ticket-ink: #812e20;
+  --print: #b24831;
   position: relative;
   display: flex;
   min-width: 0;
@@ -89,9 +86,9 @@
   transition: transform .22s;
   filter: drop-shadow(3px 8px 4px #002824a6);
 }
-.golden-ticket:nth-child(2) { --tilt: 1.35deg; --ticket-ink: #075552; --print: #0a6865; }
-.golden-ticket:nth-child(3) { --tilt: -1.45deg; --ticket-ink: #734417; --print: #e8982c; }
-.golden-ticket:nth-child(4) { --tilt: 2.6deg; --ticket-ink: #11575b; --print: #096769; }
+.golden-ticket:nth-child(2) { --tilt: 2.2deg; --ticket-ink: #07504b; --print: #126760; }
+.golden-ticket:nth-child(3) { --tilt: -2deg; --ticket-ink: #704613; --print: #d58b29; }
+.golden-ticket:nth-child(4) { --tilt: 4deg; --ticket-ink: #0b5153; --print: #146264; }
 .golden-ticket:is(:hover, :focus-visible) { transform: translateY(-5px) rotate(calc(var(--tilt) * .65)); z-index: 2; }
 .ticket-stock {
   display: grid;
@@ -100,78 +97,116 @@
   width: 100%;
   container-type: inline-size;
   padding: clamp(7px, .78vw, 13px);
-  border: 1px solid #bb8b55;
-  border-radius: 6px;
-  box-shadow: inset 0 0 0 3px #ffebba, inset 0 0 8px #9c5d2644;
-  background: #f5d79e url('../assets/retro/fidelity/ticket-paper.webp') center / cover;
+  border: 1px solid #d0a264;
+  border-radius: clamp(5px, .57vw, 10px);
+  corner-shape: scoop;
+  box-shadow: inset 0 0 0 3px #ffe8b4, inset 0 0 0 4px #bf8a494d;
+  background: #f2d093 url('../assets/retro/fidelity/ticket-paper.webp') center / cover;
 }
 .ticket-picture {
-  aspect-ratio: 1;
-  border-radius: 4px 4px 0 0;
+  position: relative;
+  aspect-ratio: 1.26;
+  border-radius: 3px 3px 0 0;
   background: var(--ticket-ink);
 }
-.ticket-picture img { display: block; width: 100%; height: 100%; border-radius: inherit; object-fit: cover; }
+.ticket-picture::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid #82562288;
+  border-radius: inherit;
+}
+.ticket-picture img { display: block; width: 100%; height: 100%; border-radius: inherit; object-fit: cover; object-position: center 44%; }
+.ride-skyfall .ticket-picture img { object-position: center 20%; }
+.ride-crystal-passage .ticket-picture img { object-position: center 61%; }
 .ticket-lettering {
   position: relative;
   isolation: isolate;
   display: grid;
   align-content: center;
   min-width: 0;
-  gap: .55rem;
-  padding: .95rem clamp(6px, 4cqi, 14px);
+  justify-items: center;
+  gap: clamp(4px, 2.8cqi, 9px);
+  min-block-size: clamp(111px, 46cqi, 161px);
+  padding: .8rem clamp(5px, 3.7cqi, 13px) .9rem;
   overflow-wrap: anywhere;
   color: var(--ticket-ink);
   text-align: center;
-  background: var(--riv-stock), repeating-conic-gradient(from 12deg at 49% 58%, transparent 0 7deg, #ffdc9a38 7deg 10deg), var(--print);
+  background: var(--riv-stock), repeating-conic-gradient(from 12deg at 49% 58%, transparent 0 7deg, #ffe3aa38 7deg 11deg), var(--print);
 }
 .ticket-lettering::before {
   content: '';
   position: absolute;
-  inset: -6px 0 auto;
-  height: 7px;
-  background: var(--print);
-  clip-path: polygon(0 55%, 20% 15%, 33% 62%, 49% 7%, 65% 47%, 89% 13%, 100% 48%, 100% 100%, 0 100%);
+  inset: 4px 4px;
+  border-block: 1px solid #ffe2ab63;
+  pointer-events: none;
 }
 .ticket-lettering::after {
   content: '';
   position: absolute;
   z-index: -1;
-  inset: 5% 2% 4%;
-  background: var(--riv-stock), #ffeab3;
-  clip-path: polygon(1% 40%, 7% 32%, 2% 25%, 12% 21%, 7% 14%, 28% 4%, 68% 6%, 79% 1%, 93% 11%, 87% 18%, 100% 25%, 94% 37%, 99% 46%, 96% 57%, 100% 66%, 93% 75%, 96% 85%, 79% 92%, 46% 100%, 22% 94%, 6% 87%, 9% 76%, 0 66%, 4% 54%);
+  inset: 5.5% 2.5%;
+  background: var(--riv-stock), #ffe7aa;
+  clip-path: polygon(0 43%, 6% 35%, 2% 27%, 11% 21%, 6% 14%, 25% 6%, 46% 7%, 72% 2%, 94% 9%, 89% 17%, 100% 25%, 94% 34%, 98% 42%, 94% 57%, 100% 66%, 93% 75%, 97% 84%, 81% 93%, 50% 98%, 25% 94%, 4% 90%, 10% 80%, 0 71%, 5% 63%);
 }
-.ticket-lettering h3 { font: italic 800 clamp(1.25rem, 11.65cqi, 2.95rem)/1.04 Georgia, serif; letter-spacing: -.045em; text-wrap: balance; }
-.ticket-lettering p { font: 750 clamp(.67rem, .88vw, .9rem)/1.2 system-ui, sans-serif; text-transform: uppercase; letter-spacing: .055em; }
+.ticket-lettering h3 {
+  max-width: 100%;
+  font: italic 800 clamp(1.35rem, 13.1cqi, 3.05rem)/1.055 Georgia, serif;
+  letter-spacing: -.042em;
+  text-wrap: balance;
+}
+.ride-poseidons-descent .ticket-lettering h3,
+.ride-crystal-passage .ticket-lettering h3 { max-width: min(100%, 9.8ch); }
+.ticket-lettering p {
+  display: flex;
+  align-items: center;
+  gap: .52em;
+  font: 800 clamp(.63rem, 4.4cqi, .88rem)/1.2 system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.ticket-lettering p::before,
+.ticket-lettering p::after {
+  content: '';
+  inline-size: .75em;
+  block-size: 1px;
+  background: currentColor;
+  opacity: .6;
+}
 .ticket-stub {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: .18em .78em;
-  padding: .56em .3em;
-  border-top: 1px dashed var(--ticket-ink);
-  background: #fff1bd9e;
+  padding: .75em .3em .55em;
+  border-top: 2px dotted color-mix(in srgb, var(--ticket-ink) 58%, #d4a066);
+  background: #ffecb393;
   color: var(--ticket-ink);
   font: 750 clamp(.75rem, 4.6cqi, .95rem)/1.25 system-ui, sans-serif;
 }
-.ticket-all .riv-button { font: italic 700 clamp(1.1rem, 1.65vw, 1.65rem)/1.18 Georgia, serif; border: 3px double #f4d298; }
-
+.ticket-all { text-align: center; }
+.ticket-all .riv-button {
+  min-width: min(100%, clamp(16rem, 25vw, 26rem));
+  font: italic 700 clamp(1.1rem, 1.8vw, 1.8rem)/1.18 Georgia, serif;
+  border: 3px double #f4d298;
+}
 
 @media (max-width: 1099px) {
-  .golden-tickets { --flora-rail: clamp(74px, 11.4vw, 122px); }
+  .tickets-scenery::before {
+    background: url('../assets/retro/rides/folio-canopy.webp') center max(-60px, -5vw) / 100% auto no-repeat;
+  }
+  .tickets-scenery::after {
+    display: block;
+    background: url('../assets/retro/rides/folio-garden.webp') center bottom / 100% auto no-repeat;
+  }
   .ticket-collection { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 43rem; }
   .golden-ticket:nth-child(odd) { --tilt: -2deg; }
   .golden-ticket:nth-child(even) { --tilt: 2deg; }
 }
 @media (max-width: 610px) {
-  .golden-tickets { padding-block-start: 20px; }
-  .tickets-title,
-  .ticket-all { grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 10px; }
-  .tickets-title__copy,
-  .ticket-all .riv-button,
-  .tickets-flora--opening,
-  .tickets-flora--closing { grid-area: auto; }
-  .tickets-flora--opening { justify-self: start; width: 100px; max-block-size: 77px; }
-  .tickets-flora--closing { justify-self: end; width: 126px; max-block-size: 80px; }
+  .golden-tickets { padding-block: clamp(52px, 15vw, 75px) clamp(98px, 30vw, 145px); }
+  .tickets-scenery::before { background-position: center top; }
+  .tickets-title h2 { font-size: clamp(1.85rem, 8.1vw, 3.1rem); }
   .ticket-collection { grid-template-columns: minmax(0, 1fr); max-width: 22rem; gap: 24px; }
   .golden-ticket:nth-child(odd) { --tilt: -1.6deg; }
   .golden-ticket:nth-child(even) { --tilt: 1.6deg; }

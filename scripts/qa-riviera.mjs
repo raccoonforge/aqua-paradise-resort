@@ -209,19 +209,32 @@ async function checkTicketLayout(page) {
   const layout = await page.locator('#attractions').evaluate(section => {
     const bounds = el => el.getBoundingClientRect().toJSON();
     const clipped = el => el.scrollWidth > el.clientWidth + 1 || el.scrollHeight > el.clientHeight + 1;
+    const scenery = section.querySelector('.tickets-scenery');
+    const sceneryStyle = getComputedStyle(scenery);
     return {
       viewport: innerWidth,
-      heading: bounds(section.querySelector('.tickets-title__copy')),
       action: bounds(section.querySelector('.ticket-all a')),
       tear: getComputedStyle(section.querySelector('.golden-tickets__tear'), '::before').maskImage,
+      scenery: {
+        rect: bounds(scenery),
+        inert: scenery.getAttribute('aria-hidden') === 'true' && sceneryStyle.pointerEvents === 'none' && Number(sceneryStyle.zIndex) < 0,
+        paperMask: sceneryStyle.maskImage,
+        bay: sceneryStyle.backgroundImage,
+        upper: getComputedStyle(scenery, '::before').backgroundImage,
+        lower: getComputedStyle(scenery, '::after').backgroundImage,
+      },
       cards: [...section.querySelectorAll('.golden-ticket')].map(link => {
         const stock = link.querySelector('.ticket-stock');
         const styles = getComputedStyle(stock);
         const image = link.querySelector('.ticket-picture img');
+        const name = link.querySelector('h3');
+        const range = document.createRange();
+        range.selectNodeContents(name);
         return {
           id: new URL(link.href).hash.split('ride=')[1],
           rect: bounds(link),
-          title: link.querySelector('h3').textContent,
+          title: name.textContent,
+          titleLines: range.getClientRects().length,
           zone: link.querySelector('.ticket-lettering p').textContent,
           limits: link.querySelector('.ticket-stub span:last-child').textContent,
           clipped: [...link.querySelectorAll('.ticket-lettering, h3, .ticket-stub')].some(clipped),
@@ -229,30 +242,30 @@ async function checkTicketLayout(page) {
           artwork: image.naturalWidth >= 900 && image.currentSrc.endsWith('.avif'),
         };
       }),
-      flora: [...section.querySelectorAll('.tickets-flora')].map(image => {
-        const style = getComputedStyle(image);
-        const rect = bounds(image);
-        return { rect, intact: style.objectFit === 'contain' && style.maskImage === 'none' &&
-          style.filter === 'none' && image.naturalWidth >= rect.width && image.naturalHeight >= rect.height };
-      }),
     };
   });
   const intersects = (a, b) => a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
   const inViewport = rect => rect.left >= 0 && rect.right <= layout.viewport;
   assert.equal(layout.cards.length, 4);
-  assert.equal(layout.flora.length, 2);
   assert.match(layout.tear, /poster-tear-mask/);
+  assert(layout.scenery.inert && inViewport(layout.action), 'Framing sits behind the interactive content');
+  assert.equal(layout.scenery.rect.width, layout.viewport);
+  assert.match(layout.scenery.paperMask, /poster-tear-mask/);
+  assert.match(layout.scenery.bay, /folio-bay/);
+  if (layout.viewport < 1100) {
+    assert.match(layout.scenery.upper, /folio-canopy/);
+    assert.match(layout.scenery.lower, /folio-garden/);
+  } else {
+    assert.match(layout.scenery.upper, /folio-left/);
+    assert.match(layout.scenery.upper, /folio-right/);
+  }
   for (const [index, card] of layout.cards.entries()) {
     const ride = ATTRACTIONS.find(attraction => attraction.id === card.id);
     assert(ride && card.title === ride.name && card.zone === ride.zone);
     assert.equal(card.limits, `${ride.minAge}+ · от ${ride.minHeight} см`);
     assert(card.frame && card.artwork && !card.clipped && inViewport(card.rect), `${card.title} fits its complete frame`);
+    if (card.id === 'stormbreaker') assert.equal(card.titleLines, 1, 'Stormbreaker fits on one line');
     assert(layout.cards.slice(index + 1).every(next => !intersects(card.rect, next.rect)), `${card.title} has room around its edges`);
-  }
-  for (const plant of layout.flora) {
-    assert(plant.intact && inViewport(plant.rect), 'Botanical artwork fits at native scale without clipping');
-    assert([layout.heading, layout.action, ...layout.cards.map(card => card.rect)]
-      .every(rect => !intersects(plant.rect, rect)), 'Botanical artwork stays clear of content');
   }
 }
 
