@@ -59,7 +59,7 @@
 .tickets-title h2 { font-size: clamp(2rem, 5.32vw, 6.1rem); }
 .tickets-title h2::after { width: min(32%, 14rem); }
 .imprint, .ticket-subtitle {
-  font: 750 clamp(.7rem, 1.13vw, 1.12rem)/1.4 system-ui, sans-serif;
+  font: 750 clamp(.7rem, 1.13vw, 1.12rem)/1.4 'Inter', system-ui, sans-serif;
   letter-spacing: .135em;
   text-transform: uppercase;
   color: #ffdc9e;
@@ -158,7 +158,7 @@
 }
 .ticket-lettering h3 {
   max-width: 100%;
-  font: italic 800 clamp(1.35rem, 13.1cqi, 3.05rem)/1.055 Georgia, serif;
+  font: italic 800 clamp(1.35rem, 13.1cqi, 3.05rem)/1.055 'APR Poster', Georgia, serif;
   letter-spacing: -.042em;
   text-wrap: balance;
 }
@@ -168,7 +168,7 @@
   display: flex;
   align-items: center;
   gap: .52em;
-  font: 800 clamp(.63rem, 4.4cqi, .88rem)/1.2 system-ui, sans-serif;
+  font: 800 clamp(.63rem, 4.4cqi, .88rem)/1.2 'Inter', system-ui, sans-serif;
   text-transform: uppercase;
   letter-spacing: .08em;
 }
@@ -189,12 +189,12 @@
   border-top: 2px dotted color-mix(in srgb, var(--ticket-ink) 58%, #d4a066);
   background: #ffecb393;
   color: var(--ticket-ink);
-  font: 750 clamp(.75rem, 4.6cqi, .95rem)/1.25 system-ui, sans-serif;
+  font: 750 clamp(.75rem, 4.6cqi, .95rem)/1.25 'Inter', system-ui, sans-serif;
 }
 .ticket-all { text-align: center; }
 .ticket-all .riv-button {
   min-width: min(100%, clamp(16rem, 25vw, 26rem));
-  font: italic 700 clamp(1.1rem, 1.8vw, 1.8rem)/1.18 Georgia, serif;
+  font: italic 700 clamp(1.1rem, 1.8vw, 1.8rem)/1.18 'APR Poster', Georgia, serif;
   border: 3px double #f4d298;
 }
 
