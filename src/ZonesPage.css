@@ -18,18 +18,24 @@
   inset: calc(-1 * var(--poster-tear-height)) 0 0;
   background: var(--riv-stock), linear-gradient(#043a36, #032d29);
   pointer-events: none;
-  /* Subtract the atlas paper silhouette only in the top 54px;
-     the rest of this single ink layer remains fully visible. */
-  -webkit-mask-image: linear-gradient(#000 0 0), url('./assets/retro/poster-tear-mask.webp');
-  mask-image: linear-gradient(#000 0 0), url('./assets/retro/poster-tear-mask.webp');
+  /* The solid upper edge of an inverted cutout produced a faint straight
+     seam over the botanical art. Fade ink into the overlap before the torn
+     edge, while subtracting the existing paper silhouette. Continue the
+     same ink layer through the whole footer without a bottom seam. */
+  -webkit-mask-image:
+    linear-gradient(to bottom, transparent 0, #000 30px, #000 100%),
+    url('./assets/retro/poster-tear-mask.webp');
+  mask-image:
+    linear-gradient(to bottom, transparent 0, #000 30px, #000 100%),
+    url('./assets/retro/poster-tear-mask.webp');
   -webkit-mask-size: 100% 100%, max(100%, 1080px) var(--poster-tear-height);
   mask-size: 100% 100%, max(100%, 1080px) var(--poster-tear-height);
   -webkit-mask-position: center, center top;
   mask-position: center, center top;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
+  -webkit-mask-composite: source-out;
+  mask-composite: subtract;
 }
 .atlas-main:focus { outline-offset: -3px; }
 .atlas-loading { padding: calc(var(--atlas-mast-height) + 42px) 20px 35px; color: var(--riv-cream); text-align: center; }
