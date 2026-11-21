@@ -131,7 +131,7 @@
 .atlas-cover h1 {
   margin: .08em 0 .17em;
   color: #8d2515;
-  font: italic 700 var(--atlas-display-title)/1.02 var(--riv-serif);
+  font: italic 700 var(--atlas-display-title)/.86 var(--riv-serif);
   letter-spacing: -.071em;
   text-align: center;
   text-wrap: balance;
