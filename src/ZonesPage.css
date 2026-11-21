@@ -338,7 +338,7 @@
   min-height: 44px;
   padding: .32em .24em;
   border: 1px solid #b980445f;
-  border-radius: 999px;
+  border-radius: 13px;
   background: #fff2c448;
   color: #3c291b;
   cursor: pointer;
@@ -389,7 +389,7 @@
   width: fit-content;
   max-width: 100%;
   margin-inline: auto;
-  border-radius: 999px;
+  border-radius: 13px;
   overflow: hidden;
   text-align: center;
 }
