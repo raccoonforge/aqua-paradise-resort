@@ -6,6 +6,20 @@
 }
 /* The Atlas reuses the EXACT transparent masthead treatment from the
    homepage. Do not paint an atlas-specific opaque strip or divider. */
+/* The footer's fibrous tear extends 54px above the actual footer box.
+   Fill that overlap with the SAME footer paper/ink background, so the
+   dark atlas shell cannot show through as a straight horizontal band.
+   This is limited to /zones; homepage footer remains unchanged. */
+.atlas-shell .sunset-pier::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  inset: calc(-1 * var(--poster-tear-height)) 0 auto;
+  height: var(--poster-tear-height);
+  background: var(--riv-stock), linear-gradient(#043a36, #032d29);
+  background-position: 0 calc(-1 * var(--poster-tear-height)), center;
+  pointer-events: none;
+}
 .atlas-main:focus { outline-offset: -3px; }
 .atlas-loading { padding: calc(var(--atlas-mast-height) + 42px) 20px 35px; color: var(--riv-cream); text-align: center; }
 .atlas-page {
