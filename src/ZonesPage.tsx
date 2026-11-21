@@ -47,7 +47,7 @@ function AtlasCover() {
         <h1>Девять миров</h1>
         <p className="atlas-cover__edition">Атлас уникальных зон<br />Aqua Paradise Resort</p>
       </div>
-      <p className="atlas-cover__intro">Девять удивительных миров на одном тропическом острове. У каждого — свой характер, атмосфера и приключения.</p>
+      <p className="atlas-cover__intro">Девять удивительных миров, объединённых на одном тропическом острове. У каждого из них — свой характер, атмосфера и приключения.</p>
       <span className="atlas-cover__seal" aria-hidden="true"><AtlasIcon name="palm" />Aqua Paradise<br />Resort</span>
     </header>
   );
