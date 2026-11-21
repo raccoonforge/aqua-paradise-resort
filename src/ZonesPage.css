@@ -201,9 +201,14 @@
   height: 100%;
   object-fit: contain;
 }
-/* The first ticket now uses a clean, self-contained SVG gateway icon.
-   No bitmap clipping or masking is needed. */
-.atlas-ticket:first-child .atlas-ticket__art img { clip-path: none; }
+/* The original gateway illustration looked too tall and narrow when fitted
+   in the shared 67×47 icon slot. Adjust only its DISPLAY proportions, not
+   the asset, label, or the eight other destination icons. */
+.atlas-ticket:first-child .atlas-ticket__art img {
+  clip-path: none;
+  transform: scaleX(1.2) scaleY(.82);
+  transform-origin: center;
+}
 .atlas-ticket__name {
   display: block;
   align-self: center;
