@@ -418,6 +418,30 @@ async function checkAtlas(page, width) {
   const title = atlas.locator('#atlas-zone-name');
   const tabs = ['Обзор', 'Развлечения', 'Инфраструктура', 'Правила'];
   await title.waitFor();
+  const atlasStyle = await atlas.evaluate(root => {
+    const style = selector => {
+      const el = document.querySelector(selector);
+      if (!el) throw Error('Atlas selector missing: ' + selector);
+      return getComputedStyle(el);
+    };
+    const headingSize = selector => parseFloat(style(selector).fontSize);
+    const coral = selector => style(selector).backgroundColor;
+    return {
+      titles: [headingSize('.atlas-cover h1'), headingSize('.atlas-zone-title h2')],
+      colors: ['.riv-mast .ticket-cta', '.atlas-tabs button[aria-selected="true"]',
+        '.atlas-ticket[aria-current="true"]', '.atlas-action'].map(coral),
+      fonts: ['.atlas-cover h1', '.atlas-zone-title h2', '.atlas-cover__intro',
+        '.atlas-zone-title__description', '.atlas-tabs button'].map(s => style(s).fontFamily),
+      headingLineHeight: style('.atlas-zone-title h2').lineHeight,
+      focusOutline: style('.atlas-tabs button:focus-visible').outlineWidth,
+    };
+  });
+  assert(atlasStyle.titles.every(size => Math.abs(size - atlasStyle.titles[0]) < .2),
+    'Atlas cover and selected zone have the same display heading size');
+  assert(atlasStyle.colors.every(color => color === 'rgb(243, 93, 55)'),
+    'Atlas coral controls use the Header Tickets color');
+  assert(atlasStyle.fonts.every(font => /APR Poster|Inter/.test(font)),
+    'Atlas text uses only approved typographic families');
   assert.equal(await strip.getByRole('link').count(), 9);
   assert.equal(await page.locator('.riv-mast .apr-brand').count(), 1);
   assert.equal(await page.locator('.sunset-pier .pier-sunset').count(), 1);
