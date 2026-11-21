@@ -1,5 +1,6 @@
 .atlas-shell {
   --atlas-ink: #073b37;
+  --atlas-display-title: clamp(2.48rem, 4.25vw, 4.8rem);
   --atlas-mast-height: clamp(70px, 6vw, 100px);
   font-family: 'Inter', system-ui, sans-serif;
   background: #043a36;
@@ -130,7 +131,7 @@
 .atlas-cover h1 {
   margin: .08em 0 .17em;
   color: #8d2515;
-  font: italic 700 clamp(3rem, 5.8vw, 6.35rem)/1.02 var(--riv-serif);
+  font: italic 700 var(--atlas-display-title)/1.02 var(--riv-serif);
   letter-spacing: -.071em;
   text-align: center;
   text-wrap: balance;
@@ -337,7 +338,7 @@
 .atlas-zone-title h2 {
   margin: .13em 0 .09em;
   color: var(--atlas-brick);
-  font: italic 700 clamp(2.48rem, 4.25vw, 4.8rem)/1.02 var(--riv-serif);
+  font: italic 700 var(--atlas-display-title)/1.02 var(--riv-serif);
   letter-spacing: -.062em;
   overflow-wrap: break-word;
   text-wrap: balance;
@@ -383,6 +384,51 @@
   color: #2d180f;
   box-shadow: inset 0 1px 0 #ffd7b275, 0 2px 3px #8e2e2633;
 }
+
+/* Coral actions borrow the precise Tickets-button ink and hover language;
+   inactive cream tabs and dark-green tickets remain intentionally neutral. */
+.atlas-page .atlas-tabs button[aria-selected='true'],
+.atlas-page .atlas-ticket[aria-current='true'] {
+  position: relative;
+  isolation: isolate;
+  background: var(--riv-stock), var(--apr-action-coral);
+  transition: transform .28s cubic-bezier(.2,.7,.2,1),
+              filter .28s ease, box-shadow .28s ease, border-color .28s ease;
+}
+.atlas-page .atlas-tabs button[aria-selected='true']::before,
+.atlas-page .atlas-ticket[aria-current='true']::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg,#ff9369 0%,#f35d37 34%,#d8492c 100%);
+  pointer-events: none;
+  transition: opacity .2s ease;
+}
+.atlas-page .atlas-tabs button[aria-selected='true']:is(:hover,:focus-visible),
+.atlas-page .atlas-ticket[aria-current='true']:is(:hover,:focus-visible) {
+  transform: translateY(-4px);
+  filter: brightness(1.09) saturate(1.08);
+  box-shadow: inset 0 0 0 2px #ffffff3d, 0 7px 0 #512720,
+              0 13px 23px #001d1a6e;
+  border-color: #ffe2a5;
+}
+.atlas-page .atlas-tabs button[aria-selected='true']:is(:hover,:focus-visible)::before,
+.atlas-page .atlas-ticket[aria-current='true']:is(:hover,:focus-visible)::before {
+  opacity: .88;
+}
+.atlas-page .atlas-tabs button[aria-selected='true']:active,
+.atlas-page .atlas-ticket[aria-current='true']:active { transform: translateY(1px); }
+@media (prefers-reduced-motion: reduce) {
+  .atlas-page .atlas-tabs button[aria-selected='true'],
+  .atlas-page .atlas-ticket[aria-current='true'],
+  .atlas-page .atlas-tabs button[aria-selected='true']::before,
+  .atlas-page .atlas-ticket[aria-current='true']::before { transition: none; }
+  .atlas-page .atlas-tabs button[aria-selected='true']:is(:hover,:focus-visible),
+  .atlas-page .atlas-ticket[aria-current='true']:is(:hover,:focus-visible) { transform: none; }
+}
+
 
 .atlas-panel { font-size: clamp(.86rem, 1.02vw, 1rem); line-height: 1.5; }
 .atlas-panel > * + * { margin-block-start: .92rem; }
@@ -473,7 +519,7 @@
 @media (max-width: 1100px) {
   .atlas-cover { grid-template-columns: 43% 30% minmax(0, 1fr); padding-inline: 3vw; }
   .atlas-cover__stock img { width: 53%; }
-  .atlas-cover__title h1 { font-size: clamp(2.6rem, 5.55vw, 5.6rem); }
+  .atlas-shell { --atlas-display-title: clamp(2.2rem, 5.1vw, 3.8rem); }
   .atlas-spread { grid-template-columns: minmax(0, 51fr) minmax(0, 49fr); }
 }
 @media (max-width: 950px) { .atlas-shell { --atlas-mast-height: 64px; } }
@@ -490,7 +536,7 @@
     gap: .77rem;
     padding: 25px 19px clamp(171px, 45vw, 250px);
   }
-  .atlas-cover h1 { font-size: clamp(2.62rem, 10.4vw, 4.5rem); }
+  .atlas-shell { --atlas-display-title: clamp(2.35rem, 8.3vw, 3.25rem); }
   .atlas-cover__intro {
     max-width: 29em;
     margin: 0 auto;
