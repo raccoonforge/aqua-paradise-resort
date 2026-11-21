@@ -79,7 +79,7 @@
   display: grid;
   position: relative;
   isolation: isolate;
-  grid-template-columns: 43% 20% 1fr;
+  grid-template-columns: 42% 30% minmax(0, 1fr);
   align-items: center;
   min-height: clamp(244px, 19vw, 317px);
   padding: clamp(22px, 3.15vw, 49px) clamp(26px, 4.6vw, 74px);
@@ -471,7 +471,7 @@
   }
 }
 @media (max-width: 1100px) {
-  .atlas-cover { grid-template-columns: 46% 26% 1fr; padding-inline: 3vw; }
+  .atlas-cover { grid-template-columns: 43% 30% minmax(0, 1fr); padding-inline: 3vw; }
   .atlas-cover__stock img { width: 53%; }
   .atlas-cover__title h1 { font-size: clamp(2.6rem, 5.55vw, 5.6rem); }
   .atlas-spread { grid-template-columns: minmax(0, 51fr) minmax(0, 49fr); }
