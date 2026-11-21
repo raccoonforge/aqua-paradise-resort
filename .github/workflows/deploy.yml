@@ -79,6 +79,28 @@ jobs:
           name: github-pages-attempt-${{ github.run_attempt }}
           path: ./site/dist
 
+      # GitHub's artifact metadata API can lag behind upload finalization.
+      # Check the artifact is visible and allow Pages to index it before deploy.
+      - name: Wait for Pages artifact metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARTIFACT_NAME: github-pages-attempt-${{ github.run_attempt }}
+          GH_REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          for attempt in {1..12}; do
+            if gh api "repos/$GH_REPO/actions/runs/$RUN_ID/artifacts?per_page=100" \
+              --jq '.artifacts[].name' | grep -Fxq "$ARTIFACT_NAME"; then
+              echo "Pages artifact is listed; allowing deployment metadata to settle."
+              sleep 15
+              exit 0
+            fi
+            echo "Artifact not yet indexed (attempt $attempt/12)."
+            sleep 10
+          done
+          echo "::error::Pages artifact did not become visible in time."
+          exit 1
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
