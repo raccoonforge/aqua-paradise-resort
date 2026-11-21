@@ -433,7 +433,6 @@ async function checkAtlas(page, width) {
       fonts: ['.atlas-cover h1', '.atlas-zone-title h2', '.atlas-cover__intro',
         '.atlas-zone-title__description', '.atlas-tabs button'].map(s => style(s).fontFamily),
       headingLineHeight: style('.atlas-zone-title h2').lineHeight,
-      focusOutline: style('.atlas-tabs button:focus-visible').outlineWidth,
     };
   });
   assert(atlasStyle.titles.every(size => Math.abs(size - atlasStyle.titles[0]) < .2),
