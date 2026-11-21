@@ -207,6 +207,8 @@
 .atlas-ticket:first-child .atlas-ticket__art img {
   clip-path: inset(11% 0 0 0);
   transform: none;
+  /* Match the softer vintage gold of the other ticket icons. */
+  filter: saturate(.72) brightness(.99);
 }
 .atlas-ticket__name {
   display: block;
