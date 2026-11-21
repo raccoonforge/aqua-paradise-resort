@@ -6,23 +6,26 @@
 }
 /* The Atlas reuses the EXACT transparent masthead treatment from the
    homepage. Do not paint an atlas-specific opaque strip or divider. */
-/* The footer's ink must appear BELOW the same ragged paper silhouette,
-   not as a rectangular layer that cuts off the Atlas botanical artwork.
-   Invert the shared poster-tear mask in the 54px overlap area. */
+/* Paint one CONTINUOUS textured background from the ragged edge through
+   the entire footer, instead of stitching a 54px patch to a separate footer
+   background (which created a visible horizontal color/texture seam).
+   Restrict this fix to the Atlas and keep the Sunset artwork above the ink. */
+.atlas-shell .sunset-pier { isolation: isolate; }
 .atlas-shell .sunset-pier::before {
   content: '';
   position: absolute;
-  z-index: 0;
-  inset: calc(-1 * var(--poster-tear-height)) 0 auto;
-  height: var(--poster-tear-height);
+  z-index: -2;
+  inset: calc(-1 * var(--poster-tear-height)) 0 0;
   background: var(--riv-stock), linear-gradient(#043a36, #032d29);
   pointer-events: none;
+  /* Subtract the atlas paper silhouette only in the top 54px;
+     the rest of this single ink layer remains fully visible. */
   -webkit-mask-image: linear-gradient(#000 0 0), url('./assets/retro/poster-tear-mask.webp');
   mask-image: linear-gradient(#000 0 0), url('./assets/retro/poster-tear-mask.webp');
-  -webkit-mask-size: 100% 100%, max(100%, 1080px) 100%;
-  mask-size: 100% 100%, max(100%, 1080px) 100%;
-  -webkit-mask-position: center, center;
-  mask-position: center, center;
+  -webkit-mask-size: 100% 100%, max(100%, 1080px) var(--poster-tear-height);
+  mask-size: 100% 100%, max(100%, 1080px) var(--poster-tear-height);
+  -webkit-mask-position: center, center top;
+  mask-position: center, center top;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-composite: xor;
