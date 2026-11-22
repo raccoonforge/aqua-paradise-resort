@@ -93,12 +93,60 @@
   box-shadow: inset 0 0 0 1px #ffd9ab85, 0 3px 0 #652918;
 }
 .hotel-page .hotel-primary:hover { background: var(--riv-stock), linear-gradient(#d95a31, #ae3e27); }
-.hotel-page .hotel-secondary {
-  background: #083a386f;
-  color: #fff5d5;
-  box-shadow: inset 0 0 0 1px #e9c08975;
+/* Match the homepage "Спланировать отдых" secondary Hero CTA:
+   opaque deep teal with the same vintage ink, lift and moving light sweep. */
+.hotel-page .hotel-hero__actions .hotel-secondary {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #073b3c;
+  color: #fff0c2;
+  border-color: #e6c581;
+  box-shadow: 0 2px 0 #062b30;
+  transform: translateY(0);
+  transition: transform .28s cubic-bezier(.2,.7,.2,1), filter .28s ease,
+              box-shadow .28s ease, border-color .2s ease;
 }
-.hotel-page .hotel-secondary:hover { background: #145951; }
+.hotel-page .hotel-hero__actions .hotel-secondary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(180deg, #125d57 0%, #0a4945 42%, #063431 100%);
+  filter: url(#apr-print-wear);
+  pointer-events: none;
+  transition: opacity .2s ease;
+}
+.hotel-page .hotel-hero__actions .hotel-secondary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 22%, #fff6cf54 47%, transparent 68%);
+  transform: translateX(-135%);
+  transition: transform .52s ease;
+  pointer-events: none;
+}
+.hotel-page .hotel-hero__actions .hotel-secondary:is(:hover, :focus-visible) {
+  border-color: #ffe2a5;
+  transform: translateY(-4px);
+  filter: brightness(1.09) saturate(1.08);
+  box-shadow: inset 0 0 0 2px #ffffff3d, 0 7px 0 #062b30,
+              0 13px 23px #001d1a6e;
+}
+.hotel-page .hotel-hero__actions .hotel-secondary:is(:hover, :focus-visible)::before { opacity: .88; }
+.hotel-page .hotel-hero__actions .hotel-secondary:is(:hover, :focus-visible)::after { transform: translateX(135%); }
+.hotel-page .hotel-hero__actions .hotel-secondary:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 #062b30;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hotel-page .hotel-hero__actions .hotel-secondary,
+  .hotel-page .hotel-hero__actions .hotel-secondary::before,
+  .hotel-page .hotel-hero__actions .hotel-secondary::after { transition: none; }
+  .hotel-page .hotel-hero__actions .hotel-secondary:is(:hover, :focus-visible) { transform: none; }
+}
 
 .hotel-hero {
   position: relative;
