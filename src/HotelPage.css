@@ -203,7 +203,8 @@
   width: max-content;
   max-width: none;
   color: #ffe3a7;
-  font: italic 900 clamp(3.4rem, 8.25vw, 9.25rem)/.87 Georgia, 'Times New Roman', serif;
+  font: italic 900 clamp(3.4rem, 8.25vw, 9.25rem)/1.02 Georgia, 'Times New Roman', serif;
+  padding: .09em .09em .13em;
   letter-spacing: -.09em;
   text-transform: uppercase;
   background: linear-gradient(175deg, #fff1c8 3%, #ffe5ac 48%, #e4a35b 90%, #cb8749 100%);
@@ -213,8 +214,9 @@
   /* Render the gradient on the letter faces. Shadow is drawn behind the
      entire glyph silhouette instead of filling it with brown shadow ink. */
   text-shadow: none;
-  filter: url(#apr-print-wear)
-    drop-shadow(1px 1px #efb57b)
+  /* Do not use SVG print-wear here: its filter region clips large glyphs.
+     Keep the same layered extrusion with unconstrained CSS shadows. */
+  filter: drop-shadow(1px 1px #efb57b)
     drop-shadow(1px 2px #c98d66)
     drop-shadow(2px 3px #11434a)
     drop-shadow(2px 3px #0b3942)
@@ -225,19 +227,6 @@
 .hotel-title__main > span + span {
   margin: -.12em 0 0 .84em;
   font-size: clamp(3.85rem, 9.2vw, 10.2rem);
-}
-.hotel-title__main > span:last-child::after {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  left: 2.5%;
-  top: calc(100% + .035em);
-  width: 111%;
-  height: .18em;
-  background: linear-gradient(to bottom,
-    #f35d37 0 43%, transparent 44% 58%, #eab451 59% 100%);
-  clip-path: polygon(0 70%, 5% 30%, 48% 0, 94% 18%, 100% 49%,
-    95% 75%, 52% 100%, 5% 87%);
 }
 .hotel-title__script {
   display: block;
