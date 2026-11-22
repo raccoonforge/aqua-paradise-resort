@@ -82,7 +82,7 @@
   min-height: 44px;
   padding: .65em 1.28em;
   border: 1px solid #ffe0a5;
-  border-radius: 100vw;
+  border-radius: 13px;
   font-family: var(--hotel-inter);
   font-size: clamp(.76rem, 1.12vw, 1rem);
 }
@@ -310,14 +310,14 @@
   width: min(100%, 37rem);
   grid-template-columns: repeat(3, minmax(0, 1fr));
   border: 2px solid #ffda9c;
-  border-radius: 50vw;
+  border-radius: 13px;
   background: var(--hotel-paper) center / cover, #ffe4ad;
   box-shadow: 0 4px 7px #001d2187;
 }
 .hotel-stay__categories button {
   min-height: 44px;
   border: 1px solid transparent;
-  border-radius: inherit;
+  border-radius: 13px;
   color: #2c3c25;
   font: 700 clamp(.85rem, 1.2vw, 1.13rem)/1 var(--hotel-roman);
   cursor: pointer;
@@ -533,7 +533,7 @@
   min-height: 42px;
   padding: .33em .68em;
   border: 1px solid #f7dba5;
-  border-radius: 26px;
+  border-radius: 13px;
   background: var(--riv-stock), #9e3623;
   color: #fff2cc;
   box-shadow: 0 2px 0 #642f21;
