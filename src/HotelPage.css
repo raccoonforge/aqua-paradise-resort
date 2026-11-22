@@ -225,13 +225,13 @@
     drop-shadow(2px 3px #04252c);
 }
 .hotel-title__main > span + span {
-  margin: -.12em 0 0 .84em;
+  margin: -.29em 0 0 .84em;
   font-size: clamp(3.85rem, 9.2vw, 10.2rem);
 }
 .hotel-title__script {
   display: block;
   position: relative;
-  margin: .09em 0 0 .91em;
+  margin: -.11em 0 0 .91em;
   color: #ffefbd;
   font: 400 clamp(3.25rem, 6.28vw, 7.1rem)/.85 'APR Script', cursive;
   letter-spacing: -.04em;
@@ -873,11 +873,11 @@
   .hotel-title__main { width: max-content; max-width: 100%; margin-inline: auto; transform: rotate(-5deg); }
   .hotel-title__main > span:first-child { font-size: clamp(2.65rem, 11.8vw, 4.5rem); }
   .hotel-title__main > span + span {
-    margin: -.12em 0 0 .5em;
+    margin: -.25em 0 0 .5em;
     font-size: clamp(3rem, 13vw, 5rem);
   }
   .hotel-title__script {
-    margin: .17em 0 0 .35em;
+    margin: -.06em 0 0 .35em;
     font-size: clamp(2.77rem, 12.05vw, 3.78rem);
   }
   .hotel-hero__subtitle {
