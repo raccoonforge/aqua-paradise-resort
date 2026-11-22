@@ -48,7 +48,8 @@ async function sectionFocus(page, id) {
   await page.waitForFunction(id => {
     const section = document.getElementById(id);
     const { top } = section.getBoundingClientRect();
-    return document.activeElement === section && top >= 0 && top < 140;
+    const atPageEnd = scrollY + innerHeight >= document.scrollingElement.scrollHeight - 2;
+    return document.activeElement === section && top >= 0 && top < (atPageEnd ? innerHeight - 32 : 140);
   }, id);
 }
 
@@ -74,6 +75,8 @@ async function checkLayout(page, width) {
       oneMain: document.querySelectorAll('main').length === 1,
       titleFits: boxes.every(box => box.left >= 0 && box.right <= innerWidth),
       titleSelectable: getComputedStyle(title).userSelect !== 'none',
+      filmBuiltInDom: document.querySelectorAll('.hotel-film--opening figure img').length === 3
+        && document.querySelectorAll('.hotel-film--opening .hotel-film__rails rect').length > 30,
       sharedNav: header.querySelector('.ticket-cta').getAttribute('href') === '#/tickets',
       footerNav: footer.querySelector('nav').getAttribute('aria-label'),
       sunsetArt: getComputedStyle(footer.querySelector('.pier-sunset')).backgroundImage.includes('sunset-scene'),
@@ -81,11 +84,11 @@ async function checkLayout(page, width) {
       galleryFits: panel.getBoundingClientRect().right <= innerWidth && panel.getBoundingClientRect().left >= 0,
       allArtLoaded: [...document.querySelectorAll('.hotel-page img')].every(image => image.complete && image.naturalWidth > 0),
       minimumTarget: Math.min(...[...document.querySelectorAll('.hotel-hero__actions a, .hotel-stay button, .hotel-stay select, .hotel-experiences button')]
-        .map(control => control.getBoundingClientRect().height)),
+        .map(control => control.getBoundingClientRect().height).filter(height => height > 0)),
     };
   });
-  assert.equal(visible.titleSelection, 'Paradise Grand Hotel & Villas');
-  for (const key of ['exactWidth', 'oneMain', 'titleFits', 'titleSelectable', 'sharedNav', 'sunsetArt', 'noTornEdge', 'galleryFits', 'allArtLoaded']) {
+  assert.equal(visible.titleSelection.toLowerCase(), 'paradise grand hotel & villas');
+  for (const key of ['exactWidth', 'oneMain', 'titleFits', 'titleSelectable', 'filmBuiltInDom', 'sharedNav', 'sunsetArt', 'noTornEdge', 'galleryFits', 'allArtLoaded']) {
     assert(visible[key], `${key} at ${width}px`);
   }
   assert.equal(visible.footerNav, 'Навигация в подвале');
@@ -98,10 +101,11 @@ async function checkAccommodation(page) {
   const picker = page.getByLabel('Тип размещения');
   const frame = page.locator('.hotel-gallery__main');
   const category = page.getByRole('group', { name: 'Категория размещения' });
-  const markers = page.getByRole('group', { name: 'Размещение на панораме' });
+  const markers = page.locator('.hotel-grounds__panorama');
   const amenities = page.locator('.hotel-room__amenities');
   assert.equal(await picker.inputValue(), 'deluxe-room');
-  assert.equal(await page.locator('.hotel-gallery__thumbnails button').count(), 3);
+  const thumbnails = page.getByRole('group', { name: 'Виды размещения' });
+  assert.equal(await thumbnails.getByRole('button').count(), 3);
   const defaultFrame = await frame.getAttribute('src');
   await amenities.click();
   assert.equal(await amenities.getAttribute('aria-expanded'), 'true');
@@ -112,7 +116,7 @@ async function checkAccommodation(page) {
   assert.equal(await amenities.getAttribute('aria-expanded'), 'true');
   await page.getByRole('button', { name: 'Предыдущее изображение' }).click();
   assert.equal(await frame.getAttribute('src'), defaultFrame);
-  await page.getByRole('button', { name: 'Детали интерьера' }).click();
+  await thumbnails.getByRole('button', { name: 'Детали интерьера' }).click();
   assert.equal(new Set([defaultFrame, nextFrame, await frame.getAttribute('src')]).size, 3);
   await page.getByRole('button', { name: 'Следующее изображение' }).click();
   assert.equal(await frame.getAttribute('src'), defaultFrame);
@@ -125,7 +129,7 @@ async function checkAccommodation(page) {
   const frameSources = new Set();
   for (const [categoryName, rooms] of Object.entries(roomNames)) {
     await category.getByRole('button', { name: categoryName }).click();
-    assert.equal(await markers.getByRole('button', { name: categoryName }).getAttribute('aria-pressed'), 'true');
+    assert.equal(await markers.locator('button').filter({ hasText: categoryName }).getAttribute('aria-pressed'), 'true');
     for (const [id, title] of Object.entries(rooms)) {
       await picker.selectOption(id);
       assert.equal(await page.locator('#hotel-room-name').textContent(), title);
@@ -135,15 +139,25 @@ async function checkAccommodation(page) {
       await amenities.click();
       assert(await page.locator('#hotel-room-amenities li').first().isVisible());
       if (id === 'royal-paradise-villa') assert(await page.getByText('Собственный бассейн').isVisible());
+      if (id !== 'deluxe-room') {
+        const initialRoomFrame = await frame.getAttribute('src');
+        await thumbnails.getByRole('button', { name: 'Другой ракурс' }).click();
+        assert.notEqual(await frame.getAttribute('src'), initialRoomFrame);
+        await frame.evaluate(image => image.decode());
+        assert.equal(await picker.inputValue(), id);
+        assert.equal(await amenities.getAttribute('aria-expanded'), 'true');
+      }
       report.rooms.push(title);
     }
   }
   assert.equal(frameSources.size, 7);
+  await page.getByText('Расположение на территории', { exact: true }).click();
   await markers.getByRole('button', { name: 'Номера' }).click();
   assert.equal(await category.getByRole('button', { name: 'Номера' }).getAttribute('aria-pressed'), 'true');
   assert.equal(await picker.inputValue(), 'deluxe-room');
   assert.equal(await amenities.getAttribute('aria-expanded'), 'false');
   assert.equal(await frame.getAttribute('src'), defaultFrame);
+  await page.getByText('Расположение на территории', { exact: true }).click();
   await page.locator('#hotel-rooms').screenshot({ path: `${out}/hotel-rooms-desktop.png`, animations: 'disabled' });
 }
 
@@ -167,6 +181,7 @@ try {
   await sectionFocus(page, 'hotel-experiences');
   assert.equal(page.url(), route('hotel-experiences'));
   const choices = page.getByRole('group', { name: 'Гостиничные пространства' });
+  assert.equal(await choices.locator('img').evaluateAll(images => new Set(images.map(image => image.currentSrc)).size), 3);
   for (const title of ['Grand Kids Club', 'Grand Wellness & Fitness', 'Grand Infinity Pool']) {
     const button = choices.getByRole('button', { name: title, exact: true });
     await button.press('Enter');
@@ -174,6 +189,16 @@ try {
     assert.equal(await page.locator('#hotel-experience-description h3').textContent(), title);
     report.experiences.push(title);
   }
+  const dining = page.getByRole('link', { name: 'Узнать больше' });
+  assert.equal(await dining.getAttribute('aria-expanded'), 'false');
+  await dining.press('Enter');
+  await sectionFocus(page, 'hotel-dining-details');
+  assert.equal(page.url(), route('hotel-dining-details'));
+  assert.equal(await dining.getAttribute('aria-expanded'), 'true');
+  assert(await page.getByText('Гастрономия в отеле', { exact: true }).isVisible());
+  await page.getByRole('link', { name: 'Свернуть описание' }).click();
+  await sectionFocus(page, 'hotel-dining');
+  assert.equal(await dining.getAttribute('aria-expanded'), 'false');
   await page.waitForSelector('.mast-inner.compact', { state: 'attached' });
   await page.getByRole('button', { name: 'Наверх' }).click();
   await page.waitForFunction(() => scrollY === 0 && document.activeElement.id === 'hero');
@@ -186,8 +211,11 @@ try {
   assert(await page.getByRole('heading', { name: 'Paradise Grand Hotel & Villas' }).isVisible());
   assert(await page.getByRole('button', { name: 'Все удобства' }).isVisible());
   assert(await page.getByText('Искусство безупречного отдыха').isVisible());
-  assert(await page.getByText('Пакеты представлены как предварительные концепции.', { exact: false }).isVisible());
+  assert(await page.getByText('Предварительные концепции пакетов', { exact: true }).isVisible());
+  assert(await page.evaluate(() => window.find('Искусство безупречного отдыха')));
   assert.equal(await page.getByRole('link', { name: 'Маршруты Paradise Loop' }).getAttribute('href'), '#/visit?section=transport');
+  await page.getByRole('link', { name: 'Маршруты Paradise Loop' }).click();
+  await page.waitForURL('**/#/visit?section=transport');
 
   const handset = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
   watchErrors(handset);
@@ -208,6 +236,8 @@ try {
   await handset.getByRole('button', { name: 'Все удобства' }).tap();
   assert(await handset.locator('#hotel-room-amenities').isVisible());
   await handset.locator('.hotel-room').screenshot({ path: `${out}/hotel-room-mobile.png`, animations: 'disabled' });
+  await handset.getByRole('button', { name: 'Grand Kids Club', exact: true }).tap();
+  assert.equal(await handset.locator('#hotel-experience-description h3').textContent(), 'Grand Kids Club');
   assert.deepEqual(report.errors, [], 'Local resources and browser console');
   report.result = 'passed';
 } catch (error) {

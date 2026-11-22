@@ -80,7 +80,7 @@ function App() {
       }
       case '#/attractions': return <AttractionsPage query={queryString ?? ''} navigate={navigateCatalogue} />;
       case '#/map': return <MapPage />;
-      case '#/hotel': return <HotelPage />;
+      case '#/hotel': return <HotelPage showDiningDetails={new URLSearchParams(queryString).get('section') === 'hotel-dining-details'} />;
       case '#/visit': return <VisitPage key={currentPath} />;
       case '#/tickets': return <TicketsPage />;
       case '#/planner': {
