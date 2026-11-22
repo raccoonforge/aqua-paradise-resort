@@ -183,49 +183,101 @@
   text-align: center;
   animation: hotel-title-arrival .7s ease-out both;
 }
+/* Match the actual Aqua Paradise homepage Hero lettering: Georgia italic
+   poster capitals, sunlit ivory ink and layered deep-teal extrusion.
+   Text remains selectable HTML, never part of the background image. */
 .hotel-title__main {
   display: block;
-  transform: rotate(-5deg) skewX(-4deg);
-  color: #ffdb91;
-  font: italic 700 clamp(4.1rem, 8.55vw, 10.35rem)/.8 var(--riv-serif);
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+  margin-inline: auto;
+  transform: rotate(-7deg);
+  transform-origin: 24% 50%;
   text-align: left;
-  text-transform: uppercase;
-  letter-spacing: -.072em;
-  text-shadow:
-    0 -1px 0 #fff6cf, 1px 1px 0 #eb9d59, 2px 2px 0 #d57c43, 3px 3px 0 #bb582d,
-    .035em .05em 0 #a6381c, .05em .075em 0 #8e2915, .066em .098em 0 #6d2318,
-    .082em .126em .095em #160d0dc2;
+  isolation: isolate;
 }
-.hotel-title__main > span { display: block; white-space: nowrap; }
-.hotel-title__main > span + span { margin-inline-start: .97em; }
+.hotel-title__main > span {
+  position: relative;
+  display: block;
+  width: max-content;
+  max-width: none;
+  color: #ffe3a7;
+  font: italic 900 clamp(3.4rem, 8.25vw, 9.25rem)/.87 Georgia, 'Times New Roman', serif;
+  letter-spacing: -.09em;
+  text-transform: uppercase;
+  background: linear-gradient(175deg, #fff1c8 3%, #ffe5ac 48%, #e4a35b 90%, #cb8749 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow:
+    .012em .015em #ae6b45,
+    .027em .034em #935035,
+    .046em .052em #173f3d,
+    .061em .066em #062f30,
+    .079em .087em #002b2d,
+    .092em .101em #001c22;
+}
+.hotel-title__main > span:first-child {
+  filter: url(#apr-print-wear);
+}
+.hotel-title__main > span + span {
+  margin: -.12em 0 0 .84em;
+  font-size: clamp(3.85rem, 9.2vw, 10.2rem);
+}
+.hotel-title__main > span:last-child::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: 2.5%;
+  top: calc(100% + .035em);
+  width: 111%;
+  height: .18em;
+  background: linear-gradient(to bottom,
+    #f35d37 0 43%, transparent 44% 58%, #eab451 59% 100%);
+  clip-path: polygon(0 70%, 5% 30%, 48% 0, 94% 18%, 100% 49%,
+    95% 75%, 52% 100%, 5% 87%);
+}
 .hotel-title__script {
   display: block;
   position: relative;
-  margin: .09em 0 0 .91em;
-  color: #ffefbd;
-  font: 400 clamp(3.25rem, 6.28vw, 7.1rem)/.85 var(--hotel-script);
+  width: max-content;
+  max-width: 100%;
+  margin: -.09em auto 0;
+  padding: .07em .12em .1em;
+  color: #f35d37;
+  font: 400 clamp(3rem, 6.5vw, 7rem)/.88 'APR Script', cursive;
   letter-spacing: -.04em;
-  text-shadow: 0 3px 4px #061b16, 0 1px #a7502c;
+  transform: rotate(1deg);
+  text-shadow:
+    .012em .018em #ed824f,
+    .03em .043em #9d3b2c,
+    .05em .065em #003c39,
+    .075em .085em #012d2c;
 }
 .hotel-hero__subtitle {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: .75rem;
-  margin-top: clamp(11px, 1.37vw, 21px);
-  color: #fff1d2;
-  font-size: clamp(.74rem, 1.22vw, 1.08rem);
-  font-weight: 690;
-  letter-spacing: .155em;
-  text-transform: uppercase;
-  text-shadow: 0 1px 3px #041b16;
+  gap: clamp(.6rem, 1.25vw, 1.4rem);
+  margin-top: clamp(18px, 2.2vw, 34px);
+  color: #f6df9e;
+  font: italic 700 clamp(1.06rem, 2.15vw, 2.05rem)/1.25 'APR Poster', Georgia, serif;
+  letter-spacing: normal;
+  text-transform: none;
+  text-shadow: 1px 1px #00312f;
+  text-wrap: balance;
 }
-.hotel-hero__subtitle::before, .hotel-hero__subtitle::after {
+.hotel-hero__subtitle::before,
+.hotel-hero__subtitle::after {
   content: '';
-  width: clamp(20px, 4vw, 66px);
-  height: 1px;
-  background: #f9ca85;
+  flex: 0 1 clamp(1.6rem, 4.6vw, 4.4rem);
+  min-width: 13px;
+  height: 4px;
+  background: #f6d999;
+  clip-path: polygon(0 50%, 14% 8%, 85% 8%, 100% 50%, 85% 92%, 14% 92%);
 }
+
 .hotel-hero__actions {
   display: flex;
   justify-content: center;
