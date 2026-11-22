@@ -361,7 +361,7 @@ async function checkResortPages(page) {
   assert.equal(await footer.getByRole('link', { name: 'Карта острова', exact: true }).count(), 0);
   assert.equal(await footer.getByRole('link', { name: 'Девять миров', exact: true }).count(), 1);
   const destinations = [
-    ['Отель', '#/hotel', page.getByRole('heading', { name: 'Искусство безупречного отдыха' })],
+    ['Отель', '#/hotel', page.getByRole('heading', { name: 'Paradise Grand Hotel & Villas' })],
     ['Посещение', '#/visit', page.getByRole('heading', { name: 'Ваше путешествие начинается здесь' })],
     ['Билеты', '#/tickets', page.getByRole('heading', { name: 'Билеты', exact: true })],
   ];

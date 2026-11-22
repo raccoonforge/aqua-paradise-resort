@@ -43,6 +43,18 @@ jobs:
       - name: Attraction catalogue browser QA
         if: always()
         run: node scripts/qa-attractions.mjs
+      - name: Grand Riviera hotel browser QA
+        if: always()
+        run: node scripts/qa-hotel.mjs
+      - name: Upload Grand Riviera screenshots and report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: riviera-grand-hotel
+          path: |
+            qa-output/riviera-polish/hotel-*.png
+            qa-output/riviera-polish/hotel-qa.json
+          retention-days: 14
       - name: Upload Hero to About screenshots
         if: always()
         uses: actions/upload-artifact@v4

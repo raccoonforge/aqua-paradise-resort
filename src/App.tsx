@@ -22,7 +22,7 @@ import './AttractionsPage.css';
 
 const ZonesPage = lazy(() => import('./ZonesPage'));
 
-function scrollHome(section: string) {
+function scrollToSection(section: string) {
   const target = document.getElementById(section);
   if (!target) return;
   target.focus({ preventScroll: true });
@@ -41,6 +41,7 @@ function App() {
   const home = basePath === '#/';
   const atlas = basePath === '#/zones';
   const catalogue = basePath === '#/attractions';
+  const hotel = basePath === '#/hotel';
   const editorial = atlas || catalogue;
   const previousBasePath = useRef<string | null>(null);
   const navigate = (path: string) => { window.location.hash = path; };
@@ -60,12 +61,12 @@ function App() {
     previousBasePath.current = basePath;
     if (editorial && previous === basePath) return;
     const section = new URLSearchParams(currentPath.split('?')[1]).get('section');
-    if (home && section) {
-      const frame = requestAnimationFrame(() => scrollHome(section));
+    if ((home || hotel) && section) {
+      const frame = requestAnimationFrame(() => scrollToSection(section));
       return () => cancelAnimationFrame(frame);
     }
     if (!(basePath === '#/visit' && section)) window.scrollTo({top: 0, behavior: 'instant'});
-  }, [home, editorial, basePath, currentPath]);
+  }, [home, hotel, editorial, basePath, currentPath]);
 
   const renderPage = () => {
     const [base, queryString] = currentPath.split('?');
@@ -91,21 +92,21 @@ function App() {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col bg-[#f8f9fa] font-sans${atlas ? ' atlas-shell' : catalogue ? ' catalogue-shell' : ''}`} onClick={event => {
-      if (!home || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    <div className={`min-h-screen flex flex-col bg-[#f8f9fa] font-sans${atlas ? ' atlas-shell' : catalogue ? ' catalogue-shell' : hotel ? ' hotel-shell' : ''}`} onClick={event => {
+      if ((!home && !hotel) || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       const link = (event.target as Element).closest<HTMLAnchorElement>('a[href]');
       if (link?.hash === currentPath) {
         const section = new URLSearchParams(currentPath.split('?')[1]).get('section');
-        scrollHome(section ?? 'hero');
+        scrollToSection(section ?? 'hero');
       }
     }}>
       <a href="#main-content" className="apr-skip-link" onClick={event => {
         event.preventDefault();
         document.getElementById('main-content')?.focus();
       }}>Перейти к основному содержимому</a>
-      <Header key={editorial ? basePath : currentPath} home={home || editorial} />
-      <main id="main-content" tabIndex={-1} className={home ? 'riv-home' : atlas ? 'atlas-main flex-grow' : catalogue ? 'catalogue-main flex-grow' : 'riv-interior flex-grow'}>{renderPage()}</main>
-      {home || editorial ? <SunsetPier /> : (
+      <Header key={editorial || hotel ? basePath : currentPath} home={home || editorial || hotel} />
+      <main id="main-content" tabIndex={-1} className={home ? 'riv-home' : atlas ? 'atlas-main flex-grow' : catalogue ? 'catalogue-main flex-grow' : hotel ? 'hotel-main flex-grow' : 'riv-interior flex-grow'}>{renderPage()}</main>
+      {home || editorial || hotel ? <SunsetPier /> : (
       <footer className="bg-[#0a192f] text-white py-12 mt-auto">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">

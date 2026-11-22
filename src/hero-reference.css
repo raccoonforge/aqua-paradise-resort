@@ -417,7 +417,8 @@
 /* The header Tickets CTA uses the same silhouette as both Hero CTAs:
    rounded 13px corners, 1.5px vintage trim, and identical vertical padding. */
 .riv-mast .ticket-cta,
-.catalogue-page .catalogue-cta {
+.catalogue-page .catalogue-cta,
+.hotel-page .hotel-primary {
   border: 1.5px solid #f3d19b;
   border-radius: 13px;
   padding: .95em 1.6em;
@@ -429,7 +430,8 @@
   box-shadow: 0 7px 0 #692e28, 0 12px 24px #001d1b66;
 }
 .riv-mast .ticket-cta:active,
-.catalogue-page .catalogue-cta:active {
+.catalogue-page .catalogue-cta:active,
+.hotel-page .hotel-primary:active {
   transform: translateY(1px);
   box-shadow: 0 1px 0 #692e28;
 }
