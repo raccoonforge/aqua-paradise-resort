@@ -390,6 +390,10 @@
   letter-spacing: -.052em;
   overflow-wrap: anywhere;
 }
+.catalogue-shell .sunset-pier .pier-content h2 {
+  font-size: var(--catalogue-card-heading-size);
+}
+
 .catalogue-dialog__facts {
   display: flex;
   flex-wrap: wrap;
