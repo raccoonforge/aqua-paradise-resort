@@ -732,48 +732,26 @@
   bottom: -30px;
   transform: scaleX(-1) rotate(-14deg);
 }
-/* A compact, straight film-edge seam before the unchanged shared footer.
-   Unlike the former oversized arch, every detail aligns across the viewport. */
+/* Reuse exactly the HotelFilm curve and sprocket geometry above the shared footer. */
 .hotel-footer-divider {
   position: relative;
-  height: 32px;
+  height: clamp(70px, 8.1vw, 125px);
   overflow: hidden;
-  background: linear-gradient(180deg, #063b37, #032d29);
-  border-block: 1px solid #c79d614e;
-  isolation: isolate;
+  background: linear-gradient(180deg, #073b37, #032d29);
+  filter: drop-shadow(0 -4px 4px #001e1b42);
 }
-.hotel-footer-divider::before,
-.hotel-footer-divider::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 6px;
-  pointer-events: none;
-  background: repeating-linear-gradient(90deg,
-    transparent 0 21px,
-    #d6b17a7a 21px 30px,
-    transparent 30px 41px);
-  opacity: .57;
+.hotel-footer-divider svg {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
-.hotel-footer-divider::before { top: 4px; }
-.hotel-footer-divider::after { bottom: 4px; }
-.hotel-footer-divider > span {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  height: 1px;
-  transform: translateY(-50%);
-  background: linear-gradient(90deg, transparent 0%, #d9ae6c76 15%, #e6ba7a90 50%, #d9ae6c76 85%, transparent 100%);
-  pointer-events: none;
+.hotel-footer-divider svg rect {
+  fill: #f0cb91;
+  stroke: #ac7a45;
+  stroke-width: .002;
 }
 @media (max-width: 590px) {
-  .hotel-footer-divider { height: 25px; }
-  .hotel-footer-divider::before,
-  .hotel-footer-divider::after { height: 4px; }
-  .hotel-footer-divider::before { top: 3px; }
-  .hotel-footer-divider::after { bottom: 3px; }
+  .hotel-footer-divider { height: 60px; }
 }
 
 .hotel-shell .sunset-pier::after { content: none; }
