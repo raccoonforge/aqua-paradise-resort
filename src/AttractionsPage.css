@@ -410,6 +410,9 @@
   .catalogue-hero__copy > p:last-child { max-width: min(51%, 26rem); }
   .catalogue-filter-row { grid-template-columns: 1fr 1fr; }
 }
+@media (min-width: 516px) and (max-width: 880px) {
+  .catalogue-restrictions input { width: 92px; }
+}
 @media (max-width: 620px) {
   .catalogue-hero { padding-top: calc(var(--catalogue-mast-height) + 23px); padding-bottom: clamp(187px, 46vw, 280px); }
   .catalogue-hero__copy > *, .catalogue-hero__copy > p:last-child { max-width: 100%; }
