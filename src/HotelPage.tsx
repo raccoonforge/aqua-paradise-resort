@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { HotelFilm } from './components/HotelFilm';
+import { HotelFilm, HotelFilmDivider } from './components/HotelFilm';
 import './HotelPage.css';
 
 type CategoryId = 'rooms' | 'suites' | 'villas';
@@ -336,7 +336,7 @@ export default function HotelPage({ showDiningDetails }: { showDiningDetails: bo
       <Experiences />
       <Dining showDetails={showDiningDetails} />
       <HotelConclusion />
-      <div className="hotel-footer-divider" aria-hidden="true"><span /></div>
+      <HotelFilmDivider />
     </div>
   );
 }
