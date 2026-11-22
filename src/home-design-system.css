@@ -208,3 +208,74 @@
   .riv-home .board-submit:hover,
   .riv-home .apr-worlds__link:hover { transform: none; }
 }
+
+/* The selected catalogue filter is a coral action, not a separate button style.
+   Keep its ink, press, lift and highlight identical to the Header Tickets CTA. */
+.catalogue-page .catalogue-categories button[aria-pressed="true"] {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-color: #ffc08a;
+  background: var(--riv-stock), var(--apr-action-coral);
+  color: #fff5d9;
+  box-shadow: inset 0 0 0 2px #ffffff24, 0 3px 0 #612b1e;
+  transition: transform .28s cubic-bezier(.2,.7,.2,1),
+              filter .28s ease, box-shadow .28s ease;
+}
+.catalogue-page .catalogue-categories button[aria-pressed="true"]::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg,#ff9369 0%,#f35d37 34%,#d8492c 100%);
+  pointer-events: none;
+  transition: opacity .2s ease;
+}
+.catalogue-page .catalogue-categories button[aria-pressed="true"]:is(:hover, :focus-visible) {
+  transform: translateY(-4px);
+  filter: brightness(1.09) saturate(1.08);
+  box-shadow: inset 0 0 0 2px #ffffff3d, 0 7px 0 #512720,
+              0 13px 23px #001d1a6e;
+  border-color: #ffe2a5;
+}
+.catalogue-page .catalogue-categories button[aria-pressed="true"]:is(:hover, :focus-visible)::before {
+  opacity: .88;
+}
+.catalogue-page .catalogue-categories button[aria-pressed="true"]:active {
+  transform: translateY(1px);
+}
+
+/* The header CTA and every coral catalogue control share the same moving sheen. */
+.riv-mast .ticket-cta,
+.catalogue-page .catalogue-categories button[aria-pressed="true"] {
+  overflow: hidden;
+}
+.riv-mast .ticket-cta::after,
+.catalogue-page .catalogue-categories button[aria-pressed="true"]::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 22%, #fff6cf54 47%, transparent 68%);
+  transform: translateX(-135%);
+  transition: transform .52s ease;
+  pointer-events: none;
+}
+.riv-mast .ticket-cta:hover::after,
+.catalogue-page .catalogue-categories button[aria-pressed="true"]:hover::after {
+  transform: translateX(135%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .catalogue-page .catalogue-categories button[aria-pressed="true"],
+  .catalogue-page .catalogue-categories button[aria-pressed="true"]::before,
+  .riv-mast .ticket-cta::after,
+  .catalogue-page .catalogue-categories button[aria-pressed="true"]::after {
+    transition: none;
+  }
+  .catalogue-page .catalogue-categories button[aria-pressed="true"]:is(:hover, :focus-visible) {
+    transform: none;
+  }
+}
+
