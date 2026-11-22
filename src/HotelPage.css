@@ -467,25 +467,115 @@
   margin-top: .66em;
   font: 500 clamp(.875rem, 1.13vw, 1.05rem)/1.4 var(--hotel-inter);
 }
+/* Riviera guest-register selector: a polished vintage hotel directory,
+   not a browser-native select with system-blue option highlights. */
 .hotel-room__picker {
+  position: relative;
   display: grid;
   align-items: center;
-  gap: .32rem;
+  gap: .4rem;
   margin: .83rem 0 .88rem;
   color: #4d3c29;
   font-size: clamp(.74rem, .91vw, .92rem);
   font-weight: 720;
 }
-.hotel-room__picker select {
+.hotel-room__picker-label {
+  font-family: var(--hotel-inter);
+  letter-spacing: .015em;
+}
+.hotel-room__picker-trigger {
+  display: flex;
   width: 100%;
+  min-height: 48px;
   min-width: 0;
-  min-height: 44px;
-  padding-inline: .59rem;
-  border: 1px solid #a77843;
-  border-radius: 7px;
-  background: #fff0cc;
-  color: var(--hotel-ink);
-  font-size: .94rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: .72rem .9rem;
+  border: 1.5px solid #a16a39;
+  border-radius: 13px;
+  background: var(--hotel-paper) center / cover, #ffedc5;
+  box-shadow: inset 0 0 0 2px #fff3d2c9, 0 3px 0 #9b603c4a;
+  color: #244139;
+  font: 730 clamp(.88rem, 1vw, 1.03rem)/1.25 var(--hotel-inter);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+}
+.hotel-room__picker-trigger:is(:hover, [aria-expanded='true']) {
+  border-color: #873f27;
+  box-shadow: inset 0 0 0 2px #fff4d6, 0 3px 0 #9b603c4a, 0 5px 12px #76422530;
+}
+.hotel-room__picker-trigger svg {
+  width: 21px;
+  height: 21px;
+  flex: none;
+  fill: none;
+  stroke: #92512b;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+  transition: transform .2s ease;
+}
+.hotel-room__picker-trigger[aria-expanded='true'] svg { transform: rotate(180deg); }
+.hotel-room__picker-options {
+  position: absolute;
+  top: calc(100% + 5px);
+  inset-inline: 0;
+  z-index: 20;
+  display: grid;
+  gap: 3px;
+  max-height: min(290px, 50vh);
+  padding: 7px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border: 1.5px solid #aa7742;
+  border-radius: 13px;
+  background: var(--hotel-paper) center / cover, #ffebc0;
+  box-shadow: inset 0 0 0 2px #fff2c8, 0 12px 26px #351c1670;
+}
+.hotel-room__picker-option {
+  display: grid;
+  grid-template-columns: 2.1rem minmax(0, 1fr) 1.1rem;
+  align-items: center;
+  gap: .5rem;
+  width: 100%;
+  min-height: 47px;
+  padding: .6rem .75rem;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: #3d4432;
+  font: 680 clamp(.81rem, .96vw, .99rem)/1.25 var(--hotel-inter);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color .18s ease, border-color .18s ease, color .18s ease;
+}
+.hotel-room__picker-option-index {
+  font: italic 700 1.05rem/1 'APR Poster', Georgia, serif;
+  color: #ab7650;
+}
+.hotel-room__picker-option-mark {
+  color: #ac7149;
+  text-align: center;
+}
+.hotel-room__picker-option:is(:hover, :focus-visible) {
+  background: #e8c18f90;
+  border-color: #bc8649;
+  color: #512b22;
+}
+.hotel-room__picker-option[aria-selected='true'] {
+  border-color: #ce9d65;
+  background: linear-gradient(110deg, #b95538, #953b2a);
+  box-shadow: inset 0 0 0 1px #f4c08d70;
+  color: #fff1d0;
+}
+.hotel-room__picker-option[aria-selected='true'] :is(.hotel-room__picker-option-index, .hotel-room__picker-option-mark) {
+  color: #ffe4ac;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hotel-room__picker-trigger,
+  .hotel-room__picker-trigger svg,
+  .hotel-room__picker-option { transition: none; }
 }
 .hotel-room__details {
   margin-top: .8rem;
