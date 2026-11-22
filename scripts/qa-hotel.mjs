@@ -104,7 +104,8 @@ async function checkAccommodation(page) {
   const selectedRoom = () => picker.getAttribute('data-value');
   const chooseRoom = async title => {
     await picker.click();
-    await page.getByRole('option', { name: new RegExp(title + '
+    await page.getByRole('option', { name: new RegExp(title + '$') }).click();
+  };
   const frame = page.locator('.hotel-gallery__main');
   const category = page.getByRole('group', { name: 'Категория размещения' });
   const markers = page.locator('.hotel-grounds__panorama');
