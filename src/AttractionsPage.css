@@ -1,5 +1,7 @@
 .catalogue-shell {
   --catalogue-ink: #063936;
+  /* Libre Baskerville for Latin; approved Cyrillic-capable Inter fallback. */
+  --riv-serif: 'APR Poster', 'Inter', sans-serif;
   --catalogue-display-heading-size: clamp(2.48rem, 4.25vw, 4.8rem);
   --catalogue-card-heading-size: clamp(1.3rem, 1.55vw, 1.55rem);
   --catalogue-mast-height: clamp(70px, 6vw, 100px);
