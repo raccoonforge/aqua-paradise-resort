@@ -65,23 +65,3 @@ export function HotelFilm({ frames, label, selectedIndex, onSelect }: HotelFilmP
     </div>
   );
 }
-
-/** Hotel closing seam. Shares the same curve, tracks and perforation as HotelFilm. */
-export function HotelFilmDivider() {
-  return (
-    <div className="hotel-footer-divider" aria-hidden="true">
-      <svg viewBox="0 0 1 1" preserveAspectRatio="none" focusable="false">
-        <path d={outline} fill="#2d1e15" stroke="#b27842" strokeWidth=".008" />
-        <path d={strip(railDepth, filmDepth - railDepth)} fill="#0a3934" />
-        <path d={rails} fill="#2d1e15" />
-        <path d={tracks} fill="none" stroke="#b27842" strokeWidth=".007" />
-        {sprockets.map(x => (
-          <g key={x} transform={`translate(${x} ${wave(x + .004)})`}>
-            <rect x="0" y=".025" width=".0085" height=".053" rx=".0012" />
-            <rect x="0" y={filmDepth - .078} width=".0085" height=".053" rx=".0012" />
-          </g>
-        ))}
-      </svg>
-    </div>
-  );
-}
