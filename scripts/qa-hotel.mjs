@@ -176,10 +176,13 @@ try {
   await page.goBack();
   await page.waitForFunction(() => scrollY === 0);
   await page.goForward();
+  // History traversal guarantees the URL and DOM destination, but browsers may
+  // restore scroll/focus differently. Exercise the explicit same-route CTA,
+  // which is responsible for scrolling and focus in the app.
   assert.equal(page.url(), route('hotel-rooms'));
-  // Browser history restores scroll, but is not required to restore DOM focus.
-  // Check the visible destination instead of expecting focus to persist.
-  await sectionFocus(page, 'hotel-rooms', { requireFocus: false });
+  assert.equal(await page.locator('#hotel-rooms').count(), 1);
+  await page.getByRole('link', { name: 'Выбрать размещение' }).click();
+  await sectionFocus(page, 'hotel-rooms');
   await checkAccommodation(page);
   await page.goto(route());
   await page.getByRole('link', { name: 'Открыть впечатления' }).click();
