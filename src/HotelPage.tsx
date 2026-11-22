@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { HotelFilm } from './components/HotelFilm';
 import './HotelPage.css';
 
@@ -136,6 +136,101 @@ function HotelAbout() {
   );
 }
 
+function RoomPicker({ rooms, selectedId, onChange }: {
+  rooms: Room[];
+  selectedId: string;
+  onChange: (id: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const root = useRef<HTMLDivElement>(null);
+  const trigger = useRef<HTMLButtonElement>(null);
+  const choices = useRef<(HTMLButtonElement | null)[]>([]);
+  const currentIndex = Math.max(0, rooms.findIndex(room => room.id === selectedId));
+  const focusChoice = (index: number) => {
+    requestAnimationFrame(() => choices.current[index]?.focus());
+  };
+  const expand = (index = currentIndex) => {
+    setOpen(true);
+    focusChoice(index);
+  };
+
+  useEffect(() => {
+    if (!open) return;
+    const dismiss = (event: PointerEvent) => {
+      if (root.current && !root.current.contains(event.target as Node)) setOpen(false);
+    };
+    document.addEventListener('pointerdown', dismiss);
+    return () => document.removeEventListener('pointerdown', dismiss);
+  }, [open]);
+
+  const choose = (id: string) => {
+    onChange(id);
+    setOpen(false);
+    trigger.current?.focus();
+  };
+
+  return (
+    <div className="hotel-room__picker" ref={root}>
+      <span className="hotel-room__picker-label" id="hotel-room-picker-label">Тип размещения</span>
+      <button className="hotel-room__picker-trigger" type="button" ref={trigger}
+        aria-labelledby="hotel-room-picker-label hotel-room-picker-value"
+        aria-haspopup="listbox" aria-expanded={open} aria-controls="hotel-room-picker-options"
+        data-value={selectedId}
+        onClick={() => open ? setOpen(false) : expand()}
+        onKeyDown={event => {
+          if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+            event.preventDefault();
+            expand(event.key === 'ArrowDown' ? currentIndex : Math.max(0, currentIndex - 1));
+          } else if (event.key === 'Escape' && open) {
+            event.preventDefault();
+            setOpen(false);
+          }
+        }}>
+        <span id="hotel-room-picker-value">{rooms[currentIndex].name}</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+      </button>
+      {open && (
+        <div className="hotel-room__picker-options" id="hotel-room-picker-options"
+          role="listbox" aria-labelledby="hotel-room-picker-label"
+          onKeyDown={event => {
+            const focusIndex = choices.current.findIndex(node => node === document.activeElement);
+            let next = focusIndex;
+            if (event.key === 'ArrowDown') next = (focusIndex + 1) % rooms.length;
+            else if (event.key === 'ArrowUp') next = (focusIndex - 1 + rooms.length) % rooms.length;
+            else if (event.key === 'Home') next = 0;
+            else if (event.key === 'End') next = rooms.length - 1;
+            else if (event.key === 'Escape') {
+              event.preventDefault();
+              setOpen(false);
+              trigger.current?.focus();
+              return;
+            } else if (event.key === 'Tab') {
+              setOpen(false);
+              return;
+            } else return;
+            event.preventDefault();
+            choices.current[next]?.focus();
+          }}>
+          {rooms.map((room, index) => (
+            <button key={room.id} ref={node => { choices.current[index] = node; }}
+              className="hotel-room__picker-option" type="button" role="option"
+              aria-selected={room.id === selectedId} tabIndex={index === currentIndex ? 0 : -1}
+              onClick={() => choose(room.id)}>
+              <span className="hotel-room__picker-option-index" aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <span>{room.name}</span>
+              <span className="hotel-room__picker-option-mark" aria-hidden="true">
+                {room.id === selectedId ? '◆' : '↗'}
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function Accommodation() {
   const [selection, setSelection] = useState({ category: 'rooms' as CategoryId, room: 'deluxe-room', frame: 0, expanded: false });
   const category = categories[selection.category];
@@ -184,11 +279,8 @@ function Accommodation() {
         <div className="hotel-room__summary hotel-paper">
           <h3 id="hotel-room-name" aria-live="polite">{room.name}</h3>
           <p>{room.description}</p>
-          <label className="hotel-room__picker">Тип размещения
-            <select value={room.id} onChange={event => selectRoom(selection.category, event.target.value)}>
-              {category.rooms.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}
-            </select>
-          </label>
+          <RoomPicker key={selection.category} rooms={category.rooms} selectedId={room.id}
+            onChange={id => selectRoom(selection.category, id)} />
           <button className="riv-button hotel-primary hotel-room__amenities" type="button"
             aria-expanded={selection.expanded} aria-controls="hotel-room-amenities"
             onClick={() => setSelection(value => ({ ...value, expanded: !value.expanded }))}>
