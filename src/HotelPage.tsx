@@ -336,6 +336,7 @@ export default function HotelPage({ showDiningDetails }: { showDiningDetails: bo
       <Experiences />
       <Dining showDetails={showDiningDetails} />
       <HotelConclusion />
+      <div className="hotel-footer-divider" aria-hidden="true"><span /></div>
     </div>
   );
 }
