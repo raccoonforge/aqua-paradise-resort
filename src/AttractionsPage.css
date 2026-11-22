@@ -295,12 +295,13 @@
 .catalogue-ride-placeholder .catalogue-icon { width: 2.6em; height: 2.6em; }
 .catalogue-ticket__caption {
   display: grid;
-  place-content: center;
+  place-content: center stretch;
   gap: .18em;
-  padding: .4rem .16em .5rem;
+  padding: .4rem .25em .5rem;
 }
 .catalogue-ticket h2 {
   max-width: 100%;
+  padding-inline: .12em;
   color: #103b34;
   font: italic 700 clamp(1.25rem, 9.6cqi, 2.16rem)/1.11 var(--riv-serif);
   letter-spacing: -.051em;
@@ -401,13 +402,14 @@
 @media (max-width: 950px) { .catalogue-shell { --catalogue-mast-height: 64px; } }
 @media (max-width: 880px) {
   .catalogue-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .catalogue-hero h1 { max-width: 59%; }
   .catalogue-hero__copy > p:last-child { max-width: min(51%, 26rem); }
   .catalogue-filter-row { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 620px) {
   .catalogue-hero { padding-top: calc(var(--catalogue-mast-height) + 23px); padding-bottom: clamp(187px, 46vw, 280px); }
   .catalogue-hero__copy > *, .catalogue-hero__copy > p:last-child { max-width: 100%; }
-  .catalogue-hero h1 { font-size: clamp(2.1rem, 8.2vw, 3.2rem); }
+  .catalogue-hero h1 { max-width: 100%; font-size: clamp(2.1rem, 8.2vw, 3.2rem); }
   .catalogue-hero > img {
     width: 100%;
     height: clamp(210px, 51vw, 302px);

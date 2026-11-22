@@ -83,11 +83,15 @@ async function checkLayout(page, width) {
       actionStyle: ['backgroundColor', 'borderRadius', 'filter', 'boxShadow'].every(key => getComputedStyle(ticket)[key] === getComputedStyle(action)[key]),
       actionSheen: getComputedStyle(action, '::after').backgroundImage === getComputedStyle(ticket, '::after').backgroundImage,
       clipping: [...document.querySelectorAll('.catalogue-ticket h2, .catalogue-ticket__caption p, .catalogue-ticket__facts')]
-        .some(node => node.scrollWidth > node.clientWidth + 1 || bounds(node).right > innerWidth + 1),
+        .filter(node => node.scrollWidth > node.clientWidth + 1 || bounds(node).right > innerWidth + 1)
+        .map(node => ({ text: node.textContent, width: node.clientWidth, scrollWidth: node.scrollWidth })),
     };
   });
   assert.equal(layout.pageWidth, width);
-  assert(layout.heroTitleVisible && layout.restrictionLabelsFit && !layout.clipping && layout.footerAdjacent);
+  assert(layout.heroTitleVisible, `The hero title fits at ${width}px`);
+  assert(layout.restrictionLabelsFit, `Age and height labels fit at ${width}px`);
+  assert.deepEqual(layout.clipping, [], `Ticket text fits at ${width}px`);
+  assert(layout.footerAdjacent, `The paper edge meets the footer at ${width}px`);
   assert.equal(layout.columns, width > 1200 ? 4 : width > 515 ? 2 : 1);
   assert.match(layout.pageTypography, /APR Poster/);
   assert.equal(layout.cardMotion, 'none');
