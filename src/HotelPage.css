@@ -153,8 +153,8 @@
   isolation: isolate;
   display: grid;
   align-items: center;
-  min-height: clamp(470px, 34vw, 665px);
-  padding-block: clamp(76px, 6.2vw, 113px) clamp(47px, 4.35vw, 83px);
+  min-height: clamp(560px, 42vw, 730px);
+  padding-block: clamp(155px, 11vw, 195px) clamp(52px, 4.8vw, 90px);
   background: #063533;
 }
 .hotel-hero__art,
@@ -210,16 +210,17 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow:
-    .012em .015em #ae6b45,
-    .027em .034em #935035,
-    .046em .052em #173f3d,
-    .061em .066em #062f30,
-    .079em .087em #002b2d,
-    .092em .101em #001c22;
-}
-.hotel-title__main > span:first-child {
-  filter: url(#apr-print-wear);
+  /* Render the gradient on the letter faces. Shadow is drawn behind the
+     entire glyph silhouette instead of filling it with brown shadow ink. */
+  text-shadow: none;
+  filter: url(#apr-print-wear)
+    drop-shadow(1px 1px #efb57b)
+    drop-shadow(1px 2px #c98d66)
+    drop-shadow(2px 3px #11434a)
+    drop-shadow(2px 3px #0b3942)
+    drop-shadow(2px 3px #08333b)
+    drop-shadow(2px 3px #062c34)
+    drop-shadow(2px 3px #04252c);
 }
 .hotel-title__main > span + span {
   margin: -.12em 0 0 .84em;
@@ -241,19 +242,11 @@
 .hotel-title__script {
   display: block;
   position: relative;
-  width: max-content;
-  max-width: 100%;
-  margin: -.09em auto 0;
-  padding: .07em .12em .1em;
-  color: #f35d37;
-  font: 400 clamp(3rem, 6.5vw, 7rem)/.88 'APR Script', cursive;
+  margin: .09em 0 0 .91em;
+  color: #ffefbd;
+  font: 400 clamp(3.25rem, 6.28vw, 7.1rem)/.85 'APR Script', cursive;
   letter-spacing: -.04em;
-  transform: rotate(1deg);
-  text-shadow:
-    .012em .018em #ed824f,
-    .03em .043em #9d3b2c,
-    .05em .065em #003c39,
-    .075em .085em #012d2c;
+  text-shadow: 0 3px 4px #061b16, 0 1px #a7502c;
 }
 .hotel-hero__subtitle {
   display: flex;
@@ -863,7 +856,7 @@
   .hotel-dining__layout { grid-template-columns: 52% minmax(0, 1fr); }
 }
 @media (max-width: 840px) {
-  .hotel-hero { min-height: 430px; padding-block: 76px 55px; }
+  .hotel-hero { min-height: 530px; padding-block: 133px 65px; }
   .hotel-hero__story { margin-inline-start: 5.5vw; width: min(84vw, 33rem); }
   .hotel-hero__art { object-position: 60% 56%; }
   .hotel-hero::before { background: linear-gradient(90deg, #042923c0, #0435335c 58%, transparent 100%), linear-gradient(180deg, #032a2a6e, transparent 29%, transparent 72%, #092e2c9e); }
@@ -880,7 +873,7 @@
   .hotel-section-title::before, .hotel-section-title::after { flex-basis: 1.5rem; }
   .hotel-hero {
     min-height: 0;
-    padding-block: 86px clamp(190px, 45vw, 260px);
+    padding-block: 132px clamp(190px, 45vw, 260px);
   }
   .hotel-hero__art { object-position: 75% 70%; }
   .hotel-hero::before {
@@ -895,8 +888,8 @@
     font-size: clamp(3rem, 13vw, 5rem);
   }
   .hotel-title__script {
-    margin: .06em auto 0;
-    font-size: clamp(2.6rem, 11vw, 4rem);
+    margin: .17em 0 0 .35em;
+    font-size: clamp(2.77rem, 12.05vw, 3.78rem);
   }
   .hotel-hero__subtitle {
     font-size: clamp(.88rem, 3.7vw, 1.2rem);
