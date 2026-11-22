@@ -237,7 +237,7 @@
   filter: brightness(1.09) saturate(1.08);
   box-shadow: inset 0 0 0 2px #ffffff3d, 0 7px 0 #512720,
               0 13px 23px #001d1a6e;
-  border-color: #ffe2a5;
+  border-color: #ffc08a;
 }
 .catalogue-page .catalogue-categories button[aria-pressed="true"]:is(:hover, :focus-visible)::before {
   opacity: .88;
@@ -246,12 +246,7 @@
   transform: translateY(1px);
 }
 
-/* The header CTA and every coral catalogue control share the same moving sheen. */
-.riv-mast .ticket-cta,
-.catalogue-page .catalogue-categories button[aria-pressed="true"] {
-  overflow: hidden;
-}
-.riv-mast .ticket-cta::after,
+/* The selected catalogue filter borrows the same moving sheen as the header CTA. */
 .catalogue-page .catalogue-categories button[aria-pressed="true"]::after {
   content: '';
   position: absolute;
@@ -262,7 +257,6 @@
   transition: transform .52s ease;
   pointer-events: none;
 }
-.riv-mast .ticket-cta:hover::after,
 .catalogue-page .catalogue-categories button[aria-pressed="true"]:hover::after {
   transform: translateX(135%);
 }
@@ -270,7 +264,6 @@
 @media (prefers-reduced-motion: reduce) {
   .catalogue-page .catalogue-categories button[aria-pressed="true"],
   .catalogue-page .catalogue-categories button[aria-pressed="true"]::before,
-  .riv-mast .ticket-cta::after,
   .catalogue-page .catalogue-categories button[aria-pressed="true"]::after {
     transition: none;
   }
