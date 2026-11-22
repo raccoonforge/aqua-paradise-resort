@@ -3,7 +3,7 @@ import MapPage from './MapPage';
 import HotelPage from './HotelPage';
 import VisitPage from './VisitPage';
 import TicketsPage from './TicketsPage';
-import AttractionsPage from './AttractionsPage';
+import AttractionsPage, { type CatalogueNavigation } from './AttractionsPage';
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import './retro-hero.css';
 import './riviera.css';
@@ -18,6 +18,7 @@ import './HomeFidelity.css';
 import './hero-reference.css';
 import './home-design-system.css';
 import './ZonesPage.css';
+import './AttractionsPage.css';
 
 const ZonesPage = lazy(() => import('./ZonesPage'));
 
@@ -39,8 +40,16 @@ function App() {
   const basePath = currentPath.split('?')[0];
   const home = basePath === '#/';
   const atlas = basePath === '#/zones';
+  const catalogue = basePath === '#/attractions';
+  const editorial = atlas || catalogue;
   const previousBasePath = useRef<string | null>(null);
   const navigate = (path: string) => { window.location.hash = path; };
+  const navigateCatalogue: CatalogueNavigation = (path, mode) => {
+    if (path === window.location.hash) return;
+    if (mode === 'open-ride') window.history.pushState({ attractionModal: true }, '', path);
+    else window.history.replaceState(null, '', path);
+    setCurrentPath(path);
+  };
   useEffect(() => {
     const update = () => setCurrentPath(window.location.hash || '#/');
     window.addEventListener('hashchange', update);
@@ -49,14 +58,14 @@ function App() {
   useEffect(() => {
     const previous = previousBasePath.current;
     previousBasePath.current = basePath;
-    if (atlas && previous === basePath) return;
+    if (editorial && previous === basePath) return;
     const section = new URLSearchParams(currentPath.split('?')[1]).get('section');
     if (home && section) {
       const frame = requestAnimationFrame(() => scrollHome(section));
       return () => cancelAnimationFrame(frame);
     }
     if (!(basePath === '#/visit' && section)) window.scrollTo({top: 0, behavior: 'instant'});
-  }, [home, atlas, basePath, currentPath]);
+  }, [home, editorial, basePath, currentPath]);
 
   const renderPage = () => {
     const [base, queryString] = currentPath.split('?');
@@ -68,10 +77,7 @@ function App() {
           <ZonesPage zoneId={urlParams.get('zone')} tabId={urlParams.get('tab')} navigate={navigate} />
         </Suspense>;
       }
-      case '#/attractions': {
-        const attrParams = new URLSearchParams(queryString);
-        return <AttractionsPage initialRide={attrParams.get('ride') || undefined} />;
-      }
+      case '#/attractions': return <AttractionsPage query={queryString ?? ''} navigate={navigateCatalogue} />;
       case '#/map': return <MapPage />;
       case '#/hotel': return <HotelPage />;
       case '#/visit': return <VisitPage key={currentPath} />;
@@ -85,7 +91,7 @@ function App() {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col bg-[#f8f9fa] font-sans${atlas ? ' atlas-shell' : ''}`} onClick={event => {
+    <div className={`min-h-screen flex flex-col bg-[#f8f9fa] font-sans${atlas ? ' atlas-shell' : catalogue ? ' catalogue-shell' : ''}`} onClick={event => {
       if (!home || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       const link = (event.target as Element).closest<HTMLAnchorElement>('a[href]');
       if (link?.hash === currentPath) {
@@ -97,9 +103,9 @@ function App() {
         event.preventDefault();
         document.getElementById('main-content')?.focus();
       }}>Перейти к основному содержимому</a>
-      <Header key={atlas ? basePath : currentPath} home={home || atlas} />
-      <main id="main-content" tabIndex={-1} className={home ? 'riv-home' : atlas ? 'atlas-main flex-grow' : 'riv-interior flex-grow'}>{renderPage()}</main>
-      {home || atlas ? <SunsetPier /> : (
+      <Header key={editorial ? basePath : currentPath} home={home || editorial} />
+      <main id="main-content" tabIndex={-1} className={home ? 'riv-home' : atlas ? 'atlas-main flex-grow' : catalogue ? 'catalogue-main flex-grow' : 'riv-interior flex-grow'}>{renderPage()}</main>
+      {home || editorial ? <SunsetPier /> : (
       <footer className="bg-[#0a192f] text-white py-12 mt-auto">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">

@@ -27,6 +27,7 @@
 .riv-mast .ticket-cta,
 .riv-drawer .ticket-cta,
 .atlas-page .atlas-action,
+.catalogue-page .catalogue-cta,
 .riv-home .apr-hero__button--primary,
 .riv-home .ticket-all .riv-button,
 .riv-home .board-submit,
@@ -38,6 +39,7 @@
 .riv-mast .ticket-cta::before,
 .riv-drawer .ticket-cta::before,
 .atlas-page .atlas-action::before,
+.catalogue-page .catalogue-cta::before,
 .riv-home .apr-hero__button--primary::before {
   content: '';
   position: absolute;
@@ -50,6 +52,7 @@
 .riv-mast .ticket-cta:hover::before,
 .riv-drawer .ticket-cta:hover::before,
 .atlas-page .atlas-action:hover::before,
+.catalogue-page .catalogue-cta:hover::before,
 .riv-home .apr-hero__button--primary:hover::before { opacity: .88; }
 .riv-home .apr-worlds__hub,
 .riv-home .apr-worlds__stamp {
@@ -84,6 +87,7 @@
 .riv-mast .ticket-cta,
 .riv-drawer .ticket-cta,
 .atlas-page .atlas-action,
+.catalogue-page .catalogue-cta,
 .riv-home .apr-hero__button--primary,
 .riv-home .ticket-all .riv-button,
 .riv-home .board-submit,
@@ -101,6 +105,7 @@
 .riv-mast .ticket-cta:hover,
 .riv-drawer .ticket-cta:hover,
 .atlas-page .atlas-action:hover,
+.catalogue-page .catalogue-cta:hover,
 .riv-home .apr-hero__button--primary:hover,
 .riv-home .ticket-all .riv-button:hover,
 .riv-home .board-submit:hover,
@@ -113,6 +118,7 @@
 .riv-mast .ticket-cta:active,
 .riv-drawer .ticket-cta:active,
 .atlas-page .atlas-action:active,
+.catalogue-page .catalogue-cta:active,
 .riv-home .apr-hero__button--primary:active,
 .riv-home .ticket-all .riv-button:active,
 .riv-home .board-submit:active,
@@ -121,6 +127,7 @@
 }
 /* ::after is reserved for the same light sweep on each approved primary CTA. */
 .riv-drawer .ticket-cta::after,
+.catalogue-page .catalogue-cta::after,
 .riv-home .apr-hero__button--primary::after,
 .riv-home .ticket-all .riv-button::after,
 .riv-home .board-submit::after,
@@ -135,6 +142,7 @@
   pointer-events: none;
 }
 .riv-drawer .ticket-cta:hover::after,
+.catalogue-page .catalogue-cta:hover::after,
 .riv-home .apr-hero__button--primary:hover::after,
 .riv-home .ticket-all .riv-button:hover::after,
 .riv-home .board-submit:hover::after,
@@ -180,11 +188,13 @@
   .riv-mast .ticket-cta,
   .riv-drawer .ticket-cta,
   .atlas-page .atlas-action,
+  .catalogue-page .catalogue-cta,
   .riv-home .apr-hero__button--primary,
   .riv-home .ticket-all .riv-button,
   .riv-home .board-submit,
   .riv-home .apr-worlds__link,
   .riv-drawer .ticket-cta::after,
+  .catalogue-page .catalogue-cta::after,
   .riv-home .apr-hero__button--primary::after,
   .riv-home .ticket-all .riv-button::after,
   .riv-home .board-submit::after,
@@ -192,6 +202,7 @@
   .riv-mast .ticket-cta:hover,
   .riv-drawer .ticket-cta:hover,
   .atlas-page .atlas-action:hover,
+  .catalogue-page .catalogue-cta:hover,
   .riv-home .apr-hero__button--primary:hover,
   .riv-home .ticket-all .riv-button:hover,
   .riv-home .board-submit:hover,

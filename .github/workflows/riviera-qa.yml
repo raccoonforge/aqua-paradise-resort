@@ -40,6 +40,9 @@ jobs:
           exit 1
       - name: Browser QA and screenshots
         run: node scripts/qa-riviera.mjs
+      - name: Attraction catalogue browser QA
+        if: always()
+        run: node scripts/qa-attractions.mjs
       - name: Upload Hero to About screenshots
         if: always()
         uses: actions/upload-artifact@v4
@@ -124,6 +127,13 @@ jobs:
         with:
           name: riviera-atlas-worlds
           path: qa-output/riviera-polish/atlas-zone-*.png
+          retention-days: 14
+      - name: Upload attraction catalogue screenshots and report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: riviera-attraction-catalogue
+          path: qa-output/riviera-polish/catalogue-*
           retention-days: 14
       - name: Upload visual evidence
         if: always()

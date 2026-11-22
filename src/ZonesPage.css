@@ -10,9 +10,9 @@
 /* Paint one CONTINUOUS textured background from the ragged edge through
    the entire footer, instead of stitching a 54px patch to a separate footer
    background (which created a visible horizontal color/texture seam).
-   Restrict this fix to the Atlas and keep the Sunset artwork above the ink. */
-.atlas-shell .sunset-pier { isolation: isolate; }
-.atlas-shell .sunset-pier::before {
+   The catalogue uses the same transition and the same Sunset artwork. */
+:is(.atlas-shell, .catalogue-shell) .sunset-pier { isolation: isolate; }
+:is(.atlas-shell, .catalogue-shell) .sunset-pier::before {
   content: '';
   position: absolute;
   z-index: -2;
