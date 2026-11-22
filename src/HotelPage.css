@@ -732,6 +732,56 @@
   bottom: -30px;
   transform: scaleX(-1) rotate(-14deg);
 }
+/* Hotel-only closing transition: a restrained curved gold film ribbon
+   separates the final scene from the shared Nightfall Riviera footer. */
+.hotel-footer-divider {
+  position: relative;
+  height: clamp(46px, 5.1vw, 72px);
+  overflow: hidden;
+  background: linear-gradient(180deg, #073b37 0%, #063b38 38%, #032d29 100%);
+  isolation: isolate;
+}
+.hotel-footer-divider::before {
+  content: '';
+  position: absolute;
+  left: -4%;
+  bottom: 34%;
+  width: 108%;
+  height: clamp(24px, 4.8vw, 61px);
+  border-top: 2px solid #d5a567;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  box-shadow: 0 -2px 0 #093b3670, 0 -5px 13px #001d1b39;
+  pointer-events: none;
+}
+.hotel-footer-divider::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: calc(34% + clamp(20px, 3.1vw, 33px));
+  width: clamp(9px, 1.05vw, 14px);
+  aspect-ratio: 1;
+  border: 1.5px solid #e8be7d;
+  background: #b87b3e;
+  transform: translate(-50%, 50%) rotate(45deg);
+  box-shadow: 0 0 0 5px #063b38;
+  pointer-events: none;
+}
+.hotel-footer-divider > span {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: calc(34% + 2px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #e9bc7670 26%, #e9bc7670 74%, transparent);
+  pointer-events: none;
+}
+@media (max-width: 590px) {
+  .hotel-footer-divider { height: 47px; }
+  .hotel-footer-divider::before { bottom: 28%; }
+  .hotel-footer-divider::after { bottom: calc(28% + 19px); }
+  .hotel-footer-divider > span { bottom: calc(28% + 2px); }
+}
+
 .hotel-shell .sunset-pier::after { content: none; }
 .hotel-shell .pier-sunset { clip-path: inset(var(--poster-tear-height) 0 0); }
 
