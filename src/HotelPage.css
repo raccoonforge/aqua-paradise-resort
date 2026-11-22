@@ -888,10 +888,22 @@
       linear-gradient(90deg, #07363249, transparent 60%);
   }
   .hotel-hero__story { width: 100%; margin: 0; }
-  .hotel-title__main { width: max-content; margin-inline: auto; font-size: clamp(2.9rem, 12vw, 4.2rem); }
-  .hotel-title__main > span + span { margin-inline-start: .65em; }
-  .hotel-title__script { margin-top: .17em; margin-left: .35em; font-size: clamp(2.77rem, 12.05vw, 3.78rem); }
-  .hotel-hero__subtitle { font-size: .7rem; gap: .35rem; letter-spacing: .11em; }
+  .hotel-title__main { width: max-content; max-width: 100%; margin-inline: auto; transform: rotate(-5deg); }
+  .hotel-title__main > span:first-child { font-size: clamp(2.65rem, 11.8vw, 4.5rem); }
+  .hotel-title__main > span + span {
+    margin: -.12em 0 0 .5em;
+    font-size: clamp(3rem, 13vw, 5rem);
+  }
+  .hotel-title__script {
+    margin: .06em auto 0;
+    font-size: clamp(2.6rem, 11vw, 4rem);
+  }
+  .hotel-hero__subtitle {
+    font-size: clamp(.88rem, 3.7vw, 1.2rem);
+    gap: .35rem;
+    letter-spacing: normal;
+    line-height: 1.25;
+  }
   .hotel-hero__actions { gap: .56rem; }
   .hotel-hero__actions .riv-button { padding-inline: .78em; }
   .hotel-opening::after { top: 12%; left: -86px; }
