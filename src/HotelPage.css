@@ -732,26 +732,25 @@
   bottom: -30px;
   transform: scaleX(-1) rotate(-14deg);
 }
-/* Reuse exactly the HotelFilm curve and sprocket geometry above the shared footer. */
+/* One straight, narrow piece of Riviera film; no spacer or second rail. */
 .hotel-footer-divider {
+  height: 18px;
   position: relative;
-  height: clamp(70px, 8.1vw, 125px);
+  background: #2d1e15;
+  border-block: 2px solid #b27842;
+  box-shadow: inset 0 1px #e1b87b, inset 0 -1px #e1b87b;
   overflow: hidden;
-  background: linear-gradient(180deg, #073b37, #032d29);
-  filter: drop-shadow(0 -4px 4px #001e1b42);
 }
-.hotel-footer-divider svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-.hotel-footer-divider svg rect {
-  fill: #f0cb91;
-  stroke: #ac7a45;
-  stroke-width: .002;
+.hotel-footer-divider::before {
+  content: '';
+  position: absolute;
+  inset: 4px 0;
+  background: repeating-linear-gradient(90deg,
+    transparent 0 10px, #f0cb91 10px 21px, transparent 21px 32px);
 }
 @media (max-width: 590px) {
-  .hotel-footer-divider { height: 60px; }
+  .hotel-footer-divider { height: 14px; }
+  .hotel-footer-divider::before { inset-block: 3px; }
 }
 
 .hotel-shell .sunset-pier::after { content: none; }
