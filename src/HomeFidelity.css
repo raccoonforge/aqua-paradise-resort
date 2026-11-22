@@ -36,7 +36,7 @@
 .riv-mast .apr-brand img { width: clamp(49px, 4.5vw, 78px); }
 .riv-mast .apr-brand__name { font-size: clamp(16px, 1.38vw, 25px); }
 .riv-mast .apr-header__links { gap: clamp(12px, 1.7vw, 30px); }
-.riv-mast .apr-header__navigation { font: 700 clamp(13px, 1vw, 18px)/1.2 system-ui, sans-serif; }
+.riv-mast .apr-header__navigation { font: 700 clamp(13px, 1vw, 18px)/1.2 'Inter', system-ui, sans-serif; }
 .riv-mast .apr-header__navlink, .inner-mast .apr-header__navlink { min-height: 44px; }
 .ticket-cta, .apr-hero__actions .riv-button:first-child, .board-submit {
   background: var(--riv-stock), linear-gradient(#c95d38, #a63f28 58%, #8d3024);
@@ -388,11 +388,11 @@
   text-shadow: .04em .05em #002a23;
 }
 .pier-resort { display: block; }
-.pier-brand p { margin-top: 6px; padding-top: .4em; border-top: 1px solid #d3a965; font: 750 clamp(.62rem, .75vw, .78rem)/1.25 system-ui, sans-serif; text-transform: uppercase; letter-spacing: .07em; }
+.pier-brand p { margin-top: 6px; padding-top: .4em; border-top: 1px solid #d3a965; font: 750 clamp(.62rem, .75vw, .78rem)/1.25 'Inter', system-ui, sans-serif; text-transform: uppercase; letter-spacing: .07em; }
 .pier-content nav { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 1.6vw, 28px); border-left: 1px solid #d3a96580; padding-left: clamp(18px, 2.3vw, 38px); }
-.pier-content h2 { margin-bottom: .24em; font: italic 700 clamp(1.05rem, 1.38vw, 1.42rem)/1.12 Georgia, serif; }
+.pier-content h2 { margin-bottom: .24em; font: italic 700 clamp(1.05rem, 1.38vw, 1.42rem)/1.12 var(--riv-serif); }
 .pier-content h2::after { content: ''; display: block; width: 2.2em; height: 2px; margin-top: 3px; border-radius: 75% 45%; background: #e6814f; }
-.pier-content nav a { display: flex; align-items: center; min-height: 27px; width: fit-content; padding: 2px 0; font: clamp(.87rem, 1vw, 1rem)/1.2 Georgia, serif; }
+.pier-content nav a { display: flex; align-items: center; min-height: 27px; width: fit-content; padding: 2px 0; font: clamp(.87rem, 1vw, 1rem)/1.2 'Inter', system-ui, sans-serif; }
 .pier-content a:hover { color: #ffac80; text-decoration: underline; }
 .pier-legal { width: min(82%, 78rem); display: flex; flex-wrap: wrap; gap: 4px 20px; border-top: 1px solid #d5ad7180; margin-top: 12px; padding-top: 9px; font-size: .76rem; color: #f0d5a4; }
 
@@ -406,7 +406,7 @@
   border-radius: 6px;
   background: #043b37;
   color: #ffedc9;
-  font: 700 1rem/1.35 system-ui, sans-serif;
+  font: 700 1rem/1.35 'Inter', system-ui, sans-serif;
 }
 .apr-skip-link:focus { transform: translateY(0); outline: 3px solid #ffb25f; outline-offset: 3px; }
 #main-content:focus, .riv-home > section:focus { outline: none; }
